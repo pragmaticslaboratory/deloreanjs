@@ -1,8 +1,9 @@
 const DeclaratorVisitor = require('./visitors/declarator')
+const AssignmentVisitor = require('./visitors/assignment')
 
-function debugg(lista) {
+function debugg(list) {
     obj = {}
-    lista.map(i => {
+    list.map(i => {
         obj[i] = []
     })
     return obj
@@ -13,7 +14,8 @@ global.deb = debugg(variables)
 
 const WrapperVisitor = {
     Program(path) {
-        path.traverse(DeclaratorVisitor) // Declaraciones
+        path.traverse(DeclaratorVisitor)
+        path.traverse(AssignmentVisitor)
         console.log(deb)
     }
 }
