@@ -20,5 +20,17 @@ module.exports = {
                 }
             })
         }
+
+        // x = func(a, b)
+        if (der.type == 'CallExpression'){
+            let args = der.arguments;
+            args.forEach(element => {
+                if (element.type =='Identifier'){
+                    if (deb[izq] != undefined){
+                        deb[izq].push(element.name);
+                    }
+                }
+            });
+        }
     }
 }
