@@ -8,17 +8,19 @@ module.exports = {
             if (deb[izq] != undefined) {
                 deb[izq].push(der)
             }
-        } else {
-            if (path.node.right.type == 'BinaryExpression') {
-                path.traverse({
-                    Identifier(path) {
-
-                        if (deb[izq] != undefined && izq != path.node.name) {
+        } 
+          
+        // x = y * z
+        if (path.node.right.type == 'BinaryExpression' || path.node.right.type == 'CallExpression') {
+            path.traverse({
+                Identifier(path) {
+                    if (deb[izq] != undefined && izq != path.node.name) {
+                        if(path.parent.type != 'CallExpression' || path.parent.arguments.indexOf(path.node) != -1){
                             deb[izq].push(path.node.name)
                         }
                     }
-                })
-            }
+                }
+            })
         }
-    },
+    }
 }

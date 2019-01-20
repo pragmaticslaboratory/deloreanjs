@@ -1,6 +1,6 @@
 module.exports = {
     VariableDeclarator(path) {
-        let izq = path.node.id.name;
+        let izq = path.node.id.name
         let der = path.node.init
 
         // x = y
@@ -11,26 +11,16 @@ module.exports = {
         }
 
         // x = y * z
-        if(der.type == 'BinaryExpression'){
+        if(der.type == 'BinaryExpression' || der.type == 'CallExpression'){
             path.traverse({
                 Identifier(path){
                     if (deb[izq] != undefined && izq != path.node.name){
-                        deb[izq].push(path.node.name)
+                        if(path.parent.type != 'CallExpression' || path.parent.arguments.indexOf(path.node) != -1){
+                            deb[izq].push(path.node.name)
+                        }
                     }
                 }
             })
-        }
-
-        // x = func(a, b)
-        if (der.type == 'CallExpression'){
-            let args = der.arguments;
-            args.forEach(element => {
-                if (element.type =='Identifier'){
-                    if (deb[izq] != undefined){
-                        deb[izq].push(element.name);
-                    }
-                }
-            });
         }
     }
 }
