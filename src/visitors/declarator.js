@@ -1,22 +1,22 @@
 module.exports = {
     VariableDeclarator(path) {
-        let izq = path.node.id.name
-        let der = path.node.init
+        let left = path.node.id.name
+        let right = path.node.init
 
         // x = y
-        if (der.type == 'Identifier'){
-            if(deb[izq] != undefined && izq != der.name && deb[izq].indexOf(path.node.name) == -1){
-                deb[izq].push(der.name)
+        if (right.type == 'Identifier'){
+            if(deb[left] != undefined && left != right.name && deb[left].indexOf(path.node.name) == -1){
+                deb[left].push(right.name)
             }
         }
 
         // x = y * z
-        if(der.type == 'BinaryExpression' || der.type == 'CallExpression'){
+        if(right.type == 'BinaryExpression' || right.type == 'CallExpression'){
             path.traverse({
                 Identifier(path){
-                    if (deb[izq] != undefined && izq != path.node.name && deb[izq].indexOf(path.node.name) == -1){
+                    if (deb[left] != undefined && left != path.node.name && deb[left].indexOf(path.node.name) == -1){
                         if(path.parent.type != 'CallExpression' || path.parent.arguments.indexOf(path.node) != -1){
-                            deb[izq].push(path.node.name)
+                            deb[left].push(path.node.name)
                         }
                     }
                 }
