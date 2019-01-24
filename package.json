@@ -1,13 +1,12 @@
 {
   "name": "delorean",
   "version": "1.0.0",
-  "description": "",
+  "description": "Proposal debugger for Javascript",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
     "test": "mocha"
   },
-  "author": "Felipe Ruiz",
+  "author": "Felipe Ruiz & Guillermo Victorero",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",

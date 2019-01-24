@@ -5,8 +5,8 @@ module.exports = {
 
         // x = y
         if (right.type == 'Identifier'){
-            if(deb[left] != undefined && left != right.name && deb[left].indexOf(path.node.name) == -1){
-                deb[left].push(right.name)
+            if(deb.includes(left) && left != right.name && !deb.includes(right.name)){
+                deb.push(right.name)
             }
         }
 
@@ -14,9 +14,9 @@ module.exports = {
         if(right.type == 'BinaryExpression' || right.type == 'CallExpression'){
             path.traverse({
                 Identifier(path){
-                    if (deb[left] != undefined && left != path.node.name && deb[left].indexOf(path.node.name) == -1){
+                    if (deb.includes(left) && left != path.node.name && !deb.includes(path.node.name)){
                         if(path.parent.type != 'CallExpression' || path.parent.arguments.indexOf(path.node) != -1){
-                            deb[left].push(path.node.name)
+                            deb.push(path.node.name)
                         }
                     }
                 }

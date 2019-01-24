@@ -1,18 +1,20 @@
-const fs = require('fs')
-const babel = require('babel-core')
+const fs = require('fs');
+const babel = require('babel-core');
 
-const visitors = require('./src/debugger')
+const visitors = require('./src/debugger');
 
-module.exports = function readFile (fileName){
-  return new Promise(function(resolve, reject) {
-    fs.readFile(fileName, function (err, data) {
+module.exports = (fileName) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(fileName, (err, data) => {
       if (err) throw err
     
-      let src = data.toString()
+      let src = data.toString();
       let out = babel.transform(src, {
         plugins: [visitors]
       })
-      resolve(deb)
-    });
+
+      resolve(deb);
+    })
   });
 }
+
