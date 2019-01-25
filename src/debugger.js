@@ -1,5 +1,7 @@
 const DeclaratorVisitor = require('./visitors/declarator');
 const AssignmentVisitor = require('./visitors/assignment');
+
+const { addDependecies } = require('./heap')
 const variables = require('../observables');
 
 function debug(list) {
@@ -17,7 +19,7 @@ const WrapperVisitor = {
         deb = debug(variables);
         path.traverse(DeclaratorVisitor);
         path.traverse(AssignmentVisitor);
-        // console.log("    ", deb);
+        addDependecies(deb);
     }
 };
 

@@ -7,7 +7,7 @@ function dependencyTest(title, fileName, dictionary){
   });
 }
 
-describe('Dictionary', function (){
+describe('Dependencies', function (){
   dependencyTest('Declarator Identifier', './examples/declaratorIdentifier.js', ['a', 'c', 'x', 'b']);
   dependencyTest('Declarator BinaryExpression', './examples/declaratorBinaryExpression.js', ['a', 'c', 'x', 'b']);
   dependencyTest('Declarator CallExpression', './examples/declaratorCallExpression.js', ['a', 'c', 'x', 'd', 'e']);
