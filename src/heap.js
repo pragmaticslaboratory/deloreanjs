@@ -1,16 +1,18 @@
 const fs = require('fs')
-const heapFile = require('../heap')
 
-const heap = {}
+
+let heap = {}
 heap.snapshots = []
 
 module.exports = {
     createHeapFile: () => {
-        // todo
+        fs.appendFile('heap.json', '', function (err) {
+            if (err) throw err;
+        });
     },
 
     cleanHeapFile: () => {
-        // todo
+        fs.writeFileSync('heap.json', '{"snapshots": [],"dependencies": []}');
     },
 
     addDependecies: (dependencies) => {
@@ -23,16 +25,18 @@ module.exports = {
     },
 
     snapshot: () => {
+        const heapFile = require('../heap')
         const snapshot = {}
         heapFile.dependencies.map(dependecy => {
             snapshot[`${dependecy}`] = global[dependecy.toString()]
         })
 
         heapFile.snapshots.push(snapshot)
-        
-        fs.writeFile('../heap.json', JSON.stringify(heapFile), (err) => {
+        heap = heapFile;
+    },
+    storeSnapshot: () => {
+        fs.writeFile('heap.json', JSON.stringify(heap), (err) => {
             if(err) throw err;
-
             console.log("Add Snapshot");
         })
     }
