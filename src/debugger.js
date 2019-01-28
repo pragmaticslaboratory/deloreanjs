@@ -1,5 +1,6 @@
 const DeclaratorVisitor = require('./visitors/declarator');
 const AssignmentVisitor = require('./visitors/assignment');
+const InitConfigVisitor = require('./visitors/config');
 
 const { addDependecies } = require('./heap')
 const variables = require('../observables');
@@ -7,14 +8,14 @@ const variables = require('../observables');
 function debug(list) {
     obj = [];
     for (let key in list) {
-        obj.push(key);
+        obj.push(key); 
     }
     return obj;
 }
 
 global.deb;
 
-const WrapperVisitor = {
+const DependeciesVisitor = {
     Program(path) {
         deb = debug(variables);
         path.traverse(DeclaratorVisitor);
@@ -23,9 +24,17 @@ const WrapperVisitor = {
     }
 };
 
-module.exports = function () {
-    return {
-        visitor: WrapperVisitor
-    };
+module.exports = {
+    dependeciesVisitor: () => {
+        return ({
+            visitor: DependeciesVisitor,
+        })
+    },
+
+    initConfigVisitor: () => {
+        return ({
+            visitor: InitConfigVisitor,
+        })
+    }
 }
 

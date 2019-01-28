@@ -1,6 +1,5 @@
 const fs = require('fs')
 
-
 let heap = {}
 heap.snapshots = []
 
@@ -26,7 +25,9 @@ module.exports = {
         })
 
         heap.snapshots.push(snapshot)
+        storeHeapFile();
     },
+
     storeHeapFile: () => {
         fs.writeFileSync('heap.json', JSON.stringify(heap))
     }
