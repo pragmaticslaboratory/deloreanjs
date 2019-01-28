@@ -1,8 +1,8 @@
 var assert = require('assert');
 
 function dependencyTest(title, fileName, dictionary){
-  it(title, async function() {
-    let deb = await require('../index')(fileName);
+  it(title, function() {
+    let deb = require('../index')(fileName);
     assert.deepEqual(deb, dictionary);
   });
 }

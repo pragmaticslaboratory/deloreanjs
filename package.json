@@ -9,7 +9,11 @@
   "author": "Felipe Ruiz & Guillermo Victorero",
   "license": "ISC",
   "devDependencies": {
+    "@babel/types": "^7.3.0",
     "babel-core": "^6.26.3",
     "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "babel-types": "^6.26.0"
   }
 }

@@ -12,32 +12,22 @@ module.exports = {
     },
 
     cleanHeapFile: () => {
-        fs.writeFileSync('heap.json', '{"snapshots": [],"dependencies": []}');
+        fs.writeFileSync('heap.json', '');
     },
 
     addDependecies: (dependencies) => {
         heap.dependencies = dependencies;
-        fs.writeFile('../heap.json', JSON.stringify(heap), (err) => {
-            if(err) throw err;
-
-            console.log("Update heap.json");
-        })
     },
 
     snapshot: () => {
-        const heapFile = require('../heap')
         const snapshot = {}
-        heapFile.dependencies.map(dependecy => {
+        heap.dependencies.map(dependecy => {
             snapshot[`${dependecy}`] = global[dependecy.toString()]
         })
 
-        heapFile.snapshots.push(snapshot)
-        heap = heapFile;
+        heap.snapshots.push(snapshot)
     },
-    storeSnapshot: () => {
-        fs.writeFile('heap.json', JSON.stringify(heap), (err) => {
-            if(err) throw err;
-            console.log("Add Snapshot");
-        })
+    storeHeapFile: () => {
+        fs.writeFileSync('heap.json', JSON.stringify(heap))
     }
 } 
