@@ -1,13 +1,15 @@
 const fs = require('fs');
 const babel = require('babel-core');
 
-module.exports = (fileName, visitors) => {
-  let data = fs.readFileSync(fileName)
+module.exports = (originalCode, visitors, isString) => {
+  let data;
+  if(isString) data = originalCode;
+  else data = fs.readFileSync(originalCode);
 
   let src = data.toString();
   let { code } = babel.transform(src, {
     plugins: visitors
   })
-  return { deb, code };
+  return { dependencies, code };
 }
 

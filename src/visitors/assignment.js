@@ -5,8 +5,8 @@ module.exports = {
 
         // left = right
         if (right != undefined) {
-            if (deb.includes(left) && left != right && !deb.includes(right)) {
-                deb.push(right)
+            if (dependencies.includes(left) && left != right && !dependencies.includes(right)) {
+                dependencies.push(right)
             }
         } 
           
@@ -15,9 +15,9 @@ module.exports = {
             path.traverse({
                 Identifier(path) {
                     
-                    if (deb.includes(left) && left != path.node.name && !deb.includes(path.node.name)) {
+                    if (dependencies.includes(left) && left != path.node.name && !dependencies.includes(path.node.name)) {
                         if(path.parent.type != 'CallExpression' || path.parent.arguments.indexOf(path.node) != -1){
-                            deb.push(path.node.name)
+                            dependencies.push(path.node.name)
                         }
                     }
                 }

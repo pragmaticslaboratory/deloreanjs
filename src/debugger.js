@@ -5,7 +5,7 @@ const InitConfigVisitor = require('./visitors/config');
 const { addDependecies } = require('./heap')
 const variables = require('../observables');
 
-function debug(list) {
+function observe(list) {
     obj = [];
     for (let key in list) {
         obj.push(key); 
@@ -13,14 +13,14 @@ function debug(list) {
     return obj;
 }
 
-global.deb;
+global.dependencies;
 
 const DependeciesVisitor = {
     Program(path) {
-        deb = debug(variables);
+        dependencies = observe(variables);
         path.traverse(DeclaratorVisitor);
         path.traverse(AssignmentVisitor);
-        addDependecies(deb);
+        addDependecies(dependencies);
     }
 };
 
