@@ -1,1 +1,0 @@
-let a = func(d,e);

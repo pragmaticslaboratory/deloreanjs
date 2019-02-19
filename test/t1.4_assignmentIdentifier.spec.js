@@ -1,13 +1,6 @@
+const testingFramework = require('./testingFramework');
+testingFramework.check(__filename, ['a', 'c', 'x'], 't1.4_Assignment Identifier', 'dependencies');
+
 let c;
 a = c;
-
-const assert = require('assert');
-const { dependeciesVisitor } = require('../src/debugger');
-
-describe('t1.4_Assignment Identifier', function(){
-    it('Captures Dependencies', function() {
-        let { dependencies } = require('../index')('./test/t1.4_assignmentIdentifier.spec.js', [dependeciesVisitor]);
-        assert.deepEqual(dependencies,  ['a', 'c', 'x']);
-    });
-})
 

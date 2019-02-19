@@ -1,26 +1,11 @@
-const assert = require('assert');
-const { dependeciesVisitor, initConfigVisitor } = require('../src/debugger');
+const testingFramework = require('./testingFramework');
+const { dependeciesVisitor } = require('../src/staticAnalysis');
+let { dependencies } = require('../index')(__filename, [dependeciesVisitor]);
 
-describe('t2.1_Require', function (){
-  it('Adds Require', function() {
-    let expected = [
-      'const {', 
-      '  snapshot',
-      '} = require("../src/heap");',
-      '',
-      'a = 7;',
-      'snapshot();',
-      'a = 9;',
-      'snapshot();'
-    ].join('\n')
+const delorean = require('../src/delorean')
+a = 7;
+delorean.snapshot();
+a = 9;
+delorean.snapshot();
 
-    let { code } = require('../index.js')([
-      'a = 7;',
-      'snapshot();',
-      'a = 9;',
-      'snapshot();'
-    ].join('\n'), [ dependeciesVisitor, initConfigVisitor ], true);
-
-    assert.equal(code, expected);
-  });
-});
+//TO DO: Transformation test.
