@@ -1,12 +1,18 @@
-const continuationsList = []
+var continuation;
+
+function storeContinuation() {
+    continuation = callCC(cont => cont);
+    console.log("continuación creada")
+}
+
+function resumeContinuation(index) {
+    console.log(continuation)
+    if(continuation){
+        continuation();
+    }
+}
 
 module.exports = {
-    currentContinuation: () => {
-        return callCC(cont => cont);
-    },
-
-    createContinuation: () => {
-        console.log("TO DO: create continuation")
-        // continuationsList.push(currentContinuation());
-    }
+    storeContinuation,
+    resumeContinuation
 }

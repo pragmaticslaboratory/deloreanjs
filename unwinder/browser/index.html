@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="build/styles.css" />
+    <style type="text/css">
+      html, body {
+      margin: 0;
+      body: 0;
+      padding: 1em;
+      }
+
+      .CodeMirror {
+      height: 500px;
+      }
+
+      .debugger {
+      border: 1px solid #d0d0d0;
+      }
+
+      .figure-label {
+      text-align: center;
+      line-height: 1.5em;
+      font-style: italic;
+      width: 500px;
+      margin: 0 auto;
+      margin-top: 1em;
+      }
+
+      #debugger-error {
+      background-color: #ff5555;
+      font-family: sans-serif;
+      padding: .25em .5em;
+      line-height: 1.5em;
+      margin: 1em;
+      position: fixed;
+      top: 0;
+      right: 0;
+      display: none
+      }
+    </style>
+  </head>
+  <body>
+    <div id="template">
+      <div id="editor-area">
+        <div id="editor"></div>
+        <div id="output">
+          <h4>Output:</h4>
+          <div id="actual-output"></div>
+        </div>
+        <div id="stack">
+          <h4>Stack:</h4>
+          <div id="actual-stack">
+          </div>
+        </div>
+      </div>
+      <div id="buttons">
+        <div id="resumed">
+          <button id="run">Run</button>
+          <button id="run-no-breakpoints">Run & Ignore Breakpoints</button>
+        </div>
+        <div id="paused">
+          <button id="continue">Continue</button>
+          <button id="step">Step</button>
+        </div>
+        <div id="shared">
+          <button id="share">Get Shareable URL</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="demo-debugger">
+var x = callCC(function(cont) {
+  for(var i=0; i<10; i++) {
+    if(i == 3) {
+      cont("done");
+    }
+    console.log(i);
+  }
+});
+
+console.log(x);    </div>
+    <div class="figure-label">
+      Click on any line to set a breakpoint.
+    </div>
+    <div id="debugger-error">Hi</div>
+    <script src="build/bundle.js"></script>
+  </body>
+</html>
