@@ -1,5 +1,5 @@
 const { heapSnapshot } = require('./heap');
-const { storeContinuation, resumeContinuation } = require('./continuations_output')
+const { storeContinuation, resumeContinuation } = require('./continuations');
 
 module.exports = {
     snapshot: () => {

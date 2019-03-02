@@ -1,6 +1,6 @@
 const DeclaratorVisitor = require('./visitors/declarator');
 const AssignmentVisitor = require('./visitors/assignment');
-const InitConfigVisitor = require('./visitors/config');
+const InitConfigVisitor = require('./visitors/createContinuation');
 
 const { addDependecies } = require('./heap')
 const variables = require('../observables');

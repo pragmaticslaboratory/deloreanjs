@@ -12,8 +12,8 @@ module.exports = {
                     });
                 break;
 
-                case 'addRequire':
-                    it('Adds Require', function() {
+                case 'addContinuation':
+                    it('Adds Continuation', function() {
                         let { code } = require('../index')(filename, [ dependeciesVisitor, initConfigVisitor ]);
                         assert.equal(code, expected);
                     });
