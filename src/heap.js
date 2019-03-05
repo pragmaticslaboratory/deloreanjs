@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-let heap = {}
+global.heap = {}
 heap.snapshots = []
 
 module.exports = {
