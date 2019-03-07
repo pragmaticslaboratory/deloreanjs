@@ -21,29 +21,29 @@
 \title{DeloreanJS: Un Debugger en el Tiempo para JavaScript\\
 }
 
-\author{\IEEEauthorblockN{XXX YYY}
+\author{\IEEEauthorblockN{Paul Leger}
 \IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
 \textit{Universidad Cat\'olica del Norte}\\
 Coquimbo, Chile \\
-xxxx.yyyy@alumnos.ucn.cl}
+pleger@ucn.cl}
 \and
-\IEEEauthorblockN{AAAA BBB}
+\IEEEauthorblockN{AAAA BBBB}
 \IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
 \textit{Universidad Cat\'olica del Norte}\\
 Coquimbo, Chile \\
 aaaa.bbbb@alumnos.ucn.cl}
 \and
-\IEEEauthorblockN{Paul Leger}
+\IEEEauthorblockN{XXXX YYYY}
 \IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
 \textit{Universidad Cat\'olica del Norte}\\
 Coquimbo, Chile \\
-pleger@ucn.cl}
+xxxx.yyyy@alumnos.ucn.cl}
 }
 
 \maketitle
 
 \begin{abstract}
-Aplicaciones Web usando \javascript son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'a de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (\aka~bugs) cuyos s\'intomas se aprecian durante su desarrollo e incluso en su puesta en producci\'on. Por ello, debuggers son fundamentales para detectar bugs. Lamentablemente, los actuales debuggers solamente detectan y no permiten tomar acciones alrededor del momento que fue detectado el bug. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger para \javascript que permite devolverse en el tiempo con el fin que el programador puede volver a verificar y probar el contexto alrededor de un bug. Este debugger, llamado \deloreanjs, ha sido implementado como una extensi\'on para Mozilla Firefox con el fin la comunidad de desarrolladores puede usarlo.         
+Aplicaciones Web usando \javascript son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'ia de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (\aka~bugs) cuyos s\'intomas se aprecian durante su desarrollo e incluso en su puesta en producci\'on. Por ello, debuggers son fundamentales para detectar bugs. Lamentablemente, los actuales debuggers solamente detectan y no permiten tomar acciones alrededor del momento que fue detectado un bug. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger para \javascript que permite devolverse en el tiempo con el fin que un programador pueda volver a verificar y probar el contexto alrededor de un bug. Este debugger, llamado \deloreanjs, ha sido implementado como una extensi\'on para Mozilla Firefox con el fin que la comunidad de desarrolladores puede usarlo.         
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -53,7 +53,15 @@ Aplicaciones Web usando \javascript son desarrolladas cada vez con mayor frecuen
 \section{Introducci\'on}
 \label{sec:intro}
 
-\pl{TODO !!!}
+\pl{La Web con aplicaciones JavaScript la llevan}\\
+
+\pl{Siempre hay errores, con mayor raz\'on en aplicaciones grandes. Los programadores generalmente encuentran sintomas de un error que se ocurrio mucho antes}\\
+
+\pl{Debuggear es una tarea sumamente compleja para encontrar esos errores (frase tipica de debugger), existe muchos tipos de debuggers para \javascript (dar citas)}\\
+
+\pl{Lamentablemente los debuggers actuales son solamente analsis post-morter, donde si quiere entender claramente el contexto de un error se debe ejecutar el mismo programa varias veces y con el mismo contexto de ejecución. Además, como son debuggers post-morter significa que la aplicacion debe parar su ejecucion para entender el bug}\\
+
+\pl{Nosotros proponemos un debugger en el tiempo, llamado \deloreanjs, que no requiere finalizar la ejecución de la aplicacion. Con ello, se puede volver al momento donde ocurrio el bug y cambiar valores para entender mas claramente bug}\\
 
 \bigskip
 
@@ -61,7 +69,7 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \smallskip
 
-{\bf {\em Disponibilidad.}} La implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y su extensi\'on en Mozilla Firefox en {\tt \url{http:xxx.com}}. 
+{\bf {\em Disponibilidad.}} La implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y su extensi\'on en Mozilla Firefox en {\tt \url{http://xxx.com}}. 
 
 
 
