@@ -43,7 +43,7 @@ xxxx.yyyy@alumnos.ucn.cl}
 \maketitle
 
 \begin{abstract}
-Aplicaciones Web usando \javascript son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'ia de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (\aka~bugs) cuyos s\'intomas se aprecian durante su desarrollo e incluso en su puesta en producci\'on. Por ello, debuggers son fundamentales para detectar bugs. Lamentablemente, los actuales debuggers solamente detectan y no permiten tomar acciones alrededor del momento que fue detectado un bug. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger para \javascript que permite devolverse en el tiempo con el fin que un programador pueda volver a verificar y probar el contexto alrededor de un bug. Este debugger, llamado \deloreanjs, ha sido implementado como una extensi\'on para Mozilla Firefox con el fin que la comunidad de desarrolladores puede usarlo.         
+Aplicaciones Web usando \javascript son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'ia de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (\aka bugs) cuyos s\'intomas se aprecian durante su desarrollo e incluso en su puesta en producci\'on. Por ello, debuggers son fundamentales para detectar bugs. Lamentablemente, los actuales debuggers solamente detectan y no permiten tomar acciones alrededor del momento que fue detectado un bug. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger para \javascript que permite devolverse en el tiempo con el fin que un programador pueda volver a verificar y probar el contexto alrededor de un bug. Este debugger, llamado \deloreanjs, ha sido implementado como una extensi\'on para Mozilla Firefox con el fin que la comunidad de desarrolladores puede usarlo.         
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -52,6 +52,15 @@ Aplicaciones Web usando \javascript son desarrolladas cada vez con mayor frecuen
 
 \section{Introducci\'on}
 \label{sec:intro}
+
+La industria del software se mueve fuertemente hacia el desarrollo de aplicaciones Web, siendo testigo un gran n\'umero de migraciones de aplicaciones {\em standalone} a la Web; los ejemplos desde convertir un documento Word a PDF hasta un sistema ERP ({\em Enterprise Resource Planning})~\pl{CITAS}. Para construir estas aplicaciones, uno de los lenguajes m\'as usados en \javascript, cuya presencia en el entorno de la Web es alrededor de XXX\%~\pl{CITA}. Por ello, cada vez estas aplicaciones se han vuelto más complejas y con mayor riesgo de introducir defectos de software (\aka {\em bugs})~\pl{CITA}. 
+
+	Para detectar y reparar bugs, un conjunto de debuggers se han propuestos, desde el ofrecido por el mismo navegador (\eg {\em developer tools} en Mozilla Firefox) hasta los XXXX~\pl{CITAS}. Lamentablemente, la gran parte de estos debuggers solo permiten mostrar la ocurrencia de un bug sin entregar la posibilidad de retroceder {\em en el tiempo} para tal vez repararlo mientras se ejecuta el programa o manipular el estado de un programa alrededor del bug con el fin de mejorar su comprensi\'on.      
+
+
+\bigskip
+\bigskip
+\bigskip
 
 \pl{La Web con aplicaciones JavaScript la llevan}\\
 
