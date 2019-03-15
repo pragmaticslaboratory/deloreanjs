@@ -53,33 +53,32 @@ Aplicaciones Web, usando \javascript, son desarrolladas cada vez con mayor frecu
 \section{Introducci\'on}
 \label{sec:intro}
 
-La industria del software se mueve fuertemente hacia el desarrollo de aplicaciones Web, siendo testigo un gran n\'umero de migraciones de aplicaciones {\em standalone} a la Web; los ejemplos van desde convertir un documento Word a PDF~\cite{smallpdf} hasta un sistema ERP ({\em Enterprise Resource Planning})~\cite{erpOrcale}. Para construir estas aplicaciones, uno de los lenguajes m\'as usados en \javascript, cuya presencia en el entorno de la Web es alrededor de 95\%~\cite{jsuses}. Por ello, cada vez estas aplicaciones se han vuelto más complejas y con mayor riesgo de introducir defectos de software (\aka {\em bugs}). 
+La industria del software se mueve fuertemente hacia el desarrollo de aplicaciones Web, siendo testigo un gran n\'umero de migraciones de aplicaciones {\em standalone} a la Web; los ejemplos van desde convertir un documento Word a un formato PDF~\cite{smallpdf} hasta un sistema ERP ({\em Enterprise Resource Planning})~\cite{erpOrcale}. Para construir estas aplicaciones, uno de los lenguajes m\'as usados en \javascript, cuya presencia en el entorno de la Web es alrededor del 95\%~\cite{jsuses}. Por ello, cada vez estas aplicaciones se han vuelto m\'as complejas y con mayor riesgo de introducir defectos de software (\aka {\em bugs}). 
 
-Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso de desarrollo de software, y el mundo de la Web no es la excepci\'on. Para ello, un conjunto de debuggers se han propuestos, desde el que incluye un navegador (\eg Mozilla Firefox developer tools) hasta avanzados como PECCit~\cite{azar:2016} y JARDIS~\cite{barrAl:fse2016}. Lamentablemente, la gran parte de estos debuggers solo permiten mostrar la ocurrencia de un bug sin entregar la posibilidad de retroceder {\em en el tiempo} para tal vez repararlo mientras se ejecuta el programa o manipular el estado de un programa alrededor del bug con el fin de mejorar su comprensi\'on.       
+Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso de desarrollo de software, y las aplicaciones Web no son la excepci\'on. Para ello, un conjunto de debuggers se han propuestos, desde el que incluye un navegador en su distribuci\'on (\eg Mozilla Firefox developer tools) hasta omniscientes debuggers que pueden recorrer a trav\'es de la ejecuci\'on para encontrar el origen de un bug~\cite{azar:2016,barrAl:fse2016}. Lamentablemente, la gran parte de estos debuggers son {\em post-morter}, y por ende, solo permiten mostrar la ocurrencia de un bug sin entregar la posibilidad de retroceder {\em en el tiempo} para entregar la posibilidad de repararlo mientras se ejecuta el programa o manipular el estado de un programa alrededor del bug con el fin de mejorar su comprensi\'on.       
 
+Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador fijar {\em timepoints} (en cambio de {\em breakpoints}) en una aplicaci\'on en \javascript con el fin de permitir al programador retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Esta novedosa visi\'on de \deloreanjs, la cual est\'a disponible como una extensi\'on de Mozilla Firefox, permite:    
 
+\begin{enumerate}
+	\item Mantener una aplicaci\'on funcionando usando los timepoints para potencialmente reparar un bug durante la ejecuci\'on. Lo anterior significa que no es siempre necesario detener la ejecuci\'on de la aplicaci\'on con el fin de realizar un anal\'isis post-morter. Esto es importante porque detener una aplicaci\'on significa perder el contexto de ejecuci\'on asociado al bug.
+	
+	\item Modificar los valores de las variables asociado a un bug encontrado para mejorar la comprensi\'on de este bug. Esto potencialmente ahorra un gran n\'umero de ejecuciones en un contexto similar para descubrir la verdadera raz\'on del bug.
+	    
 
-\bigskip
-\bigskip
-\bigskip
+	\item Probar escenarios hipot\'eticos de ejecuci\'on de una aplicaci\'on usando un timepoint de \deloreanjs. Esto permite descubrir diversas evoluciones de la aplicaci\'on cambiando valores de algunas variables.      
 
-\pl{La Web con aplicaciones JavaScript la llevan}\\
+\end{enumerate}
 
-\pl{Siempre hay errores, con mayor raz\'on en aplicaciones grandes. Los programadores generalmente encuentran sintomas de un error que se ocurrio mucho antes}\\
+\smallskip
 
-\pl{Debuggear es una tarea sumamente compleja para encontrar esos errores (frase tipica de debugger), existe muchos tipos de debuggers para \javascript (dar citas)}\\
+\pl{Explicar como se ha construido \deloreanjs}\\
 
-\pl{Lamentablemente los debuggers actuales son solamente analsis post-morter, donde si quiere entender claramente el contexto de un error se debe ejecutar el mismo programa varias veces y con el mismo contexto de ejecución. Además, como son debuggers post-morter significa que la aplicacion debe parar su ejecucion para entender el bug}\\
-
-\pl{Nosotros proponemos un debugger en el tiempo, llamado \deloreanjs, que no requiere finalizar la ejecución de la aplicacion. Con ello, se puede volver al momento donde ocurrio el bug y cambiar valores para entender mas claramente bug}\\
-
-\bigskip
 
 El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta diferentes ejemplos de aplicaci\'on de \deloreanjs, donde se puede apreciar la interfaz gr\'afica de nuestra propuesta. Luego, se presenta \deloreanjs, detallando c\'omo se usa el concepto de continuaciones. En la secci\'on~\ref{sec:rw} se discuten herramientas similares. Finalmente, secci\'on~\ref{sec:conc} concluye y describe lineamientos sobre el trabajo futuro de nuestra propuesta.      
 
 \smallskip
 
-{\bf {\em Disponibilidad.}} La implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y su extensi\'on en Mozilla Firefox en {\tt \url{http://xxx.com}}. 
+{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y su compilada versi\'on se encuentra como extensi\'on en Mozilla Firefox en {\tt \url{http://xxx.com}}. 
 
 
 
