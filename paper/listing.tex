@@ -1,0 +1,76 @@
+\usepackage{graphicx}
+\usepackage{xspace}
+%\usepackage{url}
+\usepackage{listings}
+% The following packages are used in the Scheme definition
+
+
+\lstdefinelanguage{java}{
+morekeywords={%Java keywords
+float, public, interface, class, static, void, extends, implements, final,
+boolean, return, new, abstract, super, for, int, package, private, import,
+protected, this, throw, try, finally, if, else, while, instance of, &&, ||},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+}
+
+\lstdefinelanguage{tracematches}
+{morekeywords={%Java keywords
+float, public, interface, class, static, void, extends, implements, final,
+boolean, return, new, abstract, super, for, int, package, private, import,
+protected, this, throw, try, finally, if, else, while, instance of, &&, ||,
+%Aspectj keywords
+before, around, after, returning, tracematch, sym, call, exec},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+}
+
+
+\lstdefinelanguage{JavaScript}
+	{morekeywords={%Java keywords
+	               true, false, return, new, function, var,
+	               this, throw, try, finally, if, else, while, for, instanceof, 
+	               %Others
+	               async, await},
+	sensitive=true,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+}
+
+\lstset{
+	frame=,
+	language=JavaScript,
+	xleftmargin=6pt,
+	stepnumber=1,
+	numbers=none,
+	numbersep=5pt,
+	numberstyle=\ttfamily\tiny,
+	belowcaptionskip=\bigskipamount,
+	captionpos=b,
+	escapeinside={*'}{'*},
+	tabsize=2,
+	emphstyle={\bf},
+	stringstyle=\mdseries\rmfamily,
+	showspaces=false,
+	keywordstyle=\bfseries,
+    basewidth=0.5em,
+	columns=fixed,
+	%basicstyle=\footnotesize\sffamily,
+         basicstyle=\scriptsize,
+	showstringspaces=false,
+	morecomment=[l]\%,
+	commentstyle=\it
+}
+
+%\newcommand{\co}[1]{\mbox{{\small #1}\xspace}}
+\newcommand{\co}[1]{\mbox{{\fontfamily{phv}\selectfont\scriptsize #1}\xspace}}
+\newcommand{\env}[1]{\framebox{{\fontfamily{phv}\selectfont\scriptsize
+#1}\xspace}}
+\newcommand{\lambdac}[0]{$\lambda$~}
+%\renewcommand{\ttdefault}{cmtt}
+%\renewcommand{\ttdefault}{txtt}

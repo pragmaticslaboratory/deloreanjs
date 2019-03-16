@@ -1,0 +1,64 @@
+\usepackage{xspace}
+\usepackage{color}
+
+%Some comments
+\newcommand\todo[1]{\mynote{TODO}{#1}}
+\newcommand\wtf[1]{\mynote{WTF}{#1????}}
+\newcommand\fix[1]{\mynote{FIX}{#1}}
+\newcommand\reform[1]{\mynote{reform}{#1}} %reformulate
+\newcommand{\here}[0]{\bigskip \mbox{\bf**************HERE*************}}
+
+%Personal comments
+\newcommand\pl[1]{\mynote{PL}{#1 }}
+\newcommand\et[1]{\mynote{ET}{#1}}
+\newcommand\hf[1]{\mynote{HF}{#1}}
+
+%Connectors
+\newcommand{\ie}[0]{{\em i.e., }}
+\newcommand{\eg}[0]{{\em e.g., }}
+\newcommand{\etal}[0]{{\em et al.}}
+\newcommand{\aka}[0]{{\em a.k.a. }}
+%\newcommand{\ala}[0]{{\em al a}}
+
+%Languages
+\newcommand{\javascript}[0]{\mbox{JavaScript}\xspace}
+\newcommand{\deloreanjs}[0]{\mbox{DeloreanJS}\xspace}
+\newcommand{\actionscript}[0]{\mbox{ActionScript}\xspace}
+\newcommand{\java}[0]{\mbox{Java}\xspace}
+
+%Aspect languages
+\newcommand{\aspectscript}[0]{\mbox{AspectScript}\xspace}
+\newcommand{\aspectj}[0]{\mbox{AspectJ}\xspace}
+
+
+%Web
+\newcommand{\async}[0]{\mbox{SyncAS}\xspace}
+\newcommand{\promise}[0]{\mbox{Promise}\xspace}
+\newcommand{\asyncjs}[0]{\mbox{Async.Js}\xspace}
+\newcommand{\ajax}[0]{\mbox{Ajax}\xspace}
+\newcommand{\synccc}[0]{\mbox{Sync/cc}\xspace}
+\newcommand{\callcc}[0]{\mbox{continuations}\xspace}
+\newcommand{\jquery}[0]{\mbox{jQuery}\xspace}
+\newcommand{\rhino}[0]{\mbox{Rhino}\xspace}
+\newcommand{\ecmascript}[0]{\mbox{ECMAScript}\xspace}
+\newcommand{\browserify}[0]{\mbox{Browserify}\xspace}
+\newcommand{\unwinder}[0]{\mbox{Unwinder}\xspace}
+\newcommand{\nodejs}[0]{\mbox{Nodejs}\xspace}
+\newcommand{\tongoy}[0]{\mbox{Tongoy-UCN}\xspace}
+
+
+%==================================================
+%Helper commands
+\definecolor{red}{rgb}{1,0,0}
+\newcommand\change[1]{\textcolor{red}{#1}}
+\newcommand{\kw}[1]{{\bf#1}}
+\newcommand{\parhead}[1]{\noindent{\bf {\em #1.}}}
+
+\newcommand{\mynote}[2]{
+\fbox{\bfseries\sffamily\scriptsize#1}
+  {\small\textsf{\emph{#2}}}
+\fbox{\bfseries\sffamily\scriptsize }
+}
+
+\newcommand{\super}[1]{\ensuremath{^{\textrm{#1}}}}
+\newcommand{\sub}[1]{\ensuremath{_{\textrm{#1}}}}

@@ -1,0 +1,159 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[spanish]{babel}
+\usepackage{url}
+\urlstyle{rm}
+
+\input{notes}
+\input{listing}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{DeloreanJS: Un Debugger en el Tiempo para JavaScript\\
+}
+
+\author{\IEEEauthorblockN{Paul Leger}
+\IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
+\textit{Universidad Cat\'olica del Norte}\\
+Coquimbo, Chile \\
+pleger@ucn.cl}
+\and
+\IEEEauthorblockN{AAAA BBBB}
+\IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
+\textit{Universidad Cat\'olica del Norte}\\
+Coquimbo, Chile \\
+aaaa.bbbb@alumnos.ucn.cl}
+\and
+\IEEEauthorblockN{XXXX YYYY}
+\IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
+\textit{Universidad Cat\'olica del Norte}\\
+Coquimbo, Chile \\
+xxxx.yyyy@alumnos.ucn.cl}
+}
+
+\maketitle
+
+\begin{abstract}
+Aplicaciones Web, usando \javascript, son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'ia de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (conocido como {\em bugs}) cuyos s\'intomas se aprecian durante este desarrollo e incluso, siendo peor, en su puesta en producci\'on. Por ello, el uso de debuggers son sumamente \'utiles para detectar estos bugs. Lamentablemente, los actuales debuggers solamente avanzan hacia adelante en la ejecuci\'on para detectar el bug y no permiten retornar hacia un punto anterior para tomar acciones asociadas al bug detectado. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger para \javascript que permite devolverse en el tiempo con el fin que un programador pueda volver a verificar y probar el contexto alrededor de un bug. Este debugger, llamado \deloreanjs, ha sido implementado como una extensi\'on para Mozilla Firefox con el fin que la comunidad de desarrolladores puedan usarlo.         
+\end{abstract}
+
+\begin{IEEEkeywords}
+\deloreanjs, \javascript, Debugger, Web application, Continuations
+\end{IEEEkeywords}
+
+\section{Introducci\'on}
+\label{sec:intro}
+
+La industria del software se mueve fuertemente hacia el desarrollo de aplicaciones Web, siendo testigo un gran n\'umero de migraciones de aplicaciones {\em standalone} a la Web; los ejemplos van desde convertir un documento Word a un formato PDF~\cite{smallpdf} hasta un sistema ERP ({\em Enterprise Resource Planning})~\cite{erpOrcale}. Para construir estas aplicaciones, uno de los lenguajes m\'as usados en \javascript, cuya presencia en el entorno de la Web es alrededor del 95\%~\cite{jsuses}. Por ello, cada vez estas aplicaciones se han vuelto m\'as complejas y con mayor riesgo de introducir defectos de software (\aka {\em bugs}). 
+
+Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso de desarrollo de software, y las aplicaciones Web no son la excepci\'on. Para ello, un conjunto de debuggers se han propuestos, desde el que incluye un navegador en su distribuci\'on (\eg Mozilla Firefox developer tools) hasta omniscientes debuggers que pueden recorrer a trav\'es de la ejecuci\'on para encontrar el origen de un bug~\cite{azar:2016,barrAl:fse2016}. Lamentablemente, la gran parte de estos debuggers son {\em post-morter}, y por ende, solo permiten mostrar la ocurrencia de un bug sin entregar la posibilidad de retroceder {\em en el tiempo} para entregar la posibilidad de repararlo mientras se ejecuta el programa o manipular el estado de un programa alrededor del bug con el fin de mejorar su comprensi\'on.       
+
+Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador fijar {\em timepoints} (en cambio de {\em breakpoints}) en una aplicaci\'on en \javascript con el fin de permitir al programador retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Esta novedosa visi\'on de \deloreanjs, la cual est\'a disponible como una extensi\'on de Mozilla Firefox, permite:    
+
+\begin{enumerate}
+	
+	\item Modificar los valores de las variables asociado a un bug encontrado para mejorar la comprensi\'on de este bug. Esto potencialmente ahorra un gran n\'umero de ejecuciones en un contexto similar para descubrir la verdadera raz\'on del bug.
+	    
+
+	\item Probar escenarios hipot\'eticos de ejecuci\'on de una aplicaci\'on usando un timepoint de \deloreanjs. Esto permite descubrir diversas evoluciones de la aplicaci\'on cambiando valores de algunas variables.   
+	 
+	\item item Mantener una aplicaci\'on funcionando usando los timepoints para potencialmente reparar un bug durante la ejecuci\'on. Lo anterior significa que no es siempre necesario detener la ejecuci\'on de la aplicaci\'on con el fin de realizar un anal\'isis post-morter. Esto es importante porque detener una aplicaci\'on significa perder el contexto de ejecuci\'on asociado al bug.  
+
+\end{enumerate}
+
+
+Para construir \deloreanjs, utilizamos la abstracci\'on {\em continuaci\'on}~\cite{fw84} de los lenguajes de programaci\'on funcional como Scheme~\cite{scheme48}. En los lenguajes funcionales, una continuaci\'on permite al programador capturar y guardar, como valor de primera clase, un momento de ejecuci\'on ({\em program counter} y {\em stack}) de una aplicaci\'on. Extendiendo esta abstracci\'on para lenguajes no funcionales como \javascript, nosotros habilitamos a \deloreanjs para que ofrezca la posibilidad a un programador de usar un m\'etodo que agregue timepoints al programa, y as\'i poder volver esos momentos de ejecuci\'on y modificarlos cuando el programador lo requiera.   
+
+
+El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta diferentes ejemplos de aplicaci\'on de \deloreanjs, donde se puede apreciar la interfaz gr\'afica de nuestra propuesta. Luego, se presenta \deloreanjs, detallando c\'omo se usa el concepto de continuaciones. En la secci\'on~\ref{sec:rw} se discuten herramientas similares. Finalmente, secci\'on~\ref{sec:conc} concluye y describe lineamientos sobre el trabajo futuro de nuestra propuesta.      
+
+\smallskip
+
+{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y su compilada versi\'on se encuentra como extensi\'on en Mozilla Firefox en {\tt \url{http://xxx.com}}. 
+
+
+
+\section{Un Tour por \deloreanjs}
+\label{sec:tour}
+
+\pl{Cada ejemplo debe tener el nombre de lo que hace}
+
+\subsection{Ejemplo 1}
+\label{sec:tour1}
+
+\pl{Explicar con imagenes el ejemplo 1}
+
+\subsection{Ejemplo 2}
+\label{sec:tour2}
+
+\pl{Explicar con imagenes el ejemplo 2}
+
+\subsection{Ejemplo 3}
+\label{sec:tour3}
+
+\pl{Explicar con imagenes el ejemplo 3}
+
+\bigskip
+
+\section{\deloreanjs}
+\label{sec:deloreanjs}
+
+
+\subsection{Continuaciones}
+\label{sec:continuaciones}
+
+\pl{Explicar continuaciones~\cite{fw84}}
+
+\subsection{Capturando el Estado}
+\label{sec:estados}
+
+\pl{Explicar su forma de capturar estados}
+
+\subsection{Extensi\'on en el Navegador}
+
+\pl{Explicar la aplicaci\'on en Mozilla Firefox}
+
+\bigskip
+
+\section{Trabajo Relacionado}
+\label{sec:rw}
+
+\pl{Aqui se debe comparar con tres herramientas similares a \deloreanjs}
+
+\bigskip
+
+\parhead{Debuggers avanzados} or jsBin nodejs inspector
+\smallskip
+
+\parhead{Debuggers omniscientes}~\cite{tod:oopsla2007,azar:2016,barrAl:fse2016}
+\smallskip
+
+
+\parhead{Debuggers en linea} session stack y raygun
+\smallskip
+
+\bigskip
+
+\section{Conclusiones y Trabajo Futuro}
+\label{sec:conc}
+
+\pl{TODO}
+
+\smallskip
+
+\parhead{Trabajo Futuro}
+
+\bibliographystyle{IEEEtran}
+\bibliography{djs}
+
+
+\end{document}
