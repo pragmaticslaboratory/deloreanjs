@@ -1,7 +1,8 @@
 const DeclaratorVisitor = require('./visitors/declarator');
 const AssignmentVisitor = require('./visitors/assignment');
 const ContinuationsConfigVisitor = require('./visitors/createContinuation');
-const RestoreHeapVisitor = require('./visitors/heapRestore')
+const RestoreHeapVisitor = require('./visitors/heapRestore');
+const RestoreContinuationVisitor = require('./visitors/continuationRestore')
 
 const { addDependecies } = require('./heap')
 const variables = require('../observables');
@@ -41,6 +42,12 @@ module.exports = {
     restoreHeapVisitor: () => {
         return ({
             visitor: RestoreHeapVisitor,
+        })
+    },
+
+    restoreContinuationVisitor: () => {
+        return ({
+            visitor: RestoreContinuationVisitor,
         })
     }
 }

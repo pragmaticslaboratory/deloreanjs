@@ -15,7 +15,7 @@ continuations.kont1 = kont1;
 console.log('first continuation');
 
 delorean.snapshot();
-var kont2 = createContinuation()
+var kont2 = createContinuation();
 continuations.kont2 = kont2;
 console.log('second continuation');
 
@@ -24,3 +24,6 @@ if(continuations.kont2){
 }
 
 console.log('end')
+
+
+/* pause */
