@@ -60,18 +60,19 @@ Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso
 Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador fijar {\em timepoints} (en cambio de {\em breakpoints}) en una aplicaci\'on en \javascript con el fin de permitir al programador retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Esta novedosa visi\'on de \deloreanjs, la cual est\'a disponible como una extensi\'on de Mozilla Firefox, permite:    
 
 \begin{enumerate}
-	\item Mantener una aplicaci\'on funcionando usando los timepoints para potencialmente reparar un bug durante la ejecuci\'on. Lo anterior significa que no es siempre necesario detener la ejecuci\'on de la aplicaci\'on con el fin de realizar un anal\'isis post-morter. Esto es importante porque detener una aplicaci\'on significa perder el contexto de ejecuci\'on asociado al bug.
 	
 	\item Modificar los valores de las variables asociado a un bug encontrado para mejorar la comprensi\'on de este bug. Esto potencialmente ahorra un gran n\'umero de ejecuciones en un contexto similar para descubrir la verdadera raz\'on del bug.
 	    
 
-	\item Probar escenarios hipot\'eticos de ejecuci\'on de una aplicaci\'on usando un timepoint de \deloreanjs. Esto permite descubrir diversas evoluciones de la aplicaci\'on cambiando valores de algunas variables.      
+	\item Probar escenarios hipot\'eticos de ejecuci\'on de una aplicaci\'on usando un timepoint de \deloreanjs. Esto permite descubrir diversas evoluciones de la aplicaci\'on cambiando valores de algunas variables.   
+	 
+	\item item Mantener una aplicaci\'on funcionando usando los timepoints para potencialmente reparar un bug durante la ejecuci\'on. Lo anterior significa que no es siempre necesario detener la ejecuci\'on de la aplicaci\'on con el fin de realizar un anal\'isis post-morter. Esto es importante porque detener una aplicaci\'on significa perder el contexto de ejecuci\'on asociado al bug.  
 
 \end{enumerate}
 
 \smallskip
 
-\pl{Explicar como se ha construido \deloreanjs}\\
+Para construir \deloreanjs, utilizamos la abstracci\'on {\em continuaci\'on}~\cite{fw84} de los lenguajes de programaci\'on funcional como Scheme~\cite{scheme48}. En los lenguajes funcionales, una continuaci\'on permite al programador capturar y guardar, como valor de primera clase, un momento de ejecuci\'on ({\em program counter} y {\em stack}) de una aplicaci\'on. Extendiendo esta abstracci\'on para lenguajes no funcionales como \javascript, nosotros habilitamos a \deloreanjs para que ofrezca la posibilidad a un programador de usar un m\'etodo que agregue timepoints al programa, y as\'i poder volver esos momentos de ejecuci\'on y modificarlos cuando el programador lo requiera.   
 
 
 El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta diferentes ejemplos de aplicaci\'on de \deloreanjs, donde se puede apreciar la interfaz gr\'afica de nuestra propuesta. Luego, se presenta \deloreanjs, detallando c\'omo se usa el concepto de continuaciones. En la secci\'on~\ref{sec:rw} se discuten herramientas similares. Finalmente, secci\'on~\ref{sec:conc} concluye y describe lineamientos sobre el trabajo futuro de nuestra propuesta.      
