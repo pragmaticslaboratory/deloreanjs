@@ -1,4 +1,5 @@
 const t = require('babel-types');
+let snapshotCounter = 0;
 
 function rightType(key) {
    switch(typeof heap.snapshots[restore][key]){
@@ -27,11 +28,11 @@ function rightType(key) {
 
 module.exports = {
     MemberExpression(path) {
-        if(path.node.object && path.node.property && path.node.object.name == 'delorean' && path.node.property.name == 'snapshot'){
-            var snapshotCall = path.findParent(path => path.isCallExpression());
+        if(path.node.property && path.node.property.name  == 'kont' + restore){
+            var continuationCall = path.findParent(path => path.isAssignmentExpression());  
             Object.keys(heap.snapshots[restore]).forEach((key) => {
                 if(heap.snapshots[restore][key]){
-                    snapshotCall.insertAfter(
+                    continuationCall.insertAfter(
                         t.expressionStatement(
                             t.assignmentExpression(
                                 '=',
@@ -41,7 +42,7 @@ module.exports = {
                         )
                     )
                 }
-            })
+            })      
         }
     }
 }

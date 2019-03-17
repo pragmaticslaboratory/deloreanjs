@@ -2,16 +2,15 @@ const t = require('babel-types')
 
 module.exports = {
     Program(path) {
-        // var continuations = {};
+        // continuations = {};
         path.node.body.unshift(
-            t.variableDeclaration(
-                'var',
-                [
-                    t.variableDeclarator(
-                        t.identifier('continuations'),
-                        t.objectExpression([])
-                    )
-                ]
+            t.expressionStatement(
+                t.assignmentExpression(
+                    '=',
+                    t.identifier('continuations'),
+                    t.objectExpression([])
+
+                )
             ) 
         );
         

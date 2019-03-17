@@ -1,6 +1,7 @@
 const DeclaratorVisitor = require('./visitors/declarator');
 const AssignmentVisitor = require('./visitors/assignment');
 const ContinuationsConfigVisitor = require('./visitors/createContinuation');
+const StoreContinuationsVisitor = require('./visitors/storeContinuations');
 const RestoreHeapVisitor = require('./visitors/heapRestore');
 const RestoreContinuationVisitor = require('./visitors/continuationRestore')
 
@@ -36,6 +37,12 @@ module.exports = {
     initConfigVisitor: () => {
         return ({
             visitor: ContinuationsConfigVisitor,
+        })
+    },
+
+    storeContinuationsVisitor: () => {
+        return ({
+            visitor: StoreContinuationsVisitor,
         })
     },
 
