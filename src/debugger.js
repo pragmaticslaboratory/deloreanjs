@@ -3,7 +3,6 @@ const babel = require('babel-core');
 
 module.exports = (filename) => {
     let { code } = require('../index')(filename, [dependeciesVisitor, initConfigVisitor, storeContinuationsVisitor]);
-    console.log("Se ejecuta")
     let unwindedCode = require('../unwinder/bin/compile.js')(code);
 
     try{
@@ -13,11 +12,10 @@ module.exports = (filename) => {
     }
     catch(e){
         do{
-            console.log(e, 'catch');
-            global.restore = 0;
-
-            /* TODO: eventos y inputs */
+            console.log(e, 'first error detected');
             
+            /* TODO: eventos y inputs */
+            global.restore = 1;
 
             /*const readline = require('readline').createInterface({
                 input: process.stdin,
@@ -36,15 +34,51 @@ module.exports = (filename) => {
             let restoredCode = babel.transform(code, {
                 plugins: visitors
             }).code;
+
             let unwindedRestoredCode = require('../unwinder/bin/compile.js')(restoredCode);
             
-            try{
-                console.log(restoredCode);
+            try {
+                // console.log(restoredCode);
                 eval(unwindedRestoredCode);              
-            }
-            catch(e){
+            } catch(e) {
                 console.log(e, 'second catch');
             }
-        }while(false/*TODO: Condition: The extension is running*/);
+
+        }while(false /*TODO: Condition: The extension is running*/);
     }
 }
+
+
+/*
+pause = true;
+function pause(e){
+    if(e) {
+        console.log('error', e)
+    } else {
+        console.log('pausa')
+    }
+    while(pause) {
+        if(!pause){
+            restoreProgram(restore)
+        }
+    }
+}
+
+// backend debugger.js
+function restoreProgram(restore) {
+    var input = {};
+    a = input.a || a
+    b = input.b || b
+    c = input.c || c
+    x = input.x || x 
+    continuations.kont[restore]();
+}
+
+try {
+//code
+} catch(e) {
+    pause(e)
+}
+
+pause()
+*/
