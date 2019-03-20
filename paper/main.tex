@@ -109,12 +109,14 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 \section{\deloreanjs}
 \label{sec:deloreanjs}
 
+Dado que nuestra propuesta muestra un enfoque relativamente diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona \deloreanjs y los conceptos necesarios para construirla.   
+
+Figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas por {\em timelines}, de una aplicaci\'on Web producidas por los timepoints. Cuando un programador define un timepoint, durante la ejecuci\'on de la aplicaci\'on se puede volver a ese timepoint y as\'i crear una timeline de la ejecuci\'on de la aplicaci\'on.   
+
 \begin{figure*}[t]
 \begin{center}
 \includegraphics[width=.6\linewidth]{fig-timeline}
-\caption{The flowchart of Listing~\ref{lst:rhino_1}, which uses the continuation
-  \co{kont}. The invocation of \co{kont} uses a \co{parameter} to replace the
-  return value of the anonymous function inside of \co{add} (\ie ``\co{return 1}'').}
+\caption{Multiples trazas de ejecuciones de a trav\'es de timepoints de \deloreanjs.}
 \label{fig:timeline}
 \end{center}
 \end{figure*}
@@ -193,11 +195,8 @@ var stop = callCC(cont => cont);
 after an asynchronous operation invocation, and the second one resumes the
 handler execution when the asynchronous operation response is available.
 
-
-\pl{Explicar continuaciones~\cite{fw84}}
-
-\subsection{Capturando el Estado}
-\label{sec:estados}
+\subsection{Capturando el heap}
+\label{sec:heap}
 
 \pl{Explicar su forma de capturar estados}
 
