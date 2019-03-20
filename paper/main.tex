@@ -80,7 +80,7 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \smallskip
 
-{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y una prueba de concepto de su aplicaci\'on se puede encontrar como extensi\'on de Google Chrome en {\tt \url{http://xxx.com}}. 
+{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y una prueba de concepto de su aplicaci\'on se puede obtener, como extensi\'on de Google Chrome, en {\tt \url{http://xxx.com}}. 
 
 
 
@@ -133,7 +133,7 @@ Dado que \javascript es un lenguaje muy ampliamente usado, existe un inter\'es c
 
 \smallskip
 
-\parhead{Debuggers omniscientes} Estos tipos de debuggers se encargan de almacenar cada evento que ocurre en la ejecuci\'on de un programa, y han sido implementado en lenguajes como en \java~\cite{tod:oopsla2007}. Con respecto a  \javascript, podemos encontrar PECCit~\cite{azar:2016} y JARDIS~\cite{barrAl:fse2016}, los cuales almacenan la traza de ejecuci\'on y ofrecen diferentes interfaces de usuario para navegar a trav\'es de esta traza. A diferencia de \deloreanjs, estos tipos de debuggers son {\em post-morter}, significando que no es posible volver a un punto en la historia de esta ejecuci\'on y continuarla con valores de variables potencialmente modificados. 
+\parhead{Debuggers omniscientes} Estos tipos de debuggers se encargan de almacenar cada evento que ocurre en la ejecuci\'on de un programa, creando un historial de la traza de ejecuci\'on. Estos debuggers han sido implementados en lenguajes como en \java~\cite{tod:oopsla2007} y     xDSMLs~\cite{bousseAl:SLE2015}. Con respecto a  \javascript, podemos encontrar PECCit~\cite{azar:2016} y JARDIS~\cite{barrAl:fse2016}, los cuales almacenan la traza de ejecuci\'on y ofrecen diferentes interfaces de usuario para navegar a trav\'es de esta traza. A diferencia de \deloreanjs, estos tipos de debuggers son {\em post-morter}, significando que no es posible volver a un punto en la historia de esta ejecuci\'on y continuarla con valores de variables potencialmente modificados. 
 
 \smallskip
 
@@ -147,11 +147,15 @@ No es un misterio que la industria del software se est\'e orientando a construir
    
 \smallskip
 
-\parhead{Guardar completamente el heap}
+\parhead{Guardar el heap} A diferencia del stack que se guarda autom\'aticamente en una aplicaci\'on en ejecuci\'on, un programador debe ahora especificar qu\'e variables del heap se guardar\'an en los timepoints. Resolver este desaf\'io implica almacenar copias de las variables contenidas en el heap por cada timepoint.      
 
 \smallskip
 
-\parhead{Incluir en otro debugger}
+\parhead{Integrar a un existente debugger} Actualmente \deloreanjs ofrece el nuevo enfoque de retroceder en el tiempo de una ejecuci\'on. Integrar este enfoque con las caracter\'isticas de los existentes debuggers podr\'ia significativamente la adopci\'on de nuestra propuesta. Por ejemplo, debuggers omniscientes integrado con \deloreanjs permitir\'ia analizar multiple trazas de ejecuciones partiendo desde un timepoint.
+
+\smallskip
+
+Como limitaci\'on podemos mencionar que \deloreanjs realiza la promesa de retornar en el tiempo de una ejecuci\'on, la cual podr\'ia no cumplirse a totalidad si aplicaci\'on depende de los resultados de eventos externos (ej. servicio Web que entrega la hora actual). Sin embargo, esta limitaci\'on se encuentra tambi\'en presenta en los existentes debuggers.               
 
 \bibliographystyle{IEEEtran}
 \bibliography{djs}
