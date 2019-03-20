@@ -110,8 +110,79 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 \label{sec:deloreanjs}
 
 
+
+
 \subsection{Continuaciones}
 \label{sec:continuaciones}
+
+
+\begin{figure*}[t]
+\begin{center}
+\includegraphics[width=.7\linewidth]{fig-kont}
+\caption{The flowchart of Listing~\ref{lst:rhino_1}, which uses the continuation
+  \co{kont}. The invocation of \co{kont} uses a \co{parameter} to replace the
+  return value of the anonymous function inside of \co{add} (\ie ``\co{return 1}'').}
+\label{fig:kont}
+\end{center}
+\end{figure*}
+
+
+This section briefly introduces \callcc and then explains how \synccc uses
+them. Programming languages like Scheme provide continuations~\cite{fw84}, which
+capture and store the current program control state as a first-class value. If
+this value is a function, it can be called and the current continuation will be
+replaced with the stored continuation. \unwinder~\cite{unwinder:2018} is a
+\javascript library that captures the current continuation with a built-in
+function, named \co{callCC}. We illustrate \callcc in \unwinder through a piece
+of code that captures the execution of a function adding two numbers
+(Listing~\ref{lst:rhino_1}): 
+
+%\break
+
+\begin{lstlisting}[linewidth=\columnwidth,numbers=left,caption=Use of continuations in the \unwinder library., label=lst:rhino_1]
+var kont;
+
+function add(x,y) {
+  return x + (function() {
+                kont = callCC(cont => cont);
+                return typeof(kont) == "number"? kont:y;})();
+}
+
+show(add(5,1));                           //show 6
+if (typeof(kont) == "function") kont(20); //show 25
+\end{lstlisting}
+
+Figure~\ref{fig:kont} shows a flowchart of the piece of code above. In Line~5,
+the piece of code captures and stores the continuation in \co{kont} before
+adding \co{y}. This capture takes place in Line~9 when \co{add} is called.  The
+result of \co{add} is passed to \co{show}, and then the number \co{6} is
+displayed.  Line~10 executes the continuation bound to \co{kont} with \co{20} as
+parameter, which replaces the return of the anonymous function of Line~6 (\ie
+\co{return 1} $\rightarrow$ \co{return 20}). As a result, \co{25} is displayed
+(\co{25 = (x = 5) + (y = 20)}). Note that the {\em if expression} (Line~6) and
+{\em if statement} (Line~10) are used to differentiate when a continuation is
+created from being called. A continuation is a function (Line~9) if this
+continuation has been created but not called, otherwise the continuation is
+bound to the value passed by parameter when it is called (\ie~20 in this piece
+of code).
+
+If developers need to stop a handler execution, a continuation in the end of the
+top-level script should be created. For example, Listing~\ref{lst:rhino_2}:
+
+\begin{lstlisting}[caption=Stopping a \javascript script with continuations., label=lst:rhino_2]
+function showMessageHandler() {
+  show("This message will be shown");
+  stop();
+  show("This message will never be shown");
+}
+
+var stop = callCC(cont => cont);
+\end{lstlisting}
+
+\synccc uses two continuations: the first one stops a handler execution just
+after an asynchronous operation invocation, and the second one resumes the
+handler execution when the asynchronous operation response is available.
+
 
 \pl{Explicar continuaciones~\cite{fw84}}
 
