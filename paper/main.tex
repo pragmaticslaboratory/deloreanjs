@@ -92,34 +92,45 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 \subsection{Ejemplo 1}
 \label{sec:tour1}
 
-\pl{Explicar con imagenes el ejemplo 1}
+\pl{Explicar con imag\'enes el ejemplo 1}
 
 \subsection{Ejemplo 2}
 \label{sec:tour2}
 
-\pl{Explicar con imagenes el ejemplo 2}
+\pl{Explicar con imag\'enes el ejemplo 2}
 
 \subsection{Ejemplo 3}
 \label{sec:tour3}
 
-\pl{Explicar con imagenes el ejemplo 3}
+\pl{Explicar con imag\'enes el ejemplo 3}
 
 \bigskip
 
 \section{\deloreanjs}
 \label{sec:deloreanjs}
 
-Dado que nuestra propuesta muestra un enfoque relativamente diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona \deloreanjs y los conceptos necesarios para construirla.   
+Dado que nuestra propuesta trabaja con un enfoque relativamente diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona \deloreanjs y los conceptos necesarios para construirla.   
 
-Figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas por {\em timelines}, de una aplicaci\'on Web producidas por los timepoints. Cuando un programador define un timepoint, durante la ejecuci\'on de la aplicaci\'on se puede volver a ese timepoint y as\'i crear una timeline de la ejecuci\'on de la aplicaci\'on.   
+
+La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en la ejecuci\'on de una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta y a su vez cada timeline puede generar otras timelines debido a los timepoints insertados. Como se puede apreciar, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter}, {\em stack}, y {\em heap} (Figura~\ref{fig:timepoint}).      
+  
 
 \begin{figure*}[t]
 \begin{center}
-\includegraphics[width=.6\linewidth]{fig-timeline}
+\includegraphics[width=.5\linewidth]{fig-timeline}
 \caption{Multiples trazas de ejecuciones de a trav\'es de timepoints de \deloreanjs.}
 \label{fig:timeline}
 \end{center}
 \end{figure*}
+
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=.5\linewidth]{fig-timepoint}
+\caption{Composici\'on de un timepoint.}
+\label{fig:timepoint}
+\end{center}
+\end{figure}
 
 
 
@@ -206,7 +217,7 @@ handler execution when the asynchronous operation response is available.
 
 \bigskip
 
-\section{Trabajo Relacionado}
+\section{Trabajos Relacionados}
 \label{sec:rw}
 
 Dado que \javascript es un lenguaje muy ampliamente usado, existe un inter\'es constante en crear avances en t\'erminos de investigaci\'on~\cite{vazquesAl:ist2018,legerAl:scp2013,legerAl:scp2015,zhengAl:www2011,chargueraudAl:www2018} y desarrollo~\cite{resig:jquery,angular,mckenzie:babel,rxjs}. En estos avances, varios tipos de propuestas de debuggers son posible encontrar en la literatura. Algunos de ellos~\cite{bartonOdvarko:www2011,jsbin,nodejsInspector} ofrecen un amplio conjunto de caracter\'isticas como modificar los valores de variables mientras la aplicaci\'on se est\'a ejecutando (ej. FireBug~\cite{bartonOdvarko:www2011}). Aunque, en lo mejor de nuestro conocimiento, no es encontrar debuggers que sigan un enfoque similar a \deloreanjs, existen algunos que consideran la historia de ejecuci\'on de una aplicaci\'on Web:       
