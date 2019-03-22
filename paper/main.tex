@@ -166,7 +166,7 @@ mostrar(sumar(5,1));                           //muestra 6
 if (typeof(kont) == "function") kont(20);      //muestra 25
 \end{lstlisting}
 
-La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo~\ref{lst:rhino_1}. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{sumar}, y entonces el n\'umero \co{6} es mostrado. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de la l\'inea~6~(es decir, \co{return 1} $\rightarrow$ \co{return 20}).  Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}).       
+La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo~\ref{lst:rhino_1}. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{sumar}, y entonces el n\'umero \co{6} es mostrado. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de la l\'inea~6~(es decir, \co{return 1} $\rightarrow$ \co{return 20}).  Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}). Notar que el {\em if expression}~(l\'inea~6) y {\em if statement}~(l\'inea~10) son usadas para diferenciar cuando una continuaci\'on es creada y llamada. Una continuaci\'on es una funci\'on (l\'inea~9) es creada pero no llamada, en otro caso la continuaci\'on es enlazada al valor pasada como par\'ametro cuando es llamada (ej. el valor \co{20} en esta pieza de c\'odigo).         
 
 \here
 
@@ -184,22 +184,22 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo~\r
 %bound to the value passed by parameter when it is called (\ie~20 in this piece
 %of code).
 
-If developers need to stop a handler execution, a continuation in the end of the
-top-level script should be created. For example, Listing~\ref{lst:rhino_2}:
-
-\begin{lstlisting}[caption=Stopping a \javascript script with continuations., label=lst:rhino_2]
-function showMessageHandler() {
-  show("This message will be shown");
-  stop();
-  show("This message will never be shown");
-}
-
-var stop = callCC(cont => cont);
-\end{lstlisting}
-
-\synccc uses two continuations: the first one stops a handler execution just
-after an asynchronous operation invocation, and the second one resumes the
-handler execution when the asynchronous operation response is available.
+%If developers need to stop a handler execution, a continuation in the end of the
+%top-level script should be created. For example, Listing~\ref{lst:rhino_2}:
+%
+%\begin{lstlisting}[caption=Stopping a \javascript script with continuations., label=lst:rhino_2]
+%function showMessageHandler() {
+%  show("This message will be shown");
+%  stop();
+%  show("This message will never be shown");
+%}
+%
+%var stop = callCC(cont => cont);
+%\end{lstlisting}
+%
+%\synccc uses two continuations: the first one stops a handler execution just
+%after an asynchronous operation invocation, and the second one resumes the
+%handler execution when the asynchronous operation response is available.
 
 \subsection{Capturando el Heap}
 \label{sec:heap}
