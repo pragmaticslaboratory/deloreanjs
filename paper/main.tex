@@ -42,7 +42,7 @@ xxxx.yyyy@alumnos.ucn.cl}
 \maketitle
 
 \begin{abstract}
-Aplicaciones Web, usando \javascript, son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'ia de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (conocido como {\em bugs}), cuyos s\'intomas se aprecian durante este desarrollo e incluso, siendo peor, en producci\'on. Para ello, el uso de debuggers son sumamente \'utiles para detectar estos bugs. Lamentablemente, los actuales debuggers solamente avanzan hacia adelante en la ejecuci\'on para detectar un bug y no permiten retornar hacia un punto anterior en la ejecuci\'on para tomar acciones asociadas al bug detectado. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger, llamado \deloreanjs,  para \javascript que permite devolverse en el tiempo con el fin que un programador pueda volver a verificar y probar el contexto alrededor de un bug. Este debugger ha sido implementado como una extensi\'on para Google Chrome con el fin que la comunidad de desarrolladores pueda usarlo.         
+Aplicaciones Web, usando \javascript, son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'ia de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (conocido como {\em bugs}), cuyos s\'intomas se aprecian durante el desarrollo e incluso, siendo peor, en producci\'on. Para ello, el uso de debuggers es sumamente \'util para detectar bugs. Lamentablemente, los actuales debuggers solamente avanzan hacia adelante en la ejecuci\'on para detectar un bug y no permiten retornar hacia un punto anterior en la ejecuci\'on para tomar acciones asociadas al bug detectado. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger para \javascript, llamado \deloreanjs, que permite a un programador volver en el tiempo en la ejecuci\'on con el fin pueda volver y probar el contexto alrededor de un bug. Este debugger ha sido implementado como una prueba de concepto en una extensi\'on para Google Chrome.         
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -52,35 +52,35 @@ Aplicaciones Web, usando \javascript, son desarrolladas cada vez con mayor frecu
 \section{Introducci\'on}
 \label{sec:intro}
 
-Para construir aplicaciones Web, uno de los lenguajes m\'as usados es \javascript, cuya presencia en el entorno de la Web es de alrededor del 95\%~\cite{jsuses}. La industria del software se mueve fuertemente hacia el desarrollo de este tipo de aplicaciones, siendo testigo un gran n\'umero de migraciones de aplicaciones {\em standalone} a la Web; los ejemplos van desde convertir un documento Word a un formato PDF~\cite{smallpdf} hasta un sistema ERP ({\em Enterprise Resource Planning})~\cite{erpOrcale}. Por ello, cada vez estas aplicaciones se han vuelto m\'as complejas y con mayor riesgo de introducir defectos de software (\aka {\em bugs}). 
+Para construir aplicaciones Web, uno de los lenguajes m\'as usados es \javascript, cuya presencia en el entorno de la Web es de alrededor del 95\%~\cite{jsuses}. Asimismo, la industria del software se mueve fuertemente hacia el desarrollo de este tipo de aplicaciones, siendo testigo un gran n\'umero de migraciones de aplicaciones {\em standalone} a la Web; los ejemplos van desde convertir un documento Word a un formato PDF~\cite{smallpdf} hasta un sistema online ERP ({\em Enterprise Resource Planning})~\cite{erpOrcale}. Por ello, cada vez estas aplicaciones se han vuelto m\'as complejas y con mayor riesgo de introducir defectos de software (\aka {\em bugs}). 
 
-Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso de desarrollo de software, y las aplicaciones Web no son la excepci\'on. Para aliviar el proceso de tratamiento de bugs, un conjunto de debuggers se han propuestos, desde el que incluye un navegador en su distribuci\'on (\eg Mozilla Firefox developer tools) hasta  debuggers omniscientes que pueden recorrer a trav\'es de la traza de ejecuci\'on para encontrar el origen de un bug~\cite{azar:2016,barrAl:fse2016}. Considerando estos \'ultimos debuggers, ellos son {\em post-morter}, y es decir, solo permiten mostrar la ocurrencia de un bug sin entregar la posibilidad de retroceder {\em en el tiempo} para que un programador pueda repararlo mientras se ejecuta o manipular el estado de las variables alrededor del bug para mejorar la comprensi\'on de su causa.       
+Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso de desarrollo de software, y las aplicaciones Web no son la excepci\'on. Para aliviar el proceso de tratamiento de bugs, un conjunto de debuggers han sido propuestos, desde el que incluye un navegador en su distribuci\'on (\eg Mozilla Firefox developer tools) hasta  debuggers omniscientes que pueden recorrer a trav\'es de la traza de ejecuci\'on de una aplicaci\'on para encontrar las causas de un bug~\cite{azar:2016,barrAl:fse2016}. Considerando estos \'ultimos debuggers, ellos son {\em post-morter}, y es decir, solo permiten mostrar la ocurrencia de un bug sin entregar la posibilidad de retroceder {\em en el tiempo} las veces necesarias para que un programador pueda repararlo mientras la aplicaci\'on se ejecuta o manipular los valores de las variables alrededor del bug para mejorar la comprensi\'on de su causa.       
 
-Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador en una aplicaci\'on Web escrita en \javascript fijar {\em timepoints} (en cambio de {\em breakpoints}) para entregar la posibilidad retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Este novedoso enfoque de \deloreanjs permite:    
+Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador de una aplicaci\'on Web escrita en \javascript fijar {\em timepoints} (en cambio de {\em breakpoints}) para entregar la posibilidad retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Este novedoso enfoque de \deloreanjs permite:    
 
 \begin{enumerate}
 	
-	\item Modificar los valores de las variables asociado a un bug encontrado para mejorar la comprensi\'on de \'este. Lo anterior puede ahorrar un gran n\'umero de ejecuciones usando un contexto similar para descubrir la verdadera raz\'on del bug.
+	\item Modificar reiteradamente los valores de las variables asociado a un bug encontrado para mejorar la comprensi\'on de \'este. Lo anterior puede ahorrar un gran n\'umero de ejecuciones usando un contexto similar para descubrir la verdadera raz\'on del bug.
 
 	\smallskip
 
-	\item Probar escenarios hipot\'eticos de la ejecuci\'on de una aplicaci\'on Web usando un timepoint de \deloreanjs. Esto permite explorar diversas evoluciones de la ejecuaci\'on de la aplicaci\'on cambiando valores de algunas de sus variables.
+	\item Probar escenarios hipot\'eticos de la ejecuci\'on de una aplicaci\'on Web usando un timepoint de \deloreanjs. Esto permite explorar diversas evoluciones de la ejecuci\'on de la aplicaci\'on cambiando valores de algunas de sus variables.
    
    \smallskip
 	 
-	\item Mantener una aplicaci\'on Web funcionando usando los timepoints para potencialmente reparar un bug durante la ejecuci\'on. Lo anterior significa que no es siempre necesario detener la ejecuci\'on de la aplicaci\'on con el fin de realizar un anal\'isis post-morter, implicando perder el contexto de ejecuci\'on asociado al bug.  
+	\item Mantener una aplicaci\'on Web funcionando usando los timepoints para potencialmente reparar un bug durante la ejecuci\'on. Lo anterior significa que no es siempre necesario detener la ejecuci\'on de la aplicaci\'on con el fin de realizar un anal\'isis post-morter.  
 
 \end{enumerate}
 
 
-Para construir \deloreanjs, utilizamos la abstracci\'on {\em continuaci\'on}~\cite{fw84} de los lenguajes de programaci\'on funcional como Scheme~\cite{scheme48}. Una continuaci\'on permite al programador capturar y guardar, como valor del lenguaje, un momento en la ejecuci\'on ({\em program counter} y {\em stack}) de una aplicaci\'on. Extendiendo esta abstracci\'on para lenguajes no funcionales como \javascript, nosotros habilitamos a \deloreanjs para que ofrezca la posibilidad a un programador de expresar la insercci\'on de timepoints a una aplicaci\'on Web,  y as\'i poder volver esos momentos de ejecuci\'on y modificarlos cuando es requerido.   
+Para construir \deloreanjs, utilizamos la abstracci\'on {\em continuaci\'on}~\cite{fw84} de los lenguajes de programaci\'on funcional como Scheme~\cite{scheme48}. Una continuaci\'on permite al programador capturar y guardar, como valor del lenguaje, un momento en la ejecuci\'on ({\em contador de programa} y {\em pila}) de una aplicaci\'on. Extendiendo esta abstracci\'on para lenguajes no funcionales como \javascript, nosotros habilitamos a \deloreanjs para que ofrezca la posibilidad a un programador de expresar la insercci\'on de timepoints en una aplicaci\'on Web,  y as\'i poder volver esos momentos de ejecuci\'on y modificarlos cuando es requerido.   
 
 
-El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta diferentes ejemplos de aplicaci\'on de \deloreanjs, donde se puede apreciar la interfaz gr\'afica de nuestra propuesta. Luego, se presenta \deloreanjs, detallando c\'omo se usa el concepto de continuaciones. En la secci\'on~\ref{sec:rw} se discuten herramientas similares. Finalmente, secci\'on~\ref{sec:conc} concluye y describe lineamientos sobre el trabajo futuro de nuestra propuesta.      
+El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta diferentes ejemplos de aplicaci\'on de \deloreanjs, donde se puede apreciar la interfaz gr\'afica de nuestra propuesta. Luego, se presenta \deloreanjs, detallando c\'omo se usa y extiende continuaciones, y la integraci\'on con un navegador. En la secci\'on~\ref{sec:rw} se discuten debuggers similares. Finalmente, secci\'on~\ref{sec:conc} concluye y describe lineamientos sobre el trabajo futuro de nuestra propuesta.      
 
 \smallskip
 
-{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y una prueba de concepto de su aplicaci\'on se puede obtener, como extensi\'on de Google Chrome, en {\tt \url{http://xxx.com}}. 
+{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y una prueba de concepto se puede obtener, como extensi\'on de Google Chrome, en {\tt \url{http://xxx.com}}. 
 
 
 
@@ -108,7 +108,7 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \begin{figure*}[t]
 \begin{center}
-\includegraphics[width=.5\linewidth]{fig-timeline}
+\includegraphics[width=.7\linewidth]{fig-timeline}
 \caption{Multiples trazas de ejecuciones de la ejecuci\'on de una aplicaci\'on con \deloreanjs.}
 \label{fig:timeline}
 \end{center}
@@ -117,7 +117,7 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=.6\linewidth]{fig-timepoint}
+\includegraphics[width=.35\linewidth]{fig-timepoint}
 \caption{Composici\'on de un timepoint.}
 \label{fig:timepoint}
 \end{center}
@@ -129,10 +129,10 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 Dado que nuestra propuesta trabaja con un enfoque diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona \deloreanjs. 
 
-La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en la ejecuci\'on de una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta y a su vez cada timeline puede generar otras timelines debido a los timepoints insertados. Como se puede apreciar, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter}, {\em stack}, y {\em heap} (Figura~\ref{fig:timepoint}). El program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
+La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en la ejecuci\'on de una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta y a su vez cada timeline puede generar otras timelines debido a los timepoints insertados. Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). El program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
   
 
-\subsection{Continuaciones}
+\subsection{Usando Continuaciones}
 \label{sec:continuaciones}
 
 
@@ -140,54 +140,49 @@ La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamad
 \begin{figure*}[t]
 \begin{center}
 \includegraphics[width=.7\linewidth]{fig-kont}
-\caption{The flowchart of Listing~\ref{lst:rhino_1}, which uses the continuation
-  \co{kont}. The invocation of \co{kont} uses a \co{parameter} to replace the
-  return value of the anonymous function inside of \co{add} (\ie ``\co{return 1}'').}
+\caption{El diagrama de flujo de la pieza c\'odigo~\ref{lst:rhino_1}, el cual usa una continuaci\'on \co{kont}. La invocaci\'on de \co{kont} usa un \co{parametro} para reemplazar el retornado valor de la funci\'on an\'onima dentro de \co{sumar}.}  
+
+%\caption{The flowchart of Listing~\ref{lst:rhino_1}, which uses the continuation
+ % \co{kont}. The invocation of \co{kont} uses a \co{parameter} to replace the
+%  return value of the anonymous function inside of \co{add} (\ie ``\co{return 1}'').}
 \label{fig:kont}
 \end{center}
 \end{figure*}
 
-Esta secci\'on brevemente introduce continuaciones y explica c\'omo son usadas por \deloreanjs. Los lenguajes de programaci\'on funcionales como Scheme~\cite{scheme48} proveen la abstracci\'on de continuaciones. Una continuaci\'on captura y guarda el estado actual, program counter y stack, de una aplicaci\'on (program counter y stack) 
-
-
-%This section briefly introduces \callcc and then explains how \synccc uses
-%them. Programming languages like Scheme provide continuations~\cite{fw84}, which
-%capture and store the current program control state as a first-class value. If
-%this value is a function, it can be called and the current continuation will be
-%replaced with the stored continuation. \unwinder~\cite{unwinder:2018} is a
-%\javascript library that captures the current continuation with a built-in
-%function, named \co{callCC}. We illustrate \callcc in \unwinder through a piece
-%of code that captures the execution of a function adding two numbers
-%(Listing~\ref{lst:rhino_1}): 
+Esta secci\'on brevemente introduce continuaciones y explica c\'omo son usadas por \deloreanjs. Los lenguajes de programaci\'on funcionales como Scheme~\cite{scheme48}, los cuales se caracterizan por no tener variables {\em mutables}, proveen la abstracci\'on de una continuaci\'on. Esta abstraci\'on captura el estado actual (program counter y stack) de un programa funcional y lo guarda como un {\em valor de primera clase}, es decir, un valor que soporta operaciones como asignaci\'on e invocaci\'on (ej. funciones en \javascript). Cuando una continuaci\'on es creada y guardada, \'esta puede ser llamada y reemplazar\'a la actual ejecuci\'on por la guardada continuaci\'on. \unwinder~\cite{unwinder:2018} es una librer\'ia en \javascript soporta continuaci\'on a trav\'es de una funci\'on llamada \co{callCC}. Nosotros ejemplificamos continuaciones con \unwinder con pieza de c\'odigo que captura la ejecuci\'on de una funci\'on que suma dos n\'umeros~(pieza de c\'odigo~\ref{lst:rhino_1}):     
 
 %\break
 
-\begin{lstlisting}[linewidth=\columnwidth,numbers=left,caption=Use of continuations in the \unwinder library., label=lst:rhino_1]
+\begin{lstlisting}[linewidth=\columnwidth,numbers=left,caption=Uso de continuaciones con la librer\'ia \unwinder., label=lst:rhino_1]
 var kont;
 
-function add(x,y) {
+function sumar(x,y) {
   return x + (function() {
                 kont = callCC(cont => cont);
                 return typeof(kont) == "number"? kont:y;})();
 }
 
-show(add(5,1));                           //show 6
-if (typeof(kont) == "function") kont(20); //show 25
+mostrar(sumar(5,1));                           //muestra 6
+if (typeof(kont) == "function") kont(20);      //muestra 25
 \end{lstlisting}
 
-Figure~\ref{fig:kont} shows a flowchart of the piece of code above. In Line~5,
-the piece of code captures and stores the continuation in \co{kont} before
-adding \co{y}. This capture takes place in Line~9 when \co{add} is called.  The
-result of \co{add} is passed to \co{show}, and then the number \co{6} is
-displayed.  Line~10 executes the continuation bound to \co{kont} with \co{20} as
-parameter, which replaces the return of the anonymous function of Line~6 (\ie
-\co{return 1} $\rightarrow$ \co{return 20}). As a result, \co{25} is displayed
-(\co{25 = (x = 5) + (y = 20)}). Note that the {\em if expression} (Line~6) and
-{\em if statement} (Line~10) are used to differentiate when a continuation is
-created from being called. A continuation is a function (Line~9) if this
-continuation has been created but not called, otherwise the continuation is
-bound to the value passed by parameter when it is called (\ie~20 in this piece
-of code).
+La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo~\ref{lst:rhino_1}. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{sumar}, y entonces el n\'umero \co{6} es mostrado. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de la l\'inea~6~(es decir, \co{return 1} $\rightarrow$ \co{return 20}).  Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}).       
+
+\here
+
+%Figure~\ref{fig:kont} shows a flowchart of the piece of code above. In Line~5,
+%the piece of code captures and stores the continuation in \co{kont} before
+%adding \co{y}. This capture takes place in Line~9 when \co{add} is called.  The
+%result of \co{add} is passed to \co{show}, and then the number \co{6} is
+%displayed.  Line~10 executes the continuation bound to \co{kont} with \co{20} as
+%parameter, which replaces the return of the anonymous function of Line~6 (\ie
+%\co{return 1} $\rightarrow$ \co{return 20}). As a result, \co{25} is displayed
+%(\co{25 = (x = 5) + (y = 20)}). Note that the {\em if expression} (Line~6) and
+%{\em if statement} (Line~10) are used to differentiate when a continuation is
+%created from being called. A continuation is a function (Line~9) if this
+%continuation has been created but not called, otherwise the continuation is
+%bound to the value passed by parameter when it is called (\ie~20 in this piece
+%of code).
 
 If developers need to stop a handler execution, a continuation in the end of the
 top-level script should be created. For example, Listing~\ref{lst:rhino_2}:
@@ -206,12 +201,12 @@ var stop = callCC(cont => cont);
 after an asynchronous operation invocation, and the second one resumes the
 handler execution when the asynchronous operation response is available.
 
-\subsection{Capturando el heap}
+\subsection{Capturando el Heap}
 \label{sec:heap}
 
 \pl{Explicar su forma de capturar estados}
 
-\subsection{Extensi\'on en el Navegador}
+\subsection{Integrando en un Navegador}
 
 \pl{Explicar la aplicaci\'on en Google Chrome}
 
