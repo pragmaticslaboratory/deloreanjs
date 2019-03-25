@@ -206,6 +206,9 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 \subsection{Capturando el Heap}
 \label{sec:heap}
 
+Cada visitor busca expresiones de asignación y de declaración, respectivamente, a alguna de las variables a observar definidas por el usuario. Al encontrar una, añade todas las variables al lado derecho de la expresión al objeto dependencias.
+Cuando la ejecución llega a un timepoint, delorean obtiene los valores de cada variable a observar y de cada dependencia en ese instante y los guarda junto al nombre de la variable correspondiente. Cada timepoint genera y almacena un objeto con estos valores en ese momento.
+
 \pl{Explicar su forma de capturar estados}
 
 \subsection{Integrando en un Navegador}
