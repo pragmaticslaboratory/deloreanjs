@@ -117,7 +117,7 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=.5\linewidth]{fig-timepoint}
+\includegraphics[width=.6\linewidth]{fig-timepoint}
 \caption{Composici\'on de un timepoint, el cual es creado usando continuaciones y anal\'isis sintact\'ico.}
 \label{fig:timepoint}
 \end{center}
@@ -127,9 +127,9 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 \section{\deloreanjs}
 \label{sec:deloreanjs}
 
-Dado que nuestra propuesta trabaja con un enfoque diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona \deloreanjs. 
+Dado que \deloreanjs propone un enfoque diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona. 
 
-La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en la ejecuci\'on de una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta y a su vez cada timeline puede generar otras timelines debido a los timepoints insertados. Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). El program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
+La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta, por ejemplo, variables con valores distintos. A su vez, cada timeline puede generar otras timelines debido a los timepoints insertados. Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). El program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
   
 
 \subsection{Usando Continuaciones}
@@ -149,11 +149,13 @@ La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamad
 \end{center}
 \end{figure*}
 
-Esta secci\'on brevemente introduce continuaciones y explica c\'omo son usadas por \deloreanjs. Los lenguajes de programaci\'on funcionales como Scheme~\cite{scheme48}, los cuales se caracterizan por no tener variables {\em mutables}, proveen la abstracci\'on de una continuaci\'on. Esta abstraci\'on captura el estado actual (program counter y stack) de un programa funcional y lo guarda como un {\em valor de primera clase}, es decir, un valor que soporta operaciones como asignaci\'on e invocaci\'on (ej. funciones en \javascript). Cuando una continuaci\'on es creada y guardada, \'esta puede ser llamada y reemplazar\'a la actual ejecuci\'on por la guardada continuaci\'on. \unwinder~\cite{unwinder:2018} es una librer\'ia en \javascript soporta continuaci\'on a trav\'es de una funci\'on llamada \co{callCC}. Nosotros ejemplificamos continuaciones con \unwinder con pieza de c\'odigo que captura la ejecuci\'on de una funci\'on que suma dos n\'umeros~(pieza de c\'odigo~\ref{lst:rhino_1}):     
+Esta secci\'on brevemente introduce continuaciones y explica c\'omo son usadas por \deloreanjs. Los lenguajes de programaci\'on funcionales como Scheme~\cite{scheme48}, los cuales se caracterizan por no tener variables {\em mutables}, proveen una abstracci\'on llamada continuaci\'on. Esta abstraci\'on captura el estado actual (program counter y stack) de un programa funcional y lo guarda como un {\em valor de primera clase}, es decir, un valor que soporta operaciones como asignaci\'on e invocaci\'on (ej. funciones en \javascript). Cuando una continuaci\'on es creada y guardada, \'esta puede ser llamada para reemplazar\'a la actual ejecuci\'on por la que es guardada en la  continuaci\'on. \unwinder~\cite{unwinder:2018} es una librer\'ia en \javascript que soporta continuaciones a trav\'es de una funci\'on llamada \co{callCC}. Nosotros ejemplificamos continuaciones con \unwinder con una pieza de c\'odigo que captura la ejecuci\'on de una funci\'on que suma dos n\'umeros:     
 
 %\break
 
-\begin{lstlisting}[linewidth=\columnwidth,numbers=left,caption=Uso de continuaciones con la librer\'ia \unwinder., label=lst:rhino_1]
+%\begin{lstlisting}[linewidth=\columnwidth,numbers=left,caption=Uso de continuaciones con la librer\'ia \unwinder., label=lst:rhino_1]
+
+\begin{lstlisting}
 var kont;
 
 function sumar(x,y) {
@@ -166,7 +168,7 @@ mostrar(sumar(5,1));                           //muestra 6
 if (typeof(kont) == "function") kont(20);      //muestra 25
 \end{lstlisting}
 
-La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo~\ref{lst:rhino_1}. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{sumar}, y entonces el n\'umero \co{6} es mostrado. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de la l\'inea~6~(es decir, \co{return 1} $\rightarrow$ \co{return 20}).  Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}). Notar que el {\em if expression}~(l\'inea~6) y {\em if statement}~(l\'inea~10) son usadas para diferenciar cuando una continuaci\'on es creada y llamada. Una continuaci\'on es una funci\'on (l\'inea~9) es creada pero no llamada, en otro caso la continuaci\'on es enlazada al valor pasada como par\'ametro cuando es llamada (ej. el valor \co{20} en esta pieza de c\'odigo).         
+La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo anterior. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{mostrar}, y se muestra el n\'umero \co{6}. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de las lineas~4-6 sea \co{20} y no \co{1}. Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}). Notar que el {\em if expression}~(l\'inea~6) y {\em if statement}~(l\'inea~10) son usadas para diferenciar entra la creaci\'on de la continuaci\'on y su invocaci\'on. Una continuaci\'on es una funci\'on (l\'inea~9) cuando es creada, y cuando es invocada es enlazada al valor pasada como par\'ametro (ej. el valor \co{20} en esta pieza de c\'odigo).         
 
 %\here
 
@@ -215,7 +217,7 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo~\r
 \section{Trabajos Relacionados}
 \label{sec:rw}
 
-Dado que \javascript es un lenguaje muy ampliamente usado, existe un inter\'es constante en crear avances en t\'erminos de investigaci\'on~\cite{vazquesAl:ist2018,legerAl:scp2013,legerAl:scp2015,zhengAl:www2011,chargueraudAl:www2018} y desarrollo~\cite{resig:jquery,angular,mckenzie:babel,rxjs}. En estos avances, varios tipos de propuestas de debuggers son posible encontrar en la literatura. Algunos de ellos~\cite{bartonOdvarko:www2011,jsbin,nodejsInspector} ofrecen un amplio conjunto de caracter\'isticas como modificar los valores de variables mientras la aplicaci\'on se est\'a ejecutando (ej. FireBug~\cite{bartonOdvarko:www2011}). Aunque, en lo mejor de nuestro conocimiento, no es encontrar debuggers que sigan un enfoque similar a \deloreanjs, existen algunos que consideran la historia de ejecuci\'on de una aplicaci\'on Web:       
+Debido a que \javascript es un lenguaje muy ampliamente usado, existe un inter\'es constante en crear avances en t\'erminos de investigaci\'on~\cite{vazquesAl:ist2018,legerAl:scp2013,legerAl:scp2015,zhengAl:www2011,chargueraudAl:www2018} y desarrollo~\cite{resig:jquery,angular,mckenzie:babel,rxjs}. En estos avances, varios tipos de propuestas de debuggers son posible encontrar en la literatura. Algunos de ellos~\cite{bartonOdvarko:www2011,jsbin,nodejsInspector} ofrecen un amplio conjunto de caracter\'isticas como modificar los valores de variables mientras la aplicaci\'on se est\'a ejecutando (ej. FireBug~\cite{bartonOdvarko:www2011}). Aunque, en lo mejor de nuestro conocimiento, no es encontrar debuggers que sigan un enfoque similar a \deloreanjs, existen algunos que consideran la historia de ejecuci\'on de una aplicaci\'on Web:       
 
 \smallskip
 
