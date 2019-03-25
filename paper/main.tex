@@ -117,8 +117,8 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=.35\linewidth]{fig-timepoint}
-\caption{Composici\'on de un timepoint.}
+\includegraphics[width=.5\linewidth]{fig-timepoint}
+\caption{Composici\'on de un timepoint, el cual es creado usando continuaciones y anal\'isis sintact\'ico.}
 \label{fig:timepoint}
 \end{center}
 \end{figure}
@@ -139,7 +139,7 @@ La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamad
 
 \begin{figure*}[t]
 \begin{center}
-\includegraphics[width=.7\linewidth]{fig-kont}
+\includegraphics[width=.8\linewidth]{fig-kont}
 \caption{El diagrama de flujo de la pieza c\'odigo~\ref{lst:rhino_1}, el cual usa una continuaci\'on \co{kont}. La invocaci\'on de \co{kont} usa un \co{parametro} para reemplazar el retornado valor de la funci\'on an\'onima dentro de \co{sumar}.}  
 
 %\caption{The flowchart of Listing~\ref{lst:rhino_1}, which uses the continuation
@@ -168,7 +168,7 @@ if (typeof(kont) == "function") kont(20);      //muestra 25
 
 La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo~\ref{lst:rhino_1}. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{sumar}, y entonces el n\'umero \co{6} es mostrado. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de la l\'inea~6~(es decir, \co{return 1} $\rightarrow$ \co{return 20}).  Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}). Notar que el {\em if expression}~(l\'inea~6) y {\em if statement}~(l\'inea~10) son usadas para diferenciar cuando una continuaci\'on es creada y llamada. Una continuaci\'on es una funci\'on (l\'inea~9) es creada pero no llamada, en otro caso la continuaci\'on es enlazada al valor pasada como par\'ametro cuando es llamada (ej. el valor \co{20} en esta pieza de c\'odigo).         
 
-\here
+%\here
 
 %Figure~\ref{fig:kont} shows a flowchart of the piece of code above. In Line~5,
 %the piece of code captures and stores the continuation in \co{kont} before
