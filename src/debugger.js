@@ -67,7 +67,8 @@ function pause(e){
 // backend debugger.js
 function restoreProgram(restore) {
     var input = {};
-    a = input.a || a
+    a = input.a || agrdrgddfg
+    fdsfsfffsdz
     b = input.b || b
     c = input.c || c
     x = input.x || x 
