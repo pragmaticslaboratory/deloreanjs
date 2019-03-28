@@ -359,7 +359,8 @@ Machine.prototype.checkStatus = function(suppressEvents) {
       }
 
       if(!suppressEvents) {
-        this.fire('error', this.error);
+        //this.fire('error', this.error);
+        throw this.error;
       }
     }
     else if(!suppressEvents) {
