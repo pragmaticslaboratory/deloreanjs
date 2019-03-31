@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 // -*- mode: js -*-
 
-//Error.stackTraceLimit = 100;
+// Error.stackTraceLimit = 100;
 
-var options = require("commander")
-  .version(require("../package.json").version)
-  .usage("[options] <file>")
-  .option("-r, --include-runtime", "Prepend the runtime to the output.")
-  .option("-d, --include-debug", "Prepend debug info to the output.")
-  .parse(process.argv);
+// var options = require("commander")
+//   .version(require("../package.json").version)
+//   .usage("[options] <file>")
+//   .option("-r, --include-runtime", "Prepend the runtime to the output.")
+//   .option("-d, --include-debug", "Prepend debug info to the output.")
+//   .parse(process.argv);
 
-var file = options.args[0];
-if (typeof file !== "string") {
-  options.outputHelp();
-  process.exit(-1);
-}
+// var file = options.args[0];
+// if (typeof file !== "string") {
+//   options.outputHelp();
+//   process.exit(-1);
+// }
 
-process.stdout.write('\n__debug_sourceURL="' + file + '";' + require("../main")(
-  require("fs").readFileSync(file, "utf-8"),
-  options // note: `regenerator` will ignore any unknown options anyway
-).code);
+// process.stdout.write('\n__debug_sourceURL="' + file + '";' + require("../main")(
+//   require("fs").readFileSync(file, "utf-8"),
+//   options // note: `regenerator` will ignore any unknown options anyway
+// ).code);

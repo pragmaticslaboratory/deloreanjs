@@ -1,5 +1,5 @@
 var fs = require('fs');
-var compiler = require(__dirname + '/../main');
+var compiler = require('../main');
 
 var hasOwn = Object.prototype.hasOwnProperty;
 
