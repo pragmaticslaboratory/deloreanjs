@@ -41412,48 +41412,55 @@ module.exports = (filename) => {
     let { code } = require('../index')(filename, [dependeciesVisitor, initConfigVisitor, storeContinuationsVisitor]);
     let unwindedCode = require('../unwinder/bin/compile.js')(code);
 
+    const temporalTransofrm = (kont) => {
+        console.log('hola')
+        global.restore = kont;
+        heap.snapshots[restore].b = 8;
+
+        let visitors = [restoreContinuationVisitor, restoreHeapVisitor] 
+        let restoredCode = babel.transform(code, {
+            plugins: visitors
+        }).code;
+
+        let unwindedRestoredCode = require('../unwinder/bin/compile.js')(restoredCode);
+        try {
+            eval(unwindedRestoredCode);              
+        } catch(e) {
+            console.log(e, 'second catch');
+        }
+    }
+
+    const createButtons = () => {
+        const container = document.getElementById('container')
+        let index = 0;
+        heap.snapshots.map((kont) => {
+            container.insertAdjacentHTML('beforeend', `<button kont="${++index}" id="${index}">kont ${index}</button>`);
+        })
+    }
+
     try{
         eval(unwindedCode);
-
-        // TODO: pausa
+    } catch(e){
+        console.log(e, 'first error detected');
     }
-    catch(e){
-        do{
-            console.log(e, 'first error detected');
-            
-            /* TODO: eventos y inputs */
-            global.restore = 1;
-
-            /*const readline = require('readline').createInterface({
-                input: process.stdin,
-                output: process.stdout
-            })
-              
-            readline.question('Which state do you want to restore', (state) => {
-                restore = 'kont' + state;
-                readline.close()
-            })*/
-
-            /*change heap*/
-            heap.snapshots[restore].b = 8;
-
-            let visitors = [restoreContinuationVisitor, restoreHeapVisitor] 
-            let restoredCode = babel.transform(code, {
-                plugins: visitors
-            }).code;
-
-            let unwindedRestoredCode = require('../unwinder/bin/compile.js')(restoredCode);
-            
-            try {
-                // console.log(restoredCode);
-                eval(unwindedRestoredCode);              
-            } catch(e) {
-                console.log(e, 'second catch');
-            }
-
-        }while(false /*TODO: Condition: The extension is running*/);
-    }
+    createButtons();
+    const container = document.getElementById('container')
+    container.addEventListener('click', (item) => {
+        let kont = item.target.getAttribute('kont')
+        temporalTransofrm(kont);
+    })
 }
+
+/*const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+})
+
+readline.question('Which state do you want to restore', (state) => {
+    restore = 'kont' + state;
+    readline.close()
+})*/
+
 
 
 /*
@@ -54716,34 +54723,37 @@ parseStatement: true, parseSourceElement: true */
 
 },{"./package.json":544}],544:[function(require,module,exports){
 module.exports={
-  "_from": "estraverse@^2.0.0",
+  "_args": [
+    [
+      "estraverse@2.0.0",
+      "/Users/fruiz/Desktop/delorean/unwinder"
+    ]
+  ],
+  "_from": "estraverse@2.0.0",
   "_id": "estraverse@2.0.0",
   "_inBundle": false,
   "_integrity": "sha1-WuRpYyQ2ACBmdMyySgnhZnT83KE=",
   "_location": "/escope/estraverse",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "estraverse@^2.0.0",
+    "raw": "estraverse@2.0.0",
     "name": "estraverse",
     "escapedName": "estraverse",
-    "rawSpec": "^2.0.0",
+    "rawSpec": "2.0.0",
     "saveSpec": null,
-    "fetchSpec": "^2.0.0"
+    "fetchSpec": "2.0.0"
   },
   "_requiredBy": [
     "/escope"
   ],
   "_resolved": "https://registry.npmjs.org/estraverse/-/estraverse-2.0.0.tgz",
-  "_shasum": "5ae46963243600206674ccb24a09e16674fcdca1",
-  "_spec": "estraverse@^2.0.0",
-  "_where": "/Users/fruiz/Desktop/delorean/unwinder/node_modules/escope",
+  "_spec": "2.0.0",
+  "_where": "/Users/fruiz/Desktop/delorean/unwinder",
   "bugs": {
     "url": "https://github.com/estools/estraverse/issues"
   },
-  "bundleDependencies": false,
-  "deprecated": false,
   "description": "ECMAScript JS AST traversal functions",
   "devDependencies": {
     "chai": "^2.1.1",
