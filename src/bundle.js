@@ -9,7 +9,7 @@ module.exports = (originalCode, visitors, isString) => {
     data = originalCode;
   }
   else {
-    data = "b = 7\na = b;\ndelorean.snapshot();\nconsole.log('first continuation');\nc = 0\na = c;\ndelorean.snapshot();\nconsole.log('second continuation');\nif(b == 7) throw 'index error';\nconsole.log(\"b es = \", b)\nconsole.log('fixed');\n";
+    data = "console.log(\"Start Program\")\n\nb = 7\na = b;\n\ndelorean.snapshot();\nconsole.log('First continuation');\nc = 0\na = c;\n\ndelorean.snapshot();\nconsole.log('Second continuation');\n\nif(b == 7) {\n    throw continuations;\n}\n\nconsole.log('End Program');\n";
   }
 
   let src = data.toString();
@@ -41412,9 +41412,11 @@ module.exports = (filename) => {
     let { code } = require('../index')(filename, [dependeciesVisitor, initConfigVisitor, storeContinuationsVisitor]);
     let unwindedCode = require('../unwinder/bin/compile.js')(code);
 
+
+    // Esta funcion es tempral, debido a que cambiara la forma de restaurar el heap
     const temporalTransofrm = (kont) => {
-        console.log('hola')
-        global.restore = kont;
+        console.log('Function transform')
+        global.restore = kont-1;
         heap.snapshots[restore].b = 8;
 
         let visitors = [restoreContinuationVisitor, restoreHeapVisitor] 
@@ -41423,13 +41425,19 @@ module.exports = (filename) => {
         }).code;
 
         let unwindedRestoredCode = require('../unwinder/bin/compile.js')(restoredCode);
+
+        console.log("%c" + restoredCode, 'background: #222; color: #bada55')
+        
         try {
+            console.log('Start Eval UNWINDED RESORED CODE')
             eval(unwindedRestoredCode);              
+            console.log('Finish Eval UNWINDED RESORED CODE')
         } catch(e) {
-            console.log(e, 'second catch');
+            console.log(e, 'Error from VM');
         }
     }
 
+    // Crea un boton por cada timepoint creado por el usuario
     const createButtons = () => {
         const container = document.getElementById('container')
         let index = 0;
@@ -41438,15 +41446,21 @@ module.exports = (filename) => {
         })
     }
 
+    // Se evalua el codigo del usuario por primera vez
     try{
+        console.log('Start first Eval()')
         eval(unwindedCode);
+        console.log('Finish first Eval()')
     } catch(e){
-        console.log(e, 'first error detected');
+        console.log(continuations, 'Throw from VM');
+        createButtons();
     }
-    createButtons();
+    
+    // Eventos
     const container = document.getElementById('container')
     container.addEventListener('click', (item) => {
         let kont = item.target.getAttribute('kont')
+        // Se reanuda en la continuacion escogida
         temporalTransofrm(kont);
     })
 }
@@ -41648,8 +41662,7 @@ module.exports = {
                 t.callExpression(
                     t.memberExpression(
                         t.identifier('continuations'),
-                        t.binaryExpression("+", t.stringLiteral('kont'),t.identifier('restore')),
-                        true   
+                        t.identifier(`kont${restore}`)
                     ),
                     []
                 )
@@ -41738,7 +41751,7 @@ const t = require('babel-types');
 let snapshotCounter = 0;
 
 function rightType(key) {
-   switch(typeof heap.snapshots[restore][key]){
+    switch(typeof heap.snapshots[restore][key]){
         case 'number': return t.numericLiteral(heap.snapshots[restore][key]);
         case 'string': return t.stringLiteral(heap.snapshots[restore][key]);
         case 'boolean': return t.booleanLiteral(heap.snapshots[restore][key]);
@@ -41764,7 +41777,7 @@ function rightType(key) {
 
 module.exports = {
     MemberExpression(path) {
-        if(path.node.property && path.node.property.name  == 'kont' + restore){
+        if(path.node.property && path.node.property.name  == 'kont' + restore && path.container.type == "AssignmentExpression"){
             var continuationCall = path.findParent(path => path.isAssignmentExpression());  
             Object.keys(heap.snapshots[restore]).forEach((key) => {
                 if(heap.snapshots[restore][key]){

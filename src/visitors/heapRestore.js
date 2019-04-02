@@ -2,7 +2,7 @@ const t = require('babel-types');
 let snapshotCounter = 0;
 
 function rightType(key) {
-   switch(typeof heap.snapshots[restore][key]){
+    switch(typeof heap.snapshots[restore][key]){
         case 'number': return t.numericLiteral(heap.snapshots[restore][key]);
         case 'string': return t.stringLiteral(heap.snapshots[restore][key]);
         case 'boolean': return t.booleanLiteral(heap.snapshots[restore][key]);
@@ -28,7 +28,7 @@ function rightType(key) {
 
 module.exports = {
     MemberExpression(path) {
-        if(path.node.property && path.node.property.name  == 'kont' + restore){
+        if(path.node.property && path.node.property.name  == 'kont' + restore && path.container.type == "AssignmentExpression"){
             var continuationCall = path.findParent(path => path.isAssignmentExpression());  
             Object.keys(heap.snapshots[restore]).forEach((key) => {
                 if(heap.snapshots[restore][key]){

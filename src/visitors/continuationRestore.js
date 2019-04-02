@@ -10,8 +10,7 @@ module.exports = {
                 t.callExpression(
                     t.memberExpression(
                         t.identifier('continuations'),
-                        t.binaryExpression("+", t.stringLiteral('kont'),t.identifier('restore')),
-                        true   
+                        t.identifier(`kont${restore}`)
                     ),
                     []
                 )

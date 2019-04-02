@@ -8,8 +8,8 @@ module.exports = (filename) => {
 
     // Esta funcion es tempral, debido a que cambiara la forma de restaurar el heap
     const temporalTransofrm = (kont) => {
-        console.log('hola')
-        global.restore = kont;
+        console.log('Function transform')
+        global.restore = kont-1;
         heap.snapshots[restore].b = 8;
 
         let visitors = [restoreContinuationVisitor, restoreHeapVisitor] 
@@ -18,11 +18,18 @@ module.exports = (filename) => {
         }).code;
 
         let unwindedRestoredCode = require('../unwinder/bin/compile.js')(restoredCode);
-        try {
-            eval(unwindedRestoredCode);              
-        } catch(e) {
-            console.log(e, 'second catch');
-        }
+
+        console.log("%c" + restoredCode, 'background: #222; color: #bada55')
+        
+        (async() => {
+            try {
+                console.log('Start Eval UNWINDED RESTORED CODE')
+                await eval(unwindedRestoredCode);              
+                console.log('Finish Eval UNWINDED RESTORED CODE')
+            } catch(e) {
+                console.log(e, 'Error from VM');
+            }
+        })
     }
 
     // Crea un boton por cada timepoint creado por el usuario
@@ -36,13 +43,14 @@ module.exports = (filename) => {
 
     // Se evalua el codigo del usuario por primera vez
     try{
+        console.log('Start first Eval()')
         eval(unwindedCode);
+        console.log('Finish first Eval()')
     } catch(e){
-        console.log(e, 'first error detected');
+        console.log(continuations, 'Throw from VM');
+        createButtons();
     }
-
-    createButtons();
-
+    
     // Eventos
     const container = document.getElementById('container')
     container.addEventListener('click', (item) => {
