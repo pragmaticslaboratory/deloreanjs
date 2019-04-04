@@ -52,9 +52,9 @@ module.exports = filename => {
   };
 
   try {
-    console.log("Start first Eval()");
+    console.log(`%cStart first Eval()`,"background: #222; color: cyan");
     eval(unwindedCode);
-    console.log("Finish first Eval()");
+    console.log(`%cFinish first Eval()`,"background: #222; color: cyan");
   } catch (e) {
     console.log(e, "Error from VM");
   }

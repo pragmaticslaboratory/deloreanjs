@@ -17,7 +17,7 @@ module.exports = (originalCode, visitors, isString) => {
     data = originalCode;
   }
   else {
-    data = "console.log(\"Start Program\")\n\nb = 7\na = b;\n\ndelorean.snapshot();\nconsole.log('First continuation');\nc = 0\na = c;\n\ndelorean.snapshot();\nconsole.log('Second continuation');\n\nif(b == 7) {\n    throw (['Error from VM', continuations]);\n}\n\nconsole.log('End Program');\n";
+    data = "console.log(\"Start Program\")\nb = 7;\na = b;\n\ndelorean.snapshot();\nconsole.log('First continuation');\nc = 0;\na = c;\n\ndelorean.snapshot();\nconsole.log('Second continuation');\n\nif(b == 7) {\n    console.log(['Error from VM', continuations]);\n}\nconsole.log('End Program');\n";
   }
 
   let src = data.toString();
@@ -41412,59 +41412,69 @@ module.exports = {
     resumeContinuation
 }
 },{}],497:[function(require,module,exports){
-const { dependeciesVisitor, initConfigVisitor, storeContinuationsVisitor } = require('../src/staticAnalysis');
+const {
+  dependeciesVisitor,
+  initConfigVisitor,
+  storeContinuationsVisitor
+} = require("../src/staticAnalysis");
 
-module.exports = (filename) => {
-    let { code } = require('../index')(filename, [dependeciesVisitor, initConfigVisitor, storeContinuationsVisitor]);
-    let unwindedCode = require('../unwinder/bin/compile.js')(code);
+module.exports = filename => {
+  let { code } = require("../index")(filename, [
+    dependeciesVisitor,
+    initConfigVisitor,
+    storeContinuationsVisitor
+  ]);
+  let unwindedCode = require("../unwinder/bin/compile.js")(code);
 
-    function restoreProgram(restore) {
-        // var input = {};
-        // a = input.a || heap.snapshots[restore].a
-        b = 8
-        // c = input.c || heap.snapshots[restore].c
-        // x = input.x || heap.snapshots[restore].x
+  function restoreProgram(restore) {
+    // var input = {};
+    // a = input.a || heap.snapshots[restore].a
+    b = 8;
+    // c = input.c || heap.snapshots[restore].c
+    // x = input.x || heap.snapshots[restore].x
+  }
+
+  const invokeContinuation = kont => {
+    // TODO: Crear inputs para modificar los valores de las variables
+    restoreProgram(kont - 1);
+
+    try {
+      console.log(`%cStart Continuation ${kont}`,"background: #222; color: #bada55");
+      eval(`continuations.kont${kont - 1}();`);
+      console.log(`%cEnd Continuation ${kont}`,"background: #222; color: #bada55");
+    } catch (e) {
+      console.log(e, "Error from VM");
     }
+  };
 
-    const invokeContinuation = (kont) => {
-        restoreProgram(kont-1);
+  const createButtons = () => {
+    const container = document.getElementById("container");
+    let index = 0;
+    heap.snapshots.map(() => {
+      container.insertAdjacentHTML(
+        "beforeend",
+        `<div>
+            <button kont="${++index}" id="${index}">kont ${index}</button>
+        </div>`
+      );
+    });
 
-        try {            
-            console.log(`%cStart Continuation ${kont}`, 'background: #222; color: #bada55')
-            eval(`continuations.kont${kont-1}();`)
-            console.log(`%cEnd Continuation ${kont}`, 'background: #222; color: #bada55')
-        } catch(e) {
-            console.log(e, 'Error from VM');
-        }
-    }
+    container.addEventListener("click", item => {
+      let kont = item.target.getAttribute("kont");
+      invokeContinuation(kont);
+    });
+  };
 
-    const createButtons = () => {
-        const container = document.getElementById('container')
-        let index = 0;
-        heap.snapshots.map(() => {
-            container.insertAdjacentHTML(
-                'beforeend', 
-                `<div>
-                    <button kont="${++index}" id="${index}">kont ${index}</button>
-                </div>`
-            );
-        })
+  try {
+    console.log(`%cStart first Eval()`,"background: #222; color: cyan");
+    eval(unwindedCode);
+    console.log(`%cFinish first Eval()`,"background: #222; color: cyan");
+  } catch (e) {
+    console.log(e, "Error from VM");
+  }
+  createButtons();
+};
 
-        container.addEventListener('click', (item) => {
-            let kont = item.target.getAttribute('kont')
-            invokeContinuation(kont);
-        })
-    }
-
-    try{
-        console.log('Start first Eval()')
-        eval(unwindedCode);
-        console.log('Finish first Eval()')
-    } catch(e){
-        console.log(e, 'Error from VM');
-    }
-    createButtons();
-}
 },{"../index":2,"../src/staticAnalysis":500,"../unwinder/bin/compile.js":507}],498:[function(require,module,exports){
 const { heapSnapshot } = require('./heap');
 const { storeContinuation, resumeContinuation } = require('./continuations');
