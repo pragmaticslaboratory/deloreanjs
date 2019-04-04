@@ -66,6 +66,7 @@ Machine.prototype.loadString = function(str) {
 }
 
 Machine.prototype.execute = function(fn, thisPtr, args) {
+  // console.log('Execute(fn, thisPtr, args)', fn, thisPtr, args)
   var prevState = this.state;
   this.state = EXECUTING;
   this.running = true;
@@ -874,6 +875,7 @@ function ContinuationExc(error, initialFrame, savedFrames) {
 }
 
 ContinuationExc.prototype.pushFrame = function(frame) {
+  // console.log('pushFrame(frame)', frame)
   this.fnstack.push(frame);
 };
 

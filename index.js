@@ -8,7 +8,7 @@ module.exports = (originalCode, visitors, isString) => {
     data = originalCode;
   }
   else {
-    data = fs.readFileSync(__dirname + `/test/t3.1_indexTest.spec.js`, 'utf8');
+    data = fs.readFileSync(__dirname + `/example/input.js`, 'utf8');
   }
 
   let src = data.toString();

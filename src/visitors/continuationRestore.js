@@ -2,7 +2,7 @@ const t = require('babel-types')
 
 module.exports = {
     
-    /*continuations['kont'+restore]()*/
+    /* continuations.kont${restore}(); */
 
     Program(path) {
         path.node.body.unshift(
