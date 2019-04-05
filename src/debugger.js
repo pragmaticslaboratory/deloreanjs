@@ -10,12 +10,14 @@ module.exports = filename => {
     initConfigVisitor,
     storeContinuationsVisitor
   ]);
+
   let unwindedCode = require("../unwinder/bin/compile.js")(code);
+
 
   function restoreProgram(restore) {
     // var input = {};
     // a = input.a || heap.snapshots[restore].a
-    b = 8;
+    // b = 8;
     // c = input.c || heap.snapshots[restore].c
     // x = input.x || heap.snapshots[restore].x
   }
@@ -34,16 +36,26 @@ module.exports = filename => {
   };
 
   const createButtons = () => {
-    const container = document.getElementById("container");
+    const container = document.getElementById("container-buttons");
     let index = 0;
     heap.snapshots.map(() => {
       container.insertAdjacentHTML(
-        "beforeend",
+        'beforeend',
         `<div>
             <button kont="${++index}" id="${index}">kont ${index}</button>
         </div>`
       );
     });
+
+    const inputs = document.getElementById("container-inputs")
+    heap.dependencies.map((item) => {
+      inputs.insertAdjacentHTML(
+        'beforeend',
+        `<div>
+            ${item} = <input type="text" name="${item}" />
+        </div>`
+      )
+    })
 
     container.addEventListener("click", item => {
       let kont = item.target.getAttribute("kont");
