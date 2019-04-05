@@ -17,7 +17,7 @@ module.exports = (originalCode, visitors, isString) => {
     data = originalCode;
   }
   else {
-    data = "console.log(\"Start Program\")\nb = 7;\na = b;\n\ndelorean.snapshot();\nconsole.log('First continuation');\nc = 0;\na = c;\n\ndelorean.snapshot();\nconsole.log('Second continuation');\n\nif(b == 7) {\n    throw ['b == 7', continuations];\n}\nconsole.log('End Program');\n";
+    data = "console.log(\"Start Program\")\nb = 7;\na = b;\n\ndelorean.snapshot();\nconsole.log('First continuation', b);\nc = 0;\na = c;\n\ndelorean.snapshot();\nconsole.log('Second continuation', b);\n\nif(b == 7) {\n    throw [\"throw activate in VM\", continuations];\n}\nconsole.log('End Program');\n";
   }
 
   let src = data.toString();
@@ -41424,43 +41424,47 @@ module.exports = filename => {
     initConfigVisitor,
     storeContinuationsVisitor
   ]);
- 
-  splitCode = code.split('delorean.snapshot();');
-  if(splitCode.length != 1){
-    code = splitCode[0] + '\ndelorean.snapshot();\n';
-    for(let i = 1; i < splitCode.length; i++){
-      code += splitCode[i] + '\n} \ncatch(e) {\nconsole.log(e)\n}';
-      if(i != splitCode.length - 1) code += '\ndelorean.snapshot();\n';
+
+  splitCode = code.split("delorean.snapshot();");
+  if (splitCode.length != 1) {
+    code = splitCode[0] + "\ndelorean.snapshot();\n";
+    for (let i = 1; i < splitCode.length; i++) {
+      code += splitCode[i] + "\n} \ncatch(e) {\nconsole.log(e)\n}";
+      if (i != splitCode.length - 1) code += "\ndelorean.snapshot();\n";
     }
 
-    splitCode = code.split(';');
-    code = '';
-    for(let i = 0; i < splitCode.length; i++){
+    splitCode = code.split(";");
+    code = "";
+    for (let i = 0; i < splitCode.length; i++) {
       code += splitCode[i];
-      if(i != splitCode.length - 1) code += ';';
-      if (splitCode[i].includes('continuations.kont')) code += '\ntry {\n';
+      if (i != splitCode.length - 1) code += ";";
+      if (splitCode[i].includes("continuations.kont")) code += "\ntry {\n";
     }
   }
 
   let unwindedCode = require("../unwinder/bin/compile.js")(code);
-  
+
   function restoreProgram(restore) {
-    // var input = {};
-    // a = input.a || heap.snapshots[restore].a
-    // b = 8;
-    // c = input.c || heap.snapshots[restore].c
-    // x = input.x || heap.snapshots[restore].x
+    console.log(heap.snapshots[restore])
+    // a = document.getElementById("a").value || heap.snapshots[restore].a || 0
+    b = document.getElementById("input-b").value || heap.snapshots[restore].b || 0
+    // c = document.getElementById("c").value || heap.snapshots[restore].a || 0
+    // x = document.getElementById("x").value || heap.snapshots[restore].a || 0
+    // console.log([input, [a,b,c,x]])
   }
 
   const invokeContinuation = kont => {
     // TODO: Crear inputs para modificar los valores de las variables
     restoreProgram(kont - 1);
-
-  try {
+    try {
       console.log(`%cStart Continuation ${kont}`,"background: #222; color: #bada55");
-      eval(`let kontAux = continuations.kont${kont - 1}; continuations.kont${kont - 1}(); continuations.kont${kont - 1} = kontAux`);
+      eval(
+        `let kontAux = continuations.kont${kont - 1}; 
+        continuations.kont${kont -1}(); 
+        continuations.kont${kont - 1} = kontAux`
+      );
       console.log(`%cEnd Continuation ${kont}`,"background: #222; color: #bada55");
-  } catch (e) {
+    } catch (e) {
       console.log(e, "Error from VM");
     }
   };
@@ -41470,22 +41474,20 @@ module.exports = filename => {
     let index = 0;
     heap.snapshots.map(() => {
       container.insertAdjacentHTML(
-        'beforeend',
+        "beforeend",
         `<div>
             <button kont="${++index}" id="${index}">kont ${index}</button>
         </div>`
       );
     });
 
-    const inputs = document.getElementById("container-inputs")
-    heap.dependencies.map((item) => {
+    const inputs = document.getElementById("container-inputs");
+    heap.dependencies.map(item => {
       inputs.insertAdjacentHTML(
-        'beforeend',
-        `<div>
-            ${item} = <input type="text" name="${item}" />
-        </div>`
-      )
-    })
+        "beforeend",
+        `${item} = <input type="text" id="input-${item}" name="${item}" />`
+      );
+    });
 
     container.addEventListener("click", item => {
       let kont = item.target.getAttribute("kont");
@@ -41494,9 +41496,9 @@ module.exports = filename => {
   };
 
   try {
-    console.log(`%cStart first Eval()`,"background: #222; color: cyan");
+    console.log(`%cStart first Eval()`, "background: #222; color: cyan");
     eval(unwindedCode);
-    console.log(`%cFinish first Eval()`,"background: #222; color: cyan");
+    console.log(`%cFinish first Eval()`, "background: #222; color: cyan");
   } catch (e) {
     console.log(e, "Error from VM");
   }
