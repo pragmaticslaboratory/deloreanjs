@@ -11,6 +11,7 @@ delorean.snapshot();
 console.log('Second continuation');
 
 if(b == 7) {
-    console.log(['Error from VM', continuations]);
+    throw ['b == 7', continuations];
+    //console.log(['Error from VM', continuations]);
 }
 console.log('End Program');

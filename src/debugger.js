@@ -10,8 +10,26 @@ module.exports = filename => {
     initConfigVisitor,
     storeContinuationsVisitor
   ]);
-  let unwindedCode = require("../unwinder/bin/compile.js")(code);
+ 
+  splitCode = code.split('delorean.snapshot();');
+  if(splitCode.length != 1){
+    code = splitCode[0] + '\ndelorean.snapshot();\n';
+    for(let i = 1; i < splitCode.length; i++){
+      code += splitCode[i] + '\n} \ncatch(e) {\nconsole.log(e)\n}';
+      if(i != splitCode.length - 1) code += '\ndelorean.snapshot();\n';
+    }
 
+    splitCode = code.split(';');
+    code = '';
+    for(let i = 0; i < splitCode.length; i++){
+      code += splitCode[i];
+      if(i != splitCode.length - 1) code += ';';
+      if (splitCode[i].includes('continuations.kont')) code += '\ntry {\n';
+    }
+  }
+
+  let unwindedCode = require("../unwinder/bin/compile.js")(code);
+  
   function restoreProgram(restore) {
     // var input = {};
     // a = input.a || heap.snapshots[restore].a
@@ -24,11 +42,11 @@ module.exports = filename => {
     // TODO: Crear inputs para modificar los valores de las variables
     restoreProgram(kont - 1);
 
-    try {
+  try {
       console.log(`%cStart Continuation ${kont}`,"background: #222; color: #bada55");
       eval(`continuations.kont${kont - 1}();`);
       console.log(`%cEnd Continuation ${kont}`,"background: #222; color: #bada55");
-    } catch (e) {
+  } catch (e) {
       console.log(e, "Error from VM");
     }
   };
