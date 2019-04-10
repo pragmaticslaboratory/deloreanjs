@@ -116,7 +116,7 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=.55\linewidth]{fig-timepoint}
-\caption{Composici\'on de un timepoint, el cual es creado usando continuaciones y anal\'isis sintact\'ico.}
+\caption{Composici\'on de un timepoint, el cual es creado usando continuaciones y anal\'isis est\'atico del c\'odigo.}
 \label{fig:timepoint}
 \end{center}
 \end{figure}
@@ -125,21 +125,23 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 \section{\deloreanjs}
 \label{sec:deloreanjs}
 
-Dado que \deloreanjs propone un enfoque diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona. 
+Dado que \deloreanjs propone un novedoso enfoque con respecto a los existentes debuggers, esta secci\'on describe c\'omo funciona. 
 
 \smallskip
 
-La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on cuando una excepci\'on es gatillada o la aplicaci\'on termina su ejecuci\'on, y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta, por ejemplo, variables con valores distintos. A su vez, cada timeline puede generar otras timelines debido a los timepoints insertados. 
+La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on en el momento que una excepci\'on es gatillada, y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta, por ejemplo, las variables \co{x} e \co{y} de la figura contienen distintos valores. A su vez, cada timeline puede generar otras timelines debido al uso de los timepoints insertados. 
 
 \subsection{Construyendo Timepoints}
 \label{sec:ctime}
 
 
-Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). En \deloreanjs, el program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
+%Como se puede apreciar en la figura~\ref{fig:timepoint}
+
+Para permitir volver en el tiempo en una ejecuci\'on en \deloreanjs, la abstracci\'on de un timepoint es crucial (Figura~\ref{fig:timeline}). Esto es porque un timepoint captura y almacena el estado de la ejecuci\'on de una aplicaci\'on Web en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). En la figura~\ref{fig:timepoint} se puede apreciar que el program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.        
   
  \bigskip
 
-\subsubsection{Usando Continuaciones}
+\subsubsection{Capturando Program Counter y Stack}
 \label{sec:continuaciones}
 
 \begin{figure*}[t]
@@ -154,13 +156,15 @@ Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un 
 \end{center}
 \end{figure*}
 
-Esta secci\'on brevemente introduce continuaciones y explica c\'omo son usadas por \deloreanjs. Los lenguajes de programaci\'on funcionales como Scheme~\cite{scheme48}, los cuales se caracterizan por no tener variables {\em mutables}, proveen una abstracci\'on llamada continuaci\'on. Esta abstraci\'on captura el estado actual, stack y program counter (Figura~\ref{fig:timepoint}), de un programa funcional y lo guarda como un {\em valor de primera clase}, es decir, un valor que soporta operaciones como asignaci\'on e invocaci\'on (ej. funciones en \javascript). Cuando una continuaci\'on es creada y guardada, \'esta puede ser llamada para reemplazar\'a la actual ejecuci\'on por la que es guardada en la  continuaci\'on. \unwinder~\cite{unwinder:2018} es una librer\'ia en \javascript que soporta continuaciones a trav\'es de una funci\'on llamada \co{callCC}. Nosotros ejemplificamos continuaciones con \unwinder con una pieza de c\'odigo que captura la ejecuci\'on de una funci\'on que suma dos n\'umeros:     
+%Esta secci\'on brevemente introduce continuaciones y explica c\'omo son usadas por \deloreanjs. 
+
+Para entender c\'omo estos dos elementos son capturados y almacenados, es necesario entender continuaciones. Los lenguajes de programaci\'on funcionales como Scheme~\cite{scheme48}, los cuales se caracterizan por no tener variables {\em mutables}, proveen una abstracci\'on llamada continuaci\'on. Esta abstraci\'on captura el program counter y stack de un programa funcional, y lo guarda como un {\em valor de primera clase}, es decir, un valor que soporta operaciones de asignaci\'on e invocaci\'on (ej. funciones en \javascript). Cuando una continuaci\'on es creada y guardada, \'esta puede ser invocada para reemplazar la actual ejecuci\'on del programa por la que est\'a guardada en la continuaci\'on. \unwinder~\cite{unwinder:2018} es una librer\'ia en \javascript que soporta continuaciones a trav\'es de una funci\'on llamada \co{callCC}. Nosotros ejemplificamos continuaciones con \unwinder usando una pieza de c\'odigo que captura la ejecuci\'on de una funci\'on que suma dos n\'umeros:     
 
 %\break
 
 %\begin{lstlisting}[linewidth=\columnwidth,numbers=left,caption=Uso de continuaciones con la librer\'ia \unwinder., label=lst:rhino_1]
 
-\begin{lstlisting}
+\begin{lstlisting}[linewidth=\columnwidth,numbers=left]
 var kont;
 
 function sumar(x,y) {
@@ -173,7 +177,7 @@ mostrar(sumar(5,1));                           //muestra 6
 if (typeof(kont) == "function") kont(20);      //muestra 25
 \end{lstlisting}
 
-La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo anterior. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{mostrar}, y se muestra el n\'umero \co{6}. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de las lineas~4-6 sea \co{20} y no \co{1}. Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}). Notar que el {\em if expression}~(l\'inea~6) y {\em if statement}~(l\'inea~10) son usadas para diferenciar entra la creaci\'on de la continuaci\'on y su invocaci\'on. Una continuaci\'on es una funci\'on (l\'inea~9) cuando es creada, y cuando es invocada es enlazada al valor pasada como par\'ametro (ej. el valor \co{20} en esta pieza de c\'odigo).         
+La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo anterior. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{mostrar}, y se muestra el n\'umero \co{6}. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de las lineas~4-6 sea \co{20} y no \co{1}. Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}). Notar que el {\em if expression}~(l\'inea~6) y {\em if statement}~(l\'inea~10) son usadas para diferenciar entre la creaci\'on de una continuaci\'on y su invocaci\'on. Una continuaci\'on es una funci\'on (l\'inea~9) cuando es creada, y cuando es invocada es enlazada al valor pasado como par\'ametro (ej. el valor \co{20} en esta pieza de c\'odigo).         
 
 %\here
 
@@ -221,7 +225,7 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 \end{center}
 \end{figure}
 
-Un timepoint necesita guardar las variables que se encuentran en el heap y la abstracci\'on de continuaci\'on no lo realiza. Para lograrlo, \deloreanjs realiza un an\'alisis est\'atico antes de ejecutar el programa para marcar las variables del heap marcadas por el programador y quienes depende de ellas. A continuaci\'on, explicamos este proceso en m\'as detalle.  
+Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero una continuaci\'on no lo captura. Para lograrlo, \deloreanjs realiza un an\'alisis est\'atico antes de ejecutar el programa para registrar las variables del heap marcadas por el programador y quienes depende de ellas. A continuaci\'on, explicamos este proceso en m\'as detalle.  
 
 
 Para capturar y guardar las variables marcadas por el desarrollador, se 
