@@ -80,9 +80,7 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \smallskip
 
-{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y una prueba de concepto se puede obtener, como extensi\'on de Google Chrome, en {\tt \url{http://xxx.com}}. 
-
-
+{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y los ejemplos presentados aqu\'i se pueden probar online sin la necesidad de una ninguna extensi\'on en {\tt \url{http://pleger.cl/delorean/playground/}}.
 
 \section{Un Tour por \deloreanjs}
 \label{sec:tour}
@@ -129,10 +127,19 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 Dado que \deloreanjs propone un enfoque diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona. 
 
-La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on cuando una excepci\'on es gatillada o la aplicaci\'on termina su ejecuci\'on, y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta, por ejemplo, variables con valores distintos. A su vez, cada timeline puede generar otras timelines debido a los timepoints insertados. Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). En \deloreanjs, el program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
-  
+\smallskip
 
-\subsection{Usando Continuaciones}
+La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on cuando una excepci\'on es gatillada o la aplicaci\'on termina su ejecuci\'on, y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta, por ejemplo, variables con valores distintos. A su vez, cada timeline puede generar otras timelines debido a los timepoints insertados. 
+
+\subsection{Construyendo Timepoints}
+\label{sec:ctime}
+
+
+Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). En \deloreanjs, el program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
+  
+ \bigskip
+
+\subsubsection{Usando Continuaciones}
 \label{sec:continuaciones}
 
 \begin{figure*}[t]
@@ -201,13 +208,15 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 %after an asynchronous operation invocation, and the second one resumes the
 %handler execution when the asynchronous operation response is available.
 
-\subsection{Capturando el Heap}
+\bigskip
+
+\subsubsection{Capturando el Heap}
 \label{sec:heap}
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=.9\linewidth]{fig-heap}
-\caption{Composici\'on de un timepoint, el cual es creado usando continuaciones y anal\'isis sintact\'ico.}
+\includegraphics[width=1\linewidth]{fig-heap}
+\caption{Proceso para guardar las variables marcadas por el programdor y quienes dependen de ellas.}
 \label{fig:heap}
 \end{center}
 \end{figure}
@@ -225,7 +234,8 @@ Para capturar y guardar las variables marcadas por el desarrollador, se
 
 %\pl{Explicar su forma de capturar estados}
 
-\subsection{Interactuando con el desarrollador}
+\subsection{Usando Timepoints}
+\label{sec:utime}
 
 \pl{Explicar la aplicaci\'on cuando se interactua con el desarrollador y extensi\'on en Google Chrome}
 
