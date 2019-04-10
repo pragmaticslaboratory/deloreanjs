@@ -56,7 +56,7 @@ Para construir aplicaciones Web, uno de los lenguajes m\'as usados es \javascrip
 
 Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso de desarrollo de software, y las aplicaciones Web no son la excepci\'on. Para aliviar el proceso de tratamiento de bugs, un conjunto de debuggers han sido propuestos, desde el que incluye un navegador en su distribuci\'on (\eg Mozilla Firefox developer tools) hasta  debuggers omniscientes que pueden recorrer a trav\'es de la traza de ejecuci\'on de una aplicaci\'on para encontrar las causas de un bug~\cite{azar:2016,barrAl:fse2016}. Considerando estos \'ultimos debuggers, ellos son {\em post-morter}, y es decir, solo permiten mostrar la ocurrencia de un bug sin entregar la posibilidad de retroceder {\em en el tiempo} las veces necesarias para que un programador pueda repararlo mientras la aplicaci\'on se ejecuta o manipular los valores de las variables alrededor del bug para mejorar la comprensi\'on de su causa.       
 
-Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador de una aplicaci\'on Web escrita en \javascript fijar {\em timepoints} (en cambio de {\em breakpoints}) para entregar la posibilidad retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Este novedoso enfoque de \deloreanjs permite:    
+Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador de una aplicaci\'on Web escrita en \javascript expresar al insercci\'on de {\em timepoints} (en cambio de {\em breakpoints}) para entregar la posibilidad retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Este novedoso enfoque de \deloreanjs permite:    
 
 \begin{enumerate}
 	
@@ -129,7 +129,7 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 Dado que \deloreanjs propone un enfoque diferente a los existentes debuggers, esta secci\'on describe c\'omo funciona. 
 
-La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta, por ejemplo, variables con valores distintos. A su vez, cada timeline puede generar otras timelines debido a los timepoints insertados. Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). El program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
+La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamadas {\em timelines}, que pueden ser producidas por los timepoints en una aplicaci\'on Web. Cuando un programador inserta un timepoint, se puede volver a ese timepoint durante la ejecuci\'on cuando una excepci\'on es gatillada o la aplicaci\'on termina su ejecuci\'on, y as\'i crear una nueva timeline. Cada timeline representa una traza de ejecuci\'on distinta, por ejemplo, variables con valores distintos. A su vez, cada timeline puede generar otras timelines debido a los timepoints insertados. Como se puede apreciar en la figura~\ref{fig:timepoint}, la abstracci\'on de un timepoint es crucial porque captura y almacena la ejecuci\'on en t\'erminos del {\em program counter} (contador de programa), {\em stack} (pila), y {\em heap} (datos). El program counter y stack es capturado usando continuaciones~\cite{fw84} y el heap es capturado a trav\'es de un an\'alisis est\'atico usando Babel~\cite{mckenzie:babel}.       
   
 
 \subsection{Usando Continuaciones}
@@ -140,7 +140,7 @@ La figura~\ref{fig:timeline} muestra las multiples trazas de ejecuci\'on, llamad
 \begin{figure*}[t]
 \begin{center}
 \includegraphics[width=.8\linewidth]{fig-kont}
-\caption{El diagrama de flujo de la pieza c\'odigo ejemplifica continuaciones usando una continuaci\'on \co{kont}. La invocaci\'on de \co{kont} usa un \co{parametro} para reemplazar el retornado valor de la funci\'on an\'onima dentro de \co{sumar}.}  
+\caption{El diagrama de flujo de la pieza c\'odigo ejemplifica continuaciones usando una continuaci\'on \co{kont}. La invocaci\'on de \co{kont} usa un \co{parametro} para reemplazar el retornado valor de la funci\'on an\'onima dentro de \co{sumar} (Figura elaborada desde~\cite{legerFukuda:sac-se2017}).}  
 
 %\caption{The flowchart of Listing~\ref{lst:rhino_1}, which uses the continuation
  % \co{kont}. The invocation of \co{kont} uses a \co{parameter} to replace the
