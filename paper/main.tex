@@ -219,16 +219,13 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=1\linewidth]{fig-heap}
-\caption{Proceso para guardar las variables marcadas por el programdor y quienes dependen de ellas.}
-\label{fig:heap}
+\includegraphics[width=.8\linewidth]{fig-heap1}
+\caption{Las tres etapas para capturar las variables observadas (ej. \co{x} y \co{z}) y las variables que pueden modificar a ellas (ej. \co{a} porque modifica \co{z}).}
+\label{fig:heap1}
 \end{center}
 \end{figure}
 
-Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero una continuaci\'on no lo captura. Para lograrlo, \deloreanjs realiza un an\'alisis est\'atico antes de ejecutar el programa para registrar las variables del heap marcadas por el programador y quienes depende de ellas. A continuaci\'on, explicamos este proceso en m\'as detalle.  
-
-
-Para capturar y guardar las variables marcadas por el desarrollador, se 
+Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero lamentablemente una continuaci\'on no lo realiza. Para lograrlo, antes de ejecutar una aplicaci\'on Web, \deloreanjs realiza un an\'alisis est\'atico para capturar las variables del heap con sus valores que han sido {\em observadas} por el programador que usa nuestra propuesta. La figura~\ref{fig:heap1} ejemplifica las tres etapas que debe realizar el an\'alisis est\'atico para capturar las variables. En la etapa 1, se definen las variables del heap que deben ser observadas (\co{x} y \co{z}). Luego en la etapa 2, se captura y almacena los valores de las variables previamente definidas. Finalmente en la etapa 3, se puede apreciar que las variables que modifican a las variables observadas tambi\'en son capturadas y almacenadas (\co{a}). Esta \'ultima etapa es necesaria porque se debe asegurar que las variables observadas deben potencialmente comportarse igual (es decir, con los mismos valores) cuando una ejecuci\'on comienza desde un timepoint; en el ejemplo de la figura, si \co{a} no es capturado, entonces \co{z} tendr\'ia un distinto valor cuando una ejecuci\'on vuelva a comenzar desde el timepoint.          
 
 
 \here
