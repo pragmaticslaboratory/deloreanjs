@@ -181,39 +181,6 @@ if (typeof(kont) == "function") kont(20);      //muestra 25
 
 La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo anterior. En la l\'inea~5, una continuaci\'on \co{kont} es creada antes de sumar la variable \co{y}. Esta captura toma lugar en la l\'inea~9 cuando la funci\'on \co{sumar} es llamada. El resultado de \co{sumar} es pasado a \co{mostrar}, y se muestra el n\'umero \co{6}. La l\'inea~10 invoca la continuaci\'on asociada a \co{kont} con el par\'ametro \co{20}, produciendo que el valor retornado de la funci\'on an\'onima de las lineas~4-6 sea \co{20} y no \co{1}. Como resultado, se muestra \co{25} (\co{25 = (x = 5) + (y = 20)}). Notar que el {\em if expression}~(l\'inea~6) y {\em if statement}~(l\'inea~10) son usadas para diferenciar entre la creaci\'on de una continuaci\'on y su invocaci\'on. Una continuaci\'on es una funci\'on (l\'inea~9) cuando es creada, y cuando es invocada es enlazada al valor pasado como par\'ametro (ej. el valor \co{20} en esta pieza de c\'odigo).         
 
-%\here
-
-%Figure~\ref{fig:kont} shows a flowchart of the piece of code above. In Line~5,
-%the piece of code captures and stores the continuation in \co{kont} before
-%adding \co{y}. This capture takes place in Line~9 when \co{add} is called.  The
-%result of \co{add} is passed to \co{show}, and then the number \co{6} is
-%displayed.  Line~10 executes the continuation bound to \co{kont} with \co{20} as
-%parameter, which replaces the return of the anonymous function of Line~6 (\ie
-%\co{return 1} $\rightarrow$ \co{return 20}). As a result, \co{25} is displayed
-%(\co{25 = (x = 5) + (y = 20)}). Note that the {\em if expression} (Line~6) and
-%{\em if statement} (Line~10) are used to differentiate when a continuation is
-%created from being called. A continuation is a function (Line~9) if this
-%continuation has been created but not called, otherwise the continuation is
-%bound to the value passed by parameter when it is called (\ie~20 in this piece
-%of code).
-
-%If developers need to stop a handler execution, a continuation in the end of the
-%top-level script should be created. For example, Listing~\ref{lst:rhino_2}:
-%
-%\begin{lstlisting}[caption=Stopping a \javascript script with continuations., label=lst:rhino_2]
-%function showMessageHandler() {
-%  show("This message will be shown");
-%  stop();
-%  show("This message will never be shown");
-%}
-%
-%var stop = callCC(cont => cont);
-%\end{lstlisting}
-%
-%\synccc uses two continuations: the first one stops a handler execution just
-%after an asynchronous operation invocation, and the second one resumes the
-%handler execution when the asynchronous operation response is available.
-
 \bigskip
 
 \subsubsection{Capturando el Heap}
@@ -231,22 +198,14 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=.8\linewidth]{fig-heap2}
-\caption{.}
+\caption{Proceso del an\'alisis est\'atico para registrar cada cambio que pudiesen recibir las variables observadas.}
 \label{fig:heap2}
 \end{center}
 \end{figure}
 
 Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero lamentablemente una continuaci\'on no lo realiza. Para lograrlo, antes de ejecutar una aplicaci\'on Web, \deloreanjs realiza un an\'alisis est\'atico para capturar las variables del heap con sus valores que han sido {\em observadas} por el programador que usa nuestra propuesta. La figura~\ref{fig:heap1} ejemplifica las tres etapas que debe realizar el an\'alisis est\'atico para capturar las variables. En la etapa 1, se definen las variables del heap que deben ser observadas (\co{x} y \co{z}). Luego en la etapa 2, se captura y almacena los valores de las variables previamente definidas. Finalmente en la etapa 3, se puede apreciar que las variables que modifican a las variables observadas tambi\'en son capturadas y almacenadas (\co{a}). Esta \'ultima etapa es necesaria porque se debe asegurar que las variables observadas deben potencialmente comportarse igual (es decir, con los mismos valores) cuando una ejecuci\'on comienza desde un timepoint; en el ejemplo de la figura, si \co{a} no es capturado, entonces \co{z} tendr\'ia un distinto valor cuando una ejecuci\'on vuelva a comenzar desde el timepoint.          
 
-Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Visitor pattern}~\cite{GoF94} para realizar el an\'alisis est\'atico como se muestra en la figura~\ref{fig:heap2} usando la librer\'ia Babel~\cite{mckenzie:babel}. Con esta librer\'ia, nuestra propuesta examina cada sentencia del c\'odigo fuente de la aplicaci\'on para permite al programador acc    
-
-
-\here
-
-%Cada visitor busca expresiones de asignación y de declaración, respectivamente, a alguna de las variables a observar definidas por el usuario. Al encontrar una, añade todas las variables al lado derecho de la expresión al objeto dependencias.
-%Cuando la ejecución llega a un timepoint, delorean obtiene los valores de cada variable a observar y de cada dependencia en ese instante y los guarda junto al nombre de la variable correspondiente. Cada timepoint genera y almacena un objeto con estos valores en ese momento.
-
-%\pl{Explicar su forma de capturar estados}
+Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Visitor pattern}~\cite{GoF94} para realizar el an\'alisis est\'atico como se muestra en la figura~\ref{fig:heap2} usando la librer\'ia Babel~\cite{mckenzie:babel}. Con esta librer\'ia, nuestra propuesta examina cada sentencia del c\'odigo fuente de la aplicaci\'on Web para agregar en objeto en \javascript las modificaciones de las variables observadas y otras variables que las modifican.
 
 \subsection{Usando Timepoints}
 \label{sec:utime}
