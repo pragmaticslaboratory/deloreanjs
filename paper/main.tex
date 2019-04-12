@@ -56,7 +56,7 @@ Para construir aplicaciones Web, uno de los lenguajes m\'as usados es \javascrip
 
 Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso de desarrollo de software, y las aplicaciones Web no son la excepci\'on. Para aliviar el proceso de tratamiento de bugs, un conjunto de debuggers han sido propuestos, desde el que incluye un navegador en su distribuci\'on (\eg Mozilla Firefox developer tools) hasta  debuggers omniscientes que pueden recorrer a trav\'es de la traza de ejecuci\'on de una aplicaci\'on para encontrar las causas de un bug~\cite{azar:2016,barrAl:fse2016}. Considerando estos \'ultimos debuggers, ellos son {\em post-morter}, y es decir, solo permiten mostrar la ocurrencia de un bug sin entregar la posibilidad de retroceder {\em en el tiempo} las veces necesarias para que un programador pueda repararlo mientras la aplicaci\'on se ejecuta o manipular los valores de las variables alrededor del bug para mejorar la comprensi\'on de su causa.       
 
-Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador de una aplicaci\'on Web escrita en \javascript expresar al insercci\'on de {\em timepoints} (en cambio de {\em breakpoints}) para entregar la posibilidad retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Este novedoso enfoque de \deloreanjs permite:    
+Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador de una aplicaci\'on Web escrita en \javascript expresar al insercci\'on de {\em timepoints} (en cambio de {\em breakpoints}) para entregar la posibilidad retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Este novedoso enfoque de \deloreanjs permite tres caracter\'isticas:    
 
 \begin{enumerate}
 	
@@ -80,12 +80,14 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \smallskip
 
-{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y los ejemplos presentados aqu\'i se pueden probar online sin la necesidad de una ninguna extensi\'on en {\tt \url{http://pleger.cl/delorean/playground/}}.
+{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}}. Adem\'as, los ejemplos presentados aqu\'i se pueden probar online sin la necesidad de una ninguna extensi\'on en el sitio Web de nuestra propuesta {\tt \url{http://pleger.cl/delorean}}~\cite{deloreanjs}.
 
 \section{Un Tour por \deloreanjs}
 \label{sec:tour}
 
-\pl{Cada ejemplo debe tener el nombre de lo que hace}
+Nosotros presentamos \deloreanjs a trav\'es de tres ejemplos concretos. Cada ejemplo aborda una de las tres caracter\'isticas de nuestra propuesta y pueden ser probados online en~\cite{deloreanjs}.     
+
+
 
 \subsection{Ejemplo 1}
 \label{sec:tour1}
@@ -225,9 +227,18 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 \end{center}
 \end{figure}
 
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=.8\linewidth]{fig-heap2}
+\caption{.}
+\label{fig:heap2}
+\end{center}
+\end{figure}
+
 Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero lamentablemente una continuaci\'on no lo realiza. Para lograrlo, antes de ejecutar una aplicaci\'on Web, \deloreanjs realiza un an\'alisis est\'atico para capturar las variables del heap con sus valores que han sido {\em observadas} por el programador que usa nuestra propuesta. La figura~\ref{fig:heap1} ejemplifica las tres etapas que debe realizar el an\'alisis est\'atico para capturar las variables. En la etapa 1, se definen las variables del heap que deben ser observadas (\co{x} y \co{z}). Luego en la etapa 2, se captura y almacena los valores de las variables previamente definidas. Finalmente en la etapa 3, se puede apreciar que las variables que modifican a las variables observadas tambi\'en son capturadas y almacenadas (\co{a}). Esta \'ultima etapa es necesaria porque se debe asegurar que las variables observadas deben potencialmente comportarse igual (es decir, con los mismos valores) cuando una ejecuci\'on comienza desde un timepoint; en el ejemplo de la figura, si \co{a} no es capturado, entonces \co{z} tendr\'ia un distinto valor cuando una ejecuci\'on vuelva a comenzar desde el timepoint.          
 
-Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Visitor pattern}~\cite{GoF94}
+Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Visitor pattern}~\cite{GoF94} para realizar el an\'alisis est\'atico como se muestra en la figura~\ref{fig:heap2} usando la librer\'ia Babel~\cite{mckenzie:babel}. Con esta librer\'ia, nuestra propuesta examina cada sentencia del c\'odigo fuente de la aplicaci\'on para permite al programador acc    
 
 
 \here
