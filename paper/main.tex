@@ -207,10 +207,22 @@ Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuen
 
 Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Visitor pattern}~\cite{GoF94} para realizar el an\'alisis est\'atico como se muestra en la figura~\ref{fig:heap2} usando la librer\'ia Babel~\cite{mckenzie:babel}. Con esta librer\'ia, nuestra propuesta examina cada sentencia del c\'odigo fuente de la aplicaci\'on Web para agregar en objeto en \javascript las modificaciones de las variables observadas y otras variables que las modifican.
 
-\subsection{Usando Timepoints}
+\subsection{Agregando y Usando Timepoints en una Aplicaci\'on}
 \label{sec:utime}
 
-Cuando una excepci\'on es gatillada en la aplicaci\'on, \deloreanjs permite usar al desarrollador los timepoints.  
+Una aplicaci\'on Web se relaciona con un timepoint en dos situaciones: 
+\begin{enumerate}
+
+	\item Cuando la ejecuci\'on de la aplicaci\'on se encuentra con la llamada al m\'etodo \co{DeloreanJs.insertTimePoint()}.
+	
+	\smallskip
+	
+	\item Cuando una excepci\'on es gatillada en la aplicaci\'on, permitiendo al desarrollador seleccionar un timepoint entre los disponibles. 
+\end{enumerate}
+
+\smallskip
+
+	Para {\em 1})
 
 \here
 
