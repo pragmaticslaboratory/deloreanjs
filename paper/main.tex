@@ -213,7 +213,7 @@ Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Vis
 Una aplicaci\'on Web se relaciona con un timepoint en dos situaciones: 
 \begin{enumerate}
 
-	\item Cuando la ejecuci\'on de la aplicaci\'on se encuentra con la llamada al m\'etodo \co{DeloreanJs.insertTimePoint()}.
+	\item Cuando la ejecuci\'on de la aplicaci\'on se encuentra con la llamada al m\'etodo \co{DeloreanJs.insertTimePoint()}. 
 	
 	\smallskip
 	
@@ -222,7 +222,7 @@ Una aplicaci\'on Web se relaciona con un timepoint en dos situaciones:
 
 \smallskip
 
-	Para {\em 1})
+	Para {\em 1}) 
 
 \here
 
@@ -238,6 +238,21 @@ Debido a que \javascript es un lenguaje muy ampliamente usado, existe un inter\'
 \smallskip
 
 \parhead{Debuggers remotos} \javascript es generalmente\footnote{Aparte de la Web, \javascript actualmente es usado en varios entornos de desarrollos, por ejemplo, es usado en el lado del servidor en una aplicaci\'on Web~\cite{nodejs:2018} y en administradores de ventas de sistemas operativos basados en Linux~\cite{gjs}.} usado para construir aplicaciones Web\ que son usadas por usuarios con alg\'un dispositivo que pertenece a un muy variado y amplio catalogo, pues lo \'unico que se necesita es un navegador con acceso a internet. Por esta raz\'on, cualquier configuraci\'on del dispositivo puede producir un potencial bug que los desarrolladores no podr\'ian observar en un ambiente de desarrollo controlado. Para abordar esta dificultad, existen debuggers~\cite{sessionstack,raygun,trackjs} que supervisan remotamente las ejecuciones de los usuarios. Similarmente a los debuggers omniscientes, estos registran y env\'ian cada punto ejecuci\'on a un desarrollador por la red. Aunque estos debuggers permiten a los desarrolladores trazas de ejecuciones de diferentes usuarios en tiempo real, no ofrecen la posibilidad de retroceder en momentos de la ejecuci\'on a los usuarios.   
+
+\bigskip
+
+Aunque las herramientas de {\em Runtime Verifications} no son necesariamente debuggers, ellas tienen un comportamiento a \deloreanjs porque permiten encontrar errores durante la ejecuci\'on de una aplicaci\'on. Entre las herramientas disponibles, podemos encontrar PQL~\cite{martinAl:oopsla2005}, PTQL~\cite{goldsmithAl:oopsla2005} y JavaMOP~\cite{meredithAl:jsttt2011,chen:oopsla2007}   
+
+\bigskip
+
+\bigskip
+
+%PQL. Program Query Language (PQL) [6] is a tool to detect errors and check- /force protocols of programming (e.g., file handling). This tool uses a static analyzer to reduce the possible matches and then uses a dynamic matcher that really matches a given pattern. A developer expresses a pattern using an AST description (using a Java-like syntax). The matching process (i.e., dynamic matcher) uses a specialized state machine. The advice can only use the execute, which is used to execute a method before the last join point matched, or replace, used to replace the original computation of the last matched join point.
+%PTQL. Program Trace Query Language (PTQL) [12] is another tool to detect errors. Developers use the SQL language to express a pattern, which is actually a SQL query. Join points are stored in databases, which are used by its matching process, named PARTIQLE, to match a query. PTQL does not allow developers to take actions if a pattern is matched, i.e., there is no advising process in PTQL.
+%JavaMop. JavaMop [15, 27, 28] is a generic and efficient runtime-verification framework for Java. Patterns in JavaMop can be expressed in different (pre- viously defined) domain-specific languages: regular expressions, context-free grammars, linear temporal logic, string rewriting system [29], etc. This last pattern language is Turing complete. However, the JavaMop patterns are not first-class values, reusable, and composable. A fixed set of matching process semantics is available for the developers. As JavaMop compiles their code to AspectJ code, the JavaMop advising process follows the same guidelines of AspectJ for this process.
+
+
+
 
 \section{Conclusiones}
 \label{sec:conc}
