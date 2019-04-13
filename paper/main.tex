@@ -207,22 +207,27 @@ Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuen
 
 Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Visitor pattern}~\cite{GoF94} para realizar el an\'alisis est\'atico como se muestra en la figura~\ref{fig:heap2} usando la librer\'ia Babel~\cite{mckenzie:babel}. Con esta librer\'ia, nuestra propuesta examina cada sentencia del c\'odigo fuente de la aplicaci\'on Web para agregar en objeto en \javascript las modificaciones de las variables observadas y otras variables que las modifican.
 
-\subsection{Agregando y Usando Timepoints en una Aplicaci\'on}
+\subsection{Insertando y Usando Timepoints en una Aplicaci\'on}
 \label{sec:utime}
 
-Una aplicaci\'on Web se relaciona con un timepoint en dos situaciones: 
-\begin{enumerate}
+Durante la ejecuci\'on de una aplicaci\'on Web usando \deloreanjs, un desarrollador puede insertar timepoints, lo cuales se pueden usar posteriormente cuando una excepci\'on es gatillada.  
 
-	\item Cuando la ejecuci\'on de la aplicaci\'on se encuentra con la llamada al m\'etodo \co{DeloreanJs.insertTimePoint()}. 
+ La figura~\ref{fig:heap2} lo que ocurre cuando un programador llama al m\'etdo \co{DeloreanJs.insertTimePoint()}.  
+     
+
+%Una aplicaci\'on Web se relaciona con un timepoint en dos situaciones: 
+%\begin{enumerate}
+%
+%	\item Cuando la ejecuci\'on de la aplicaci\'on se encuentra con la llamada al m\'etodo \co{DeloreanJs.insertTimePoint()}. 
+%	
+%	\smallskip
+%	
+%	\item Cuando una excepci\'on es gatillada en la aplicaci\'on, permitiendo al desarrollador seleccionar un timepoint entre los disponibles. 
+%\end{enumerate}
+%
+%\smallskip
+
 	
-	\smallskip
-	
-	\item Cuando una excepci\'on es gatillada en la aplicaci\'on, permitiendo al desarrollador seleccionar un timepoint entre los disponibles. 
-\end{enumerate}
-
-\smallskip
-
-	Para {\em 1}) 
 
 \here
 
@@ -237,11 +242,11 @@ Debido a que \javascript es un lenguaje muy ampliamente usado, existe un inter\'
 
 \smallskip
 
-\parhead{Debuggers remotos} \javascript es generalmente\footnote{Aparte de la Web, \javascript actualmente es usado en varios entornos de desarrollos, por ejemplo, es usado en el lado del servidor en una aplicaci\'on Web~\cite{nodejs:2018} y en administradores de ventas de sistemas operativos basados en Linux~\cite{gjs}.} usado para construir aplicaciones Web\ que son usadas por usuarios con alg\'un dispositivo que pertenece a un muy variado y amplio catalogo, pues lo \'unico que se necesita es un navegador con acceso a internet. Por esta raz\'on, cualquier configuraci\'on del dispositivo puede producir un potencial bug que los desarrolladores no podr\'ian observar en un ambiente de desarrollo controlado. Para abordar esta dificultad, existen debuggers~\cite{sessionstack,raygun,trackjs} que supervisan remotamente las ejecuciones de los usuarios. Similarmente a los debuggers omniscientes, estos registran y env\'ian cada punto ejecuci\'on a un desarrollador por la red. Aunque estos debuggers permiten a los desarrolladores trazas de ejecuciones de diferentes usuarios en tiempo real, no ofrecen la posibilidad de retroceder en momentos de la ejecuci\'on a los usuarios.   
+\parhead{Debuggers remotos} \javascript es generalmente\footnote{Aparte de la Web, \javascript actualmente es usado en varios entornos de desarrollos, por ejemplo, es usado en el lado del servidor en una aplicaci\'on Web~\cite{nodejs:2018} y en administradores de ventanas de sistemas operativos basados en Linux~\cite{gjs}.} usado para construir aplicaciones Web\ que son usadas por usuarios con alg\'un dispositivo que pertenece a un muy variado y amplio catalogo, pues lo \'unico que se necesita es un navegador con acceso a internet. Por esta raz\'on, cualquier configuraci\'on del dispositivo puede producir un potencial bug que los desarrolladores no podr\'ian observar en un ambiente de desarrollo controlado. Para abordar esta dificultad, existen debuggers~\cite{sessionstack,raygun,trackjs} que supervisan remotamente las ejecuciones de los usuarios. Similarmente a los debuggers omniscientes, estos registran y env\'ian cada punto ejecuci\'on a un desarrollador por la red. Aunque estos debuggers permiten a los desarrolladores trazas de ejecuciones de diferentes usuarios en tiempo real, no ofrecen la posibilidad de retroceder en momentos de la ejecuci\'on a los usuarios.   
 
 \smallskip
 
-Aunque las herramientas de {\em Runtime Verifications}~\cite{meredith:phd} no son necesariamente debuggers, ellas tienen un comportamiento similar a \deloreanjs porque permiten encontrar errores durante la ejecuci\'on de una aplicaci\'on. Entre las herramientas disponibles, podemos encontrar PQL~\cite{martinAl:oopsla2005}, PTQL~\cite{goldsmithAl:oopsla2005} y JavaMOP~\cite{meredithAl:jsttt2011,chen:oopsla2007}. Estas herramientas entregan la posibilidad a un programador expresar un patr\'on avanzado de ejecuci\'on, por ejemplo, acceso a un elemento no disponible en un arreglo porque otro hilo de ejecuci\'on lo elimino. Lamentablemente, de la misma manera que los debuggers omniscientes y remotos, estas herramientas no permiten reanudar la ejecuci\'on de una aplicaci\'on luego de haber reparado el error.    
+Aunque las herramientas de {\em Runtime Verifications}~\cite{meredith:phd} no son necesariamente debuggers, ellas tienen un comportamiento similar a \deloreanjs porque permiten encontrar errores durante la ejecuci\'on de una aplicaci\'on. Entre las herramientas disponibles, podemos encontrar PQL~\cite{martinAl:oopsla2005}, PTQL~\cite{goldsmithAl:oopsla2005} y JavaMOP~\cite{meredithAl:jsttt2011,chen:oopsla2007}. Estas herramientas entregan la posibilidad a un programador expresar un patr\'on avanzado de ejecuci\'on, por ejemplo, detectar el acceso a un elemento no disponible en un arreglo porque otro hilo de ejecuci\'on lo elimin\'o. Lamentablemente, de la misma manera que los debuggers omniscientes y remotos, estas herramientas no permiten reanudar la ejecuci\'on de una aplicaci\'on luego de haber reparado el error.    
 
 \section{Conclusiones}
 \label{sec:conc}
