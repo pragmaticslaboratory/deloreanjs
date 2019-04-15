@@ -188,7 +188,7 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=.8\linewidth]{fig-heap1}
+\includegraphics[width=.9\linewidth]{fig-heap1}
 \caption{Las tres etapas para capturar y almacenar las variables observadas (ej. \co{x} y \co{z}) y las variables que pueden modificar a ellas (ej. la variable \co{a} porque modifica \co{z}).}
 \label{fig:heap1}
 \end{center}
@@ -203,13 +203,13 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 \end{center}
 \end{figure}
 
-Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero lamentablemente una continuaci\'on no lo realiza. Para lograrlo, antes de ejecutar una aplicaci\'on Web, \deloreanjs realiza un an\'alisis est\'atico para capturar las {\em variables observables}, definidas por un programador, del heap. La figura~\ref{fig:heap1} ejemplifica las tres etapas que debe realizar el an\'alisis est\'atico para capturar las variables. En la etapa 1, se definen las variables del heap que deben ser observadas (ej. las variables \co{x} y \co{z}). Luego en la etapa 2, se captura y almacena los valores de las variables previamente definidas. Finalmente en la etapa 3, se puede apreciar que las variables que modifican a las variables observadas tambi\'en son capturadas y almacenadas (la variable \co{a}). Esta \'ultima etapa es necesaria porque se debe asegurar que las variables observadas deben en lo posible\footnote{No es posible si el valor de la variable dependen de un evento no determin\'istico, ej. uso de la funci\'on \co{random}.} comportarse igual (es decir, con los mismos valores) cuando una ejecuci\'on comienza desde un timepoint seleccionado. En el ejemplo de la figura, si la variable \co{a} no es capturada, entonces la variable \co{z} tendr\'ia un valor distinto cuando una ejecuci\'on vuelva a comenzar desde el timepoint \co{TP}.          
+Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero lamentablemente una continuaci\'on no lo realiza. Para lograrlo, antes de ejecutar una aplicaci\'on Web, \deloreanjs realiza un an\'alisis est\'atico para capturar las {\em variables observables}, definidas por un programador, del heap. La figura~\ref{fig:heap1} ejemplifica las tres etapas que debe realizar el an\'alisis est\'atico para capturar las variables. En la etapa 1, se definen las variables del heap que deben ser observadas (ej. las variables \co{x} y \co{z}). Luego en la etapa 2, se captura y almacena los valores de las variables previamente definidas. Finalmente en la etapa 3, se puede apreciar que las variables que modifican a las variables observadas tambi\'en son capturadas y almacenadas (la variable \co{a}). Esta \'ultima etapa es necesaria porque se debe asegurar que las variables observadas deben {\em en lo posible}\footnote{No es posible si el valor de la variable depende de un evento no determin\'istico, ej. uso de la funci\'on \co{random}.} comportarse igual (es decir, con los mismos valores) cuando una ejecuci\'on comienza desde un timepoint seleccionado. En el ejemplo de la figura, si la variable \co{a} no es capturada, entonces la variable \co{z} tendr\'ia un valor distinto cuando una ejecuci\'on vuelva a comenzar desde el timepoint \co{TP}.          
 
 Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Visitor pattern}~\cite{GoF94} para realizar un an\'alisis est\'atico, usando la librer\'ia Babel~\cite{mckenzie:babel}, como se muestra en la figura~\ref{fig:heap2} . Con esta librer\'ia, nuestra propuesta examina cada sentencia del c\'odigo fuente de la aplicaci\'on Web para agregar en un objeto en \javascript las modificaciones de las variables observadas y otras variables que las modifican.
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=.95\linewidth]{fig-timePointA}
+\includegraphics[width=1.05\linewidth]{fig-timePointA}
 \caption{Insercci\'on de un timepoint A y posterior uso.}
 \label{fig:tpA}
 \end{center}
