@@ -221,25 +221,8 @@ Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Vis
 
 Durante la ejecuci\'on de una aplicaci\'on Web usando \deloreanjs, un desarrollador puede insertar timepoints, lo cuales se pueden usar posteriormente cuando una excepci\'on es gatillada.  
 
- La figura~\ref{fig:tpA} lo que ocurre cuando un programador llama al m\'etdo \co{DeloreanJs.insertTimePoint()}.  
-     
-
-%Una aplicaci\'on Web se relaciona con un timepoint en dos situaciones: 
-%\begin{enumerate}
-%
-%	\item Cuando la ejecuci\'on de la aplicaci\'on se encuentra con la llamada al m\'etodo \co{DeloreanJs.insertTimePoint()}. 
-%	
-%	\smallskip
-%	
-%	\item Cuando una excepci\'on es gatillada en la aplicaci\'on, permitiendo al desarrollador seleccionar un timepoint entre los disponibles. 
-%\end{enumerate}
-%
-%\smallskip
-
-	
-
-\here
-
+ La figura~\ref{fig:tpA} muestra lo que ocurre cuando un programador llama al m\'etodo \co{DeloreanJs.insertTimePoint()} y luego posteriormente lo usa. Cuando se inserta un timepoint, nuestra propuesta crea y encapsula en un objeto \co{Timepoint} una continuaci\'on y el objeto que almacena las variables del heap observadas con sus dependencias. Cuando el programador selecciona un particular timepoint debido al suceso de una excepci\'on, \deloreanjs invoca la continuaci\'on guardada en el timepoint y posteriormente retorna los valores de las variables observadas junto a sus dependencias.   
+ 
 \section{Trabajos Relacionados}
 \label{sec:rw}
 
