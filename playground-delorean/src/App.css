@@ -1,13 +1,23 @@
-.layout-container {
+.playground-container {
   display: grid;
   grid-template-columns: repeat(2, 50%);
+}
+
+.status-bar {
+  height: 60px;
+  margin: 0;
+  background: #ccc;
+  text-align: center;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
 }
 
 .left-panel, .right-panel {
   display: inline-block;
   border: 5px solid red;
   border-width: 4px 2px 4px 2px;
-  height: 600px;
+  height: 800px;
 }
 
 .left-panel {
