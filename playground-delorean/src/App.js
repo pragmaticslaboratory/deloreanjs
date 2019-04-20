@@ -11,13 +11,23 @@ class App extends Component {
 
   state = {
     tabs: [],
-    code: '', 
+    code: `console.log('Hello World!')`, 
+  }
+
+  getInitialState = () => {
+    this.newTab(`example.js`, `console.log('Hello World!')`)
   }
 
   newTab = (name, code) => {
     this.state.tabs.push({
       name,
       code
+    })
+  }
+
+  updateCode = (code) => {
+    this.setState({
+      code,
     })
   }
 
@@ -31,15 +41,26 @@ class App extends Component {
     })
   }
 
+  executeCode = () => {
+    try {
+      (new Function(this.state.code))();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   render() {
-    this.newTab(`example.js`, `console.log('Hello World!')`)
     return (
       <Layout>
-          <StatusBar tabs={this.state.tabs}/>
+          <StatusBar 
+            tabs={this.state.tabs}
+            executeCode={this.executeCode}
+          />
           <div className="playground-container">
             <div className="left-panel">
               <Editor
                 code={this.state.code}
+                updateCode={this.updateCode}
               />
               <Console></Console>  
             </div>

@@ -6,17 +6,6 @@ import 'codemirror/mode/javascript/javascript';
 
 
 class Editor extends Component {
-
-    state = {
-        code: '// Code',
-    }
-    
-	updateCode = (newCode) => {
-		this.setState({
-			code: newCode,
-		});
-    }
-    
 	render(){
 		var options = {
             lineNumbers: true,
@@ -24,8 +13,8 @@ class Editor extends Component {
 		};
 		return (
 			<CodeMirror 
-				value={this.state.code} 
-				onChange={this.updateCode} 
+				value={this.props.code} 
+				onChange={this.props.updateCode} 
 				options={options} 
 			>
 			</CodeMirror>

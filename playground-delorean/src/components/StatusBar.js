@@ -23,6 +23,7 @@ class StatusBar extends Component {
                     variant="contained" 
                     color="primary"
                     size="small"
+                    onClick={this.props.executeCode}
                 > 
                     Run!
                 </Button>
