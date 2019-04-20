@@ -1,0 +1,16 @@
+.layout-container {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+}
+
+.left-panel, .right-panel {
+  display: inline-block;
+  border: 5px solid red;
+  border-width: 4px 2px 4px 2px;
+  height: 600px;
+}
+
+.left-panel {
+  display: grid;
+  grid-template-rows: repeat(2, 50%);
+}
