@@ -10,8 +10,6 @@ class ConsoleContainer extends Component {
     Hook(window.console, log => {
       this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
     })
-
-    console.log("Este Log es desde la consola");
   }
 
   render() {

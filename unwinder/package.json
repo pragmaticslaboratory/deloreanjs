@@ -30,23 +30,25 @@
   "dependencies": {
     "ast-types": "~0.3.16",
     "commander": "~2.1.0",
-    "css-loader": "^0.23.1",
+    "css-loader": "^2.1.1",
     "defs": "~0.6.2",
     "escope": "~1.0.1",
     "esprima": "git://github.com/ariya/esprima.git#harmony",
     "estraverse": "~1.5.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "install": "^0.12.2",
     "noop": "^0.2.2",
+    "npm": "^6.9.0",
     "private": "~0.1.2",
     "recast": "~0.5.7",
     "style-loader": "^0.13.1",
-    "sweet.js": "^1.0.3",
-    "webpack": "^1.13.0"
+    "sweet.js": "1.0.3",
+    "webpack": "^4.30.0"
   },
   "devDependencies": {
-    "mocha": "~1.13.0",
-    "semver": "~2.1.0",
-    "expect": "0.0.2"
+    "expect": "0.0.2",
+    "mocha": "^6.1.4",
+    "semver": "^6.0.0"
   },
   "license": "BSD",
   "engines": {

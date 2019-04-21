@@ -1,4 +1,4 @@
-console.log("Start Program")
+export default `console.log("Start Program")
 b = 7;
 a = b;
 
@@ -13,4 +13,4 @@ console.log('Second continuation', b);
 if(b == 7) {
     throw ["throw activate in VM", continuations];
 }
-console.log('End Program');
+console.log('End Program');`

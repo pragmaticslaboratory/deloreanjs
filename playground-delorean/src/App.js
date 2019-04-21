@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
+import codeInput from '../../example/input'
+import debuggerDelorean from '../../src/debugger'
 import Layout from './components/Layout'
 import Editor from './components/Editor'
 import Console  from './components/Console'
 import Output  from './components/Output'
 import StatusBar from './components/StatusBar'
 
+global.delorean = require('../../src/delorean.js')
+global.vm = require('../../unwinder/runtime/vm.js');
+
+console.log(global.heap)
 
 class App extends Component {
 
   state = {
     tabs: [],
-    code: `console.log('Hello World!')`, 
+    snapshots: [],
+    dependencies: [],
+    code: codeInput, 
   }
 
   getInitialState = () => {
@@ -37,16 +45,35 @@ class App extends Component {
 
   setCode = (code) => {
     this.setState({
-      code,
+      code
+    })
+  }
+
+  updateSnapshots = (snapshots) => {
+    this.setState({
+      snapshots
+    })
+  }
+
+  updateDependencies = (dependencies) => {
+    this.setState({
+      dependencies
     })
   }
 
   executeCode = () => {
     try {
-      (new Function(this.state.code))();
+      debuggerDelorean.init(this.state.code);
+      this.updateDependencies(global.heap.dependencies)
+      this.updateSnapshots(global.heap.snapshots);
     } catch (error) {
       console.error(error);
     }
+  }
+
+  invokeContinuation = (ev) => {
+    let kont = ev.currentTarget.attributes['kont'].value
+    debuggerDelorean.invokeContinuation(kont)
   }
 
   render() {
@@ -65,7 +92,11 @@ class App extends Component {
               <Console></Console>  
             </div>
             <div className="right-panel">
-              <Output></Output>
+              <Output
+                snapshots={this.state.snapshots}
+                dependencies={this.state.dependencies}
+                invokeContinuation={this.invokeContinuation}
+              />
             </div>
           </div>
       </Layout>
