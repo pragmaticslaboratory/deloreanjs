@@ -59,6 +59,10 @@ Detectar y reparar bugs representa una de las tareas m\'as costosa en el proceso
 Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al desarrollador de una aplicaci\'on Web escrita en \javascript expresar al insercci\'on de {\em timepoints} (en cambio de {\em breakpoints}) para entregar la posibilidad retornar en el tiempo a esos puntos y modificar valores de variables para continuar la ejecuci\'on del programa. Este novedoso enfoque de \deloreanjs permite tres caracter\'isticas:    
 
 \begin{enumerate}
+
+	\item Mantener una aplicaci\'on Web funcionando usando los timepoints para potencialmente reparar un bug durante la ejecuci\'on. Lo anterior significa que no es siempre necesario detener la ejecuci\'on de la aplicaci\'on con el fin de realizar un anal\'isis post mortem.  
+
+	\smallskip
 	
 	\item Modificar reiteradamente los valores de las variables asociado a un bug encontrado para mejorar la comprensi\'on de \'este. Lo anterior puede ahorrar un gran n\'umero de ejecuciones usando un contexto similar para descubrir la verdadera raz\'on del bug.
 
@@ -66,10 +70,6 @@ Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al de
 
 	\item Probar escenarios hipot\'eticos de la ejecuci\'on de una aplicaci\'on Web usando un timepoint de \deloreanjs. Esto permite explorar diversas evoluciones de la ejecuci\'on de la aplicaci\'on cambiando valores de algunas de sus variables.
    
-   \smallskip
-	 
-	\item Mantener una aplicaci\'on Web funcionando usando los timepoints para potencialmente reparar un bug durante la ejecuci\'on. Lo anterior significa que no es siempre necesario detener la ejecuci\'on de la aplicaci\'on con el fin de realizar un anal\'isis post-morter.  
-
 \end{enumerate}
 
 
@@ -80,19 +80,32 @@ El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta
 
 \smallskip
 
-{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}}. Adem\'as, los ejemplos presentados aqu\'i se pueden probar online sin la necesidad de una ninguna extensi\'on en el sitio Web de nuestra propuesta {\tt \url{http://pleger.cl/delorean}}~\cite{deloreanjs}.
+{\bf {\em Disponibilidad.}} El c\'odigo fuente de la implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}}. Adem\'as, los ejemplos presentados aqu\'i se pueden probar online sin la necesidad de una ninguna extensi\'on en el sitio Web de nuestra propuesta {\tt \url{http://pleger.cl/sites/delorean}}~\cite{deloreanjs}.
 
 \section{Un Tour por \deloreanjs}
 \label{sec:tour}
 
-Nosotros presentamos \deloreanjs a trav\'es de tres ejemplos concretos. Cada ejemplo aborda una de las tres caracter\'isticas de nuestra propuesta y pueden ser probados online en~\cite{deloreanjs}.     
+Nosotros presentamos \deloreanjs a trav\'es de tres ejemplos concretos. Cada ejemplo aborda una de las tres caracter\'isticas de nuestra propuesta y pueden ser probados (y modificados) online en~\cite{deloreanjs}.     
 
-
-
-\subsection{Ejemplo 1}
+\subsection{Reparando un Bug}
 \label{sec:tour1}
 
-\pl{Explicar con imag\'enes el ejemplo 1}
+Para introducir \deloreanjs, usaremos un simple ejemplo de c\'odigo fuente presentado m\'as abajo. Esta pieza c\'odigo muestra que al inicio un programador debe definir qu\'e variables desea observar (ej. \co{x}). Luego el programador puede insertar    {\em timepoints} para permitir que la ejecuci\'on de una aplicaci\'on Web, escrita en \javascript, vuelva en el tiempo cuando una excepci\'on es gatillada. En este ejemplo, la excepci\'on es gatillada.  
+
+\begin{lstlisting}[linewidth=\columnwidth]
+DeloreanJs.watch(x,z);
+a = 1;
+x = 5;
+z = 2;
+
+DeloreanJs.insertTimePoint("TP");
+a = a + 1;
+x = 0;
+z = a + 3;
+
+if (z == 5)
+	inexistenteFuncion(); //excepcion gatillada
+\end{lstlisting}
 
 \subsection{Ejemplo 2}
 \label{sec:tour2}
@@ -194,7 +207,6 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 \end{center}
 \end{figure}
 
-
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=1.0\linewidth]{fig-heap2}
@@ -203,14 +215,14 @@ La figura~\ref{fig:kont} muestra el diagrama de flujo de la pieza de c\'odigo an
 \end{center}
 \end{figure}
 
-Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero lamentablemente una continuaci\'on no lo realiza. Para lograrlo, antes de ejecutar una aplicaci\'on Web, \deloreanjs realiza un an\'alisis est\'atico para capturar las {\em variables observables}, definidas por un programador, del heap. La figura~\ref{fig:heap1} ejemplifica las tres etapas que debe realizar el an\'alisis est\'atico para capturar las variables. En la etapa 1, se definen las variables del heap que deben ser observadas (ej. las variables \co{x} y \co{z}). Luego en la etapa 2, se captura y almacena los valores de las variables previamente definidas. Finalmente en la etapa 3, se puede apreciar que las variables que modifican a las variables observadas tambi\'en son capturadas y almacenadas (la variable \co{a}). Esta \'ultima etapa es necesaria porque se debe asegurar que las variables observadas deben {\em en lo posible}\footnote{No es posible si el valor de la variable depende de un evento no determin\'istico, ej. uso de la funci\'on \co{random}.} comportarse igual (es decir, con los mismos valores) cuando una ejecuci\'on comienza desde un timepoint seleccionado. En el ejemplo de la figura, si la variable \co{a} no es capturada, entonces la variable \co{z} tendr\'ia un valor distinto cuando una ejecuci\'on vuelva a comenzar desde el timepoint \co{TP}.          
+Un timepoint tambi\'en necesita capturar y almacenar las variables que se encuentran en el heap, pero lamentablemente una continuaci\'on no lo realiza. Para lograrlo, antes de ejecutar una aplicaci\'on Web, \deloreanjs realiza un an\'alisis est\'atico para capturar las {\em variables observables}, definidas por un programador, del heap. La figura~\ref{fig:heap1} ejemplifica las tres etapas que debe realizar el an\'alisis est\'atico para capturar las variables. En la etapa 1, se definen las variables del heap que deben ser observadas (ej. las variables \co{x} y \co{z}). Luego en la etapa 2, se captura y almacena los valores de las variables previamente definidas. Finalmente en la etapa 3, se puede apreciar que las variables que modifican a las variables observadas tambi\'en son capturadas y almacenadas (la variable \co{a}). Esta \'ultima etapa es necesaria porque se debe asegurar que las variables observadas deben {\em en lo posible}\footnote{No es posible si el valor de la variable depende de un evento no determin\'istico, ej. uso de una funci\'on \co{random}.} comportarse igual (es decir, con los mismos valores) cuando una ejecuci\'on comienza desde un timepoint seleccionado. En el ejemplo de la figura, si la variable \co{a} no es capturada, entonces la variable \co{z} tendr\'ia un valor distinto cuando una ejecuci\'on vuelva a comenzar desde el timepoint \co{TP}.          
 
 Para lograr las etapas de la figura~\ref{fig:heap1}, \deloreanjs usa el {\em Visitor pattern}~\cite{GoF94} para realizar un an\'alisis est\'atico, usando la librer\'ia Babel~\cite{mckenzie:babel}, como se muestra en la figura~\ref{fig:heap2} . Con esta librer\'ia, nuestra propuesta examina cada sentencia del c\'odigo fuente de la aplicaci\'on Web para agregar en un objeto en \javascript las modificaciones de las variables observadas y otras variables que las modifican.
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=1.05\linewidth]{fig-timePointA}
-\caption{Insercci\'on de un timepoint A y posterior uso.}
+\includegraphics[width=1.05\linewidth]{fig-timePointTP}
+\caption{Insercci\'on de un timepoint ``TP'' y posterior uso.}
 \label{fig:tpA}
 \end{center}
 \end{figure}
