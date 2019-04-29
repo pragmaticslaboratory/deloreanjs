@@ -17,6 +17,9 @@ catch(e){
     let t = 4;
 }
 
+for(let i = 0; i < 5; ++i){
+    t += i;
+}
 
 if(b == 7) {
     throw ["throw activate in VM", continuations];
