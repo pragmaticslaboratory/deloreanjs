@@ -15,7 +15,10 @@ class ConsoleContainer extends Component {
   render() {
     return (
       <div style={{ backgroundColor: '#242424' }}>
-        <Console logs={this.state.logs} variant="dark" />
+        <Console 
+          logs={this.state.logs} 
+          variant="dark"
+        />
       </div>
     )
   }

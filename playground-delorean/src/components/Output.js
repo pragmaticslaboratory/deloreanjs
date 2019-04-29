@@ -1,17 +1,6 @@
 import React, { Component } from 'react'
-import { Button, FormControl, InputLabel, OutlinedInput  } from '@material-ui/core'
-import ReactDOM from "react-dom";
-import { withStyles } from "@material-ui/core/styles";
+import { Button, TextField } from '@material-ui/core'
 
-const styles = theme => ({
-    container: {
-      display: "flex",
-      flexWrap: "wrap"
-    },
-    formControl: {
-      margin: theme.spacing.unit
-    }
-});
 class Output extends Component {
 
     render(){
@@ -27,22 +16,15 @@ class Output extends Component {
                                 {
                                     this.props.dependencies.map((dependency) => {
                                         return (
-                                            <FormControl key={dependency} className={classes.formControl} variant="outlined">
-                                                <InputLabel
-                                                ref={ref => {
-                                                    this.labelRef = ReactDOM.findDOMNode(ref);
-                                                }}
-                                                htmlFor="component-outlined"
-                                                >
-                                                {dependency}
-                                                </InputLabel>
-                                                <OutlinedInput
-                                                id="component-outlined"
-                                                value={dependency}
-                                                onChange={this.handleChange}
-                                                labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
-                                                />
-                                            </FormControl>
+                                            <TextField
+                                                id="standard-name"
+                                                label={dependency}
+                                                id={`input-${dependency}`}
+                                                // value={this.state.name}
+                                                // onChange={this.handleChange('name')}
+                                                margin="normal"
+                                                key={dependency}
+                                            />
                                         )
                                     })
                                 }
@@ -79,5 +61,5 @@ class Output extends Component {
     }
 }
 
-export default withStyles(styles)(Output);
+export default Output;
 

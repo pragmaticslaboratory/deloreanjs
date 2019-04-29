@@ -1,13 +1,14 @@
 .playground-container {
   display: grid;
   grid-template-columns: repeat(2, 50%);
-  height: 100vh;
+  height: 92vh;
 }
 
 .status-bar {
-  height: 60px;
+  height: 8vh;
   margin: 0;
-  background: #ccc;
+  background: rgb(28, 32, 34);
+  border-bottom: 1px solid rgb(17, 21, 24);
   text-align: center;
   width: 100%;
   display: grid;
@@ -16,11 +17,24 @@
 
 .left-panel, .right-panel {
   display: inline-block;
-  border: 5px solid red;
   border-width: 4px 2px 4px 2px;
+  background: #1c2022;
+  overflow: auto;
+  max-height: 100%;
 }
 
 .left-panel {
   display: grid;
   grid-template-rows: repeat(2, 50%);
+}
+
+.tabs-container {
+  display: flex;
+}
+
+.tab-container {
+  display: inline-block;
+  padding: 0 20px;
+  border-right: 1px solid rgb(17, 21, 24);
+
 }
