@@ -9,7 +9,7 @@ module.exports = {
         heap.dependencies = dependencies;
     },
 
-    heapSnapshot: () => {
+    heapSnapshot: (id) => {
         const snapshot = {}
         heap.dependencies.map(dependecy => {
             snapshot[`${dependecy}`] = global[dependecy.toString()]

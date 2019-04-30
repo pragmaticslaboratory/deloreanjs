@@ -1,3 +1,5 @@
+const babel = require('babel-core');
+
 const {
   dependeciesVisitor,
   initConfigVisitor,
@@ -6,30 +8,17 @@ const {
 } = require("../src/staticAnalysis");
 
 module.exports = filename => {
-  let { code } = require("../index")(filename, [
+  let src = require("../index")(filename, [
     dependeciesVisitor,
-    initConfigVisitor,
     tryCatchVisitor,
-    storeContinuationsVisitor
-  ]);
+  ]).code;
 
-  // Agrega un try-catch bajo cada continuacion para evitar perder la instancia de ejeción al invocarse throws dentro de la VM.
-  /*splitCode = code.split("delorean.snapshot();");
-  if (splitCode.length != 1) {
-    code = splitCode[0] + "\ndelorean.snapshot();\n";
-    for (let i = 1; i < splitCode.length; i++) {
-      code += splitCode[i] + "\n} \ncatch(e) {\nconsole.log(e)\n}";
-      if (i != splitCode.length - 1) code += "\ndelorean.snapshot();\n";
-    }
-    
-    splitCode = code.split(";");
-    code = "";
-    for (let i = 0; i < splitCode.length; i++) {
-      code += splitCode[i];
-      if (i != splitCode.length - 1) code += ";";
-      if (splitCode[i].includes("continuations.kont")) code += "\ntry {\n";
-    }
-  }*/
+  let { code } = babel.transform(src, {
+    plugins: [initConfigVisitor,
+    storeContinuationsVisitor]
+  })
+
+
   console.log(code)
   let unwindedCode = require("../unwinder/bin/compile.js")(code);
   

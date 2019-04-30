@@ -3,8 +3,8 @@ const { storeContinuation, resumeContinuation } = require('./continuations');
 
 
 module.exports = {
-    snapshot: () => {
-        heapSnapshot();
+    insertTimePoint: (id) => {
+        heapSnapshot(id);
     },
 
     resumeSnapshot: (index) => {

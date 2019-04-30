@@ -1,27 +1,35 @@
 const t = require('babel-types');
 
+function isTimePoint(element){
+    return element && element.expression && element.expression.callee &&
+    element.expression.callee.object && element.expression.callee.property &&
+    element.expression.callee.object.name == 'delorean' && element.expression.callee.property.name == 'insertTimePoint';
+}
+
 module.exports = {
    "Program|BlockStatement": {
         exit(path) {
             let block = path.node.body;
-            let splitPoints = [];       
-            console.log(block);     
+            let splitPoints = [];          
             for (let i = 0; i < block.length; ++i){
-                if (block[i] && block[i].expression && block[i].expression.callee &&
-                    block[i].expression.callee.object && block[i].expression.callee.property &&
-                    block[i].expression.callee.object.name == 'delorean' && block[i].expression.callee.property.name == 'snapshot') {
+                if (isTimePoint(block[i])) {
                     splitPoints.push(i);     
                 }
             }
-            if(splitPoints != []){
-                let newBlock = block.slice(0, splitPoints[0]);
-                for (let i = 0; i < splitPoints.length; ++i) {  
-                    let endOfTryBlock = block.length - 1;
-                    if(i < splitPoints.length - 1) endOfTryBlock = splitPoints[i + 1]                
-                    newBlock.push(block[splitPoints[0]]);      
+            if(splitPoints.length != 0){
+                let newBlock = [];
+                for (let i = -1; i < splitPoints.length; ++i) {  
+                    let startOfTryBlock = 0;
+                    if(i != - 1) startOfTryBlock = splitPoints[i] + 1;  
+                    let endOfTryBlock = block.length;
+                    if(i < splitPoints.length - 1) endOfTryBlock = splitPoints[i + 1];                
+                    if(i != -1) newBlock.push(block[splitPoints[i]]);      
                     newBlock.push(
                         t.tryStatement(
-                            block.slice(splitPoints[i] + 1, endOfTryBlock + 1),
+                            t.blockStatement(
+                                block.slice(startOfTryBlock, endOfTryBlock),
+                                []
+                            ),
                             t.catchClause(
                                 t.identifier('e'),
                                 t.blockStatement(
@@ -40,12 +48,10 @@ module.exports = {
                         )
                     );               
                 }
-                if(t.isProgram(path.node)){
-                    path.replaceWith(t.program(newBlock, []));
-                    console.log(path.node.directives);
-                }
                 console.log(newBlock)                
-                console.log(block)
+                console.log(path.node)
+                while(path.get('body').length != 0) path.get('body')[0].remove();     
+                for(let i = 0; i < newBlock.length; ++i) path.pushContainer('body', newBlock[i]);
             }
         }
     }
