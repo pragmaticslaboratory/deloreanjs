@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { Button, TextField } from '@material-ui/core'
 
 class Output extends Component {
 
     render(){
-        const { classes } = this.props;
+        const markdown = require('./markdown');
         let index = 0;
         return (
             <div>
                 {
                     this.props.snapshots.length !== 0 ?
                     (
-                        <div>
-                            <div className="container inputs">
+                        <div className="output-container">
+                            <div className="container-inputs">
+                                <h2>Heap</h2>
                                 {
                                     this.props.dependencies.map((dependency) => {
                                         return (
@@ -24,16 +26,19 @@ class Output extends Component {
                                                 // onChange={this.handleChange('name')}
                                                 margin="normal"
                                                 key={dependency}
+                                                className="heap-input"
                                             />
                                         )
                                     })
                                 }
                             </div>
-                            <div className="container-buttons">            
+                            <div className="container-buttons">
+                                <h2>Continuations</h2>            
                                 {
                                     this.props.snapshots.map((snapshot) => {
                                         return (
                                             <Button 
+                                                className="heap-input"
                                                 kont={++index} 
                                                 id={index}
                                                 key={index}
@@ -42,18 +47,20 @@ class Output extends Component {
                                                 size="small"
                                                 onClick={this.props.invokeContinuation}
                                             >
-                                            kont {index}
+                                            Continuation {index}
                                             </Button>
                                         )
                                     })
                                 }
                             </div>
                         </div>
-                    ) : (
-                        <div>
-                            <h1>Welcome to Delorean JS</h1>
-                            <p>Description: ...</p>
-                        </div>
+                    ) : ( 
+                    <div className="markdown-container">  
+                        <ReactMarkdown
+                        source={markdown}
+                        escapeHtml={false}
+                        />
+                    </div>
                     )
                 }
             </div>

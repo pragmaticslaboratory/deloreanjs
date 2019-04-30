@@ -7,7 +7,7 @@
 .status-bar {
   height: 8vh;
   margin: 0;
-  background: rgb(28, 32, 34);
+  /* background: rgb(28, 32, 34); */
   border-bottom: 1px solid rgb(17, 21, 24);
   text-align: center;
   width: 100%;
@@ -18,7 +18,7 @@
 .left-panel, .right-panel {
   display: inline-block;
   border-width: 4px 2px 4px 2px;
-  background: #1c2022;
+  /* background: #1c2022; */
   overflow: auto;
   max-height: 100%;
 }
@@ -32,9 +32,47 @@
   display: flex;
 }
 
+.editor-container {
+  border-right: 1px solid rgb(17, 21, 24);
+}
+
 .tab-container {
   display: inline-block;
   padding: 0 20px;
   border-right: 1px solid rgb(17, 21, 24);
-
 }
+
+.markdown-container, .output-container {
+  padding: 20px 60px;
+}
+
+.container-buttons, .container-inputs {
+  display: block;
+  background: rgb(235, 233, 233);
+  border: 1px solid rgb(17, 21, 24);
+  padding: 20px 60px;
+  margin-bottom: 20px;
+}
+
+.heap-input {
+  margin: 10px; 
+}
+
+.selected {
+  background: #3C4858;
+  color: white;
+}
+
+.console-title {
+  display: flex;
+  margin: 0px;
+  padding: 5px 35px 5px 35px; 
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: white;
+}
+
+.consolefeed-container {
+  margin: 0;
+  overflow: auto;
+}
+
