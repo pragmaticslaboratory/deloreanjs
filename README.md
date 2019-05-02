@@ -8,12 +8,14 @@ Delorean is a proposal of a debugger for JavaScript.
   - Extension for the browser
   - Continuations use case
 
-You can also:
-  - Cool things
+Usage
+---
 
-### TODO: *problem and solution*
+TODO: *problem and solution*
+---
 
-### Tech
+Tech
+----
 
 Delorean uses a number of open source projects to work properly:
 
@@ -25,7 +27,8 @@ Delorean uses a number of open source projects to work properly:
 And of course Delorean itself is open source with a [public repository](https://github.com/fruizrob/delorean)
  on GitHub.
 
-### Installation
+Installation
+---
 
 Delorean requires [Node.js](https://nodejs.org/) v9+ to run.
 

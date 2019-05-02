@@ -17,7 +17,6 @@ import "codemirror/theme/neo.css";
 import example1 from "../../example/input1";
 import example2 from "../../example/input2";
 import example3 from "../../example/input3";
-import { runInThisContext } from "vm";
 
 global.delorean = require("../../src/delorean.js");
 global.vm = require("../../unwinder/runtime/vm.js");
