@@ -1,9 +1,11 @@
+const babel = require('babel-core');
+
 const {
   dependeciesVisitor,
   initConfigVisitor,
-  storeContinuationsVisitor
+  storeContinuationsVisitor,
+  tryCatchVisitor
 } = require("../src/staticAnalysis");
-
 
 function restoreHeap(restore){
   a = document.getElementById('input-a').value || heap.snapshots[restore].a || undefined;
@@ -13,30 +15,19 @@ function restoreHeap(restore){
 }
 
 module.exports = {
-  init: (inputCode) => {
-    let { code } = require("../index")(inputCode, [
+  init: (inputCode, ) => {
+    let src = require("../index")(inputCode, [
       dependeciesVisitor,
-      initConfigVisitor,
-      storeContinuationsVisitor
-    ], true);
+      tryCatchVisitor,
+    ], true).code;
   
-    // Agrega un try-catch bajo cada continuacion para evitar perder la instancia de ejeción al invocarse throws dentro de la VM.
-    splitCode = code.split("delorean.snapshot();");
-    if (splitCode.length != 1) {
-      code = splitCode[0] + "\ndelorean.snapshot();\n";
-      for (let i = 1; i < splitCode.length; i++) {
-        code += splitCode[i] + "\n} \ncatch(e) {\nconsole.log(e)\n}";
-        if (i != splitCode.length - 1) code += "\ndelorean.snapshot();\n";
-      }
+    let { code } = babel.transform(src, {
+      plugins: [initConfigVisitor,
+      storeContinuationsVisitor]
+    })
   
-      splitCode = code.split(";");
-      code = "";
-      for (let i = 0; i < splitCode.length; i++) {
-        code += splitCode[i];
-        if (i != splitCode.length - 1) code += ";";
-        if (splitCode[i].includes("continuations.kont")) code += "\ntry {\n";
-      }
-    }
+    console.log(code)
+
     let compile = require("../unwinder/bin/compile.js")
     let unwindedCode = compile(code);
 

@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: main.aux
+The style file: IEEEtran.bst
+Database file #1: djs.bib
+Warning--entry type for "unwinder:2018" isn't style-file defined
+--line 1 of file djs.bib
+Warning--string name "mat" is undefined
+--line 46 of file djs.bib
+Warning--entry type for "rxjs" isn't style-file defined
+--line 146 of file djs.bib
+Warning--I'm ignoring tod:oopsla2007's extra "title" field
+--line 180 of file djs.bib
+Repeated entry---line 240 of file djs.bib
+ : @misc{angular
+ :              ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 287 of file djs.bib
+ : @misc{resig:jquery
+ :                   ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 312 of file djs.bib
+ : @software{rxjs
+ :               ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 337 of file djs.bib
+ : @inproceedings{zhengAl:www2011
+ :                               ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 348 of file djs.bib
+ : @inproceedings{bartonOdvarko:www2011
+ :                                     ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 370 of file djs.bib
+ : @inproceedings{chargueraudAl:www2018
+ :                                     ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 417 of file djs.bib
+ : @inproceedings{legerFukuda:sac-se2017
+ :                                      ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 441 of file djs.bib
+ : @software{unwinder:2018
+ :                        ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 778 of file djs.bib
+ : @misc{mckenzie:babel
+ :                     ,
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+
+Done.
+(There were 9 error messages)

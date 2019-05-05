@@ -16,10 +16,12 @@ class ConsoleContainer extends Component {
     return (
       <div className="consolefeed-container" style={{ backgroundColor: '#242424' }}>
         <h2 className="console-title">Output  </h2>
-        <Console 
-          logs={this.state.logs} 
-          variant="dark"
-        />
+        <div>
+          <Console 
+            logs={this.state.logs} 
+            variant="dark"
+          />
+        </div>
       </div>
     )
   }

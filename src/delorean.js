@@ -1,7 +1,7 @@
 const { heapSnapshot } = require('./heap');
 
 module.exports = {
-    snapshot: () => {
-        heapSnapshot();
+    insertTimePoint: (id) => {
+        heapSnapshot(id);
     },
 }

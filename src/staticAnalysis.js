@@ -4,6 +4,7 @@ const ContinuationsConfigVisitor = require('./visitors/createContinuation');
 const StoreContinuationsVisitor = require('./visitors/storeContinuations');
 const RestoreHeapVisitor = require('./visitors/heapRestore');
 const RestoreContinuationVisitor = require('./visitors/continuationRestore')
+const TryCatchVisitor = require('./visitors/tryCatch')
 
 const { addDependecies } = require('./heap')
 const variables = require('../observables');
@@ -55,6 +56,11 @@ module.exports = {
     restoreContinuationVisitor: () => {
         return ({
             visitor: RestoreContinuationVisitor,
+        })
+    },
+    tryCatchVisitor: () => {
+        return ({
+            visitor: TryCatchVisitor,
         })
     }
 }
