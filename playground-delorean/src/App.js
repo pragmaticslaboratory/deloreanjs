@@ -52,10 +52,16 @@ class App extends Component {
     this.consoleFeed = createRef();
   }
 
-  updateCode = code => {
-    this.setState({
-      code
-    });
+  updateCode = ev => {
+    if(typeof ev == 'string'){
+      this.setState({
+        code: ev,
+      });
+    } else {
+      this.setState({
+        code: ev.getValue(),
+      });
+    }
   };
 
   selectTab = ev => {
@@ -152,6 +158,7 @@ class App extends Component {
               <CodeMirror
                 value={this.state.code}
                 options={options}
+                onChange={this.updateCode}
               />
             </div>
             <Console 
