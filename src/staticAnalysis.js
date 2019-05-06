@@ -7,25 +7,25 @@ const RestoreHeapVisitor = require('./visitors/heapRestore');
 const RestoreContinuationVisitor = require('./visitors/continuationRestore')
 const TryCatchVisitor = require('./visitors/tryCatch')
 
-const { addDependecies } = require('./heap')
+const { addDependencies } = require('./heap')
 
 global.dependencies = [];
 
-const DependeciesVisitor = {
+const DependenciesVisitor = {
     Program(path) {
         dependencies = [];
         path.traverse(WatchVisitor);
         path.traverse(DeclaratorVisitor);
         path.traverse(AssignmentVisitor);
-        addDependecies(dependencies);
+        addDependencies(dependencies);
         console.log(dependencies)
     }
 };
 
 module.exports = {
-    dependeciesVisitor: () => {
+    dependenciesVisitor: () => {
         return ({
-            visitor: DependeciesVisitor,
+            visitor: DependenciesVisitor,
         })
     },
 
