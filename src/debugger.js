@@ -26,7 +26,7 @@ module.exports = {
       storeContinuationsVisitor]
     })
   
-    console.log(code)
+    // console.log(code)
 
     let compile = require("../unwinder/bin/compile.js")
     let unwindedCode = compile(code);

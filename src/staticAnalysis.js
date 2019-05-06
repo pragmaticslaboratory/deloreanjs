@@ -1,3 +1,4 @@
+const WatchVisitor = require('./visitors/watch')
 const DeclaratorVisitor = require('./visitors/declarator');
 const AssignmentVisitor = require('./visitors/assignment');
 const ContinuationsConfigVisitor = require('./visitors/createContinuation');
@@ -7,24 +8,17 @@ const RestoreContinuationVisitor = require('./visitors/continuationRestore')
 const TryCatchVisitor = require('./visitors/tryCatch')
 
 const { addDependecies } = require('./heap')
-const variables = require('../observables');
 
-function observe(list) {
-    obj = [];
-    for (let key in list) {
-        obj.push(key); 
-    }
-    return obj;
-}
-
-global.dependencies;
+global.dependencies = [];
 
 const DependeciesVisitor = {
     Program(path) {
-        dependencies = observe(variables);
+        dependencies = [];
+        path.traverse(WatchVisitor);
         path.traverse(DeclaratorVisitor);
         path.traverse(AssignmentVisitor);
         addDependecies(dependencies);
+        console.log(dependencies)
     }
 };
 

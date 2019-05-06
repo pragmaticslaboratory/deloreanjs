@@ -48,8 +48,8 @@ module.exports = {
                         )
                     );               
                 }
-                console.log(newBlock)                
-                console.log(path.node)
+                // console.log(newBlock)                
+                // console.log(path.node)
                 while(path.get('body').length != 0) path.get('body')[0].remove();     
                 for(let i = 0; i < newBlock.length; ++i) path.pushContainer('body', newBlock[i]);
             }

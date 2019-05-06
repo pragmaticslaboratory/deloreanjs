@@ -23,9 +23,6 @@ function rightType(key) {
     }
 }    
 
-
-
-
 module.exports = {
     MemberExpression(path) {
         if(path.node.property && path.node.property.name  == 'kont' + restore && path.container.type == "AssignmentExpression"){

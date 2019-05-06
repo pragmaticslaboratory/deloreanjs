@@ -143,6 +143,7 @@ class App extends Component {
       tabSize: 2,
       keyMap: "sublime",
       mode: "js",
+      lineNumbers: true,
       readOnly: this.state.readOnly
     };
     return (
