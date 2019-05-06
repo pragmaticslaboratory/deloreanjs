@@ -50,6 +50,7 @@ class App extends Component {
   constructor(props){
     super(props)
     this.consoleFeed = createRef();
+    this.editor = createRef();
   }
 
   updateCode = ev => {
@@ -123,6 +124,7 @@ class App extends Component {
   
   stopExecution = () => {
     this.consoleFeed.current.state.logs = [];
+    this.editor.current.editor.setOption('readOnly', false);
     global.heap = {
       dependencies: {},
       snapshots: []
@@ -156,6 +158,7 @@ class App extends Component {
           <div className="left-panel">
             <div className="editor-container">
               <CodeMirror
+                ref={this.editor}
                 value={this.state.code}
                 options={options}
                 onChange={this.updateCode}
