@@ -45,6 +45,9 @@ class Output extends Component {
                                                 variant="contained" 
                                                 color="primary"
                                                 size="small"
+                                                style={{
+                                                    margin:'5px'
+                                                }}
                                                 onClick={this.props.invokeContinuation}
                                             >
                                             Continuation {index}
