@@ -16,9 +16,7 @@ module.exports = {
                 Identifier(path) {
                     
                     if (dependencies.includes(left) && left != path.node.name && !dependencies.includes(path.node.name)) {
-                        if(path.parent.type != 'CallExpression' || path.parent.arguments.indexOf(path.node) != -1){
-                            dependencies.push(path.node.name)
-                        }
+                        dependencies.push(path.node.name)
                     }
                 }
             })

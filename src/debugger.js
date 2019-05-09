@@ -4,7 +4,8 @@ const {
   dependeciesVisitor,
   initConfigVisitor,
   storeContinuationsVisitor,
-  tryCatchVisitor
+  tryCatchVisitor,
+  ifBlockVisitor
 } = require("../src/staticAnalysis");
 
 function restoreHeap(restore){
@@ -12,6 +13,7 @@ function restoreHeap(restore){
   b = document.getElementById('input-b').value || heap.snapshots[restore].b || undefined;
   c = document.getElementById('input-c').value || heap.snapshots[restore].c || undefined;
   x = document.getElementById('input-x').value || heap.snapshots[restore].x || undefined;
+  i = document.getElementById('input-i').value || heap.snapshots[restore].i || undefined;
 }
 
 module.exports = {
@@ -22,7 +24,7 @@ module.exports = {
     ], true).code;
   
     let { code } = babel.transform(src, {
-      plugins: [initConfigVisitor,
+      plugins: [ifBlockVisitor, initConfigVisitor,
       storeContinuationsVisitor]
     })
   

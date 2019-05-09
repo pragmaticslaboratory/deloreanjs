@@ -1,10 +1,10 @@
 const t = require('babel-types');
 
-function isTimePoint(element){
+window.isTimePoint = function(element){
     return element && element.expression && element.expression.callee &&
     element.expression.callee.object && element.expression.callee.property &&
     element.expression.callee.object.name == 'delorean' && element.expression.callee.property.name == 'insertTimePoint';
-}
+};
 
 const catchClause = t.catchClause(
     t.identifier('e'),
@@ -32,7 +32,7 @@ module.exports = {
                     splitPoints.push(i);     
                 }
             }
-            let newBlock = [t.expressionStatement(t.stringLiteral('STOP'))];
+            let newBlock = [];
             let auxBlock = [];
             if(splitPoints.length != 0 && (t.isProgram(path) || !t.isTryStatement(path.getStatementParent()))){              
                 for (let i = splitPoints.length - 1; i >= -1; --i) {  

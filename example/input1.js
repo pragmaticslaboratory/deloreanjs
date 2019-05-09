@@ -11,10 +11,10 @@ delorean.insertTimePoint('B');
 console.log('Second continuation', b);
 
 let t = 0;
-for(let i = 0; i < 10; ++i){
+for(i = 0; i < 10; ++i){
     t += i;
-    delorean.insertTimePoint('C');
-    console.log('Third continuation', b);
+    if(i == 5) delorean.insertTimePoint('C');
+    console.log('Third continuation', b, i);
 }
 
 if(b == 7) {

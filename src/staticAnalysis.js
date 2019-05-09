@@ -5,6 +5,8 @@ const StoreContinuationsVisitor = require('./visitors/storeContinuations');
 const RestoreHeapVisitor = require('./visitors/heapRestore');
 const RestoreContinuationVisitor = require('./visitors/continuationRestore')
 const TryCatchVisitor = require('./visitors/tryCatch')
+const LoopVisitor = require('./visitors/loop')
+const IfBlockVisitor = require('./visitors/ifBlock')
 
 const { addDependecies } = require('./heap')
 const variables = require('../observables');
@@ -24,6 +26,7 @@ const DependeciesVisitor = {
         dependencies = observe(variables);
         path.traverse(DeclaratorVisitor);
         path.traverse(AssignmentVisitor);
+        path.traverse(LoopVisitor);
         addDependecies(dependencies);
     }
 };
@@ -58,9 +61,16 @@ module.exports = {
             visitor: RestoreContinuationVisitor,
         })
     },
+
     tryCatchVisitor: () => {
         return ({
             visitor: TryCatchVisitor,
+        })
+    },
+
+    ifBlockVisitor: () => {
+        return ({
+            visitor: IfBlockVisitor,
         })
     }
 }
