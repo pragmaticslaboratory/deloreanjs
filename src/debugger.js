@@ -1,7 +1,7 @@
 const babel = require('babel-core');
 
 const {
-  dependeciesVisitor,
+  dependenciesVisitor,
   initConfigVisitor,
   storeContinuationsVisitor,
   tryCatchVisitor,
@@ -9,17 +9,15 @@ const {
 } = require("../src/staticAnalysis");
 
 function restoreHeap(restore){
-  a = document.getElementById('input-a').value || heap.snapshots[restore].a || undefined;
-  b = document.getElementById('input-b').value || heap.snapshots[restore].b || undefined;
-  c = document.getElementById('input-c').value || heap.snapshots[restore].c || undefined;
-  x = document.getElementById('input-x').value || heap.snapshots[restore].x || undefined;
-  i = document.getElementById('input-i').value || heap.snapshots[restore].i || undefined;
+  dependencies.map((key) => {
+    eval(`${key} = document.getElementById('input-${key}').value || heap.snapshots[${restore}].${key} || undefined;`)
+  })
 }
 
 module.exports = {
   init: (inputCode, ) => {
     let src = require("../index")(inputCode, [
-      dependeciesVisitor,
+      dependenciesVisitor,
       tryCatchVisitor,
     ], true).code;
   
@@ -27,8 +25,6 @@ module.exports = {
       plugins: [ifBlockVisitor, initConfigVisitor,
       storeContinuationsVisitor]
     })
-  
-    console.log(code)
 
     let compile = require("../unwinder/bin/compile.js")
     let unwindedCode = compile(code);

@@ -3,7 +3,7 @@ heap.snapshots = []
 
 module.exports = {
 
-    addDependecies: (dependencies) => {
+    addDependencies: (dependencies) => {
         heap.dependencies = dependencies;
     },
 

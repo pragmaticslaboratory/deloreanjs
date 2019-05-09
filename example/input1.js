@@ -1,4 +1,5 @@
-export default `console.log("Start Program")
+export default `delorean.watch(['a', 'c', 'x']);
+console.log("Start Program")
 b = 7;
 a = b;
 
