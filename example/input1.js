@@ -1,5 +1,5 @@
-export default `delorean.watch(['a', 'c', 'x']);
-console.log("Start Program")
+export default `delorean.watch(['a', 'c', 'x'])
+console.log("Start Program 2")
 b = 7;
 a = b;
 
@@ -10,13 +10,6 @@ a = c;
 
 delorean.insertTimePoint('B');
 console.log('Second continuation', b);
-
-let t = 0;
-for(i = 0; i < 10; ++i){
-    t += i;
-    if(i == 5) delorean.insertTimePoint('C');
-    console.log('Third continuation', b, i);
-}
 
 if(b == 7) {
     throw ["throw activate in VM", continuations];
