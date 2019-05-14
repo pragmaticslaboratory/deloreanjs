@@ -12,7 +12,6 @@ Usage
 ---
 
 Please, visit the webpage [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
----
 
 Tech
 ----
