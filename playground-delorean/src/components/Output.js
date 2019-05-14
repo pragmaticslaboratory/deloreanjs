@@ -52,7 +52,7 @@ class Output extends Component {
                                                 }}
                                                 onClick={this.props.invokeContinuation}
                                             >
-                                            Continuation {index}
+                                            TimePoint {index}
                                             </Button>
                                         )
                                     })
