@@ -33,13 +33,19 @@
   display: flex;
 }
 
+.tab-container:hover {
+  background: #3C4858;
+  color: white; 
+  cursor: pointer;
+}
+
 .editor-container {
   border-right: 1px solid rgb(17, 21, 24);
 }
 
 .tab-container {
   display: inline-block;
-  padding: 0 20px;
+  padding: 0 20px;  
   border-right: 1px solid rgb(17, 21, 24);
 }
 
