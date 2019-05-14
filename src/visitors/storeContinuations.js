@@ -1,5 +1,5 @@
-const t = require('babel-types');
-let snapshotCounter = 0;
+const t = require('babel-types')
+global.snapshotCounter = 0;
 
 
 module.exports = {

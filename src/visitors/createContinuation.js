@@ -9,7 +9,6 @@ module.exports = {
                     '=',
                     t.identifier('continuations'),
                     t.objectExpression([])
-
                 )
             ) 
         );

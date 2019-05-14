@@ -129,7 +129,8 @@ class App extends Component {
       dependencies: {},
       snapshots: []
     };
-    global.continations = {};
+    global.continuations = {};
+    global.snapshotCounter = 0;
     this.toggleIsRunning();
     this.setState({
       snapshots: [],

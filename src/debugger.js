@@ -30,9 +30,9 @@ module.exports = {
     let unwindedCode = compile(code);
 
     try {
-      console.log(`%cStart first Eval()`, "background: #222; color: cyan");
+      console.log(`%cStart first execution`, "background: #222; color: cyan");
       eval(unwindedCode);
-      console.log(`%cFinish first Eval()`, "background: #222; color: cyan");
+      console.log(`%cFinish first execution`, "background: #222; color: cyan");
     } catch (e) {
       console.log(e, "Error from VM");
     }
