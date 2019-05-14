@@ -1,0 +1,14 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {I}Introducci\'on}{1}
+\contentsline {section}{\numberline {II}Un Tour por \unhbox \voidb@x \hbox {DeloreanJS}\xspace }{2}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-A}}Reparando un Bug}{2}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-B}}Mejorando la Comprensi\'on de un Bug}{2}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-C}}Experimentando con Escenarios Hipot\'eticos}{2}
+\contentsline {section}{\numberline {III}\unhbox \voidb@x \hbox {DeloreanJS}\xspace }{2}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-A}}Construyendo Timepoints}{2}
+\contentsline {subsubsection}{\numberline {\unhbox \voidb@x \hbox {III-A}1}Capturando Program Counter y Stack}{2}
+\contentsline {subsubsection}{\numberline {\unhbox \voidb@x \hbox {III-A}2}Capturando el Heap}{3}
+\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-B}}Insertando y Usando Timepoints en una Aplicaci\'on}{3}
+\contentsline {section}{\numberline {IV}Trabajos Relacionados}{4}
+\contentsline {section}{\numberline {V}Conclusiones}{5}
+\contentsline {section}{Referencias}{5}

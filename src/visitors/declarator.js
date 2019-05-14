@@ -16,7 +16,7 @@ module.exports = {
                 path.traverse({
                     Identifier(path){
                         if (dependencies.includes(left) && left != path.node.name && !dependencies.includes(path.node.name)){
-                            dependencies.push(path.node.name)
+                            dependencies.push({name: path.node.name, type: 'normal'})
                         }
                     }
                 })

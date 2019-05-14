@@ -13,7 +13,7 @@ module.exports = {
                 test.traverse({
                     Identifier(path){
                         if (!dependencies.includes(path.node.name)){
-                                dependencies.push(path.node.name)
+                            dependencies.push({name: path.node.name, type: 'loop'})
                         }
                     }
                 })

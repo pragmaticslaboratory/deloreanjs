@@ -45,6 +45,8 @@ guillermo.victorero@alumnos.ucn.cl}
 Aplicaciones Web, usando \javascript, son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'ia de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (conocido como {\em bugs}), cuyos s\'intomas se aprecian durante el desarrollo e incluso, siendo peor, en producci\'on. Para ello, el uso de debuggers es sumamente \'util para detectar bugs. Lamentablemente, los actuales debuggers solamente avanzan hacia adelante en la ejecuci\'on para detectar un bug y no permiten retornar hacia un punto anterior en la ejecuci\'on para tomar acciones asociadas al bug detectado. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger para \javascript, llamado \deloreanjs, que permite a un programador volver en el tiempo en la ejecuci\'on con el fin pueda volver y probar el contexto alrededor de un bug. Este debugger ha sido implementado como una prueba de concepto para ser probado online.         
 \end{abstract}
 
+%\tableofcontents
+
 \begin{IEEEkeywords}
 \deloreanjs, \javascript, Debugger, Web application, Continuations
 \end{IEEEkeywords}
@@ -68,7 +70,7 @@ Este art\'iculo cient\'ifico presenta \deloreanjs, un debugger que permite al de
 
 	\smallskip
 
-	\item {\bf Experimentaci\'on de escenarios.} Probar escenarios hipot\'eticos de la ejecuci\'on de una aplicaci\'on Web usando un timepoint de \deloreanjs. Esto permite explorar diversas evoluciones de la ejecuci\'on de la aplicaci\'on cambiando valores de algunas de sus variables.
+	\item {\bf Experimentaci\'on de hipot\'eticos escenarios.} Probar escenarios hipot\'eticos de la ejecuci\'on de una aplicaci\'on Web usando un timepoint de \deloreanjs. Esto permite explorar diversas evoluciones de la ejecuci\'on de la aplicaci\'on cambiando valores de algunas de sus variables.
    
 \end{enumerate}
 
@@ -90,9 +92,9 @@ Nosotros presentamos \deloreanjs a trav\'es de tres ejemplos concretos. Cada eje
 \subsection{Reparando un Bug}
 \label{sec:tour1}
 
-Para introducir \deloreanjs, usaremos un simple ejemplo de c\'odigo fuente presentado m\'as abajo. Esta pieza c\'odigo muestra que al inicio un programador debe definir qu\'e variables desea observar (ej. \co{x}). Luego el programador puede insertar    {\em timepoints} para permitir que la ejecuci\'on de una aplicaci\'on Web, escrita en \javascript, vuelva en el tiempo cuando una excepci\'on es gatillada. En este ejemplo, la excepci\'on es gatillada.  
+Para introducir \deloreanjs, usaremos un simple c\'odigo fuente (Listing~\ref{lst:ex1}), el cual est\'a escrito en \javascript. Esta pieza c\'odigo muestra que al inicio un programador debe definir qu\'e variables desea observar (ej. \co{x}). Luego el programador puede insertar {\em timepoints} para permitir que la ejecuci\'on de una aplicaci\'on Web vuelva en el tiempo cuando una excepci\'on es gatillada. En este c\'odigo, la excepci\'on es gatillada cuando una funci\'on inexistente es llamada.  
 
-\begin{lstlisting}[linewidth=\columnwidth]
+\begin{lstlisting}[linewidth=\columnwidth,caption=,label=lst:ex1]
 DeloreanJs.watch(x,z);
 a = 1;
 x = 5;
@@ -107,16 +109,19 @@ if (z == 5)
 	inexistenteFuncion(); //excepcion gatillada
 \end{lstlisting}
 
-\subsection{Ejemplo 2}
+\subsection{Mejorando la Comprensi\'on de un Bug}
 \label{sec:tour2}
 
 \pl{Explicar con imag\'enes el ejemplo 2}
+\bigskip
+\bigskip
 
-\subsection{Ejemplo 3}
+\subsection{Experimentando con Escenarios Hipot\'eticos}
 \label{sec:tour3}
 
 \pl{Explicar con imag\'enes el ejemplo 3}
 
+\bigskip
 \bigskip
 
 \begin{figure*}[t]

@@ -13,8 +13,9 @@ function restoreHeap(restore){
   heap.snapshots.map(element => {
     if(element.TimePointId == restore) snapshot = element;
   })
+  console.log(heap);
   dependencies.map((key) => {
-    eval(`${key} = document.getElementById('input-${key}').value || undefined || snapshot.${key};`)
+    eval(`${key}.name = document.getElementById('input-${key}').value || undefined || snapshot.${key};`)
   })
 }
 
