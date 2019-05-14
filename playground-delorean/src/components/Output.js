@@ -22,7 +22,7 @@ class Output extends Component {
                                                 id="standard-name"
                                                 label={dependency}
                                                 id={`input-${dependency}`}
-                                                // value={this.state.name}
+                                                value={window[dependency]}
                                                 // onChange={this.handleChange('name')}
                                                 margin="normal"
                                                 key={dependency}
