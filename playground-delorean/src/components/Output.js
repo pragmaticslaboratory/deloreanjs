@@ -1,12 +1,36 @@
 import React, { Component } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Button, TextField } from '@material-ui/core'
+import Icon from '@material-ui/core/Icon';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
+const styles = theme => ({
+    button: {
+      margin: theme.spacing.unit,
+    },
+    // leftIcon: {
+    //   marginRight: theme.spacing.unit,
+    // },
+    rightIcon: {
+      marginLeft: theme.spacing.unit,
+    },
+    // iconSmall: {
+    //   fontSize: 20,
+    // },
+  });
 class Output extends Component {
+
+    state = {
+        timePointValues: {},
+    }
+
+
 
     render(){
         const markdown = require('../markdown');
-        let index = 0;
+        const { classes } = this.props;
+        const timePointValues = this.props.timePointValues
         return (
             <div>
                 {
@@ -14,7 +38,8 @@ class Output extends Component {
                     (
                         <div className="output-container">
                             <div className="container-inputs">
-                                <h2>Heap</h2>
+                                <h2>Watched Variables</h2>
+                                <hr></hr>
                                 {
                                     this.props.dependencies.map((dependency) => {
                                         return (<div key={dependency}>
@@ -22,7 +47,7 @@ class Output extends Component {
                                                     id="standard-name"
                                                     label={dependency}
                                                     id={`input-${dependency}`}
-                                                    defaultValue={window[dependency]}
+                                                    // defaultValue={}
                                                     // value={}
                                                     // onChange={this.handleChange('name')}
                                                     margin="normal"
@@ -30,13 +55,45 @@ class Output extends Component {
                                                         margin: '5px',
                                                     }}
                                                 />
+                                                {timePointValues[dependency]}
                                             </div>
                                         )
                                     })
                                 }
                             </div>
                             <div className="container-buttons">
-                                <h2>Time Points</h2>            
+                                <div 
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
+                                    <h2 
+                                    style={{
+                                        display: 'inline',
+                                    }}>
+                                        Time Points
+                                    </h2> 
+                                    <div 
+                                        style={{
+                                            display: 'inline',
+                                        }}
+                                    >
+                                        <Button 
+                                            variant="contained"
+                                            color="secondary"
+                                            size="small"
+                                            style={{
+                                                margin: '20px',
+                                            }}
+                                            onClick={this.props.invokeContinuation}
+                                        >
+                                            Resume
+                                            <Icon className={classes.rightIcon}>play_circle_filled</Icon>
+                                        </Button>
+                                    </div>         
+                                </div>
+                                <hr></hr>
                                 {
                                     this.props.snapshots.map((snapshot) => {
                                         return (
@@ -50,7 +107,8 @@ class Output extends Component {
                                                 style={{
                                                     margin:'5px'
                                                 }}
-                                                onClick={this.props.invokeContinuation}
+                                                // onClick={this.props.invokeContinuation}
+                                                onClick={this.props.selectTimePoint}
                                             >
                                             TimePoint {snapshot.TimePointId}
                                             </Button>
@@ -73,5 +131,9 @@ class Output extends Component {
     }
 }
 
-export default Output;
+Output.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+
+export default withStyles(styles)(Output);
 

@@ -25,15 +25,15 @@ class App extends Component {
   state = {
     tabs: [
       {
-        name: "simpleBug.js",
+        name: "repairingBugs.js",
         input: example1
       },
       {
-        name: "timeWastingLoop.js",
+        name: "wastingTimeBugs.js",
         input: example2
       },
       {
-        name: "differentStages.js",
+        name: "testingScenarios.js",
         input: example3
       }
     ],
@@ -45,6 +45,8 @@ class App extends Component {
     readOnly: false,
     selected: false,
     selectedTarget: "",
+    timePointValues: {},
+    selectedTimePoint: '',
   };
 
   constructor(props){
@@ -64,6 +66,17 @@ class App extends Component {
       });
     }
   };
+
+  selectTimePoint = ev => {
+    global.heap.snapshots.map(el => {
+      if(el.TimePointId == ev.currentTarget.getAttribute('id')){
+        this.setState({
+          timePointValues: el,
+          selectedTimePoint: ev.currentTarget.getAttribute('id')
+        })
+      }
+    })
+  }
 
   selectTab = ev => {
     if(!this.state.isRunning){
@@ -121,10 +134,10 @@ class App extends Component {
     }
   };
 
-  invokeContinuation = ev => {
+  invokeContinuation = (ev) => {
     this.consoleFeed.current.state.logs = [];
-    let kont = ev.currentTarget.attributes["kont"].value;
-    debuggerDelorean.invokeContinuation(kont);
+    // let kont = ev.currentTarget.attributes["kont"].value;
+    debuggerDelorean.invokeContinuation(this.state.selectedTimePoint);
   };
   
   stopExecution = () => {
@@ -177,9 +190,11 @@ class App extends Component {
           </div>
           <div className="right-panel">
             <Output
+              timePointValues={this.state.timePointValues}
               snapshots={this.state.snapshots}
               dependencies={this.state.dependencies}
               invokeContinuation={this.invokeContinuation}
+              selectTimePoint={this.selectTimePoint}
             />
           </div>
         </div>
