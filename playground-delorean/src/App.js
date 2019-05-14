@@ -66,11 +66,15 @@ class App extends Component {
   };
 
   selectTab = ev => {
-    let example = this.state.tabs.find(
-      o => o.name === ev.currentTarget.firstChild.getAttribute("name")
-    );
-    this.updateCode(example.input);
-    this.selectTabColor(ev);
+    if(!this.state.isRunning){
+      let example = this.state.tabs.find(
+        o => o.name === ev.currentTarget.firstChild.getAttribute("name")
+      );
+      this.updateCode(example.input);
+      this.selectTabColor(ev);
+    } else {
+      alert('Sorry, you need stop this execution before change the code! :)')
+    }
   };
 
   selectTabColor = ev => {
@@ -118,6 +122,7 @@ class App extends Component {
   };
 
   invokeContinuation = ev => {
+    this.consoleFeed.current.state.logs = [];
     let kont = ev.currentTarget.attributes["kont"].value;
     debuggerDelorean.invokeContinuation(kont);
   };

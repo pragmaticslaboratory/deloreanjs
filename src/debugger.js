@@ -54,13 +54,13 @@ module.exports = {
   invokeContinuation: (kont) => {
     restoreHeap(kont)
     try {
-      console.log(`%cStart Continuation ${kont}`,"background: #222; color: #bada55");
+      console.log(`%cStart TimePoint ${kont}`,"background: #222; color: #bada55");
       eval(
         `let kontAux = continuations.kont${kont}; 
         continuations.kont${kont}(); 
         continuations.kont${kont} = kontAux`
       );
-      console.log(`%cEnd Continuation ${kont}`,"background: #222; color: #bada55");
+      console.log(`%cEnd TimePoint ${kont}`,"background: #222; color: #bada55");
     } catch (e) {
       console.log(e, "Error from VM");
     }

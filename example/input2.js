@@ -1,21 +1,22 @@
 export default `delorean.watch(['a', 'c', 'x']);
+
+function delay(ms){
+    const startPoint = new Date().getTime()
+    while (new Date().getTime() - startPoint <= ms) { /* wait */}
+}
+
 console.log("Start Program")
-b = 7;
-a = b;
 
 delorean.insertTimePoint('A');
-console.log('First continuation', b);
-c = 0;
-a = c;
-
-delorean.insertTimePoint('B');
-console.log('Second continuation', b);
+console.log('First TimePoint');
+var b = 7;
 
 var t = 0;
 for(i = 0; i < 5; ++i){
     t += i;
+    delay(1000)
     delorean.insertTimePoint('C');
-    console.log('Third continuation', b, i);
+    console.log('For TimePoint', i);
 }
 
 if(b == 7) {

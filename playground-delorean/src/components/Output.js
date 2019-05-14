@@ -5,7 +5,7 @@ import { Button, TextField } from '@material-ui/core'
 class Output extends Component {
 
     render(){
-        const markdown = require('./markdown');
+        const markdown = require('../markdown');
         let index = 0;
         return (
             <div>
