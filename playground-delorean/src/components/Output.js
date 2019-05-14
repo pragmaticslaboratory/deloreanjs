@@ -17,12 +17,12 @@ class Output extends Component {
                                 <h2>Heap</h2>
                                 {
                                     this.props.dependencies.map((dependency) => {
-                                        return (<div key={dependency}>
+                                        return (<div key={dependency.name}>
                                                 <TextField
                                                     id="standard-name"
-                                                    label={dependency}
-                                                    id={`input-${dependency}`}
-                                                    defaultValue={window[dependency]}
+                                                    label={dependency.name}
+                                                    id={`input-${dependency.name}`}
+                                                    defaultValue={window[dependency.name]}
                                                     // value={}
                                                     // onChange={this.handleChange('name')}
                                                     margin="normal"

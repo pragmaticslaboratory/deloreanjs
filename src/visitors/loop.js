@@ -12,7 +12,7 @@ module.exports = {
             if (hasTimepoint){
                 test.traverse({
                     Identifier(path){
-                        if (!dependencies.includes(path.node.name)){
+                        if (!dependencies.some(dependency => dependency.name == path.node.name)){
                             dependencies.push({name: path.node.name, type: 'loop'})
                         }
                     }

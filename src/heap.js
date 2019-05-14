@@ -18,7 +18,7 @@ module.exports = {
         }
         snapshot.TimePointId = id;
         heap.dependencies.map(dependecy => {
-            snapshot[`${dependecy}`.name] = global[dependecy.toString()]
+            snapshot[`${dependecy.name}`] = global[dependecy.name.toString()]
         })
         heap.snapshots.push(snapshot)
     },

@@ -6,8 +6,8 @@ module.exports = {
         if(right != null){
             // x = y
             if (right.type == 'Identifier'){
-                if(dependencies.includes(left) && left != right.name && !dependencies.includes(right.name)){
-                    dependencies.push(right.name)
+                if(dependencies.some(dependency => dependency.name == left) && left != right.name && !dependencies.some(dependency => dependency.name == right.name)){
+                    dependencies.push({name: right.name, type: 'normal'})
                 }
             }
 
@@ -15,7 +15,7 @@ module.exports = {
             if(right.type == 'BinaryExpression' || right.type == 'CallExpression'){
                 path.traverse({
                     Identifier(path){
-                        if (dependencies.includes(left) && left != path.node.name && !dependencies.includes(path.node.name)){
+                        if (dependencies.some(dependency => dependency.name == left) && left != path.node.name && !dependencies.some(dependency => dependency.name == path.node.name)){
                             dependencies.push({name: path.node.name, type: 'normal'})
                         }
                     }
