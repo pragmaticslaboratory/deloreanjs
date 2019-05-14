@@ -25,15 +25,15 @@ class App extends Component {
   state = {
     tabs: [
       {
-        name: "example1.js",
+        name: "simpleBug.js",
         input: example1
       },
       {
-        name: "example2.js",
+        name: "timeWastingLoop.js",
         input: example2
       },
       {
-        name: "example3.js",
+        name: "differentStages.js",
         input: example3
       }
     ],
