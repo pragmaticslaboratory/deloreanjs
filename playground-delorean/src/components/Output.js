@@ -41,9 +41,9 @@ class Output extends Component {
                                         return (
                                             <Button 
                                                 className="heap-input"
-                                                kont={++index} 
-                                                id={index}
-                                                key={index}
+                                                kont={snapshot.TimePointId} 
+                                                id={snapshot.TimePointId}
+                                                key={snapshot.TimePointId}
                                                 variant="contained" 
                                                 color="primary"
                                                 size="small"
@@ -52,7 +52,7 @@ class Output extends Component {
                                                 }}
                                                 onClick={this.props.invokeContinuation}
                                             >
-                                            TimePoint {index}
+                                            TimePoint {snapshot.TimePointId}
                                             </Button>
                                         )
                                     })

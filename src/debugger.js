@@ -9,8 +9,12 @@ const {
 } = require("../src/staticAnalysis");
 
 function restoreHeap(restore){
+  let snapshot;
+  heap.snapshots.map(element => {
+    if(element.TimePointId == restore) snapshot = element;
+  })
   dependencies.map((key) => {
-    eval(`${key} = document.getElementById('input-${key}').value || heap.snapshots[${restore}].${key} || undefined;`)
+    eval(`${key} = document.getElementById('input-${key}').value || undefined || snapshot.${key};`)
   })
 }
 
@@ -26,6 +30,15 @@ module.exports = {
       storeContinuationsVisitor]
     })
 
+    code = `function addCont(cont, continuations, originalId){
+      let counter = 0;
+      let id = originalId;
+      while(continuations[id]){
+          id = originalId + (++counter);
+      }
+      continuations[id] = cont;
+    }` + code;
+
     let compile = require("../unwinder/bin/compile.js")
     let unwindedCode = compile(code);
 
@@ -39,13 +52,13 @@ module.exports = {
   },
 
   invokeContinuation: (kont) => {
-    restoreHeap(kont-1)
+    restoreHeap(kont)
     try {
       console.log(`%cStart Continuation ${kont}`,"background: #222; color: #bada55");
       eval(
-        `let kontAux = continuations.kont${kont - 1}; 
-        continuations.kont${kont -1}(); 
-        continuations.kont${kont - 1} = kontAux`
+        `let kontAux = continuations.kont${kont}; 
+        continuations.kont${kont}(); 
+        continuations.kont${kont} = kontAux`
       );
       console.log(`%cEnd Continuation ${kont}`,"background: #222; color: #bada55");
     } catch (e) {

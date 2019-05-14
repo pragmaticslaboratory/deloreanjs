@@ -7,15 +7,14 @@ module.exports = {
     MemberExpression(path) {
         if(path.node.object && path.node.property && path.node.object.name == 'delorean' && path.node.property.name == 'insertTimePoint'){
             var snapshotCall = path.findParent(path => path.isCallExpression());  
+
             snapshotCall.insertAfter(
                 t.expressionStatement(
-                    t.assignmentExpression(
-                        '=',
-                        t.memberExpression(
-                            t.identifier('continuations'),
-                            t.identifier('kont' + snapshotCounter)
-                        ),
-                        t.identifier('kont' + snapshotCounter)       
+                    t.callExpression(
+                        t.identifier('addCont'),
+                        [t.identifier('kont' + snapshotCall.container.expression.arguments[0].value),
+                        t.identifier('continuations'),
+                        t.stringLiteral('kont' + snapshotCall.container.expression.arguments[0].value)]      
                     )
                 )
             ) 
@@ -23,7 +22,7 @@ module.exports = {
                 t.variableDeclaration(
                     'var',
                     [t.variableDeclarator(
-                        t.identifier('kont' + snapshotCounter),
+                        t.identifier('kont' + snapshotCall.container.expression.arguments[0].value),
                         t.callExpression(
                             t.identifier('createContinuation'),
                             []
