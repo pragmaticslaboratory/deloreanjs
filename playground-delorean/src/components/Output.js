@@ -17,30 +17,30 @@ class Output extends Component {
                                 <h2>Heap</h2>
                                 {
                                     this.props.dependencies.map((dependency) => {
-                                        return (
-                                            <TextField
-                                                id="standard-name"
-                                                label={dependency}
-                                                id={`input-${dependency}`}
-                                                value={window[dependency]}
-                                                // onChange={this.handleChange('name')}
-                                                margin="normal"
-                                                key={dependency}
-                                                style={{
-                                                    margin:'5px'
-                                                }}
-                                            />
+                                        return (<div key={dependency}>
+                                                <TextField
+                                                    id="standard-name"
+                                                    label={dependency}
+                                                    id={`input-${dependency}`}
+                                                    defaultValue={window[dependency]}
+                                                    // value={}
+                                                    // onChange={this.handleChange('name')}
+                                                    margin="normal"
+                                                    style={{    
+                                                        margin: '5px',
+                                                    }}
+                                                />
+                                            </div>
                                         )
                                     })
                                 }
                             </div>
                             <div className="container-buttons">
-                                <h2>Continuations</h2>            
+                                <h2>Time Points</h2>            
                                 {
                                     this.props.snapshots.map((snapshot) => {
                                         return (
                                             <Button 
-                                                className="heap-input"
                                                 kont={snapshot.TimePointId} 
                                                 id={snapshot.TimePointId}
                                                 key={snapshot.TimePointId}
