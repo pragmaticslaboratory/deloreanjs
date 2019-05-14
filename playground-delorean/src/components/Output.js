@@ -26,7 +26,9 @@ class Output extends Component {
                                                 // onChange={this.handleChange('name')}
                                                 margin="normal"
                                                 key={dependency}
-                                                className="heap-input"
+                                                style={{
+                                                    margin:'5px'
+                                                }}
                                             />
                                         )
                                     })
