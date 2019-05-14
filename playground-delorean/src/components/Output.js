@@ -42,11 +42,11 @@ class Output extends Component {
                                 <hr></hr>
                                 {
                                     this.props.dependencies.map((dependency) => {
-                                        return (<div key={dependency}>
+                                        return (<div key={dependency.name}>
                                                 <TextField
                                                     id="standard-name"
-                                                    label={dependency}
-                                                    id={`input-${dependency}`}
+                                                    label={dependency.name}
+                                                    id={`input-${dependency.name}`}
                                                     // defaultValue={}
                                                     // value={}
                                                     // onChange={this.handleChange('name')}
@@ -55,7 +55,7 @@ class Output extends Component {
                                                         margin: '5px',
                                                     }}
                                                 />
-                                                {timePointValues[dependency]}
+                                                {timePointValues[dependency.name]}
                                             </div>
                                         )
                                     })

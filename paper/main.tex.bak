@@ -1,0 +1,141 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[spanish]{babel}
+\usepackage{url}
+\urlstyle{rm}
+
+\input{notes}
+\input{listing}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{DeloreanJS: Un Debugger en el Tiempo para JavaScript\\
+}
+
+\author{\IEEEauthorblockN{XXX YYY}
+\IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
+\textit{Universidad Cat\'olica del Norte}\\
+Coquimbo, Chile \\
+xxxx.yyyy@alumnos.ucn.cl}
+\and
+\IEEEauthorblockN{AAAA BBB}
+\IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
+\textit{Universidad Cat\'olica del Norte}\\
+Coquimbo, Chile \\
+aaaa.bbbb@alumnos.ucn.cl}
+\and
+\IEEEauthorblockN{Paul Leger}
+\IEEEauthorblockA{\textit{Escuela de Ingenier\'ia} \\
+\textit{Universidad Cat\'olica del Norte}\\
+Coquimbo, Chile \\
+pleger@ucn.cl}
+}
+
+\maketitle
+
+\begin{abstract}
+Aplicaciones Web usando \javascript son desarrolladas cada vez con mayor frecuencia. Como en la mayor\'a de los entornos de desarrollos, una aplicaci\'on Web puede adquirir defectos de software (\aka~bugs) cuyos s\'intomas se aprecian durante su desarrollo e incluso en su puesta en producci\'on. Por ello, debuggers son fundamentales para detectar bugs. Lamentablemente, los actuales debuggers solamente detectan y no permiten tomar acciones alrededor del momento que fue detectado el bug. Por ejemplo, probar si el mismo bug podr\'ia gatillarse con otro valor de una variable. Usando el concepto de continuaciones, este art\'iculo presenta un debugger para \javascript que permite devolverse en el tiempo con el fin que el programador puede volver a verificar y probar el contexto alrededor de un bug. Este debugger, llamado \deloreanjs, ha sido implementado como una extensi\'on para Mozilla Firefox con el fin la comunidad de desarrolladores puede usarlo.         
+\end{abstract}
+
+\begin{IEEEkeywords}
+\deloreanjs, \javascript, Debugger, Web application, Continuations
+\end{IEEEkeywords}
+
+\section{Introducci\'on}
+\label{sec:intro}
+
+\pl{TODO !!!}
+
+\bigskip
+
+El art\'iculo est\'a organizado como sigue. La secci\'on~\ref{sec:tour} presenta diferentes ejemplos de aplicaci\'on de \deloreanjs, donde se puede apreciar la interfaz gr\'afica de nuestra propuesta. Luego, se presenta \deloreanjs, detallando c\'omo se usa el concepto de continuaciones. En la secci\'on~\ref{sec:rw} se discuten herramientas similares. Finalmente, secci\'on~\ref{sec:conc} concluye y describe lineamientos sobre el trabajo futuro de nuestra propuesta.      
+
+\smallskip
+
+{\bf {\em Disponibilidad.}} La implementaci\'on de \deloreanjs se encuentra en {\tt \url{http://github.com/fruizrob/delorean}} y su extensi\'on en Mozilla Firefox en {\tt \url{http:xxx.com}}. 
+
+
+
+\section{Un Tour por \deloreanjs}
+\label{sec:tour}
+
+\pl{Cada ejemplo debe tener el nombre de lo que hace}
+
+\subsection{Ejemplo 1}
+\label{sec:tour1}
+
+\pl{Explicar con imagenes el ejemplo 1}
+
+\subsection{Ejemplo 2}
+\label{sec:tour2}
+
+\pl{Explicar con imagenes el ejemplo 2}
+
+\subsection{Ejemplo 3}
+\label{sec:tour3}
+
+\pl{Explicar con imagenes el ejemplo 3}
+
+\bigskip
+
+\section{\deloreanjs}
+\label{sec:deloreanjs}
+
+
+\subsection{Continuaciones}
+\label{sec:continuaciones}
+
+\pl{Explicar continuaciones~\cite{fw84}}
+
+\subsection{Capturando el Estado}
+\label{sec:estados}
+
+\pl{Explicar su forma de capturar estados}
+
+\subsection{Extensi\'on en el Navegador}
+
+\pl{Explicar la aplicaci\'on en Mozilla Firefox}
+
+\bigskip
+
+\section{Trabajo Relacionado}
+\label{sec:rw}
+
+\pl{Aqui se debe comparar con tres herramientas similares a \deloreanjs}
+
+\bigskip
+
+\parhead{Herramienta 1}
+\smallskip
+
+\parhead{Herramienta 2}
+\smallskip
+
+\parhead{Herramienta 3}
+\smallskip
+
+\bigskip
+
+\section{Conclusiones y Trabajo Futuro}
+\label{sec:conc}
+
+\pl{TODO}
+
+\smallskip
+
+\parhead{Trabajo Futuro}
+
+\bibliographystyle{IEEEtran}
+\bibliography{djs}
+
+
+\end{document}

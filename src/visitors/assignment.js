@@ -5,8 +5,8 @@ module.exports = {
 
         // left = right
         if (right != undefined) {
-            if (dependencies.includes(left) && left != right && !dependencies.includes(right)) {
-                dependencies.push(right)
+            if (dependencies.some(dependency => dependency.name == left) && left != right && !dependencies.some(dependency => dependency.name == right)) {
+                dependencies.push({name: right, type: 'normal'})
             }
         } 
           
@@ -15,8 +15,8 @@ module.exports = {
             path.traverse({
                 Identifier(path) {
                     
-                    if (dependencies.includes(left) && left != path.node.name && !dependencies.includes(path.node.name)) {
-                        dependencies.push(path.node.name)
+                    if (dependencies.some(dependency => dependency.name == left) && left != path.node.name && !dependencies.some(dependency => dependency.name == path.node.name)) {
+                        dependencies.push({name: path.node.name, type: 'normal'})
                     }
                 }
             })

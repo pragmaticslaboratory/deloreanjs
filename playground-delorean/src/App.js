@@ -68,6 +68,8 @@ class App extends Component {
   };
 
   selectTimePoint = ev => {
+    let id = ev.currentTarget.getAttribute('id')
+    alert(`TimePoint ${id}`)
     global.heap.snapshots.map(el => {
       if(el.TimePointId == ev.currentTarget.getAttribute('id')){
         this.setState({
