@@ -8,18 +8,29 @@ module.exports = {
     },
 
     heapSnapshot: (id) => {
-        const snapshot = {}
+        const snapshot = {
+            flag: false,
+            loop: false,
+            timePointId: ''
+        }
         let counter = 0;
         let originId = id;
-        while(heap.snapshots.find(element => {
-            return element.TimePointId == id;
-        })){
+
+        while(heap.snapshots.find(element => element.timePointId == id)){
+            if(!snapshot.loop) {
+                snapshot.loop = true;
+            }
             id = originId + (++counter);
         }
-        snapshot.TimePointId = id;
-        heap.dependencies.map(dependecy => {
-            snapshot[`${dependecy.name}`] = global[dependecy.name.toString()]
-        })
-        heap.snapshots.push(snapshot)
+        snapshot.timePointId = id;
+        
+
+        if(!snapshot.flag){
+            snapshot.flag = true
+            heap.dependencies.map(dependecy => {
+                snapshot[`${dependecy.name}`] = global[dependecy.name.toString()]
+            })
+            heap.snapshots.push(snapshot)
+        }
     },
-} 
+}

@@ -14,7 +14,7 @@ var b = 7;
 var t = 0;
 for(i = 0; i < 5; ++i){
     t += i;
-    delay(1000)
+    delay(100)
     delorean.insertTimePoint('C');
     console.log('For TimePoint', i);
 }

@@ -11,7 +11,7 @@ const {
 function restoreHeap(restore){
   let snapshot;
   heap.snapshots.map(element => {
-    if(element.TimePointId == restore) snapshot = element;
+    if(element.timePointId == restore) snapshot = element;
   })
   dependencies.map((key) => {
     eval(`${key.name} = document.getElementById('input-${key.name}').value || undefined || snapshot.${key.name};`)
@@ -54,6 +54,7 @@ module.exports = {
   invokeContinuation: (kont) => {
     restoreHeap(kont)
     try {
+      // console.log([continuations, heap])
       console.log(`%cStart TimePoint ${kont}`,"background: #222; color: #bada55");
       eval(
         `let kontAux = continuations.kont${kont}; 
@@ -61,6 +62,7 @@ module.exports = {
         continuations.kont${kont} = kontAux`
       );
       console.log(`%cEnd TimePoint ${kont}`,"background: #222; color: #bada55");
+      console.log([continuations, heap])
     } catch (e) {
       console.log(e, "Error from VM");
     }

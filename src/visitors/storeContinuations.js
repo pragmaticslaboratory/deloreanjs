@@ -8,16 +8,44 @@ module.exports = {
         if(path.node.object && path.node.property && path.node.object.name == 'delorean' && path.node.property.name == 'insertTimePoint'){
             var snapshotCall = path.findParent(path => path.isCallExpression());  
 
-            snapshotCall.insertAfter(
-                t.expressionStatement(
-                    t.callExpression(
-                        t.identifier('addCont'),
-                        [t.identifier('kont' + snapshotCall.container.expression.arguments[0].value),
-                        t.identifier('continuations'),
-                        t.stringLiteral('kont' + snapshotCall.container.expression.arguments[0].value)]      
+            var itIsInLoop = false
+            parent = path.context.parentPath;
+            while(parent){
+                parent = parent.context.parentPath;
+                if(parent){
+                    if(parent.node.type == 'ForStatement' || parent.node.type == 'DoWhileStatement' || parent.node.type == 'WhileStatement'){
+                        itIsInLoop = true;
+                        break;
+                    }
+                }
+            }
+            
+            if(itIsInLoop){
+                snapshotCall.insertAfter(
+                    t.expressionStatement(
+                        t.callExpression(
+                            t.identifier('addCont'),
+                            [t.identifier('kont' + snapshotCall.container.expression.arguments[0].value),
+                            t.identifier('continuations'),
+                            t.stringLiteral('kont' + snapshotCall.container.expression.arguments[0].value)]      
+                        )
                     )
-                )
-            ) 
+                ) 
+            } else {
+                snapshotCall.insertAfter(
+                    t.expressionStatement(
+                        t.assignmentExpression(
+                            '=',
+                            t.memberExpression(
+                                t.identifier('continuations'),
+                                t.identifier('kont' + snapshotCall.container.expression.arguments[0].value)
+                            ),
+                            t.identifier('kont' + snapshotCall.container.expression.arguments[0].value),
+                        )
+                    )
+                ) 
+            }
+
             snapshotCall.insertAfter(
                 t.variableDeclaration(
                     'var',
@@ -30,7 +58,7 @@ module.exports = {
                     )]
                 )
                 
-            )                  
+            ) 
             snapshotCounter++;
         }
     }
