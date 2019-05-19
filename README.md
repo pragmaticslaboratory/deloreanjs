@@ -11,8 +11,7 @@ Delorean is a proposal of a debugger for JavaScript.
 Usage
 ---
 
-TODO: *problem and solution*
----
+Please, visit the webpage [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
 
 Tech
 ----
