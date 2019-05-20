@@ -9,28 +9,37 @@ module.exports = {
 
     heapSnapshot: (id) => {
         const snapshot = {
-            flag: false,
-            loop: false,
+            timeLineId: global.timeLine,
             timePointId: ''
         }
-        let counter = 0;
         let originId = id;
+        let counter = 0;
+        let startFromNumber = global.startFrom;
+        let i = 0;
 
+        while(isNaN(parseInt(startFromNumber))){
+            startFromNumber = global.startFrom.slice(i); 
+            if (i > global.startFrom.length) break;
+            ++i;
+        }
+        if(i <= global.startFrom.length){
+            let startFromName = global.startFrom.slice(0, i-1);
+            if(id == startFromName) {
+                counter = parseInt(startFromNumber); 
+                id = id + (++counter);  
+            } 
+        }
+        
+        let oldTimePoint;
         while(heap.snapshots.find(element => element.timePointId == id)){
-            if(!snapshot.loop) {
-                snapshot.loop = true;
-            }
-            id = originId + (++counter);
+            oldTimePoint = heap.snapshots.findIndex(element => (element.timePointId == id && element.timeLineId != global.timeLine))
+            if(oldTimePoint != -1) heap.snapshots.splice(oldTimePoint, 1);
+            else id = originId + (++counter);
         }
         snapshot.timePointId = id;
-        
-
-        if(!snapshot.flag){
-            snapshot.flag = true
-            heap.dependencies.map(dependecy => {
-                snapshot[`${dependecy.name}`] = global[dependecy.name.toString()]
-            })
-            heap.snapshots.push(snapshot)
-        }
+        heap.dependencies.map(dependecy => {
+            snapshot[`${dependecy.name}`] = global[dependecy.name.toString()]
+        })
+        heap.snapshots.push(snapshot)
     },
 }

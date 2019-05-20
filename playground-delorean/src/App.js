@@ -162,6 +162,8 @@ class App extends Component {
       snapshots: [],
       dependencies: []
     });
+    global.timeLine = 0;
+    global.startFrom = '';
   };
 
   render() {
