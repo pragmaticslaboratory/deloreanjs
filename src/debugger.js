@@ -66,7 +66,6 @@ module.exports = {
 
     let compile = require("../unwinder/bin/compile.js")
     let unwindedCode = compile(code);
-    console.log(code)
 
     try {
       console.log(`%cStart first execution`, "background: #222; color: cyan");
