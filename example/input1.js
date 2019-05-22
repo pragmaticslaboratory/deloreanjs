@@ -1,17 +1,38 @@
-export default `delorean.watch(['a', 'c', 'x'])
-console.log("Start Program 2")
-b = 7;
-a = b;
+export default `//helper functions
 
-delorean.insertTimePoint('A');
-console.log('First continuation', b);
-c = 0;
-a = c;
+var evalStrategies = [
+    function(degrees) {
+        return degrees.reduce(function(a, b) { return a + b; })/degrees.length;
+    }
+];
 
-delorean.insertTimePoint('B');
-console.log('Second continuation', b);
-
-if(b == 7) {
-    throw ["throw activate in VM", continuations];
+function findStrategy(c) {
+    if (c == "Algebra") {
+        return 0;
+    } else return null;
 }
-console.log('End Program');`
+
+function getDegrees(c, s) {
+    if (c == "Algebra" && studentId == "1") {
+        return [4,5,5,4];
+    }
+}
+
+function show(data) {
+    console.log(data);
+}
+
+//helper functions
+
+delorean.watch(['courseName']);
+
+courseName = "Alggebra";
+studentId = "1";
+
+delorean.insertTimePoint('strategyNotFound');
+
+evalStrategyId = findStrategy(courseName); //retorna null
+evaluations = getDegrees(courseName, studentId); 
+
+mean = evalStrategies[evalStrategyId](evaluations); //gatilla error
+show(mean);`

@@ -79,7 +79,6 @@ module.exports = {
   invokeContinuation: (kont) => {
     restoreHeap(kont)
     try {
-      // console.log([continuations, heap])
       global.startFrom = kont;
       console.log(`%cStart TimePoint ${kont}`,"background: #222; color: #bada55");
       heap.snapshots.find(element => element.timePointId == kont).timeLineId = ++global.timeLine;
@@ -90,7 +89,6 @@ module.exports = {
         continuations.kont${kont} = kontAux`
       );
       console.log(`%cEnd TimePoint ${kont}`,"background: #222; color: #bada55");
-      console.log([continuations, heap])
     } catch (e) {
       console.log(e, "Error from VM");
     }

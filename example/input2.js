@@ -1,25 +1,43 @@
-export default `delorean.watch(['a', 'c', 'x']);
+export default `//helper functions
 
-function delay(ms){
-    const startPoint = new Date().getTime()
-    while (new Date().getTime() - startPoint <= ms) { /* wait */}
+var evalStrategies = [
+    function(degrees) {
+        return degrees.reduce(function(a, b) { return a + b; })/degrees.length;
+    }
+];
+
+function findStrategy(c) {
+    if (c == "Algebra") {
+        return 0;
+    } else return null;
 }
 
-console.log("Start Program")
-
-delorean.insertTimePoint('A');
-console.log('First TimePoint');
-var b = 7;
-
-var t = 0;
-for(i = 0; i < 5; ++i){
-    t += i;
-    delay(100)
-    delorean.insertTimePoint('C');
-    console.log('For TimePoint', i);
+function getDegrees(c) {
+    if (c == "Algebra") {
+        return [4,5,5,4];
+    }
 }
 
-if(b == 7) {
-    throw ["throw activate in VM", continuations];
+function show(data) {
+    console.log(data);
 }
-console.log('End Program');`
+
+//helper functions
+
+courseNames = ["Alggebra"];
+
+delorean.watch(['courseName']);
+
+universityMean = 0;
+
+for (var i = 0; i < courseNames.length; ++i) { //around 5000 courses
+  
+  courseName = courseNames[i];
+  delorean.insertTimePoint('StrategyNotFound');	
+  
+  evalStrategyId = findStrategy(courseName);
+  mean = evalStrategies[evalStrategyId](getDegrees(courseName));
+  universityMean += mean/courseNames.length;
+}
+
+show(universityMean);`

@@ -82,9 +82,6 @@ class Output extends Component {
                     color="primary"
                     size="small"
                     className={classes.button}
-                    // style={{
-                    //   margin: "5px"
-                    // }}
                     onClick={this.props.selectTimePoint}
                   >
                     TimePoint {snapshot.timePointId}
@@ -99,12 +96,8 @@ class Output extends Component {
                 return (
                   <div key={dependency.name}>
                     <TextField
-                      id="standard-name"
                       label={dependency.name}
                       id={`input-${dependency.name}`}
-                      // defaultValue={}
-                      // value={}
-                      // onChange={this.handleChange('name')}
                       margin="normal"
                       style={{
                         margin: "5px"

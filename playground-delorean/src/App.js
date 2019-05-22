@@ -47,6 +47,7 @@ class App extends Component {
     selectedTarget: "",
     timePointValues: {},
     selectedTimePoint: '',
+    selectedTimePointDOM: '',
   };
 
   constructor(props){
@@ -68,22 +69,28 @@ class App extends Component {
   };
 
   selectTimePoint = ev => {
-    let id = ev.currentTarget.getAttribute('id')
 
-    console.log(ev.currentTarget)
-    alert(`TimePoint ${id}`)
+    if(this.state.selectedTimePointDOM){
+      this.state.selectedTimePointDOM.classList.remove('MuiButton-containedSecondary-18')
+      this.state.selectedTimePointDOM.classList.remove('MuiButton-raisedSecondary-21')
+      this.state.selectedTimePointDOM.classList.add('MuiButton-containedPrimary-17')
+      this.state.selectedTimePointDOM.classList.add('MuiButton-raiedPrimary-20')
+    }
 
-    global.heap.snapshots.map(el => {
-      if(el.timePointId == ev.currentTarget.getAttribute('id')){
+    ev.currentTarget.classList.remove('MuiButton-containedPrimary-17')
+    ev.currentTarget.classList.remove('MuiButton-raiedPrimary-20')
+    ev.currentTarget.classList.add('MuiButton-containedSecondary-18')
+    ev.currentTarget.classList.add('MuiButton-raisedSecondary-21')
+
+    global.heap.snapshots.forEach(el => {
+      if(el.timePointId === ev.currentTarget.getAttribute('id')){
         this.setState({
           timePointValues: el,
-          selectedTimePoint: ev.currentTarget.getAttribute('id')
+          selectedTimePoint: ev.currentTarget.getAttribute('id'),
+          selectedTimePointDOM: ev.currentTarget,
         })
       }
     })
-
-
-    console.log(this.state.selectedTimePoint)
   }
 
   selectTab = ev => {

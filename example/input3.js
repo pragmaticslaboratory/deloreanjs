@@ -1,16 +1,38 @@
-export default `console.log("Start Program 3")
-b = 7;
-a = b;
+export default `//helper functions
 
-delorean.insertTimePoint('A');
-console.log('First continuation', b);
-c = 0;
-a = c;
-
-delorean.insertTimePoint('B');
-console.log('Second continuation', b);
-
-if(b == 7) {
-    throw ["throw activate in VM", continuations];
+function showReportOfBadCourses() {
+    show("Showing bad courses");
 }
-console.log('End Program');`
+
+function showReportOfOutLayerCourses() {
+    show("Showing outlayer courses");
+}
+
+function showReportOfBestCourses() {
+    show("Showing best courses");
+}
+
+function show(x) {
+    console.log(x);
+}
+
+// helper functions
+
+universityMean = 5.0;
+maximumMean = 7.0;
+
+delorean.watch(['realMean']);
+
+realMean = universityMean/maximumMean;
+
+delorean.insertTimePoint('testingDifferentResults');
+
+show(realMean);
+
+if (realMean < 0.2) {
+	showReportOfBadCourses();
+} else if (realMean >= 0.2 && realMean < 0.8) {
+	showReportOfOutLayerCourses();
+} else if (realMean >= 0.8) {
+	showReportOfBestCourses();
+}`
