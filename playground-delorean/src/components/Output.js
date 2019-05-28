@@ -94,7 +94,10 @@ class Output extends Component {
               <hr />
               {this.props.dependencies.map(dependency => {
                 return (
-                  <div key={dependency.name}>
+                  <div key={dependency.name} style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}>
                     <TextField
                       label={dependency.name}
                       id={`input-${dependency.name}`}
@@ -103,7 +106,13 @@ class Output extends Component {
                         margin: "5px"
                       }}
                     />
-                    {timePointValues[dependency.name]}
+                    <div style={{
+                      display: "inline",
+                    }}>
+                      {
+                        (dependency.type != 'loop') ? (timePointValues[dependency.name]) ? <p>Current value: {timePointValues[dependency.name]}</p> : <p>Current value: undefined</p> : (timePointValues[dependency.name]) ? <p>Current value (loop): {timePointValues[dependency.name]}</p> : <p>Current value (loop): undefined</p>
+                      }
+                    </div>
                   </div>
                 );
               })}

@@ -153,6 +153,7 @@ class App extends Component {
     this.consoleFeed.current.state.logs = [];
     // let kont = ev.currentTarget.attributes["kont"].value;
     debuggerDelorean.invokeContinuation(this.state.selectedTimePoint);
+    this.updateSnapshots(global.heap.snapshots);
   };
   
   stopExecution = () => {
