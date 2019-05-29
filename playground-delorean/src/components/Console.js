@@ -14,12 +14,12 @@ class ConsoleContainer extends Component {
 
   render() {
     return (
-      <div className="consolefeed-container" style={{ backgroundColor: '#242424' }}>
+      <div className="consolefeed-container" style={{ backgroundColor: '#242424', borderRight: '1px solid rgb(17, 21, 24)', borderTop: '1px solid rgb(17, 21, 24)' }}>
         <h2 className="console-title">Output  </h2>
         <div>
           <Console 
-            logs={this.state.logs} 
-            variant="dark"
+            logs={this.state.logs} ç
+            variant='dark'
           />
         </div>
       </div>

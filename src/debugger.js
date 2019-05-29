@@ -55,8 +55,6 @@ module.exports = {
           } 
       }
 
-
-
       while(continuations[id] && (contTimeLine[id] == global.timeLine)){
         id = originalId + (++counter);
       }

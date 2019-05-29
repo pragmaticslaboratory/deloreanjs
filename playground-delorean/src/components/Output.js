@@ -50,7 +50,7 @@ class Output extends Component {
                     display: "inline"
                   }}
                 >
-                  Time Points
+                  Timepoints
                 </h2>
                 <div
                   style={{
@@ -90,7 +90,7 @@ class Output extends Component {
               })}
             </div>
             <div className="container-inputs">
-              <h2>Watched Variables</h2>
+              <h2>Watched Variables: {(this.props.selectedTimePoint) ? this.props.selectedTimePoint : "(Not selected)"}</h2>
               <hr />
               {this.props.dependencies.map(dependency => {
                 return (
@@ -110,7 +110,19 @@ class Output extends Component {
                       display: "inline",
                     }}>
                       {
-                        (dependency.type != 'loop') ? (timePointValues[dependency.name]) ? <p>Current value: {timePointValues[dependency.name]}</p> : <p>Current value: undefined</p> : (timePointValues[dependency.name]) ? <p>Current value (loop): {timePointValues[dependency.name]}</p> : <p>Current value (loop): undefined</p>
+                        (this.props.selectedTimePoint) ? 
+                          (dependency.type !== 'loop') ? 
+                            (timePointValues[dependency.name]) ? 
+                              <p>Current value: {timePointValues[dependency.name]}</p> 
+                              : 
+                              <p>Current value: undefined</p> 
+                            : 
+                            (timePointValues[dependency.name]) ? 
+                              <p>Current value (loop): {timePointValues[dependency.name]}</p> 
+                              : 
+                              <p>Current value (loop): undefined</p>
+                          :
+                          ""
                       }
                     </div>
                   </div>

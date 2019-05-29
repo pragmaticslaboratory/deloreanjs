@@ -3,7 +3,7 @@ const t = require('babel-types');
 window.isTimePoint = function(element){
     return element && element.expression && element.expression.callee &&
     element.expression.callee.object && element.expression.callee.property &&
-    element.expression.callee.object.name == 'delorean' && element.expression.callee.property.name == 'insertTimePoint';
+    element.expression.callee.object.name == 'delorean' && element.expression.callee.property.name == 'insertTimepoint';
 };
 
 const catchClause = t.catchClause(

@@ -100,10 +100,27 @@ class App extends Component {
       );
       this.updateCode(example.input);
       this.selectTabColor(ev);
+      this.clean();
     } else {
       alert('Sorry, you need stop this execution before change the code! :)')
     }
   };
+
+  clean = () => {
+    global.heap = {
+      dependencies: {},
+      snapshots: []
+    };
+    global.continuations = {};
+    global.snapshotCounter = 0;
+    this.setState({
+      snapshots: [],
+      dependencies: [],
+      timePointValues: {},
+      selectedTimePoint: '',
+      selectedTimePointDOM: '',
+    })
+  }
 
   selectTabColor = ev => {
     if (this.state.selected) {
@@ -159,17 +176,8 @@ class App extends Component {
   stopExecution = () => {
     this.consoleFeed.current.state.logs = [];
     this.editor.current.editor.setOption('readOnly', false);
-    global.heap = {
-      dependencies: {},
-      snapshots: []
-    };
-    global.continuations = {};
-    global.snapshotCounter = 0;
     this.toggleIsRunning();
-    this.setState({
-      snapshots: [],
-      dependencies: []
-    });
+    this.clean();
     global.timeLine = 0;
     global.startFrom = '';
   };
@@ -213,6 +221,7 @@ class App extends Component {
               dependencies={this.state.dependencies}
               invokeContinuation={this.invokeContinuation}
               selectTimePoint={this.selectTimePoint}
+              selectedTimePoint={this.state.selectedTimePoint}
             />
           </div>
         </div>

@@ -25,7 +25,7 @@ delorean.watch(['realMean']);
 
 realMean = universityMean/maximumMean;
 
-delorean.insertTimePoint('testingDifferentResults');
+delorean.insertTimepoint('testingDifferentResults');
 
 show(realMean);
 

@@ -5,7 +5,7 @@ global.snapshotCounter = 0;
 module.exports = {
     /* continuations.kont* = createContinuation(); */
     MemberExpression(path) {
-        if(path.node.object && path.node.property && path.node.object.name == 'delorean' && path.node.property.name == 'insertTimePoint'){
+        if(path.node.object && path.node.property && path.node.object.name == 'delorean' && path.node.property.name == 'insertTimepoint'){
             var snapshotCall = path.findParent(path => path.isCallExpression());  
 
             var itIsInLoop = false

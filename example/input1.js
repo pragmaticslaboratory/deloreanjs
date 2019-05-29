@@ -29,7 +29,7 @@ delorean.watch(['courseName']);
 courseName = "Alggebra";
 studentId = "1";
 
-delorean.insertTimePoint('strategyNotFound');
+delorean.insertTimepoint('strategyNotFound');
 
 evalStrategyId = findStrategy(courseName); //retorna null
 evaluations = getDegrees(courseName, studentId); 

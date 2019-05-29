@@ -33,7 +33,7 @@ universityMean = 0;
 for (var i = 0; i < courseNames.length; ++i) { //around 5000 courses
   
   courseName = courseNames[i];
-  delorean.insertTimePoint('StrategyNotFound');	
+  delorean.insertTimepoint('StrategyNotFound');	
   
   evalStrategyId = findStrategy(courseName);
   mean = evalStrategies[evalStrategyId](getDegrees(courseName));
