@@ -12,7 +12,20 @@ module.exports = {
             if (hasTimepoint){
                 test.traverse({
                     Identifier(path){
-                        if (!dependencies.some(dependency => dependency.name == path.node.name)){
+
+                        var isInMemberExpression = false
+                        parent = path.context.parentPath;
+                        while(parent.node.type != 'ForStatement' && parent.node.type !=  'WhileStatement' && parent.node.type != 'DoWhileStatement'){
+                            if(parent.node.type == 'MemberExpression'){
+                                isInMemberExpression = true
+                                break;
+                            }
+                            
+                            parent = parent.context.parentPath;
+                        }
+
+
+                        if (!isInMemberExpression && !dependencies.some(dependency => dependency.name == path.node.name)){
                             dependencies.push({name: path.node.name, type: 'loop'})
                         }
                     }

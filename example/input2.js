@@ -1,6 +1,12 @@
 export default `//helper functions
 
-var evalStrategies = [
+evalStrategies = [
+    function(degrees) {
+        return degrees.reduce(function(a, b) { return a + b; })/degrees.length;
+    },
+    function(degrees) {
+        return degrees.reduce(function(a, b) { return a + b; })/degrees.length;
+    },
     function(degrees) {
         return degrees.reduce(function(a, b) { return a + b; })/degrees.length;
     }
@@ -9,12 +15,24 @@ var evalStrategies = [
 function findStrategy(c) {
     if (c == "Algebra") {
         return 0;
-    } else return null;
+    } else if (c == "Calculus") {
+        return 1;
+    } else if (c == "Physics") {
+        return 2;
+    } else {
+        return null;
+    }
 }
 
 function getDegrees(c) {
     if (c == "Algebra") {
         return [4,5,5,4];
+    }
+    if (c == "Calculus") {
+        return [1,2,3,3]
+    }
+    if (c == "Physics") {
+        return [6,3,5,1]
     }
 }
 
@@ -24,17 +42,16 @@ function show(data) {
 
 //helper functions
 
-courseNames = ["Alggebra"];
+courseNames = ["Calculus", "Alggebra", "Physics"];
 
-delorean.watch(['courseName']);
+delorean.watch(['courseName', 'universityMean']);
 
 universityMean = 0;
 
-for (var i = 0; i < courseNames.length; ++i) { //around 5000 courses
+for (i = 0; i < courseNames.length; ++i) { //around 5000 courses
   
   courseName = courseNames[i];
   delorean.insertTimepoint('StrategyNotFound');	
-  
   evalStrategyId = findStrategy(courseName);
   mean = evalStrategies[evalStrategyId](getDegrees(courseName));
   universityMean += mean/courseNames.length;

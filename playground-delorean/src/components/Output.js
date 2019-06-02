@@ -112,12 +112,12 @@ class Output extends Component {
                       {
                         (this.props.selectedTimePoint) ? 
                           (dependency.type !== 'loop') ? 
-                            (timePointValues[dependency.name]) ? 
+                            (typeof timePointValues[dependency.name] == 'number' || timePointValues[dependency.name]) ? 
                               <p>Current value: {timePointValues[dependency.name]}</p> 
                               : 
                               <p>Current value: undefined</p> 
                             : 
-                            (timePointValues[dependency.name]) ? 
+                            (typeof timePointValues[dependency.name] == 'number' || timePointValues[dependency.name]) ? 
                               <p>Current value (loop): {timePointValues[dependency.name]}</p> 
                               : 
                               <p>Current value (loop): undefined</p>

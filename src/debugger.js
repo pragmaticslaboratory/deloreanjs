@@ -32,15 +32,17 @@ module.exports = {
       storeContinuationsVisitor]
     })
 
-    code = `contTimeLine = {};
-      function addCont(cont, continuations, originalId){
+    code = `
+    emptyContinuation = '';
+    emptyContinuationAux = '';
+    contTimeLine = {};
+    function addCont(cont, continuations, originalId){
 
       let counter = 0;
       let id = originalId;
       let startFromNumber = global.startFrom;
 
       let i = 0;
-
       while(isNaN(parseInt(startFromNumber))){
           startFromNumber = global.startFrom.slice(i); 
           if (i > global.startFrom.length) break;
@@ -60,7 +62,17 @@ module.exports = {
       }
       continuations[id] = cont;
       contTimeLine[id] = global.timeLine;
-    }` + code;
+    } try{` + code + `} 
+    catch(e){
+      emptyContinuation = createContinuation();
+      if(emptyContinuationAux) {                
+        emptyContinuation = emptyContinuationAux;
+      }
+      console.log(e)
+    }
+    `;
+
+
 
     let compile = require("../unwinder/bin/compile.js")
     let unwindedCode = compile(code);

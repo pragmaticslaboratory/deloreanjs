@@ -6,30 +6,61 @@ window.isTimePoint = function(element){
     element.expression.callee.object.name == 'delorean' && element.expression.callee.property.name == 'insertTimepoint';
 };
 
+
 const catchClause = t.catchClause(
     t.identifier('e'),
-    t.blockStatement(
-        [t.expressionStatement(
-            t.callExpression(
-                t.memberExpression(
-                t.identifier('console'),
-                t.identifier('log') 
+    t.blockStatement([
+        t.ifStatement(
+            t.identifier('emptyContinuation'),
+            t.blockStatement([
+                t.expressionStatement(
+                    t.assignmentExpression(
+                        '=',
+                        t.identifier('emptyContinuationAux'),
+                        t.identifier('emptyContinuation')
+                    )
                 ),
-                [t.identifier('e')]
-            )
-        )]
-    )
+                t.expressionStatement(
+                    t.callExpression(
+                        t.identifier('emptyContinuation'), 
+                        []
+                    )
+                )
+            ]),
+            t.blockStatement([
+                t.throwStatement(
+                    t.identifier('e')
+                )
+            ])
+        )
+    ], [])                
 )
+
+
+const hasCallExpression = (path) => {
+    let isCallExpression = false;
+    path.traverse({
+        CallExpression(path){
+            if(path.node.callee.name != 'emptyContinuation'){
+               isCallExpression = true;
+            }
+        }
+    })
+    return isCallExpression;
+}
 
 
 module.exports = {
    "Program|BlockStatement": {
         exit(path) {
+
             let block = path.node.body;
             let splitPoints = [];          
             for (let i = 0; i < block.length; ++i){
-                if (isTimePoint(block[i]) || t.isIfStatement(block[i]) || t.isDoWhileStatement(block[i]) || t.isTryStatement(block[i]) || t.isWhileStatement(block[i]) || t.isForStatement(block[i]) ) {
+                if (isTimePoint(block[i]) || t.isIfStatement(block[i]) && block[i].name == 'emptyContinuation' ||  t.isDoWhileStatement(block[i]) || t.isTryStatement(block[i]) || t.isWhileStatement(block[i]) || t.isForStatement(block[i])) {
                     splitPoints.push(i);     
+                } else if (hasCallExpression(path.get('body')[i])){
+                    splitPoints.push(i);
                 }
             }
             let newBlock = [];
@@ -49,7 +80,7 @@ module.exports = {
                                 block.slice(startOfTryBlock, endOfTryBlock).concat(auxBlock),
                                 []
                             ),
-                            catchClause,
+                            catchClause,                       
                             null
                         )
                     );               
