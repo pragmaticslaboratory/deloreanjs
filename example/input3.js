@@ -25,7 +25,7 @@ delorean.watch(['realMean']);
 
 realMean = universityMean/maximumMean;
 
-delorean.insertTimepoint('testingDifferentResults');
+delorean.insertTimepoint('TestingDifferentResults');
 
 show(realMean);
 
@@ -35,4 +35,6 @@ if (realMean < 0.2) {
 	showReportOfOutLayerCourses();
 } else if (realMean >= 0.8) {
 	showReportOfBestCourses();
-}`
+}
+
+throw "Triggering a tester exception";`
