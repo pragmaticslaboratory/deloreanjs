@@ -18,7 +18,19 @@ class ConsoleContainer extends Component {
         <h2 className="console-title">Output  </h2>
         <div>
           <Console 
-            logs={this.state.logs} ç
+            logs={this.state.logs}
+            filter= {[
+              'log',
+              'debug',
+              'info',
+              'error',
+              'table',
+              'clear',
+              'time',
+              'timeEnd',
+              'count',
+              'assert'
+            ]}
             variant='dark'
           />
         </div>

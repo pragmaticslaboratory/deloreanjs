@@ -14,6 +14,7 @@ import "codemirror/addon/edit/matchbrackets";
 import "codemirror/keymap/sublime";
 import "codemirror/theme/neo.css";
 
+import example0 from "../../example/input0";
 import example1 from "../../example/input1";
 import example2 from "../../example/input2";
 import example3 from "../../example/input3";
@@ -40,7 +41,7 @@ class App extends Component {
     tabSelected: "",
     snapshots: [],
     dependencies: [],
-    code: "// You can use Delorean here! :)",
+    code: example0,
     isRunning: false,
     readOnly: false,
     selected: false,
