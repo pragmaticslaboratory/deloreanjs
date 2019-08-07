@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Tab from './Tab'
 
 const styles = theme => ({
     button: {
@@ -25,21 +24,15 @@ class StatusBar extends Component {
         const { classes } = this.props;
         return(
             <div className="status-bar">
-                <div className="tabs-container">
-                    {
-                        this.props.tabs.map((tab) => {
-                            return (
-                            <Tab
-                                key={tab.name}
-                                name={tab.name}
-                                input={tab.input}
-                                selectTab={this.props.selectTab}
-                            />
-                            )
-                        })
-                    }
+                <div className="buttons-bar">
+                  <a style={{textDecoration: "none"}} href="https://github.com/fruizrob/deloreanjs">
+                    <div className="github-button">
+                      <img className="icon-button-bar" src="https://diversity.github.com/assets/svg/mark-github.svg"></img>
+                      GitHub
+                    </div>
+                  </a>
                 </div>
-                <h3>Delorean</h3>
+                <p>DeloreanJS</p>
                 {
                     !this.props.isRunning ? 
 

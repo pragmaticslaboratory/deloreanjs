@@ -6,13 +6,14 @@ import Layout from "./components/Layout";
 import Console from "./components/Console";
 import Output from "./components/Output";
 import StatusBar from "./components/StatusBar";
+import Tab from './components/Tab'
 
 import CodeMirror from "@uiw/react-codemirror";
-import "codemirror/addon/display/autorefresh";
-import "codemirror/addon/comment/comment";
-import "codemirror/addon/edit/matchbrackets";
-import "codemirror/keymap/sublime";
-import "codemirror/theme/neo.css";
+import 'codemirror/addon/display/autorefresh';
+import 'codemirror/addon/comment/comment';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/keymap/sublime';
+import 'codemirror/theme/neo.css';
 
 import example0 from "../../example/input0";
 import example1 from "../../example/input1";
@@ -186,14 +187,15 @@ class App extends Component {
   render() {
     var options = {
       theme: "neo",
-      tabSize: 2,
+      tabSize: 4,
       keyMap: "sublime",
       mode: "js",
       lineNumbers: true,
       readOnly: this.state.readOnly
     };
     return (
-      <Layout>
+      <Layout className="layout-container">
+
         <StatusBar
           tabs={this.state.tabs}
           selectTab={this.selectTab}
@@ -201,21 +203,43 @@ class App extends Component {
           stopExecution={this.stopExecution}
           isRunning={this.state.isRunning}
         />
+
+
         <div className="playground-container">
-          <div className="left-panel">
-            <div className="editor-container">
-              <CodeMirror
-                ref={this.editor}
-                value={this.state.code}
-                options={options}
-                onChange={this.updateCode}
-              />
+
+          <div className="top-panel">
+            <div class="codemirror-container">
+              <div className="tabs-container">
+                <div className="tabs-container">
+                  {
+                    this.state.tabs.map((tab) => {
+                        return (
+                          <Tab
+                              key={tab.name}
+                              name={tab.name}
+                              input={tab.input}
+                              selectTab={this.selectTab}
+                          />
+                        )
+                    })
+                  }
+                </div>
+              </div>
+              <div className="editor-container">
+                <CodeMirror
+                  ref={this.editor}
+                  value={this.state.code}
+                  options={options}
+                  onChange={this.updateCode}
+                />
+              </div>
             </div>
             <Console 
               ref={this.consoleFeed} 
             />
           </div>
-          <div className="right-panel">
+
+          <div className="bottom-panel">
             <Output
               timePointValues={this.state.timePointValues}
               snapshots={this.state.snapshots}
@@ -225,6 +249,7 @@ class App extends Component {
               selectedTimePoint={this.state.selectedTimePoint}
             />
           </div>
+
         </div>
       </Layout>
     );
