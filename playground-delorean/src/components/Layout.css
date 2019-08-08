@@ -1,0 +1,4 @@
+.layout-container {
+    display: grid;
+    grid-template-rows: 5vh 95vh;
+  }

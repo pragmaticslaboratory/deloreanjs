@@ -1,81 +1,15 @@
-.layout-container {
-  display: grid;
-  grid-template-rows: 5vh 95vh;
-}
-
-/* Playground: Editor, Console and Debugger */
-
 .playground-container {
   display: grid;
   grid-template-rows: repeat(2, 50%);
 }
 
 .top-panel, .bottom-panel {
-  display: inline-block;
+  display: grid;
   max-width: 100%;
 }
 
 .top-panel {
-  display: grid;
   grid-template-columns: repeat(2, 50%);
-}
-
-.bottom-panel {
-  overflow: auto;
-}
-
-/* Status-Bar */
-
-.status-bar {
-  display: flex;  
-  z-index: 5;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  align-items: center;
-  background-color: rgb(221, 221, 221);
-  font-size: 1.2rem;
-  color: rgb(51, 51, 51);
-  font-weight: 400;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0px;
-  flex: 0 0 3rem;
-  border-bottom: 1px solid transparent;
-}
-
-.buttons-bar {
-  padding: 0 20px;
-  font-size: 14px; 
-}
-
-.github-button {
-  align-items: center;
-  font-family: Poppins, Roboto, sans-serif;
-  background-color: rgb(0, 122, 204);
-  background-size: 720%;
-  box-sizing: border-box;
-  text-align: center;
-  color: white;
-  font-weight: 600;
-  width: inherit;
-  user-select: none;
-  font-size: 0.875em;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
-  outline: none;
-  border-width: 2px;
-  border-style: solid;
-  border-color: rgb(0, 98, 163);
-  border-image: initial;
-  border-radius: 4px;
-  text-decoration: none;
-  padding: 0.5em 0.7em;
-}
-
-.icon-button-bar {
-  margin-right: 10px;
-  width: 15px;
 }
 
 /* Editor */
@@ -86,119 +20,7 @@
   border-bottom: 1px solid black;
 }
 
-/* position: relative;
-display: flex;
-font-size: 0.75rem;
-background-color: rgb(243, 243, 243);
-box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 3px;
-cursor: row-resize;
-padding-right: 1rem;
-flex: 0 0 28px; */
-
-
-.tabs-container {
-  display: flex;
-  background-color: rgb(243, 243, 243);
-  font-size: 12px;
-}
-
-.tab-container {
-  display: inline-block;
-  padding: 0 20px;
-}
-
-.tab-container:hover {
-  background: rgb(30, 30, 30);
-  color: white; 
-  cursor: pointer;
-}
-
 .selected {
   background: white;
   color: black;
-}
-
-/* Console */
-
-.title-container {
-  display: flex;
-  margin: 0px;
-  background-color: rgba(255,255,255,0.05);
-  font-size: 12px;
-  padding: 0 20px;
-  color: white;
-}
-
-.consolefeed-container {
-  margin: 0;
-  overflow: auto;
-}
-
-/* Debugger */
-
-.delorean-container {
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-
-.container-buttons {
-  height: 100%;
-}
-
-.container-buttons, .container-inputs {
-  display: block;
-  background: rgb(235, 233, 233);
-  border: 1px solid rgb(193, 187, 187);
-  border-radius: 10px;
-  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.10);
-  padding: 20px 60px;
-  margin: 20px;
-}
-
-/* Table of State */
-
-.state-container {
-  display: grid;
-  border-left: 1px solid rgb(243, 243, 243);
-  height: 100%;
-}
-
-.state-title-container {
-  display: flex;  
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  align-items: center;
-  background-color: rgb(221, 221, 221);
-  font-size: 12px;
-  padding: 0 20px;
-  color: rgb(51, 51, 51);
-  font-weight: 400;
-  width: 100%;
-  height: 45px;
-  box-sizing: border-box;
-  margin: 0px;
-  flex: 0 0 3rem;
-  border-bottom: 1px solid transparent;
-}
-
-.state-table-titles-container {
-  display: grid;
-  grid-template-columns: 33% 33% 33%; 
-  text-align: center;
-  background-color: rgb(243, 243, 243);
-  font-size: 12px;
-  height: 40px;
-}
-
-.state-values-container {
-  
-}
-
-.state-values {
-  display: grid;
-  grid-template-columns: 33% 33% 33%; 
-  text-align: center;
-  font-size: 12px;
-  border: 1px solid rgb(243, 243, 243);
 }

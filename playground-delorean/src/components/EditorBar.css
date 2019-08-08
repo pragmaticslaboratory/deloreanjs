@@ -1,0 +1,22 @@
+.editor-bar-container {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(243, 243, 243);
+  font-size: 12px;
+}
+
+.tabs-container {
+    display: flex;
+}
+
+.btn-play-container, .btn-pause-container {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+.btn-play, .btn-pause {
+  height: 15px;
+  margin-left: 5px; 
+}

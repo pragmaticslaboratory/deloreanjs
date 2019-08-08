@@ -4,6 +4,7 @@ import Timepoints from './Timepoints';
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
+import './Output.css'
 
 const styles = theme => ({
   button: {
@@ -27,13 +28,14 @@ class Output extends Component {
             <Timepoints
               snapshots={this.props.snapshots}
               selectTimePoint={this.props.selectTimePoint}
-              invokeContinuation={this.props.invokeContinuation}
               classes={classes}
             />
             <State 
               selectedTimePoint={this.props.selectedTimePoint}
               dependencies={this.props.dependencies}
               timePointValues={this.props.timePointValues}
+              isRunning={this.props.isRunning}
+              invokeContinuation={this.props.invokeContinuation}
             />
           </div> 
       </div>
