@@ -1,31 +1,45 @@
 import React from 'react'
 import './Timepoints.css'
+import timepointIcon from '../../public/assets/time.png'
+
+import P5Wrapper from 'react-p5-wrapper';
+import sketch from '../p5/main';
+
 
 const Timepoints = (props) => {
+    const { snapshots, selectTimePoint } = props;
+
     return (
-        <div className="container-buttons">
-            <div>
+        <div className="timepoints-panel">
+            <div className="timeponts-bar-container">
                 <p>Timepoints</p>
+
+                <div>
+                    "Btns Panel"
+                </div>
             </div>
-            <hr />
-            {
-                props.snapshots.map(snapshot => {
-                    return (
-                        <div 
-                            className="timepoint-btn"
-                            kont={snapshot.timePointId}
-                            id={snapshot.timePointId}
-                            key={snapshot.timePointId}
-                            onClick={props.selectTimePoint}
-                        >
-                            <img alt="timepoint logo" className="icon-button-bar" src="https://diversity.github.com/assets/svg/mark-github.svg"></img>
-                            TimePoint {snapshot.timePointId}
-                        </div>
-                    );
-                })
-            }
+
+            <div className="timepoints-container">
+                <div className="timepoints-btns">
+                {
+                    snapshots.map(snapshot => {
+                        return (
+                            <div className="timepoint-button" onClick={selectTimePoint} kont={snapshot.timePointId} id={snapshot.timePointId} key={snapshot.timePointId}>
+                                <img alt="timepoint logo" className="icon-timepoint" src={timepointIcon}></img>
+                                {snapshot.timePointId}
+                            </div>
+                        );
+                    })
+                }
+                </div>
+                
+                <P5Wrapper 
+                    sketch={sketch} 
+                    countTimepoints={snapshots.length}
+                />
+            </div>
         </div>
     )
 }
 
-export default Timepoints
+export default Timepoints;

@@ -72,18 +72,13 @@ class App extends Component {
     };
 
     selectTimePoint = ev => {
-
         if (this.state.selectedTimePointDOM) {
-            this.state.selectedTimePointDOM.classList.remove('MuiButton-containedSecondary-18')
-            this.state.selectedTimePointDOM.classList.remove('MuiButton-raisedSecondary-21')
-            this.state.selectedTimePointDOM.classList.add('MuiButton-containedPrimary-17')
-            this.state.selectedTimePointDOM.classList.add('MuiButton-raiedPrimary-20')
+            this.state.selectedTimePointDOM.classList.remove('timepoint-button-selected')
+            this.state.selectedTimePointDOM.classList.add('timepoint-button')
         }
 
-        ev.currentTarget.classList.remove('MuiButton-containedPrimary-17')
-        ev.currentTarget.classList.remove('MuiButton-raiedPrimary-20')
-        ev.currentTarget.classList.add('MuiButton-containedSecondary-18')
-        ev.currentTarget.classList.add('MuiButton-raisedSecondary-21')
+        ev.currentTarget.classList.remove('timepoint-button')
+        ev.currentTarget.classList.add('timepoint-button-selected')
 
         global.heap.snapshots.forEach(el => {
             if (el.timePointId === ev.currentTarget.getAttribute('id')) {
@@ -210,7 +205,7 @@ class App extends Component {
                 <div className="playground-container">
 
                     <div className="top-panel">
-                        <div class="codemirror-container">
+                        <div className="codemirror-container">
                             <EditorBar
                                 tabs={this.state.tabs}
                                 selectTab={this.selectTab}
