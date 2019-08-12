@@ -12,6 +12,7 @@ class Output extends Component {
                 <Timepoints
                     snapshots={this.props.snapshots}
                     selectTimePoint={this.props.selectTimePoint}
+                    selectedTimePoint={this.props.selectedTimePoint}
                 />
                 <State
                     selectedTimePoint={this.props.selectedTimePoint}

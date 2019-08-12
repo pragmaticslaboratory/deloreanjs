@@ -7,7 +7,7 @@ import sketch from '../p5/main';
 
 
 const Timepoints = (props) => {
-    const { snapshots, selectTimePoint } = props;
+    const { snapshots, selectedTimePoint, selectTimePoint } = props;
 
     return (
         <div className="timepoints-panel">
@@ -34,8 +34,9 @@ const Timepoints = (props) => {
                 </div>
                 
                 <P5Wrapper 
-                    sketch={sketch} 
-                    countTimepoints={snapshots.length}
+                    sketch={sketch}
+                    selectedTimePoint={selectedTimePoint} 
+                    snapshots={snapshots}
                 />
             </div>
         </div>
