@@ -16,9 +16,14 @@
 
 .codemirror-container {
   background: white;
-  overflow: auto;
   border-bottom: 1px solid black;
 }
+
+.editor-container {
+  overflow: auto;
+  max-height: 42vh;
+}
+
 
 .selected {
   background: white;

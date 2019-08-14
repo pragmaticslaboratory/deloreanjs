@@ -1,6 +1,6 @@
 export default `//helper functions
 
-evalStrategies = [
+var evalStrategies = [
     function(degrees) {
         return degrees.reduce(function(a, b) { return a + b; })/degrees.length;
     },
@@ -42,18 +42,17 @@ function show(data) {
 
 //helper functions
 
-courseNames = ["Calculus", "Alggebra", "Physics"];
+var courseNames = ["Calculus", "Alggebra", "Physics"];
 
 delorean.watch(['courseName', 'universityMean']);
 
-universityMean = 0;
+var universityMean = 0;
 
 for (i = 0; i < courseNames.length; ++i) { //around 5000 courses
-  
-  courseName = courseNames[i];
+  var courseName = courseNames[i];
   delorean.insertTimepoint('StrategyNotFound');	
-  evalStrategyId = findStrategy(courseName);
-  mean = evalStrategies[evalStrategyId](getDegrees(courseName));
+  var evalStrategyId = findStrategy(courseName);
+  var mean = evalStrategies[evalStrategyId](getDegrees(courseName));
   universityMean += mean/courseNames.length;
 }
 

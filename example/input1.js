@@ -26,13 +26,13 @@ function show(data) {
 
 delorean.watch(['courseName']);
 
-courseName = "Alggebra";
-studentId = "1";
+var courseName = "Alggebra";
+var studentId = "1";
 
 delorean.insertTimepoint('StrategyNotFound');
 
-evalStrategyId = findStrategy(courseName); //retorna null
-evaluations = getDegrees(courseName, studentId); 
+var evalStrategyId = findStrategy(courseName); //retorna null
+var evaluations = getDegrees(courseName, studentId); 
 
-mean = evalStrategies[evalStrategyId](evaluations); //gatilla error
+var mean = evalStrategies[evalStrategyId](evaluations); //gatilla error
 show(mean);`

@@ -206,13 +206,15 @@ class App extends Component {
 
                     <div className="top-panel">
                         <div className="codemirror-container">
-                            <EditorBar
-                                tabs={this.state.tabs}
-                                selectTab={this.selectTab}
-                                executeCode={this.executeCode}
-                                stopExecution={this.stopExecution}
-                                isRunning={this.state.isRunning}
-                            />
+                            <div className="editor-bar-container-fixed">
+                                <EditorBar
+                                    tabs={this.state.tabs}
+                                    selectTab={this.selectTab}
+                                    executeCode={this.executeCode}
+                                    stopExecution={this.stopExecution}
+                                    isRunning={this.state.isRunning}
+                                />
+                            </div>
                             <div className="editor-container">
                                 <CodeMirror
                                     ref={this.editor}
