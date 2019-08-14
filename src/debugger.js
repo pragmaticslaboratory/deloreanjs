@@ -1,24 +1,26 @@
 const babel = require('babel-core');
 global.timeLine = 0;
 global.startFrom = '';
+global.fromTheFuture = false;
 
 const {
   dependenciesVisitor,
   initConfigVisitor,
   storeContinuationsVisitor,
   tryCatchVisitor,
-  ifBlockVisitor
+  ifBlockVisitor,
+  heapRestoreVisitor
 } = require("../src/staticAnalysis");
 
-function restoreHeap(restore){
+/*function restoreHeap(restore){
   let snapshot;
   heap.snapshots.map(element => {
     if(element.timePointId == restore) snapshot = element;
   })
   dependencies.map((key) => {
-    eval(`${key.name} = document.getElementById('input-${key.name}').value || undefined || snapshot.${key.name};`)
+    eval(`${key.name} = document.getElementById('input-${key.name}').value || undefined || snapshot.${key.name};`)
   })
-}
+}*/
 
 module.exports = {
   init: (inputCode, ) => {
@@ -28,11 +30,18 @@ module.exports = {
     ], true).code;
   
     let { code } = babel.transform(src, {
-      plugins: [ifBlockVisitor, initConfigVisitor,
+      plugins: [ifBlockVisitor, initConfigVisitor, heapRestoreVisitor,
       storeContinuationsVisitor]
     })
 
     code = `
+    function restoreHeap(restore){
+      let snapshot;
+      heap.snapshots.map(element => {
+        if(element.timePointId == restore) snapshot = element;
+      })
+      return snapshot;
+    }
     emptyContinuation = '';
     emptyContinuationAux = '';
     contTimeLine = {};
@@ -76,6 +85,7 @@ module.exports = {
 
     let compile = require("../unwinder/bin/compile.js")
     let unwindedCode = compile(code);
+    
 
     try {
       console.log(`%cStart first execution`, "background: #222; color: cyan");
@@ -87,7 +97,8 @@ module.exports = {
   },
 
   invokeContinuation: (kont) => {
-    restoreHeap(kont)
+    //restoreHeap(kont)
+    fromTheFuture = true
     try {
       global.startFrom = kont;
       console.log(`%cStart TimePoint ${kont}`,"background: #222; color: #bada55");

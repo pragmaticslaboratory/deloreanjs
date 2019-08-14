@@ -1,5 +1,6 @@
 global.heap = {}
 heap.snapshots = []
+global.tempValueStore = {}
 
 module.exports = {
 
@@ -8,6 +9,7 @@ module.exports = {
     },
 
     heapSnapshot: (id) => {
+
         const snapshot = {
             timeLineId: global.timeLine,
             timePointId: ''
@@ -36,9 +38,12 @@ module.exports = {
             if(oldTimePoint != -1) heap.snapshots.splice(oldTimePoint, 1);
             else id = originId + (++counter);
         }
+
         snapshot.timePointId = id;
         heap.dependencies.map(dependecy => {
-            snapshot[`${dependecy.name}`] = global[dependecy.name.toString()]
+            try{
+                snapshot[`${dependecy.name}`] = tempValueStore[`${dependecy.name}`];
+            }catch(e){}
         })
         heap.snapshots.push(snapshot)
     },

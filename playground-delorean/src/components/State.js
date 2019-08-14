@@ -31,7 +31,7 @@ const State = (props) => {
                             return (
                                 <div key={dependency.name} className="state-values">
                                     <p>{(dependency.type !== 'loop') ? dependency.name : dependency.name + " (loop)"}</p>
-                                    <p>{(typeof timePointValues[dependency.name] == 'number' || timePointValues[dependency.name]) ? timePointValues[dependency.name] : "undefined" }</p>
+                                    <p>{(typeof timePointValues[dependency.name] == 'number' || timePointValues[dependency.name]) ? timePointValues[dependency.name].toString() : "undefined" }</p>
                                     <TextField
                                         id={`input-${dependency.name}`}
                                     />

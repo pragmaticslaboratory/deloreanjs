@@ -8,6 +8,7 @@ const RestoreContinuationVisitor = require('./visitors/continuationRestore')
 const TryCatchVisitor = require('./visitors/tryCatch')
 const LoopVisitor = require('./visitors/loop')
 const IfBlockVisitor = require('./visitors/ifBlock')
+const HeapRestoreVisitor = require('./visitors/heapRestore')
 
 const { addDependencies } = require('./heap')
 
@@ -65,6 +66,12 @@ module.exports = {
         return ({
             visitor: IfBlockVisitor,
         })
-    }
+    },
+
+    heapRestoreVisitor: () => {
+        return ({
+            visitor: HeapRestoreVisitor,
+        })
+    },
 }
 

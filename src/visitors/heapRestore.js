@@ -1,45 +1,239 @@
-const t = require('babel-types');
-let snapshotCounter = 0;
+const t = require('babel-types')
 
-function rightType(key) {
-    switch(typeof heap.snapshots[restore][key]){
-        case 'number': return t.numericLiteral(heap.snapshots[restore][key]);
-        case 'string': return t.stringLiteral(heap.snapshots[restore][key]);
-        case 'boolean': return t.booleanLiteral(heap.snapshots[restore][key]);
-        /*case 'object':
-        let properties = [];
-            for(let property in heap.snapshots[restore][key]){
-                properties.push(t.objectProperty())
-            }
-        return t.objectExpression(properties);
-        case 'function':
-
-        return t.functionExpression(
-            t.identifier(heap.snapshots[restore][key].name),
-            t.arrayPattern(heap.snapshots[restore][key].arguments),
-            
-
-        )*/
-    }
-}    
 
 module.exports = {
     MemberExpression(path) {
-        if(path.node.property && path.node.property.name  == 'kont' + restore && path.container.type == "AssignmentExpression"){
-            var continuationCall = path.findParent(path => path.isAssignmentExpression());  
-            Object.keys(heap.snapshots[restore]).forEach((key) => {
-                if(heap.snapshots[restore][key]){
-                    continuationCall.insertAfter(
-                        t.expressionStatement(
-                            t.assignmentExpression(
-                                '=',
-                                t.identifier(key),
-                                rightType(key)           
-                            )
-                        )
-                    )
+        if(path.node.object && path.node.property && path.node.object.name == 'delorean' && path.node.property.name == 'insertTimepoint'){
+            var snapshotCall = path.findParent(path => path.isCallExpression());  
+
+            var itIsInLoop = false
+            parent = path.context.parentPath;
+            while(parent){
+                parent = parent.context.parentPath;
+                if(parent){
+                    if(parent.node.type == 'ForStatement' || parent.node.type == 'DoWhileStatement' || parent.node.type == 'WhileStatement'){
+                        itIsInLoop = true;
+                        break;
+                    }
                 }
-            })      
+            }
+
+            snapshotCall.insertBefore(
+                t.expressionStatement(
+                    t.callExpression(
+                        t.memberExpression(
+                            t.memberExpression(
+                                t.identifier('heap'),
+                                t.identifier('dependencies'),
+                                false     
+                            ),
+                            t.identifier('map'),
+                            false
+                        ),
+                        [
+                            t.arrowFunctionExpression(
+                                [t.identifier('dependecy')],
+                                t.blockStatement(
+                                    [   
+                                        t.ifStatement( 
+                                            t.callExpression(
+                                                t.identifier('eval'),
+                                                [
+                                                    t.binaryExpression(
+                                                        "+",
+                                                        t.binaryExpression(
+                                                            "+",
+                                                            t.stringLiteral('typeof '),
+                                                            t.callExpression(
+                                                                t.memberExpression(
+                                                                    t.memberExpression(
+                                                                        t.identifier('dependecy'),
+                                                                        t.identifier('name'),
+                                                                        false
+                                                                    ),
+                                                                    t.identifier('toString'),
+                                                                    false
+                                                                ),
+                                                                []
+                                                            )
+                                                        ),
+                                                        t.stringLiteral("!='undefined'")
+                                                    )
+                                                ]
+                                            ),
+                                            t.blockStatement(
+                                                [
+                                                    t.expressionStatement(
+                                                        t.assignmentExpression(
+                                                            '=',
+                                                            t.memberExpression(
+                                                                t.identifier('tempValueStore'),
+                                                                t.callExpression(
+                                                                    t.memberExpression(
+                                                                        t.memberExpression(
+                                                                            t.identifier('dependecy'),
+                                                                            t.identifier('name'),
+                                                                            false
+                                                                        ),
+                                                                        t.identifier('toString'),
+                                                                        false
+                                                                    ),
+                                                                    []
+                                                                ),
+                                                                true
+                                                            ),
+                                                            t.callExpression(
+                                                                t.identifier('eval'),
+                                                                [
+                                                                    t.callExpression(
+                                                                        t.memberExpression(
+                                                                            t.memberExpression(
+                                                                                t.identifier('dependecy'),
+                                                                                t.identifier('name'),
+                                                                                false
+                                                                            ),
+                                                                            t.identifier('toString'),
+                                                                            false
+                                                                        ),
+                                                                        []
+                                                                    )
+                                                                ]
+                                                            )
+                                                        )
+                                                    )
+                                                ]
+                                            ),
+                                            t.blockStatement(
+                                                [
+                                                    t.expressionStatement(
+                                                        t.assignmentExpression(
+                                                            "=",
+                                                            t.memberExpression(
+                                                                t.identifier('tempValueStore'),
+                                                                t.callExpression(
+                                                                    t.memberExpression(
+                                                                        t.memberExpression(
+                                                                            t.identifier('dependecy'),
+                                                                            t.identifier('name'),
+                                                                            false
+                                                                        ),
+                                                                        t.identifier('toString'),
+                                                                        false
+                                                                    ),
+                                                                    []
+                                                                ),
+                                                                true
+                                                            ),
+                                                            t.identifier("undefined")
+
+                                                        )
+                                                    )
+                                                ]
+                                            )
+                                        )                                     
+                                    ],
+                                    []
+                                )
+                            )
+                        ]
+                    )
+                )
+            )
+            
+            snapshotCall.insertAfter(
+                t.ifStatement(
+                    t.identifier('fromTheFuture'),
+                    t.blockStatement(
+                        [   
+                            t.variableDeclaration(
+                                "let",
+                                [
+                                    t.variableDeclarator(
+                                        t.identifier("snapshot"),
+                                        t.callExpression(
+                                            t.identifier('restoreHeap'),
+                                            [t.identifier('startFrom')]
+                                        )
+                                    )
+                                ]
+                            ),
+                            t.expressionStatement(
+                                t.callExpression(
+                                    t.memberExpression(
+                                        t.identifier("dependencies"),
+                                        t.identifier("map"),
+                                        false
+                                    ),
+                                    [
+                                        t.arrowFunctionExpression(
+                                            [
+                                                t.identifier("key")
+                                            ],
+                                            t.blockStatement(
+                                                [
+                                                    t.expressionStatement(
+                                                        t.assignmentExpression(
+                                                            "=",
+                                                            t.identifier("auxSnapshotValue"),
+                                                            t.memberExpression(
+                                                                t.identifier("snapshot"),
+                                                                t.memberExpression(
+                                                                    t.identifier("key"),
+                                                                    t.identifier("name"),
+                                                                    false
+                                                                ),
+                                                                true
+                                                            )
+                                                        )
+                                                    ),
+                                                    t.expressionStatement(
+                                                        t.callExpression(
+                                                            t.identifier("eval"),
+                                                            [
+                                                                t.binaryExpression(
+                                                                    "+",
+                                                                    t.binaryExpression(
+                                                                        "+",
+                                                                        t.binaryExpression(
+                                                                            "+",
+                                                                            t.memberExpression(
+                                                                                t.identifier("key"),
+                                                                                t.identifier("name"),
+                                                                                false
+                                                                            ),
+                                                                            t.stringLiteral(" = document.getElementById('input-")
+                                                                        ),
+                                                                        t.memberExpression(
+                                                                            t.identifier("key"),
+                                                                            t.identifier("name"),
+                                                                            false
+                                                                        )
+                                                                    ),
+                                                                    t.stringLiteral("').value || undefined || auxSnapshotValue;")
+                                                                )
+                                                            ]
+                                                        )
+                                                    )
+                                                ]
+                                            ),
+                                            false
+                                        )    
+                                    ]
+                                )
+                            ),
+                            t.expressionStatement(
+                                t.assignmentExpression(
+                                    '=',
+                                    t.identifier('fromTheFuture'),
+                                    t.booleanLiteral(false)
+                                )
+                            )
+                        ],
+                        []
+                    ),
+                    null
+                )               
+            ) 
         }
     }
 }
