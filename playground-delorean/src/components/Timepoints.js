@@ -8,7 +8,6 @@ import sketch from '../p5/main';
 
 const Timepoints = (props) => {
     const { snapshots, selectedTimePoint, selectTimePoint } = props;
-
     return (
         <div className="timepoints-panel">
             <div className="timeponts-bar-container">

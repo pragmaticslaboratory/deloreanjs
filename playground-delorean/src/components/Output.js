@@ -4,8 +4,6 @@ import Timepoints from './Timepoints';
 import './Output.css'
 
 class Output extends Component {
-
-
     render() {
         return (
             <div className="delorean-container">
@@ -15,6 +13,9 @@ class Output extends Component {
                     selectedTimePoint={this.props.selectedTimePoint}
                 />
                 <State
+                    toggleObject={this.props.toggleObject}
+                    shownObject={this.props.shownObject}
+                    selectedObject={this.props.selectedObject}
                     selectedTimePoint={this.props.selectedTimePoint}
                     dependencies={this.props.dependencies}
                     timePointValues={this.props.timePointValues}

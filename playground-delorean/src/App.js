@@ -117,6 +117,7 @@ class App extends Component {
             timePointValues: {},
             selectedTimePoint: '',
             selectedTimePointDOM: '',
+            shownObject: {},
         })
     }
 
@@ -152,6 +153,23 @@ class App extends Component {
             readOnly: !this.state.readOnly
         });
     };
+
+    toggleObject = (ev, object, name) => {
+        if(this.state.selectedObject === name){
+            // Quitarle la clase
+            this.setState({
+                shownObject: {},
+                selectedObject: '',
+            })
+        } else {
+            // Darle la clase
+            this.setState({
+                shownObject: object,
+                selectedObject: name,
+            })
+        }
+
+    }
 
     executeCode = () => {
         try {
@@ -233,6 +251,9 @@ class App extends Component {
 
                     <div className="bottom-panel">
                         <Output
+                            toggleObject={this.toggleObject}
+                            shownObject={this.state.shownObject}
+                            selectedObject={this.state.selectedObject}
                             timePointValues={this.state.timePointValues}
                             snapshots={this.state.snapshots}
                             dependencies={this.state.dependencies}
