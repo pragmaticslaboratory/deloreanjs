@@ -1,8 +1,8 @@
 import React from 'react'
 import Tab from './Tab'
 import './EditorBar.css'
-import playButton from '../../public/assets/play-button.png'
-import pauseButton from '../../public/assets/pause.png'
+import playButton from '../../../public/assets/play-button.png'
+import pauseButton from '../../../public/assets/pause.png'
 
 const EditorBar = (props) => {
     const { tabs, selectTab, isRunning, executeCode, stopExecution } = props;

@@ -1,9 +1,9 @@
 import React from 'react'
 import './Timepoints.css'
-import timepointIcon from '../../public/assets/time.png'
+import timepointIcon from '../../../public/assets/time.png'
 
 import P5Wrapper from 'react-p5-wrapper';
-import sketch from '../p5/main';
+import sketch from '../../p5/main';
 
 
 const Timepoints = (props) => {

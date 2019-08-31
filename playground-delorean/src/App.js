@@ -3,11 +3,12 @@ import "./App.css";
 
 import debuggerDelorean from "../../src/debugger";
 
-import Layout from "./components/Layout";
-import Console from "./components/Console";
-import Output from "./components/Output";
-import StatusBar from "./components/StatusBar";
-import EditorBar from './components/EditorBar'
+import Layout from "./components/layout/Layout";
+import Console from "./components/console/Console";
+import Output from "./components/layout/Output";
+import StatusBar from "./components/header/StatusBar";
+import EditorBar from './components/editor/EditorBar';
+import Dependency from './components/state/Dependency';
 
 import CodeMirror from "@uiw/react-codemirror";
 import 'codemirror/addon/display/autorefresh';
@@ -23,7 +24,6 @@ import example3 from "../../example/input3";
 
 global.delorean = require("../../src/delorean.js");
 global.vm = require("../../unwinder/runtime/vm.js");
-
 class App extends Component {
     state = {
         tabs: [
@@ -51,6 +51,9 @@ class App extends Component {
         timePointValues: {},
         selectedTimePoint: '',
         selectedTimePointDOM: '',
+        displayedObjects: [],
+        displayedObjectsNames: [],
+        displayedObjectsDOM: [],
     };
 
     constructor(props) {
@@ -117,7 +120,9 @@ class App extends Component {
             timePointValues: {},
             selectedTimePoint: '',
             selectedTimePointDOM: '',
-            shownObject: {},
+            displayedObjects: [],
+            displayedObjectsNames: [],
+            displayedObjectsDOM: [],
         })
     }
 
@@ -155,20 +160,52 @@ class App extends Component {
     };
 
     toggleObject = (ev, object, name) => {
-        if(this.state.selectedObject === name){
-            // Quitarle la clase
+        
+        let index = this.state.displayedObjectsNames.indexOf(name);
+
+        if(index < 0){
+            let displayedObjects = [...this.state.displayedObjects, object];
+            let displayedObjectsNames = [...this.state.displayedObjectsNames, name];
+            let displayedObjectsDOM = [...this.state.displayedObjectsDOM, []];
+
+            for(let value in object){
+                let element = displayedObjects[displayedObjects.length - 1][value];
+
+                displayedObjectsDOM[displayedObjects.length - 1].push(
+                    <Dependency 
+                        key={name+"-"+value}
+                        element={element}
+                        name={name+"-"+value}
+                        type={typeof(element)}
+                        toggleObject={this.toggleObject}
+                        displayedObjectsNames={this.state.displayedObjectsNames}
+                        displayedObjectsDOM={this.state.displayedObjectsDOM}
+                        input={name+"-"+value}
+                    />
+                )
+            }
+
             this.setState({
-                shownObject: {},
-                selectedObject: '',
+                displayedObjects,
+                displayedObjectsNames,
+                displayedObjectsDOM,
             })
+
         } else {
-            // Darle la clase
+            this.state.displayedObjects.splice(index, 1);
+            this.state.displayedObjectsNames.splice(index, 1);
+            this.state.displayedObjectsDOM.splice(index, 1)
+
+            let displayedObjects = this.state.displayedObjects;
+            let displayedObjectsNames = this.state.displayedObjectsNames;
+            let displayedObjectsDOM = this.state.displayedObjectsDOM;
+
             this.setState({
-                shownObject: object,
-                selectedObject: name,
+                displayedObjects,
+                displayedObjectsNames,
+                displayedObjectsDOM,
             })
         }
-
     }
 
     executeCode = () => {
@@ -252,8 +289,11 @@ class App extends Component {
                     <div className="bottom-panel">
                         <Output
                             toggleObject={this.toggleObject}
-                            shownObject={this.state.shownObject}
-                            selectedObject={this.state.selectedObject}
+
+                            displayedObjects={this.state.displayedObjects}
+                            displayedObjectsNames={this.state.displayedObjectsNames}
+                            displayedObjectsDOM={this.state.displayedObjectsDOM}
+
                             timePointValues={this.state.timePointValues}
                             snapshots={this.state.snapshots}
                             dependencies={this.state.dependencies}
