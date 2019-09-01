@@ -11,6 +11,7 @@ const {
   ifBlockVisitor,
   heapRestoreVisitor
 } = require("../src/staticAnalysis");
+var cloneDeep = require('lodash.clonedeep');
 
 /*function restoreHeap(restore){
   let snapshot;
@@ -21,6 +22,10 @@ const {
     eval(`${key.name} = document.getElementById('input-${key.name}').value || undefined || snapshot.${key.name};`)
   })
 }*/
+
+function ldDeepCopy(original){
+  return cloneDeep(original);
+}
 
 module.exports = {
   init: (inputCode, ) => {
@@ -35,6 +40,21 @@ module.exports = {
     })
 
     code = `
+    function updateProp(parentName, obj){
+      Object.keys(obj).map(function(key){
+        if (typeof obj[key] != 'object'){
+          if(document.getElementById('input-' + parentName + '-' + key) && document.getElementById('input-' + parentName + '-' + key).value != '') {
+            var updatedValue = document.getElementById('input-' + parentName + '-' + key).value;
+            if(!isNaN(updatedValue)) updatedValue = parseInt(updatedValue, 10);
+            obj[key] = updatedValue;
+          }
+        }
+        else{
+          //obj[key] = updateProp(parentName + '-' + key.name, key);
+        }
+      });
+      return obj;
+    }
     function restoreHeap(restore){
       let snapshot;
       heap.snapshots.map(element => {

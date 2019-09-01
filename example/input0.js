@@ -28,6 +28,7 @@ delorean.watch(['courseName', 'courseName2']);
 
 var courseName = { a: "Alggebra" };
 var courseName2 = { b: "Algebra" };
+var studentId = 1;
 
 delorean.insertTimepoint('StrategyNotFound');
 

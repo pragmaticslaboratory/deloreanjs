@@ -175,43 +175,99 @@ module.exports = {
                                                         t.assignmentExpression(
                                                             "=",
                                                             t.identifier("auxSnapshotValue"),
-                                                            t.memberExpression(
-                                                                t.identifier("snapshot"),
-                                                                t.memberExpression(
-                                                                    t.identifier("key"),
-                                                                    t.identifier("name"),
-                                                                    false
-                                                                ),
-                                                                true
-                                                            )
-                                                        )
-                                                    ),
-                                                    t.expressionStatement(
-                                                        t.callExpression(
-                                                            t.identifier("eval"),
-                                                            [
-                                                                t.binaryExpression(
-                                                                    "+",
-                                                                    t.binaryExpression(
-                                                                        "+",
-                                                                        t.binaryExpression(
-                                                                            "+",
-                                                                            t.memberExpression(
-                                                                                t.identifier("key"),
-                                                                                t.identifier("name"),
-                                                                                false
-                                                                            ),
-                                                                            t.stringLiteral(" = document.getElementById('input-")
-                                                                        ),
+                                                            t.callExpression(
+                                                                t.identifier("ldDeepCopy"),
+                                                                [
+                                                                    t.memberExpression(
+                                                                        t.identifier("snapshot"),
                                                                         t.memberExpression(
                                                                             t.identifier("key"),
                                                                             t.identifier("name"),
                                                                             false
+                                                                        ),
+                                                                        true
+                                                                    )
+                                                                ]
+                                                            )                                                      
+                                                        )
+                                                    ),
+                                                    t.ifStatement(
+                                                        t.binaryExpression(
+                                                            "==",
+                                                            t.unaryExpression(
+                                                                "typeof",
+                                                                t.identifier("auxSnapshotValue"),
+                                                                true
+                                                            ),
+                                                            t.stringLiteral("object")
+                                                        ),
+                                                        t.blockStatement(
+                                                            [
+                                                                t.expressionStatement(
+                                                                    t.assignmentExpression(
+                                                                        "=",
+                                                                        t.identifier("updatedObj"),
+                                                                        t.callExpression(
+                                                                            t.identifier("updateProp"),
+                                                                            [
+                                                                               t.identifier("key.name"),
+                                                                               t.identifier("auxSnapshotValue") 
+                                                                            ]
                                                                         )
-                                                                    ),
-                                                                    t.stringLiteral("').value || undefined || auxSnapshotValue;")
+
+                                                                    )
+                                                                ),
+                                                                t.expressionStatement(
+                                                                    t.callExpression(
+                                                                        t.identifier("eval"),
+                                                                        [
+                                                                            t.binaryExpression(
+                                                                                "+",
+                                                                                t.memberExpression(
+                                                                                    t.identifier("key"),
+                                                                                    t.identifier("name")
+                                                                                ),
+                                                                                t.stringLiteral(" = updatedObj")
+                                                                            )
+                                                                        ]
+                                                                    )
                                                                 )
-                                                            ]
+
+                                                            ],
+                                                            []
+                                                        ),
+                                                        t.blockStatement(
+                                                            [
+                                                                t.expressionStatement(
+                                                                    t.callExpression(
+                                                                        t.identifier("eval"),
+                                                                        [
+                                                                            t.binaryExpression(
+                                                                                "+",
+                                                                                t.binaryExpression(
+                                                                                    "+",
+                                                                                    t.binaryExpression(
+                                                                                        "+",
+                                                                                        t.memberExpression(
+                                                                                            t.identifier("key"),
+                                                                                            t.identifier("name"),
+                                                                                            false
+                                                                                        ),
+                                                                                        t.stringLiteral(" = document.getElementById('input-")
+                                                                                    ),
+                                                                                    t.memberExpression(
+                                                                                        t.identifier("key"),
+                                                                                        t.identifier("name"),
+                                                                                        false
+                                                                                    )
+                                                                                ),
+                                                                                t.stringLiteral("').value || undefined || auxSnapshotValue;")
+                                                                            )
+                                                                        ]
+                                                                    )
+                                                                )
+                                                            ],
+                                                            []
                                                         )
                                                     )
                                                 ]
