@@ -12,6 +12,8 @@ const Dependency = (props) => {
         displayedObjectsDOM,
     } = props;
 
+    // console.log(name,element)
+
     return (typeof element == 'object') ?
         // La dependencia es un objeto
         <WatchedObject
