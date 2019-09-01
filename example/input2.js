@@ -44,15 +44,14 @@ function show(data) {
 
 var courseNames = ["Calculus", "Alggebra", "Physics"];
 
-delorean.watch(['courseName', 'universityMean']);
+delorean.watch(['courseNames', 'universityMean']);
 
 var universityMean = 0;
 
 for (i = 0; i < courseNames.length; ++i) { //around 5000 courses
-  var courseName = courseNames[i];
   delorean.insertTimepoint('StrategyNotFound');	
-  var evalStrategyId = findStrategy(courseName);
-  var mean = evalStrategies[evalStrategyId](getDegrees(courseName));
+  var evalStrategyId = findStrategy(courseNames[i]);
+  var mean = evalStrategies[evalStrategyId](getDegrees(courseNames[i]));
   universityMean += mean/courseNames.length;
 }
 
