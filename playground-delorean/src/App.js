@@ -178,8 +178,8 @@ class App extends Component {
                         name={name+"-"+value}
                         type={typeof(element)}
                         toggleObject={this.toggleObject}
-                        displayedObjectsNames={this.state.displayedObjectsNames}
-                        displayedObjectsDOM={this.state.displayedObjectsDOM}
+                        displayedObjectsNames={displayedObjectsNames}
+                        displayedObjectsDOM={displayedObjectsDOM}
                         input={name+"-"+value}
                     />
                 )

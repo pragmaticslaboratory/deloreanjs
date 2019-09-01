@@ -1,23 +1,24 @@
-import React from 'react'
+import React, { Component } from 'react'
 import StateBar from './StateBar';
 
 import Dependency from './Dependency'
 import './State.css'
 
-const State = (props) => {
-    const { 
-        selectedTimePoint, 
-        isRunning, 
-        invokeContinuation, 
-        dependencies, 
-        timePointValues, 
-        toggleObject, 
-        displayedObjectsNames,
-        displayedObjectsDOM
-    } = props;
+class State extends Component {
 
-    return (
-        <div className="state-panel-container">
+    render() {
+        const { 
+            selectedTimePoint, 
+            isRunning, 
+            invokeContinuation, 
+            dependencies, 
+            timePointValues, 
+            toggleObject, 
+            displayedObjectsNames,
+            displayedObjectsDOM
+        } = this.props;
+
+        return ( <div className="state-panel-container">
             <div className="state-container">
                 <StateBar 
                     selectedTimePoint={selectedTimePoint}
@@ -54,8 +55,8 @@ const State = (props) => {
                     }
                 </div>
             </div>
-        </div>
-    )
+        </div>)
+    }
 }
 
 export default State;
