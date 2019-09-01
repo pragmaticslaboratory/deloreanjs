@@ -50,7 +50,7 @@ module.exports = {
           }
         }
         else{
-          //obj[key] = updateProp(parentName + '-' + key.name, key);
+          obj[key] = updateProp(parentName + '-' + key, obj[key]);
         }
       });
       return obj;
