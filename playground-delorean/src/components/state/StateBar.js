@@ -3,11 +3,8 @@ import './StateBar.css'
 import resumeButton from '../../../public/assets/fast-forward.png'
 
 const StateBar = (props) => {
-    const { 
-        selectedTimePoint, 
-        isRunning, 
-        invokeContinuation, 
-    } = props;
+    const { invokeContinuation, appStore } = props;
+    const { selectedTimePoint, isRunning } = appStore.state;
 
     return (
         <div>
@@ -15,7 +12,7 @@ const StateBar = (props) => {
                 <p className="state-title">State of <b>{(selectedTimePoint) ? selectedTimePoint : "(Not selected)"}</b></p>
                 {
                     isRunning && 
-                        <div className="btn-resume-container" onClick={invokeContinuation}>
+                        <div className="btn-resume-container" onClick={() => invokeContinuation(appStore)}>
                             <p>Resume</p>
                             <img alt="resume logo" src={resumeButton} className="btn-resume" />
                         </div>

@@ -7,22 +7,15 @@ import './State.css'
 class State extends Component {
 
     render() {
-        const { 
-            selectedTimePoint, 
-            isRunning, 
-            invokeContinuation, 
-            dependencies, 
-            timePointValues, 
-            toggleObject, 
-            displayedObjectsNames,
-            displayedObjectsDOM
-        } = this.props;
+
+        const { selectedTimePoint, dependencies, timePointValues, displayedObjectsDOM, displayedObjectsNames } = this.props.appStore.state;
+        const { toggleObject } = this.props.appStore;
+        const { invokeContinuation } = this.props;
 
         return ( <div className="state-panel-container">
             <div className="state-container">
                 <StateBar 
-                    selectedTimePoint={selectedTimePoint}
-                    isRunning={isRunning}
+                    appStore={this.props.appStore}
                     invokeContinuation={invokeContinuation}
                 />
                 

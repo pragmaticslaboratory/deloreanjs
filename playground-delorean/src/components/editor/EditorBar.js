@@ -5,7 +5,9 @@ import playButton from '../../../public/assets/play-button.png'
 import pauseButton from '../../../public/assets/pause.png'
 
 const EditorBar = (props) => {
-    const { tabs, selectTab, isRunning, executeCode, stopExecution } = props;
+    const { tabs, isRunning } = props.appStore.state;
+    const { selectTab, executeCode, stopExecution } = props;
+
     return (
         <div className="editor-bar-container">
             <div className="tabs-container">
@@ -16,24 +18,22 @@ const EditorBar = (props) => {
                             key={tab.name}
                             name={tab.name}
                             input={tab.input}
+                            appStore={props.appStore}
                             selectTab={selectTab}
                         />
                         )
                     })
                 }
-                {/* <div className="add-tab">
-                    Add +
-                </div> */}
             </div>
         <div className="btns-editor-container">
             {
                 !isRunning ? 
-                    <div className="btn-play-container" onClick={executeCode}>
+                    <div className="btn-play-container" onClick={() => executeCode(props.appStore)}>
                         <p>Run</p>
                         <img alt="run logo" className="btn-play" src={playButton} />
                     </div>
                     :
-                    <div className="btn-pause-container" onClick={stopExecution}>
+                    <div className="btn-pause-container" onClick={() => stopExecution(props.appStore)}>
                         <p>Stop</p>
                         <img alt="stop logo" className="btn-pause" src={pauseButton} />
                     </div>
