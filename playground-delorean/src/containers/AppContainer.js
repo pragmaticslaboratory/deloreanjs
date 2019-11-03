@@ -44,6 +44,7 @@ export default class AppContainer extends Container {
             displayedObjects: [],
             displayedObjectsNames: [],
             displayedObjectsDOM: [],
+            copyStyle: 'Deep Copy',
         };
     }
 
@@ -176,6 +177,23 @@ export default class AppContainer extends Container {
                 displayedObjects,
                 displayedObjectsNames,
                 displayedObjectsDOM,
+            })
+        }
+    }
+
+    toggleCopy = (ev) => {
+        if(ev.target.innerHTML === this.state.copyStyle) {
+            return; 
+        } else {
+            let switchOptions = ev.currentTarget;
+            for(let i = 0; i < switchOptions.childNodes.length; i++){
+                if(switchOptions.childNodes[i].classList.contains('selected-switch')) {
+                    switchOptions.childNodes[i].classList.remove('selected-switch')
+                }
+            }
+            ev.target.classList.add('selected-switch');
+            this.setState({
+                copyStyle: ev.target.innerHTML,
             })
         }
     }

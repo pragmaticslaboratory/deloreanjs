@@ -77,3 +77,27 @@
   margin-right: 10px;
   width: 20px;
 }
+
+.switch-container {
+  font-size: 12px;
+  background: rgb(243, 243, 243);
+  display: flex;
+  border: 1px solid black;
+}
+
+.switch-container p {
+  cursor: pointer;
+  text-decoration: none;
+  margin: 0;
+  padding: 0.5em;
+}
+
+.switch-options {
+  transition: .3s ease-out all;
+}
+
+.selected-switch {
+  background: black;
+  color: white;
+  transition: .3s ease-out all;
+}

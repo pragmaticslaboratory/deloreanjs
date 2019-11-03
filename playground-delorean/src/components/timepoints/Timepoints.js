@@ -15,8 +15,9 @@ const Timepoints = (props) => {
             <div className="timeponts-bar-container">
                 <p>Timepoints</p>
 
-                <div>
-                    "Btns Panel"
+                <div id="switch-container" className="switch-container" onClick={(ev) => props.appStore.toggleCopy(ev)}>
+                    <p className="swtich-options selected-switch">Deep Copy</p>
+                    <p className="swtich-options">Shallow Copy</p>
                 </div>
             </div>
 
