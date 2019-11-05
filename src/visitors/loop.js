@@ -1,3 +1,4 @@
+//Finds dependencies in cicles.
 module.exports = {
     "ForStatement|DoWhileStatement|WhileStatement"(path){
         let test = path.get('test')

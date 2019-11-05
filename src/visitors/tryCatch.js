@@ -1,5 +1,5 @@
 const t = require('babel-types');
-
+//Adds try-catch blocks before and after every timepont.
 window.isTimePoint = function(element){
     return element && element.expression && element.expression.callee &&
     element.expression.callee.object && element.expression.callee.property &&

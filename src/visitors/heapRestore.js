@@ -1,5 +1,7 @@
 const t = require('babel-types')
-
+function shallowCopy(object){
+    return object;
+}
 
 module.exports = {
     MemberExpression(path) {
@@ -18,6 +20,18 @@ module.exports = {
                 }
             }
 
+            let copy = 'ldDeepCopy'
+            if (document.getElementsByClassName("swtich-options selected-switch")[0].innerHTML == "Shallow Copy") copy = shallowCopy;
+            //Stores all dependant variables in a temp global object.
+            /*
+                heap.dependencies.map(dependecy => {
+                    if (eval('typeof ' + dependecy.name.toString() + '!=\'undefined\'')) {
+                        tempValueStore[dependecy.name.toString()] = eval(dependecy.name.toString());
+                    } else {
+                        tempValueStore[dependecy.name.toString()] = undefined;
+                    }
+                });
+            */
             snapshotCall.insertBefore(
                 t.expressionStatement(
                     t.callExpression(
@@ -139,7 +153,23 @@ module.exports = {
                     )
                 )
             )
-            
+            // Restores variables when coming back form the future.
+            /*
+                if (fromTheFuture) {
+                    let snapshot = restoreHeap(startFrom);
+                    dependencies.map(key => {
+                        auxSnapshotValue = ldDeepCopy(snapshot[key.name]);
+
+                        if (typeof auxSnapshotValue == 'object') {
+                            updatedObj = updateProp(key.name, auxSnapshotValue);
+                            eval(key.name + ' = updatedObj');
+                        } else {
+                            eval(key.name + ' = document.getElementById(\'input-' + key.name + '\').value || undefined || auxSnapshotValue;');
+                        }
+                    });
+                    fromTheFuture = false;
+                }
+            */
             snapshotCall.insertAfter(
                 t.ifStatement(
                     t.identifier('fromTheFuture'),
@@ -176,7 +206,7 @@ module.exports = {
                                                             "=",
                                                             t.identifier("auxSnapshotValue"),
                                                             t.callExpression(
-                                                                t.identifier("ldDeepCopy"),
+                                                                t.identifier(copy),
                                                                 [
                                                                     t.memberExpression(
                                                                         t.identifier("snapshot"),
