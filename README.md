@@ -24,7 +24,7 @@ The DeloreanJs approach provides four novel features:
 
 
 And of course Delorean itself is open source with a [public repository](https://github.com/fruizrob/delorean)
- on GitHub. This software is developed on the [Pragmatics Lab](http://pragmaticslab.com) 
+ on GitHub. This software is developed on the [Pragmatics Lab](http://pragmaticslab.com). 
 
 
 License
