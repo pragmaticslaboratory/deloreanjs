@@ -13,7 +13,7 @@ Try it out now!
 What is the new?
 ----
 
-The DeloreanJs approach provides four novel features:
+DeloreanJs provides four features:
 
 - **Fix a bug while an application is executing.** Keep a Web application working while a developer fixes a bug. This means that the developer does not require stopping the application execution to carry out a postmortem analysis.          
 	
