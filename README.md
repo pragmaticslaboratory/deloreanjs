@@ -13,7 +13,7 @@ Try it out now!
 What is the new?
 ----
 
-<img src="http://pleger.cl/sites/deloreanjs/intro.png" width="30%">
+<img src="http://pleger.cl/sites/deloreanjs/intro.png" width="60%">
 
 DeloreanJs provides four features:
 
