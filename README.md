@@ -1,4 +1,4 @@
-# Delorean: A Back-in-time Debugger for JavaScript
+# DeloreanJs: A Back-in-time Debugger for JavaScript
 
 <img src="http://pragmaticslab.com/wordpress/wp-content/uploads/2018/09/LogoPragmaticsLab.png" width="240">
 
@@ -23,7 +23,7 @@ The DeloreanJs approach provides four novel features:
 - **Integrate existing debugger features.** To be a practical debugger, DeloreanJs is also useful to integrate other features of existing debuggers. For this reason, our approach can emulate breakpoint and navigation features. The emulation of features claims that timepoints do not conflict with related debuggers, meaning an extension to the state-of-the-art/practice debuggers.  
 
 
-And of course Delorean itself is open source with a [public repository](https://github.com/fruizrob/delorean)
+And, of course, DeloreanJs is open source: [public repository](https://github.com/fruizrob/delorean)
  on GitHub. This software is developed on the [Pragmatics Lab](http://pragmaticslab.com). 
 
 
