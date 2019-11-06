@@ -8,7 +8,7 @@
 Try it out now!
 ---
 
-*Do you want to be a time traveler (in your JavaScript code)?* Please, use its Web application [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
+*Do you want to be a time traveler (in your JavaScript code)?* Please, use its Web application: [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
 
 What is the new?
 ----
