@@ -19,7 +19,7 @@ The DeloreanJs approach provides four novel features:
 
 - **Fix a bug while an application is executing.** Keep a Web application working while a developer fixes a bug. This means that the developer does not require stopping the application execution to carry out a postmortem analysis.          
 	
-- **Improve understanding of a bug.** Repeatedly modify variable values associated with a bug to improve understanding of its cause. This can save a large number of executions (* * ie * * time) because DeloreanJs allows developers to reuse the same execution trace with potentially different values in variables to discover the reason for the bug.       
+- **Improve understanding of a bug.** Repeatedly modify variable values associated with a bug to improve understanding of its cause. This can save a large number of executions (*i.e.,* time) because DeloreanJs allows developers to reuse the same execution trace with potentially different values in variables to discover the reason for the bug.       
 
 - **Experiment hypothetical scenarios.** Experiment hypothetical scenarios of a Web application execution. This allows developers to explore diverse evolutions from an execution point with different variable values. 
 		
