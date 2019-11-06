@@ -10,7 +10,7 @@ JavaScript Web applications are continually developing, as in most development e
 Usage
 ---
 
-*Do you want to be a time traveler (in JavaScript code)?* Please, visit the webpage [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
+*Do you want to be a time traveler (in your JavaScript code)?* Please, visit the webpage [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
 
 What is the new?
 ----
@@ -27,10 +27,13 @@ The DeloreanJs approach provides four novel features:
 
 
 And of course Delorean itself is open source with a [public repository](https://github.com/fruizrob/delorean)
- on GitHub.
+ on GitHub. This software is developed on the [Pragmatics Lab](http://pragmaticslab.com) 
 
 
 License
 ----
 
 MIT
+
+
+
