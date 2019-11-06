@@ -182,19 +182,24 @@ export default class AppContainer extends Container {
     }
 
     toggleCopy = (ev) => {
-        if(ev.target.innerHTML === this.state.copyStyle) {
-            return; 
-        } else {
-            let switchOptions = ev.currentTarget;
-            for(let i = 0; i < switchOptions.childNodes.length; i++){
-                if(switchOptions.childNodes[i].classList.contains('selected-switch')) {
-                    switchOptions.childNodes[i].classList.remove('selected-switch')
+        if(!this.state.isRunning) {
+            if(ev.target.innerHTML === this.state.copyStyle) {
+                return; 
+            } else {
+                let switchOptions = ev.currentTarget;
+                for(let i = 0; i < switchOptions.childNodes.length; i++){
+                    if(switchOptions.childNodes[i].classList.contains('selected-switch')) {
+                        switchOptions.childNodes[i].classList.remove('selected-switch')
+                    }
                 }
+                ev.target.classList.add('selected-switch');
+                this.setState({
+                    copyStyle: ev.target.innerHTML,
+                })
             }
-            ev.target.classList.add('selected-switch');
-            this.setState({
-                copyStyle: ev.target.innerHTML,
-            })
+        } else {
+            alert('Sorry, you need stop this execution before change the copy mode! :)')
+            return;
         }
     }
 };
