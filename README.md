@@ -24,7 +24,7 @@ The DeloreanJs approach provides four novel features:
 - **Integrate existing debugger features.** To be a practical debugger, DeloreanJs is also useful to integrate other features of existing debuggers. For this reason, our approach can emulate breakpoint and navigation features. The emulation of features claims that timepoints do not conflict with related debuggers, meaning an extension to the state-of-the-art/practice debuggers.  
 
 
-Of course, DeloreanJs is open source. This software is developed on [Pragmatics Lab](http://pragmaticslab.com). 
+Of course, DeloreanJs is open source. This software is developed by Felipe Ruiz and Guillermo Victorero, under the supervision of [Paul Leger](http://pleger.cl) at [Pragmatics Lab](http://pragmaticslab.com) 
 
 
 License
