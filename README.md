@@ -1,4 +1,4 @@
-# Delorean: A back-in-time debugger for JavaScript
+# Delorean: A Back-in-time Debugger for JavaScript
 
 <img src="http://pragmaticslab.com/wordpress/wp-content/uploads/2018/09/LogoPragmaticsLab.png" width="240">
 
@@ -12,30 +12,27 @@ Usage
 
 Do you want to be a time traveler? Please, visit the webpage [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
 
-Tech
+What is the new?
 ----
+
+The DeloreanJs approach provides four novel features:
+
+- **Fix a bug while an application is executing.** Keep a Web application working while a developer fixes a bug. This means that the developer does not require stopping the application execution to carry out a postmortem analysis.          
+
+	
+- **Improve understanding of a bug.** Repeatedly modify variable values associated with a bug to improve understanding of its cause. This can save a large number of executions (\ie time) because \deloreanjs allows developers to reuse the same execution trace with potentially different values in variables to discover the reason for the bug.       
+
+
+- **Experiment hypothetical scenarios.** Experiment hypothetical scenarios of a Web application execution. This allows developers to explore diverse evolutions from an execution point with different variable values. 
+	\smallskip
+	
+	
+- **Integrate existing debugger features.** To be a practical debugger, \deloreanjs is also useful to integrate other features of existing debuggers. In this paper, we show how our approach can emulate breakpoint and navigation features. The emulation of features claims that timepoints do not conflict with related debuggers, meaning an extension to the state-of-the-art/practice debuggers.  
 
 
 And of course Delorean itself is open source with a [public repository](https://github.com/fruizrob/delorean)
  on GitHub.
 
-Installation
----
-
-Delorean requires [Node.js](https://nodejs.org/) v9+ to run.
-
-Install the dependencies.
-
-```sh
-$ cd delorean
-$ npm install
-```
-
-Run mocha tests.
-
-```sh
-$ npm run test
-```
 
 License
 ----
