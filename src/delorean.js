@@ -7,5 +7,10 @@ module.exports = {
 
     watch: (array) => {
         console.log('Debugging [' + array + ']');
+    },
+
+    insertBreakpoint: (id) => {
+        heapSnapshot(id);
+        throw "Execution paused.";
     }
 }
