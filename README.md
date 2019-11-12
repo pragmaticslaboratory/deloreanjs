@@ -1,50 +1,38 @@
-# Delorean
+# DeloreanJs: A Back-in-time Debugger for JavaScript
 
-<img src="http://pragmaticslab.com/wordpress/wp-content/uploads/2018/09/LogoPragmaticsLab.png" width="240">
+<img src="http://pleger.cl/sites/deloreanjs/logo.png" width="10%">
 
-Delorean is a proposal of a debugger for JavaScript.
 
-  - You can go back to any point of your program
-  - Extension for the browser
-  - Continuations use case
+*JavaScript* Web applications are continually developing, as in most development environments, a Web application can acquire software flaws (known as *bugs*), whose symptoms are seen during the development stage and, even worse, in production. The use of debuggers is extremely useful for detecting bugs. Unfortunately, existing debuggers only step (back) in the execution to detect a bug and do not allow developers to go to a previous point in the execution to take actions associated with the detected bug. This limitation does not allow developers to modify the value of a variable to fix a bug while the application is running or test if the same bug is triggered with another value of that variable. Using concepts such as continuations and static analysis, we present a practical debugger for JavaScript, named *DeloreanJs*, which enables programmers to go back-in-time in the execution of a Web application to fix, improve the understanding, or experiment with the context execution related to a bug. In addition, the use of the back-in-time approach can allow us to emulate features of existing debuggers. Although DeloreanJs is developed for JavaScript, we compare our proposal with the state-of-art/practice of debuggers in terms of features. This debugger has been implemented for testing online by any JavaScript developer.
 
-Usage
+Try it out now!
 ---
 
-Please, visit the webpage [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
+*Do you want to be a time traveler (in your JavaScript code)?* Please, use its Web application: [http://pleger.cl/sites/deloreanjs](http://pleger.cl/sites/deloreanjs)
 
-Tech
+What is the new?
 ----
 
-Delorean uses a number of open source projects to work properly:
+<img src="http://pleger.cl/sites/deloreanjs/intro.png" width="60%">
 
-* [Babel](https://babeljs.io) - awesome and configurable transpiler!
-* [Node.js](https://nodejs.org/) - evented I/O for the backend
-* [mocha](https://mochajs.org/) - simple, flexible JavaScript test framework
-* [unwinder](https://github.com/jlongster/unwinder) - an implementation of continuations in JavaScript
+DeloreanJs provides four features:
 
-And of course Delorean itself is open source with a [public repository](https://github.com/fruizrob/delorean)
- on GitHub.
+- **Fix a bug while an application is executing.** Keep a Web application working while a developer fixes a bug. This means that the developer does not require stopping the application execution to carry out a postmortem analysis.          
+	
+- **Improve understanding of a bug.** Repeatedly modify variable values associated with a bug to improve understanding of its cause. This can save a large number of executions (*i.e.,* time) because DeloreanJs allows developers to reuse the same execution trace with potentially different values in variables to discover the reason for the bug.       
 
-Installation
----
+- **Experiment hypothetical scenarios.** Experiment hypothetical scenarios of a Web application execution. This allows developers to explore diverse evolutions from an execution point with different variable values. 
+		
+- **Integrate existing debugger features.** To be a practical debugger, DeloreanJs is also useful to integrate other features of existing debuggers. For this reason, our approach can emulate breakpoint and navigation features. The emulation of features claims that timepoints do not conflict with related debuggers, meaning an extension to the state-of-the-art/practice debuggers.  
 
-Delorean requires [Node.js](https://nodejs.org/) v9+ to run.
 
-Install the dependencies.
+Of course, DeloreanJs is open source. This software is developed by Felipe Ruiz and Guillermo Victorero, under the supervision of [Paul Leger](http://pleger.cl) at [Pragmatics Lab](http://pragmaticslab.com) 
 
-```sh
-$ cd delorean
-$ npm install
-```
-
-Run mocha tests.
-
-```sh
-$ npm run test
-```
 
 License
 ----
 
 MIT
+
+
+
