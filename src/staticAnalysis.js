@@ -1,14 +1,15 @@
-const WatchVisitor = require('./visitors/watch')
+const WatchVisitor = require('./visitors/watch');
 const DeclaratorVisitor = require('./visitors/declarator');
 const AssignmentVisitor = require('./visitors/assignment');
 const ContinuationsConfigVisitor = require('./visitors/createContinuation');
 const StoreContinuationsVisitor = require('./visitors/storeContinuations');
 const RestoreHeapVisitor = require('./visitors/heapRestore');
-const RestoreContinuationVisitor = require('./visitors/continuationRestore')
-const TryCatchVisitor = require('./visitors/tryCatch')
-const LoopVisitor = require('./visitors/loop')
-const IfBlockVisitor = require('./visitors/ifBlock')
-const HeapRestoreVisitor = require('./visitors/heapRestore')
+const RestoreContinuationVisitor = require('./visitors/continuationRestore');
+const TryCatchVisitor = require('./visitors/tryCatch');
+const LoopVisitor = require('./visitors/loop');
+const IfBlockVisitor = require('./visitors/ifBlock');
+const HeapRestoreVisitor = require('./visitors/heapRestore');
+const ThrowBreakVisitor =require('./visitors/throwBreak');
 
 const { addDependencies } = require('./heap')
 
@@ -73,5 +74,11 @@ module.exports = {
             visitor: HeapRestoreVisitor,
         })
     },
+
+    throwBreakVisitor: () => {
+        return ({
+            visitor: ThrowBreakVisitor,
+        })
+    }
 }
 

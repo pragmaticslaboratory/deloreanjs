@@ -11,6 +11,6 @@ module.exports = {
 
     insertBreakpoint: (id) => {
         heapSnapshot(id);
-        throw "Execution paused.";
+        
     }
 }

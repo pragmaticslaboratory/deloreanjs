@@ -9,7 +9,8 @@ const {
   storeContinuationsVisitor,
   tryCatchVisitor,
   ifBlockVisitor,
-  heapRestoreVisitor
+  heapRestoreVisitor,
+  throwBreakVisitor
 } = require("../src/staticAnalysis");
 var cloneDeep = require('lodash.clonedeep');
 
@@ -35,7 +36,7 @@ module.exports = {
     ], true).code;
   
     let { code } = babel.transform(src, {
-      plugins: [ifBlockVisitor, initConfigVisitor, heapRestoreVisitor,
+      plugins: [ifBlockVisitor, initConfigVisitor, heapRestoreVisitor, throwBreakVisitor,
       storeContinuationsVisitor]
     })
 
