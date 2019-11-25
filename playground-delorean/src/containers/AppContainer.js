@@ -7,6 +7,7 @@ import example0 from '../../../example/input0';
 import example1 from '../../../example/input1';
 import example2 from '../../../example/input2';
 import example3 from '../../../example/input3';
+import example4 from '../../../example/input4';
 
 global.delorean = require('../../../src/delorean.js');
 global.vm = require('../../../unwinder/runtime/vm.js');
@@ -28,6 +29,10 @@ export default class AppContainer extends Container {
                 {
                     name: "experimentScenarios.js",
                     input: example3
+                },
+                {
+                    name: "breakpoints? omg",
+                    input: example4
                 }
             ],
             tabSelected: "",
@@ -45,6 +50,42 @@ export default class AppContainer extends Container {
             displayedObjectsNames: [],
             displayedObjectsDOM: [],
             copyStyle: 'Deep Copy',
+        };
+    }
+
+    selectTimepointById = id => {
+        let target = '';
+
+        if (this.state.selectedTimePointDOM) {
+            this.state.selectedTimePointDOM.classList.remove('timepoint-button-selected')
+            this.state.selectedTimePointDOM.classList.add('timepoint-button')
+        }
+
+        let elements = document.getElementsByClassName('timepoints-btns')[0].childNodes;
+        for(let i = 0; i < elements.length; i++) {
+            if(elements[i].getAttribute('kont') === id){
+                target = elements[i];
+            }
+        }
+
+        if(target) {
+            target.classList.remove('timepoint-button')
+            target.classList.add('timepoint-button-selected')
+        }
+
+        global.heap.snapshots.forEach(el => {
+            if (el.timePointId === id) {
+                this.setState({
+                    timePointValues: el,
+                    selectedTimePoint: id,
+                    selectedTimePointDOM: target,
+                })
+            }
+        })
+
+        global.breakpoint = {
+            name: '',
+            activate: false
         };
     }
 
