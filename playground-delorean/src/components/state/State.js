@@ -6,6 +6,10 @@ import './State.css'
 
 class State extends Component {
 
+    componentWillUpdate = () => {
+        if(global.breakpoint.activate) this.props.appStore.selectTimepointById(global.breakpoint.id)
+    }
+    
     render() {
 
         const { selectedTimePoint, dependencies, timePointValues, displayedObjectsDOM, displayedObjectsNames } = this.props.appStore.state;
