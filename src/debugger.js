@@ -2,6 +2,7 @@ const babel = require('babel-core');
 global.timeLine = 0;
 global.startFrom = '';
 global.fromTheFuture = false;
+global.implicitCounter = 0;
 
 const {
   dependenciesVisitor,
@@ -10,7 +11,8 @@ const {
   tryCatchVisitor,
   ifBlockVisitor,
   heapRestoreVisitor,
-  throwBreakVisitor
+  throwBreakVisitor,
+  implicitTPVisitor
 } = require("../src/staticAnalysis");
 var cloneDeep = require('lodash.clonedeep');
 
@@ -30,16 +32,18 @@ function ldDeepCopy(original){
 
 module.exports = {
   init: (inputCode, ) => {
+    implicitCounter = 0;
     let src = require("../index")(inputCode, [
       dependenciesVisitor,
+      implicitTPVisitor,
       tryCatchVisitor,
     ], true).code;
-  
+
     let { code } = babel.transform(src, {
       plugins: [ifBlockVisitor, initConfigVisitor, heapRestoreVisitor, throwBreakVisitor,
       storeContinuationsVisitor]
     })
-
+    console.log(code)
     code = `
     function updateProp(parentName, obj){
       Object.keys(obj).map(function(key){

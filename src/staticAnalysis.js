@@ -9,7 +9,12 @@ const TryCatchVisitor = require('./visitors/tryCatch');
 const LoopVisitor = require('./visitors/loop');
 const IfBlockVisitor = require('./visitors/ifBlock');
 const HeapRestoreVisitor = require('./visitors/heapRestore');
-const ThrowBreakVisitor =require('./visitors/throwBreak');
+const ThrowBreakVisitor = require('./visitors/throwBreak');
+const PropertyVisitor = require('./visitors/property');
+const ImplicitDeclaratorVisitor = require('./visitors/implicitTPVisitors/declarator');
+const ImplicitAssignmentVisitor = require('./visitors/implicitTPVisitors/assignment');
+const ImplicitPropertyVisitor = require('./visitors/implicitTPVisitors/property');
+const ImplicitUnaryVisitor = require('./visitors/implicitTPVisitors/unary');
 
 const { addDependencies } = require('./heap')
 
@@ -22,7 +27,17 @@ const DependenciesVisitor = {
         path.traverse(DeclaratorVisitor);
         path.traverse(AssignmentVisitor);
         path.traverse(LoopVisitor);
+        path.traverse(PropertyVisitor);
         addDependencies(dependencies);
+    }
+};
+
+const ImplicitTPVisitor = {
+    Program(path) {
+        path.traverse(ImplicitDeclaratorVisitor);
+        path.traverse(ImplicitAssignmentVisitor);
+        path.traverse(ImplicitPropertyVisitor);
+        path.traverse(ImplicitUnaryVisitor);
     }
 };
 
@@ -79,6 +94,12 @@ module.exports = {
         return ({
             visitor: ThrowBreakVisitor,
         })
-    }
+    },
+
+    implicitTPVisitor: () => {
+        return ({
+            visitor: ImplicitTPVisitor,
+        })
+    },
 }
 

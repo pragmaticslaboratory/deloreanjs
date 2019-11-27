@@ -201,26 +201,60 @@ module.exports = {
                                             ],
                                             t.blockStatement(
                                                 [
-                                                    t.expressionStatement(
-                                                        t.assignmentExpression(
-                                                            "=",
-                                                            t.identifier("auxSnapshotValue"),
-                                                            t.callExpression(
-                                                                t.identifier(copy),
-                                                                [
+                                                    t.ifStatement(
+                                                        t.binaryExpression(
+                                                            "!=",
+                                                            t.unaryExpression(
+                                                                "typeof",
+                                                                t.memberExpression(
+                                                                    t.identifier("snapshot"),
                                                                     t.memberExpression(
-                                                                        t.identifier("snapshot"),
+                                                                        t.identifier("key"),
+                                                                        t.identifier("name"),
+                                                                        false
+                                                                    ),
+                                                                    true
+                                                                ),
+                                                                true
+                                                            ),
+                                                            t.stringLiteral("function")
+                                                        ),
+                                                        t.expressionStatement(
+                                                            t.assignmentExpression(
+                                                                "=",
+                                                                t.identifier("auxSnapshotValue"),
+                                                                t.callExpression(
+                                                                    t.identifier(copy),
+                                                                    [
                                                                         t.memberExpression(
-                                                                            t.identifier("key"),
-                                                                            t.identifier("name"),
-                                                                            false
-                                                                        ),
-                                                                        true
-                                                                    )
-                                                                ]
-                                                            )                                                      
-                                                        )
-                                                    ),
+                                                                            t.identifier("snapshot"),
+                                                                            t.memberExpression(
+                                                                                t.identifier("key"),
+                                                                                t.identifier("name"),
+                                                                                false
+                                                                            ),
+                                                                            true
+                                                                        )
+                                                                    ]
+                                                                )                                                      
+                                                            )
+                                                        ),
+                                                        t.expressionStatement(
+                                                            t.assignmentExpression(
+                                                                "=",
+                                                                t.identifier("auxSnapshotValue"),
+                                                                t.memberExpression(
+                                                                    t.identifier("snapshot"),
+                                                                    t.memberExpression(
+                                                                        t.identifier("key"),
+                                                                        t.identifier("name"),
+                                                                        false
+                                                                    ),
+                                                                    true
+                                                                )                                                                                                                    
+                                                            )
+                                                        )                                                       
+                                                    ), 
                                                     t.ifStatement(
                                                         t.binaryExpression(
                                                             "==",
