@@ -3,28 +3,45 @@ module.exports = {
     VariableDeclarator(path) {
         let left = path.node.id.name
         if (dependencies.some(dependency => dependency.name == left)) {
-            var varDelcaration = path.findParent(path => path.isVariableDeclaration());
-            parent = varDelcaration.context.parentPath;
-            while (parent && parent.node.type != 'ExpressionStatement') {
-                parent = parent.context.parentPath;
-
+            var parent = path.findParent(path => path.isVariableDeclaration());
+            if(parent.context.parentPath.node.type != 'ForStatement'){
+                if (parent && !isTimePoint(parent.getSibling(parent.key + 1).node)) {                    
+                    parent.insertAfter(
+                        t.expressionStatement(
+                            t.callExpression(
+                                t.memberExpression(
+                                    t.identifier('delorean'),
+                                    t.identifier('insertTimepoint'),
+                                    false
+                                ),
+                                [
+                                    t.stringLiteral('Implicit' + implicitCounter)
+                                ]
+                            )
+                        )
+                    );     
+                    ++implicitCounter;
+                }
             }
-            if (parent && !isTimePoint(parent.getSibling(parent.key + 1).node)) {
-                parent.insertAfter(
-                    t.expressionStatement(
-                        t.callExpression(
-                            t.memberExpression(
-                                t.identifier('delorean'),
-                                t.identifier('insertTimepoint'),
-                                false
-                            ),
-                            [
-                                t.stringLiteral('Implicit' + implicitCounter)
-                            ]
+            else{
+                parent = parent.context.parentPath;
+                if (!isTimePoint(parent.node.body.body[0])){
+                    parent.get('body').unshiftContainer('body', 
+                        t.expressionStatement(
+                            t.callExpression(
+                                t.memberExpression(
+                                    t.identifier('delorean'),
+                                    t.identifier('insertTimepoint'),
+                                    false
+                                ),
+                                [
+                                    t.stringLiteral('Implicit' + implicitCounter)
+                                ]
+                            )
                         )
                     )
-                );
-                ++implicitCounter;
+                    ++implicitCounter;
+                }
             }
         }
     }

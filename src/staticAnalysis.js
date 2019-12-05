@@ -15,6 +15,7 @@ const ImplicitDeclaratorVisitor = require('./visitors/implicitTPVisitors/declara
 const ImplicitAssignmentVisitor = require('./visitors/implicitTPVisitors/assignment');
 const ImplicitPropertyVisitor = require('./visitors/implicitTPVisitors/property');
 const ImplicitUnaryVisitor = require('./visitors/implicitTPVisitors/unary');
+const ImplicitUpdateVisitor = require('./visitors/implicitTPVisitors/update');
 
 const { addDependencies } = require('./heap')
 
@@ -23,11 +24,16 @@ global.dependencies = [];
 const DependenciesVisitor = {
     Program(path) {
         dependencies = [];
+        let pastDependencies;
         path.traverse(WatchVisitor);
-        path.traverse(DeclaratorVisitor);
-        path.traverse(AssignmentVisitor);
-        path.traverse(LoopVisitor);
-        path.traverse(PropertyVisitor);
+        
+        do{
+            pastDependencies = dependencies.length;
+            path.traverse(DeclaratorVisitor);
+            path.traverse(AssignmentVisitor);
+            path.traverse(LoopVisitor);
+            path.traverse(PropertyVisitor);
+        }while(pastDependencies < dependencies.length);
         addDependencies(dependencies);
     }
 };
@@ -38,6 +44,7 @@ const ImplicitTPVisitor = {
         path.traverse(ImplicitAssignmentVisitor);
         path.traverse(ImplicitPropertyVisitor);
         path.traverse(ImplicitUnaryVisitor);
+        path.traverse(ImplicitUpdateVisitor);
     }
 };
 

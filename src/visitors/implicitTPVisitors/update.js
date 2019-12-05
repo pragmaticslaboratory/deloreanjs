@@ -1,18 +1,24 @@
-//must detect every change
-
 const t = require('babel-types')
 module.exports = {
-    AssignmentExpression(path) {
-        let left = path.node.left.name
-        if (dependencies.some(dependency => dependency.name == left)) {
-            parent = path.context.parentPath;  
+    UpdateExpression(path) {
+        let argument = path.node.argument;
+        while(argument.type == 'MemberExpression' || argument.type == 'CallExpression'){
+            if(argument.type == 'MemberExpression'){
+                argument = argument.object;
+            }
+            else{
+                argument = argument.callee;
+            }
+        }
+        if (argument.type == 'Identifier' && dependencies.some(dependency => dependency.name == argument.name)) {
+            parent = path.context.parentPath;    
             while(parent && parent.node.type != 'ExpressionStatement' && parent.node.type != 'ForStatement' && parent.node.type != 'WhileStatement' 
                 && parent.node.type != 'IfStatement' && parent.node.type != 'DoWhileStatement'){
                 parent = parent.context.parentPath;       
             }
 
             if(parent && parent.node.type == 'ExpressionStatement'){
-                if (parent && !isTimePoint(parent.getSibling(parent.key + 1).node)) {
+                if(parent && !isTimePoint(parent.getSibling(parent.key + 1).node)){
                     parent.insertAfter(
                         t.expressionStatement(
                             t.callExpression(
@@ -21,13 +27,13 @@ module.exports = {
                                     t.identifier('insertTimepoint'),
                                     false
                                 ),
-                                [                               
+                                [
                                     t.stringLiteral('Implicit' + implicitCounter)
                                 ]
                             )
                         )
-                    );
-                    ++implicitCounter;
+                    );    
+                    ++implicitCounter;       
                 }
             }
             else if(parent && parent.node.type != 'IfStatement'){
@@ -90,6 +96,6 @@ module.exports = {
                     ++implicitCounter;                    
                 }
             }
-        }
+        }      
     }
 }

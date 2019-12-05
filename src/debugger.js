@@ -43,7 +43,7 @@ module.exports = {
       plugins: [ifBlockVisitor, initConfigVisitor, heapRestoreVisitor, throwBreakVisitor,
       storeContinuationsVisitor]
     })
-    console.log(code)
+
     code = `
     function updateProp(parentName, obj){
       Object.keys(obj).map(function(key){
