@@ -16,6 +16,7 @@ const ImplicitAssignmentVisitor = require('./visitors/implicitTPVisitors/assignm
 const ImplicitPropertyVisitor = require('./visitors/implicitTPVisitors/property');
 const ImplicitUnaryVisitor = require('./visitors/implicitTPVisitors/unary');
 const ImplicitUpdateVisitor = require('./visitors/implicitTPVisitors/update');
+const LocVisitor = require('./visitors/loc');
 
 const { addDependencies } = require('./heap')
 
@@ -106,6 +107,12 @@ module.exports = {
     implicitTPVisitor: () => {
         return ({
             visitor: ImplicitTPVisitor,
+        })
+    },
+
+    locVisitor: () => {
+        return ({
+            visitor: LocVisitor,
         })
     },
 }

@@ -2,7 +2,9 @@ const babel = require('babel-core');
 global.timeLine = 0;
 global.startFrom = '';
 global.fromTheFuture = false;
-global.implicitCounter = 0;
+global.implicitCounter;
+global.startTime;
+global.acumTime;
 
 const {
   dependenciesVisitor,
@@ -12,7 +14,8 @@ const {
   ifBlockVisitor,
   heapRestoreVisitor,
   throwBreakVisitor,
-  implicitTPVisitor
+  implicitTPVisitor,
+  locVisitor
 } = require("../src/staticAnalysis");
 var cloneDeep = require('lodash.clonedeep');
 
@@ -34,6 +37,7 @@ module.exports = {
   init: (inputCode, ) => {
     implicitCounter = 0;
     let src = require("../index")(inputCode, [
+      locVisitor,
       dependenciesVisitor,
       implicitTPVisitor,
       tryCatchVisitor,
@@ -114,6 +118,8 @@ module.exports = {
 
     try {
       console.log(`%cStart first execution`, "background: #222; color: cyan");
+      acumTime = 0;
+      startTime = Date.now();
       eval(unwindedCode);
       console.log(`%cFinish first execution`, "background: #222; color: cyan");
     } catch (e) {
@@ -128,6 +134,8 @@ module.exports = {
       global.startFrom = kont;
       console.log(`%cStart TimePoint ${kont}`,"background: #222; color: #bada55");
       heap.snapshots.find(element => element.timePointId == kont).timeLineId = ++global.timeLine;
+      acumTime += heap.snapshots.find(element => element.timePointId == kont).timePointTimestamp;
+      startTime = Date.now()
       eval(
         `let kontAux = continuations.kont${kont}; 
         contTimeLine.kont${kont} = global.timeLine;       

@@ -8,12 +8,14 @@ module.exports = {
         heap.dependencies = dependencies;
     },
 
-    heapSnapshot: (id) => {
-
+    heapSnapshot: (id, loc) => {
         const snapshot = {
             timeLineId: global.timeLine,
-            timePointId: ''
+            timePointId: '',
+            timePointTimestamp: Date.now() - startTime + acumTime,
+            timePointLoc: loc
         }
+
         let originId = id;
         let counter = 0;
         let startFromNumber = global.startFrom;

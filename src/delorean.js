@@ -6,16 +6,16 @@ global.breakpoint = {
 };
 
 module.exports = {
-    insertTimepoint: (id) => {
-        heapSnapshot(id);
+    insertTimepoint: (id, loc = null) => {
+        heapSnapshot(id, loc);
     },
 
     watch: (array) => {
         console.log('Debugging [' + array + ']');
     },
 
-    insertBreakpoint: (id) => {
-        heapSnapshot(id);
+    insertBreakpoint: (id, loc = null) => {
+        heapSnapshot(id, loc);
         breakpoint = {
             id,
             activate: true,
