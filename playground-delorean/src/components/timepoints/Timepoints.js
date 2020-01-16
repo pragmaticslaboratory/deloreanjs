@@ -19,6 +19,11 @@ const Timepoints = (props) => {
                     <p className="swtich-options selected-switch">Deep Copy</p>
                     <p className="swtich-options">Shallow Copy</p>
                 </div>
+                
+                <div id="switch-container" className="switch-container" onClick={(ev) => props.appStore.toggleImplicit(ev)}>
+                    <p className="swtich-options selected-switch">Normal</p>
+                    <p className="swtich-options">Implicit</p>
+                </div>
             </div>
 
             <div className="timepoints-container">
@@ -35,11 +40,13 @@ const Timepoints = (props) => {
                 }
                 </div>
                 
-                <P5Wrapper 
-                    sketch={sketch}
-                    selectedTimePoint={selectedTimePoint} 
-                    snapshots={snapshots}
-                />
+                <div className="p5-container">
+                    <P5Wrapper 
+                        sketch={sketch}
+                        selectedTimePoint={selectedTimePoint} 
+                        snapshots={snapshots}
+                    />
+                </div>
             </div>
         </div>
     )

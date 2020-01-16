@@ -50,6 +50,7 @@ export default class AppContainer extends Container {
             displayedObjectsNames: [],
             displayedObjectsDOM: [],
             copyStyle: 'Deep Copy',
+            implicitTimpeoints: "Normal"
         };
     }
 
@@ -243,4 +244,30 @@ export default class AppContainer extends Container {
             return;
         }
     }
+
+    toggleImplicit = (ev) => {
+        if (!this.state.isRunning) {
+            if (ev.target.innerHTML === this.state.implicitTimpeoints) {
+                return;
+            } else {
+                let switchOptions = ev.currentTarget;
+                for (let i = 0; i < switchOptions.childNodes.length; i++) {
+                    if (switchOptions.childNodes[i].classList.contains('selected-switch')) {
+                        switchOptions.childNodes[i].classList.remove('selected-switch')
+                    }
+                }
+                ev.target.classList.add('selected-switch');
+                this.setState({
+                    implicitTimpeoints: ev.target.innerHTML,
+                })
+
+                global.implicitTimpeoints = !global.implicitTimpeoints;
+            }
+        } else {
+            alert('Sorry, you need stop this execution before change the copy mode! :)')
+            return;
+        }
+    }
+
+    
 };
