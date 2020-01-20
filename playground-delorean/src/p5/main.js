@@ -12,32 +12,45 @@ export default function sketch(p) {
         let x = 100;
         let y = 100;
 
-        if(snapshots.length > 0){
-            let colorStart = p.color('green');
-            p.fill(colorStart);
-            p.noStroke();
-            p.circle(x, y, 40);
-            p.stroke(255)
-            p.line(x+20, y, 180, y);
+        if(snapshots.length > 0){           
+            x += 15;
+            y -= 8;
             
-            x += 100;
-    
             snapshots.forEach((snapshot) => {
                 if(snapshot.timePointId === selectedTimepoint){
                     let colorSelectedTimepoit = p.color('rgb(0, 122, 204)');
                     p.fill(colorSelectedTimepoit);
-                    X = x;
-                    Y = y;
+                    X = x + 50;
+                    Y = y + 10;
                 } else {
                     p.fill(255)
                 }
+                let color = [15, 123, 192];
+                if (snapshot.timePointId.startsWith("Implicit")) color = [78, 174, 184];
                 p.noStroke();
-                p.circle(x, y, 40);
-                p.stroke(255)
-                x += 100;
-                p.line(x-80, y, x-20, y);
+                p.quad(x, y, x, y+16, x+100, y+16, x+100, y);
+                p.stroke('gray')
+                p.circle(x+50, y+8, 4);
+                p.line(x+50, y+10, x+50, y+50);
+                p.noStroke();
+                p.fill(color);
+                p.circle(x+50, y+90, 80);
+                p.fill('white');
+                p.text(snapshot.timePointId, x+30, y+70);
+                p.text('t:' + snapshot.timePointTimestamp + 'ms', x+30, y+90);
+                if(snapshot.timePointLoc != null){
+                    p.text('LOC:' + snapshot.timePointLoc, x+30, y+110);
+                }
+                x += 101;
+               
             })
-    
+
+            let colorStart = p.color('green');
+            p.fill(colorStart);
+            p.noStroke();
+            p.circle(100, 100, 40);
+
+            y += 8;
             let colorEnd = p.color('red');
             p.noStroke();
             p.fill(colorEnd);
