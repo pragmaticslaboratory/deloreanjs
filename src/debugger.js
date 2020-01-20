@@ -5,6 +5,7 @@ global.fromTheFuture = false;
 global.implicitCounter;
 global.startTime;
 global.acumTime;
+global.implicitTimpeoints = false;
 
 const {
   dependenciesVisitor,
@@ -19,16 +20,6 @@ const {
 } = require("../src/staticAnalysis");
 var cloneDeep = require('lodash.clonedeep');
 
-/*function restoreHeap(restore){
-  let snapshot;
-  heap.snapshots.map(element => {
-    if(element.timePointId == restore) snapshot = element;
-  })
-  dependencies.map((key) => {
-    eval(`${key.name} = document.getElementById('input-${key.name}').value || undefined || snapshot.${key.name};`)
-  })
-}*/
-
 function ldDeepCopy(original){
   return cloneDeep(original);
 }
@@ -36,12 +27,11 @@ function ldDeepCopy(original){
 module.exports = {
   init: (inputCode, ) => {
     implicitCounter = 0;
-    let src = require("../index")(inputCode, [
-      locVisitor,
-      dependenciesVisitor,
-      implicitTPVisitor,
-      tryCatchVisitor,
-    ], true).code;
+
+    let visitorsConfig = [locVisitor, dependenciesVisitor];
+    if (implicitTimpeoints) visitorsConfig.push(implicitTPVisitor);
+
+    let src = require("../index")(inputCode, ...[visitorsConfig, tryCatchVisitor], true).code;
 
     let { code } = babel.transform(src, {
       plugins: [ifBlockVisitor, initConfigVisitor, heapRestoreVisitor, throwBreakVisitor,
@@ -110,11 +100,8 @@ module.exports = {
     }
     `;
 
-
-
     let compile = require("../unwinder/bin/compile.js")
-    let unwindedCode = compile(code);
-    
+    let unwindedCode = compile(code); 
 
     try {
       console.log(`%cStart first execution`, "background: #222; color: cyan");
@@ -128,7 +115,6 @@ module.exports = {
   },
 
   invokeContinuation: (kont) => {
-    //restoreHeap(kont)
     fromTheFuture = true
     try {
       global.startFrom = kont;
