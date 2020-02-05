@@ -1,0 +1,24 @@
+.input-variables-container {
+  width: 25%;
+  border-left: 2px solid rgb(243, 243, 243);    
+}
+
+
+.watch-variables-bar {
+  background-color: rgb(243, 243, 243);
+  font-size: 12px;
+  padding: 0 20px;
+}
+
+.watch-variables-title p {
+    padding: 1em 0;
+    margin: 0;
+}
+
+.watch-variables-content {
+    margin: 1em;
+}
+
+.watch-variables-input {
+    display: flex;
+}

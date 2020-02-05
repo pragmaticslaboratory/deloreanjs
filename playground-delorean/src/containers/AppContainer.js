@@ -36,6 +36,7 @@ export default class AppContainer extends Container {
                 }
             ],
             tabSelected: "",
+            watchVariables: [],
             snapshots: [],
             dependencies: [],
             code: example0,
@@ -269,5 +270,18 @@ export default class AppContainer extends Container {
         }
     }
 
-    
+    addVariable = (ev) => {
+        
+        const newWatchVariable = document.getElementById('watch-variable-input');
+        
+        if (newWatchVariable.value) {
+            this.setState({
+                watchVariables: [...this.state.watchVariables, newWatchVariable.value]
+            })
+            global.dependencies.push({ name: newWatchVariable.value, type: 'normal' })
+            newWatchVariable.value = "";
+        }
+
+        console.log(global.dependencies);
+    }
 };
