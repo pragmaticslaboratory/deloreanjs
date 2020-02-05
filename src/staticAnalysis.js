@@ -24,7 +24,6 @@ global.dependencies = [];
 
 const DependenciesVisitor = {
     Program(path) {
-        dependencies = [];
         let pastDependencies;
         path.traverse(WatchVisitor);
         

@@ -16,7 +16,6 @@
 
 .codemirror-container {
   background: white;
-  border-bottom: 1px solid black;
 }
 
 .editor-container {
@@ -28,4 +27,9 @@
 .selected {
   background: white;
   color: black;
+}
+
+.console-container {
+  display: flex;
+
 }

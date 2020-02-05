@@ -15,6 +15,7 @@ module.exports = (originalCode, visitors, isString) => {
   let { code } = babel.transform(src, {
     plugins: visitors
   })
+  
   return { dependencies, code };
 }
 

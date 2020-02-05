@@ -9,6 +9,7 @@ import Console from './components/console/Console';
 import Output from './components/layout/Output';
 import StatusBar from './components/header/StatusBar';
 import EditorBar from './components/editor/EditorBar';
+import WatchVariables from './components/watch/Watch';
 
 import CodeMirror from '@uiw/react-codemirror';
 import 'codemirror/addon/display/autorefresh';
@@ -109,10 +110,14 @@ class App extends Component {
                                                 />
                                             </div>
                                         </div>
-
-                                        <Console
-                                            ref={this.consoleFeed}
-                                        />
+                                        <div className="console-container">
+                                            <WatchVariables 
+                                                appStore={appStore}
+                                            />
+                                            <Console
+                                                ref={this.consoleFeed}
+                                            />
+                                        </div>
 
                                     </div>
 
