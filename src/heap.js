@@ -30,7 +30,7 @@ module.exports = {
             let startFromName = global.startFrom.slice(0, i-1);
             if(id == startFromName) {
                 counter = parseInt(startFromNumber); 
-                id = id + '-' + (++counter);  
+                id = id + (++counter);  
             } 
         }
         
@@ -38,7 +38,7 @@ module.exports = {
         while(heap.snapshots.find(element => element.timePointId == id)){
             oldTimePoint = heap.snapshots.findIndex(element => (element.timePointId == id && element.timeLineId != global.timeLine))
             if(oldTimePoint != -1) heap.snapshots.splice(oldTimePoint, 1);
-            else id = originId + '-' + (++counter);
+            else id = originId + (++counter);
         }
 
         snapshot.timePointId = id;
