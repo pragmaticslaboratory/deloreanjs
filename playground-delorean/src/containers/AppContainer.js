@@ -20,23 +20,28 @@ export default class AppContainer extends Container {
             tabs: [
                 {
                     name: "fixABug.js",
-                    input: example1
+                    input: example1,
+                    watchVariables: ["courseName"]
                 },
                 {
                     name: "understandABug.js",
-                    input: example2
+                    input: example2,
+                    watchVariables: ["courseNames", "universityMean"]
                 },
                 {
                     name: "experimentScenarios.js",
-                    input: example3
+                    input: example3,
+                    watchVariables: ["realMean"]
                 },
                 {
                     name: "breakpoints? omg",
-                    input: example4
+                    input: example4,
+                    watchVariables: ["courseName"]
                 }
             ],
             tabSelected: "",
             watchVariables: [],
+            watchVariablesComboBox: false,
             snapshots: [],
             dependencies: [],
             code: example0,
@@ -103,13 +108,14 @@ export default class AppContainer extends Container {
         }
     };
 
-    clean = () => {
+    clean = (watchVariables = []) => {
         global.heap = {
             dependencies: {},
             snapshots: []
         };
         global.continuations = {};
         global.snapshotCounter = 0;
+        this.resetWatchVariables(watchVariables);
         this.setState({
             snapshots: [],
             dependencies: [],
@@ -224,6 +230,32 @@ export default class AppContainer extends Container {
         }
     }
 
+    toggleWatchVariables = (ev) => {
+        this.setState({
+            watchVariablesComboBox: !this.state.watchVariablesComboBox
+        });
+    }
+
+    deleteWatchVariable = (variable) => {
+        this.setState({
+            watchVariables: this.state.watchVariables.filter(function(e) { return e !== variable })
+        });
+
+        global.dependencies = global.dependencies.filter(function(e) {
+            return e.name !== variable;
+        });
+    }
+
+    resetWatchVariables = (variables) => {
+        this.setState({
+            watchVariables: variables
+        });
+        global.dependencies = variables.map(e => ({
+            name: e,
+            type: 'normal'
+        }))
+    }
+
     toggleCopy = (ev) => {
         if(!this.state.isRunning) {
             if(ev.target.innerHTML === this.state.copyStyle) {
@@ -270,8 +302,7 @@ export default class AppContainer extends Container {
         }
     }
 
-    addVariable = (ev) => {
-        
+    addVariable = (ev) => { 
         const newWatchVariable = document.getElementById('watch-variable-input');
         
         if (newWatchVariable.value) {
@@ -281,7 +312,5 @@ export default class AppContainer extends Container {
             global.dependencies.push({ name: newWatchVariable.value, type: 'normal' })
             newWatchVariable.value = "";
         }
-
-        console.log(global.dependencies);
     }
 };

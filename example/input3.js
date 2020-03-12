@@ -21,8 +21,6 @@ function show(x) {
 var universityMean = 5.0;
 var maximumMean = 7.0;
 
-delorean.watch(['realMean']);
-
 var realMean = universityMean/maximumMean;
 
 delorean.insertTimepoint('TestingDifferentResults');

@@ -101,3 +101,33 @@
   color: white;
   transition: .3s ease-out all;
 }
+
+/* watch variables styles */
+
+.p5-container {
+  position: relative;
+}
+
+.toggle-watch-variables {
+  display: flex;
+  align-items: center;
+  font-family: Poppins, Roboto, sans-serif;
+  background-color: rgb(0, 122, 204);
+  background-size: 720%;
+  box-sizing: border-box;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  user-select: none;
+  font-size: 0.875em;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+  outline: none;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(0, 98, 163);
+  border-image: initial;
+  border-radius: 4px;
+  text-decoration: none;
+  padding: 0 0.7em;
+}

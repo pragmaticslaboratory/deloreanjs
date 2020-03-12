@@ -24,8 +24,6 @@ function show(data) {
 
 //helper functions
 
-delorean.watch(['courseName']);
-
 var courseName = "Alggebra";
 var studentId = "1";
 

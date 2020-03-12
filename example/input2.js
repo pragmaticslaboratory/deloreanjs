@@ -44,8 +44,6 @@ function show(data) {
 
 var courseNames = ["Calculus", "Alggebra", "Physics"];
 
-delorean.watch(['courseNames', 'universityMean']);
-
 var universityMean = 0;
 
 for (i = 0; i < courseNames.length; ++i) { //around 5000 courses

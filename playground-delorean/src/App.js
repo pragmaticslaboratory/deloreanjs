@@ -9,7 +9,6 @@ import Console from './components/console/Console';
 import Output from './components/layout/Output';
 import StatusBar from './components/header/StatusBar';
 import EditorBar from './components/editor/EditorBar';
-import WatchVariables from './components/watch/Watch';
 
 import CodeMirror from '@uiw/react-codemirror';
 import 'codemirror/addon/display/autorefresh';
@@ -36,7 +35,7 @@ class App extends Component {
             );
             appStore.updateCode(example.input);
             appStore.selectTabColor(ev);
-            appStore.clean();
+            appStore.clean(example.watchVariables);
         } else {
             alert('Sorry, you need stop this execution before change the code! :)')
         }
@@ -58,7 +57,7 @@ class App extends Component {
         this.consoleFeed.current.state.logs = [];
         this.editor.current.editor.setOption('readOnly', false);
         appStore.toggleIsRunning();
-        appStore.clean();
+        appStore.clean(appStore.state.watchVariables);
         global.timeLine = 0;
         global.startFrom = '';
     };
@@ -111,9 +110,6 @@ class App extends Component {
                                             </div>
                                         </div>
                                         <div className="console-container">
-                                            <WatchVariables 
-                                                appStore={appStore}
-                                            />
                                             <Console
                                                 ref={this.consoleFeed}
                                             />

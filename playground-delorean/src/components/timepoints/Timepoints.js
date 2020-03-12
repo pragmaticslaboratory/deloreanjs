@@ -1,6 +1,8 @@
 import React from 'react'
 import './Timepoints.css'
+import WatchVariables from '../watch/Watch'
 import timepointIcon from '../../../public/assets/time.png'
+import expandButton from '../../../public/assets/expand-button.png'
 
 import P5Wrapper from 'react-p5-wrapper';
 import sketch from '../../p5/main';
@@ -15,6 +17,11 @@ const Timepoints = (props) => {
             <div className="timeponts-bar-container">
                 <p>Timepoints</p>
 
+                <div className="toggle-watch-variables" onClick={(ev) => props.appStore.toggleWatchVariables(ev)}>
+                    <p>Watch Variables</p>
+                    <img style={{ marginLeft: "8px"  }} alt="expand icon" src={expandButton} height="10"/>
+                </div>
+
                 <div id="switch-container" className="switch-container" onClick={(ev) => props.appStore.toggleCopy(ev)}>
                     <p className="swtich-options selected-switch">Deep Copy</p>
                     <p className="swtich-options">Shallow Copy</p>
@@ -25,6 +32,8 @@ const Timepoints = (props) => {
                     <p className="swtich-options">Implicit</p>
                 </div>
             </div>
+
+            
 
             <div className="timepoints-container">
                 <div className="timepoints-btns">
@@ -41,6 +50,7 @@ const Timepoints = (props) => {
                 </div>
                 
                 <div className="p5-container">
+                    {props.appStore.state.watchVariablesComboBox && <WatchVariables appStore={props.appStore}/>}
                     <P5Wrapper 
                         sketch={sketch}
                         selectedTimePoint={selectedTimePoint} 
