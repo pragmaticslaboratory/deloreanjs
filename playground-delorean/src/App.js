@@ -20,6 +20,7 @@ import AppContainer from './containers/AppContainer';
 
 global.delorean = require('../../src/delorean.js');
 global.vm = require('../../unwinder/runtime/vm.js');
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -87,7 +88,6 @@ class App extends Component {
             {(appStore) => (
               <>
                 <StatusBar />
-
                 <div className="playground-container">
                   <div className="top-panel">
                     <div className="codemirror-container">

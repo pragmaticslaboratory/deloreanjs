@@ -3,7 +3,8 @@
   grid-template-rows: repeat(2, 50%);
 }
 
-.top-panel, .bottom-panel {
+.top-panel,
+.bottom-panel {
   display: grid;
   max-width: 100%;
 }
@@ -23,7 +24,6 @@
   max-height: 41vh;
 }
 
-
 .selected {
   background: white;
   color: black;
@@ -31,5 +31,19 @@
 
 .console-container {
   display: flex;
+}
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.button {
+  transition-duration: 200ms;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: scale(0.99);
 }

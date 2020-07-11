@@ -1,56 +1,44 @@
-
 /* Status-Bar */
 
 .status-bar {
-    display: flex;  
-    z-index: 5;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    align-items: center;
-    background-color: rgb(221, 221, 221);
-    font-size: 1.2rem;
-    color: rgb(51, 51, 51);
-    font-weight: 400;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0px;
-    flex: 0 0 3rem;
-    border-bottom: 1px solid transparent;
-  }
-  
-  .buttons-bar {
-    padding: 0 20px;
-    font-size: 14px; 
-  }
-  
-  .github-button {
-    display: flex;
-    align-items: center;
-    font-family: Poppins, Roboto, sans-serif;
-    background-color: rgb(0, 122, 204);
-    background-size: 720%;
-    box-sizing: border-box;
-    text-align: center;
-    color: white;
-    font-weight: 600;
-    width: inherit;
-    user-select: none;
-    font-size: 0.875em;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-    outline: none;
-    border-width: 2px;
-    border-style: solid;
-    border-color: rgb(0, 98, 163);
-    border-image: initial;
-    border-radius: 4px;
-    text-decoration: none;
-    padding: 0.5em 0.7em;
-  }
-  
-  .icon-button-bar {
-    margin-right: 10px;
-    width: 15px;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #181a1e;
+  height: 64px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.status-bar-logo {
+  height: 32px;
+  width: 32px;
+  margin-right: 1em;
+}
+
+.status-bar-title {
+  color: white;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.buttons-bar {
+  padding: 0 20px;
+  font-size: 14px;
+}
+
+.github-button {
+}
+
+.status-bar-github-icon {
+  margin-right: 10px;
+  width: 28px;
+}
+
+.status-bar-github-text {
+  color: white;
+  opacity: 0.8;
+  font-weight: 500;
+}
