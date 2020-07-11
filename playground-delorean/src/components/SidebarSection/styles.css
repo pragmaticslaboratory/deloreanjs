@@ -1,0 +1,18 @@
+.sidebar-section-container {
+  padding: 1em;
+  border-bottom: solid 1px #303338;
+}
+
+.sidebar-section-title {
+  flex-direction: row;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  font-weight: 500;
+  margin: 0;
+}
+
+.sidebar-section-icon {
+  font-size: 14px;
+  margin-right: 1rem;
+}

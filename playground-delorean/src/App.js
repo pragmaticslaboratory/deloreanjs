@@ -9,6 +9,7 @@ import Console from './components/console/Console';
 import Output from './components/layout/Output';
 import StatusBar from './components/header/StatusBar';
 import EditorBar from './components/editor/EditorBar';
+import Sidebar from './components/Sidebar';
 
 import CodeMirror from '@uiw/react-codemirror';
 import 'codemirror/addon/display/autorefresh';
@@ -86,38 +87,41 @@ class App extends Component {
         <Provider>
           <Subscribe to={[AppContainer]}>
             {(appStore) => (
-              <>
+              <div className="main-page-container">
                 <StatusBar />
                 <div className="playground-container">
-                  <div className="top-panel">
-                    <div className="codemirror-container">
-                      <div className="editor-bar-container-fixed">
-                        <EditorBar
-                          appStore={appStore}
-                          selectTab={this.selectTab}
-                          executeCode={this.executeCode}
-                          stopExecution={this.stopExecution}
-                        />
+                  <Sidebar />
+                  <div>
+                    <div className="top-panel">
+                      <div className="codemirror-container">
+                        <div className="editor-bar-container-fixed">
+                          <EditorBar
+                            appStore={appStore}
+                            selectTab={this.selectTab}
+                            executeCode={this.executeCode}
+                            stopExecution={this.stopExecution}
+                          />
+                        </div>
+                        <div className="editor-container">
+                          <CodeMirror
+                            ref={this.editor}
+                            value={appStore.state.code}
+                            options={options}
+                            onChange={appStore.updateCode}
+                          />
+                        </div>
                       </div>
-                      <div className="editor-container">
-                        <CodeMirror
-                          ref={this.editor}
-                          value={appStore.state.code}
-                          options={options}
-                          onChange={appStore.updateCode}
-                        />
+                      <div className="console-container">
+                        <Console ref={this.consoleFeed} />
                       </div>
                     </div>
-                    <div className="console-container">
-                      <Console ref={this.consoleFeed} />
-                    </div>
-                  </div>
 
-                  <div className="bottom-panel">
-                    <Output appStore={appStore} invokeContinuation={this.invokeContinuation} />
+                    <div className="bottom-panel">
+                      <Output appStore={appStore} invokeContinuation={this.invokeContinuation} />
+                    </div>
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </Subscribe>
         </Provider>
