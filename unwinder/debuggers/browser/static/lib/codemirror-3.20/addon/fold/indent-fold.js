@@ -1,7 +1,8 @@
-CodeMirror.registerHelper("fold", "indent", function(cm, start) {
-  var tabSize = cm.getOption("tabSize"), firstLine = cm.getLine(start.line);
+CodeMirror.registerHelper("fold", "indent", function (cm, start) {
+  var tabSize = cm.getOption("tabSize"),
+    firstLine = cm.getLine(start.line);
   if (!/\S/.test(firstLine)) return;
-  var getIndent = function(lineNum) {
+  var getIndent = function (lineNum) {
     return CodeMirror.countColumn(lineNum, null, tabSize);
   };
   var myIndent = getIndent(firstLine);
@@ -22,9 +23,10 @@ CodeMirror.registerHelper("fold", "indent", function(cm, start) {
       break;
     }
   }
-  if (lastLineInFold) return {
-    from: CodeMirror.Pos(start.line, firstLine.length),
-    to: CodeMirror.Pos(lastLineInFold, cm.getLine(lastLineInFold).length)
-  };
+  if (lastLineInFold)
+    return {
+      from: CodeMirror.Pos(start.line, firstLine.length),
+      to: CodeMirror.Pos(lastLineInFold, cm.getLine(lastLineInFold).length),
+    };
 });
 CodeMirror.indentRangeFinder = CodeMirror.fold.indent; // deprecated

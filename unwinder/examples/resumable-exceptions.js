@@ -2,21 +2,21 @@ var tryStack = [];
 
 function Try(body, handler) {
   var ret;
-  var exc = callCC(function(cont) {
+  var exc = callCC(function (cont) {
     tryStack.push(cont);
     ret = body();
   });
   tryStack.pop();
 
-  if(exc) {
+  if (exc) {
     return handler(exc);
   }
   return ret;
 }
 
 function Throw(exc) {
-  if(tryStack.length > 0) {
-    return callCC(function(cont) {
+  if (tryStack.length > 0) {
+    return callCC(function (cont) {
       exc.__cont = cont;
       tryStack[tryStack.length - 1](exc);
     });
@@ -31,8 +31,8 @@ function Resume(exc, value) {
 // Example 1
 
 function times2(x) {
-  console.log('x is', x);
-  if(x < 0) {
+  console.log("x is", x);
+  if (x < 0) {
     Throw(new Error("error!"));
   }
   return x * 2;
@@ -43,11 +43,11 @@ function main(x) {
 }
 
 Try(
-  function() {
+  function () {
     console.log(main(1));
     console.log(main(-1));
   },
-  function(ex) {
+  function (ex) {
     Resume(ex);
   }
 );
@@ -81,7 +81,6 @@ Try(
 //     console.log("outer caught:", exc);
 //   }
 // );
-
 
 // function bar(x) {
 //   if(x < 0) {

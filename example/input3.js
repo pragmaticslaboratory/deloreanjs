@@ -35,4 +35,4 @@ if (realMean < 0.2) {
 	showReportOfBestCourses();
 }
 
-throw "Triggering a tester exception";`
+throw "Triggering a tester exception";`;

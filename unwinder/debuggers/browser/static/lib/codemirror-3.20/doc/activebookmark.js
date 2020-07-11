@@ -1,5 +1,6 @@
-(function() {
-  var pending = false, prevVal = null;
+(function () {
+  var pending = false,
+    prevVal = null;
 
   function updateSoon() {
     if (!pending) {
@@ -10,15 +11,16 @@
 
   function update() {
     pending = false;
-    var marks = document.getElementById("nav").getElementsByTagName("a"), found;
+    var marks = document.getElementById("nav").getElementsByTagName("a"),
+      found;
     for (var i = 0; i < marks.length; ++i) {
-      var mark = marks[i], m;
+      var mark = marks[i],
+        m;
       if (mark.getAttribute("data-default")) {
         if (found == null) found = i;
-      } else if (m = mark.href.match(/#(.*)/)) {
+      } else if ((m = mark.href.match(/#(.*)/))) {
         var ref = document.getElementById(m[1]);
-        if (ref && ref.getBoundingClientRect().top < 50)
-          found = i;
+        if (ref && ref.getBoundingClientRect().top < 50) found = i;
       }
     }
     if (found != null && found != prevVal) {

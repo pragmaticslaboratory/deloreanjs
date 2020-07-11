@@ -1,5 +1,4 @@
-CodeMirror.colorize = (function() {
-
+CodeMirror.colorize = (function () {
   var isBlock = /^(p|li|div|h\\d|pre|blockquote|td)$/;
 
   function textContent(node, out) {
@@ -10,7 +9,7 @@ CodeMirror.colorize = (function() {
     }
   }
 
-  return function(collection, defaultMode) {
+  return function (collection, defaultMode) {
     if (!collection) collection = document.body.getElementsByTagName("pre");
 
     for (var i = 0; i < collection.length; ++i) {

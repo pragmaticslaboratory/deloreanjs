@@ -14,12 +14,12 @@ CodeMirror.defineMode("jade", function () {
         stringType: "",
         beforeTag: true,
         justMatchedKeyword: false,
-        afterParen: false
+        afterParen: false,
       };
     },
     token: function (stream, state) {
       //check for state changes
-      if (!state.inString && ((stream.peek() == '"') || (stream.peek() == "'"))) {
+      if (!state.inString && (stream.peek() == '"' || stream.peek() == "'")) {
         state.stringType = stream.peek();
         stream.next(); // Skip quote
         state.inString = true; // Update state
@@ -27,7 +27,8 @@ CodeMirror.defineMode("jade", function () {
 
       //return state
       if (state.inString) {
-        if (stream.skipTo(state.stringType)) { // Quote found on this line
+        if (stream.skipTo(state.stringType)) {
+          // Quote found on this line
           stream.next(); // Skip quote
           state.inString = false; // Clear flag
         } else {
@@ -49,7 +50,10 @@ CodeMirror.defineMode("jade", function () {
         state.justMatchedKeyword = true;
         stream.eatSpace();
         return "keyword";
-      } else if (stream.sol() && (stream.match(html_regex1) || stream.match(html_regex2))) {
+      } else if (
+        stream.sol() &&
+        (stream.match(html_regex1) || stream.match(html_regex2))
+      ) {
         state.justMatchedKeyword = true;
         return "variable";
       } else if (stream.eatSpace()) {
@@ -83,8 +87,8 @@ CodeMirror.defineMode("jade", function () {
         }
       }
       return null;
-    }
+    },
   };
 });
 
-CodeMirror.defineMIME('text/x-jade', 'jade');
+CodeMirror.defineMIME("text/x-jade", "jade");

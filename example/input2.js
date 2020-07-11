@@ -53,4 +53,4 @@ for (i = 0; i < courseNames.length; ++i) { //around 5000 courses
   universityMean += mean/courseNames.length;
 }
 
-show(universityMean);`
+show(universityMean);`;

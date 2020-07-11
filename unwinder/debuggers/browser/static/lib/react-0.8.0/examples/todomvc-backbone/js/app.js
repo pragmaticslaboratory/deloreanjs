@@ -4,34 +4,33 @@ var Todo = Backbone.Model.extend({
   // Default attributes for the todo
   // and ensure that each todo created has `title` and `completed` keys.
   defaults: {
-    title: '',
-    completed: false
+    title: "",
+    completed: false,
   },
 
   // Toggle the `completed` state of this todo item.
-  toggle: function() {
+  toggle: function () {
     this.save({
-      completed: !this.get('completed')
+      completed: !this.get("completed"),
     });
-  }
+  },
 });
 
 var TodoList = Backbone.Collection.extend({
-
   // Reference to this collection's model.
   model: Todo,
 
   // Save all of the todo items under the `"todos"` namespace.
-  localStorage: new Store('todos-react-backbone'),
+  localStorage: new Store("todos-react-backbone"),
 
   // Filter down the list of all todo items that are finished.
-  completed: function() {
-    return this.filter(function( todo ) {
-      return todo.get('completed');
+  completed: function () {
+    return this.filter(function (todo) {
+      return todo.get("completed");
     });
   },
 
-  remaining: function() {
+  remaining: function () {
     return this.without.apply(this, this.completed());
   },
 
@@ -41,38 +40,38 @@ var TodoList = Backbone.Collection.extend({
     if (!this.length) {
       return 1;
     }
-    return this.last().get('order') + 1;
+    return this.last().get("order") + 1;
   },
 
   // Todos are sorted by their original insertion order.
   comparator: function (todo) {
-    return todo.get('order');
-  }
+    return todo.get("order");
+  },
 });
 
 var Utils = {
-  pluralize: function( count, word ) {
-    return count === 1 ? word : word + 's';
+  pluralize: function (count, word) {
+    return count === 1 ? word : word + "s";
   },
 
-  stringifyObjKeys: function(obj) {
-    var s = '';
+  stringifyObjKeys: function (obj) {
+    var s = "";
     for (var key in obj) {
       if (!obj.hasOwnProperty(key)) {
         continue;
       }
       if (obj[key]) {
-        s += key + ' ';
+        s += key + " ";
       }
     }
     return s;
-  }
+  },
 };
 
 // Begin React stuff
 
 var TodoItem = React.createClass({
-  handleSubmit: function(event) {
+  handleSubmit: function (event) {
     var val = this.refs.editField.getDOMNode().value.trim();
     if (val) {
       this.props.onSave(val);
@@ -82,14 +81,15 @@ var TodoItem = React.createClass({
     return false;
   },
 
-  onEdit: function() {
+  onEdit: function () {
     this.props.onEdit();
     this.refs.editField.getDOMNode().focus();
   },
 
-  render: function() {
+  render: function () {
     var classes = Utils.stringifyObjKeys({
-      completed: this.props.todo.get('completed'), editing: this.props.editing
+      completed: this.props.todo.get("completed"),
+      editing: this.props.editing,
     });
     return (
       <li className={classes}>
@@ -97,12 +97,12 @@ var TodoItem = React.createClass({
           <input
             className="toggle"
             type="checkbox"
-            checked={this.props.todo.get('completed')}
+            checked={this.props.todo.get("completed")}
             onChange={this.props.onToggle}
             key={this.props.key}
           />
           <label onDoubleClick={this.onEdit}>
-            {this.props.todo.get('title')}
+            {this.props.todo.get("title")}
           </label>
           <button className="destroy" onClick={this.props.onDestroy} />
         </div>
@@ -110,19 +110,19 @@ var TodoItem = React.createClass({
           <input
             ref="editField"
             className="edit"
-            defaultValue={this.props.todo.get('title')}
+            defaultValue={this.props.todo.get("title")}
             onBlur={this.handleSubmit}
             autoFocus="autofocus"
           />
         </form>
       </li>
     );
-  }
+  },
 });
 
 var TodoFooter = React.createClass({
-  render: function() {
-    var activeTodoWord = Utils.pluralize(this.props.count, 'todo');
+  render: function () {
+    var activeTodoWord = Utils.pluralize(this.props.count, "todo");
     var clearButton = null;
 
     if (this.props.completedCount > 0) {
@@ -136,13 +136,12 @@ var TodoFooter = React.createClass({
     return (
       <footer id="footer">
         <span id="todo-count">
-          <strong>{this.props.count}</strong>{' '}
-          {activeTodoWord}{' '}left
+          <strong>{this.props.count}</strong> {activeTodoWord} left
         </span>
         {clearButton}
       </footer>
     );
-  }
+  },
 });
 
 // An example generic Mixin that you can add to any component that should react
@@ -154,86 +153,86 @@ var TodoFooter = React.createClass({
 // using this mixin correctly (it should be near the top of your component
 // hierarchy) this should not be an issue.
 var BackboneMixin = {
-  componentDidMount: function() {
+  componentDidMount: function () {
     // Whenever there may be a change in the Backbone data, trigger a reconcile.
-    this.getBackboneModels().forEach(function(model) {
-      model.on('add change remove', this.forceUpdate.bind(this, null), this);
+    this.getBackboneModels().forEach(function (model) {
+      model.on("add change remove", this.forceUpdate.bind(this, null), this);
     }, this);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     // Ensure that we clean up any dangling references when the component is
     // destroyed.
-    this.getBackboneModels().forEach(function(model) {
+    this.getBackboneModels().forEach(function (model) {
       model.off(null, null, this);
     }, this);
-  }
+  },
 };
 
 var TodoApp = React.createClass({
   mixins: [BackboneMixin],
-  getInitialState: function() {
-    return {editing: null};
+  getInitialState: function () {
+    return { editing: null };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     // Additional functionality for todomvc: fetch() the collection on init
     this.props.todos.fetch();
     this.refs.newField.getDOMNode().focus();
   },
 
-  componentDidUpdate: function() {
+  componentDidUpdate: function () {
     // If saving were expensive we'd listen for mutation events on Backbone and
     // do this manually. however, since saving isn't expensive this is an
     // elegant way to keep it reactively up-to-date.
-    this.props.todos.forEach(function(todo) {
+    this.props.todos.forEach(function (todo) {
       todo.save();
     });
   },
 
-  getBackboneModels: function() {
+  getBackboneModels: function () {
     return [this.props.todos];
   },
 
-  handleSubmit: function(event) {
+  handleSubmit: function (event) {
     event.preventDefault();
     var val = this.refs.newField.getDOMNode().value.trim();
     if (val) {
       this.props.todos.create({
         title: val,
         completed: false,
-        order: this.props.todos.nextOrder()
+        order: this.props.todos.nextOrder(),
       });
-      this.refs.newField.getDOMNode().value = '';
+      this.refs.newField.getDOMNode().value = "";
     }
   },
 
-  toggleAll: function(event) {
+  toggleAll: function (event) {
     var checked = event.nativeEvent.target.checked;
-    this.props.todos.forEach(function(todo) {
-      todo.set('completed', checked);
+    this.props.todos.forEach(function (todo) {
+      todo.set("completed", checked);
     });
   },
 
-  edit: function(todo) {
-    this.setState({editing: todo.get('id')});
+  edit: function (todo) {
+    this.setState({ editing: todo.get("id") });
   },
 
-  save: function(todo, text) {
-    todo.set('title', text);
-    this.setState({editing: null});
+  save: function (todo, text) {
+    todo.set("title", text);
+    this.setState({ editing: null });
   },
 
-  clearCompleted: function() {
-    this.props.todos.completed().forEach(function(todo) {
+  clearCompleted: function () {
+    this.props.todos.completed().forEach(function (todo) {
       todo.destroy();
     });
   },
 
-  render: function() {
+  render: function () {
     var footer = null;
     var main = null;
-    var todoItems = this.props.todos.map(function(todo) {
+    var todoItems = this.props.todos.map(function (todo) {
       return (
         <TodoItem
           key={Math.random()}
@@ -241,7 +240,7 @@ var TodoApp = React.createClass({
           onToggle={todo.toggle.bind(todo)}
           onDestroy={todo.destroy.bind(todo)}
           onEdit={this.edit.bind(this, todo)}
-          editing={this.state.editing === todo.get('id')}
+          editing={this.state.editing === todo.get("id")}
           onSave={this.save.bind(this, todo)}
         />
       );
@@ -250,21 +249,20 @@ var TodoApp = React.createClass({
     var activeTodoCount = this.props.todos.remaining().length;
     var completedCount = todoItems.length - activeTodoCount;
     if (activeTodoCount || completedCount) {
-      footer =
+      footer = (
         <TodoFooter
           count={activeTodoCount}
           completedCount={completedCount}
           onClearCompleted={this.clearCompleted}
-        />;
+        />
+      );
     }
 
     if (todoItems.length) {
       main = (
         <section id="main">
           <input id="toggle-all" type="checkbox" onChange={this.toggleAll} />
-          <ul id="todo-list">
-            {todoItems}
-          </ul>
+          <ul id="todo-list">{todoItems}</ul>
         </section>
       );
     }
@@ -288,16 +286,18 @@ var TodoApp = React.createClass({
         <footer id="info">
           <p>Double-click to edit a todo</p>
           <p>
-            Created by{' '}
-            <a href="http://github.com/petehunt/">petehunt</a>
+            Created by <a href="http://github.com/petehunt/">petehunt</a>
           </p>
-          <p>Part of{' '}<a href="http://todomvc.com">TodoMVC</a></p>
+          <p>
+            Part of <a href="http://todomvc.com">TodoMVC</a>
+          </p>
         </footer>
       </div>
     );
-  }
+  },
 });
 
 React.renderComponent(
-  <TodoApp todos={new TodoList()} />, document.getElementById('container')
+  <TodoApp todos={new TodoList()} />,
+  document.getElementById("container")
 );

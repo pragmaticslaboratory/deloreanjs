@@ -1,30 +1,36 @@
-import React, { Component } from 'react'
-import { Hook, Console, Decode } from 'console-feed'
-import './Console.css'
+import React, { Component } from 'react';
+import { Hook, Console, Decode } from 'console-feed';
+import './Console.css';
 
 class ConsoleContainer extends Component {
   state = {
-    logs: []
-  }
+    logs: [],
+  };
 
   componentDidMount() {
-    Hook(window.console, log => {
-      this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }))
-    })
+    Hook(window.console, (log) => {
+      this.setState(({ logs }) => ({ logs: [...logs, Decode(log)] }));
+    });
   }
 
   render() {
     return (
-      <div className="consolefeed-container" style={{ backgroundColor: '#242424', borderRight: '1px solid rgb(17, 21, 24)', borderTop: '1px solid rgb(17, 21, 24)' }}>
+      <div
+        className="consolefeed-container"
+        style={{
+          backgroundColor: '#242424',
+          borderRight: '1px solid rgb(17, 21, 24)',
+          borderTop: '1px solid rgb(17, 21, 24)',
+        }}>
         <div className="title-container">
           <div className="title">
             <p>Console</p>
           </div>
         </div>
         <div>
-          <Console 
+          <Console
             logs={this.state.logs}
-            filter= {[
+            filter={[
               'log',
               'debug',
               'info',
@@ -34,13 +40,13 @@ class ConsoleContainer extends Component {
               'time',
               'timeEnd',
               'count',
-              'assert'
+              'assert',
             ]}
-            variant='dark'
+            variant="dark"
           />
         </div>
       </div>
-    )
+    );
   }
 }
 

@@ -37,4 +37,4 @@ var case7 = {
 
 delorean.insertTimepoint('Test');
 console.log([case1, case2, case3, case4, case5, case6, case7])
-throw "Triggering a tester exception";`
+throw "Triggering a tester exception";`;

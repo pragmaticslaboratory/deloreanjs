@@ -26,7 +26,7 @@ CodeMirror.defineMode("gherkin", function () {
         allowPlaceholders: false,
         inMultilineArgument: false,
         inMultilineString: false,
-        inMultilineTable: false
+        inMultilineTable: false,
       };
     },
     token: function (stream, state) {
@@ -37,7 +37,6 @@ CodeMirror.defineMode("gherkin", function () {
 
       // INSIDE OF MULTILINE ARGUMENTS
       if (state.inMultilineArgument) {
-
         // STRING
         if (state.inMultilineString) {
           if (stream.match('"""')) {
@@ -63,7 +62,9 @@ CodeMirror.defineMode("gherkin", function () {
             return "bracket";
           } else {
             stream.match(/[^\|]*/);
-            return state.tableHeaderLine === state.lineNumber ? "property" : "string";
+            return state.tableHeaderLine === state.lineNumber
+              ? "property"
+              : "string";
           }
         }
 
@@ -82,7 +83,6 @@ CodeMirror.defineMode("gherkin", function () {
           state.tableHeaderLine = null;
         }
 
-
         return null;
       }
 
@@ -90,11 +90,11 @@ CodeMirror.defineMode("gherkin", function () {
       if (stream.match(/#.*/)) {
         return "comment";
 
-      // TAG
+        // TAG
       } else if (stream.match(/@\S+/)) {
         return "def";
 
-      // FEATURE
+        // FEATURE
       } else if (state.allowFeature && stream.match(/Feature:/)) {
         state.allowScenario = true;
         state.allowBackground = true;
@@ -102,20 +102,20 @@ CodeMirror.defineMode("gherkin", function () {
         state.allowSteps = false;
         return "keyword";
 
-      // BACKGROUND
+        // BACKGROUND
       } else if (state.allowBackground && stream.match("Background:")) {
         state.allowPlaceholders = false;
         state.allowSteps = true;
         state.allowBackground = false;
         return "keyword";
 
-      // SCENARIO OUTLINE
+        // SCENARIO OUTLINE
       } else if (state.allowScenario && stream.match("Scenario Outline:")) {
         state.allowPlaceholders = true;
         state.allowSteps = true;
         return "keyword";
 
-      // EXAMPLES
+        // EXAMPLES
       } else if (state.allowScenario && stream.match("Examples:")) {
         state.allowPlaceholders = false;
         state.allowSteps = true;
@@ -123,23 +123,26 @@ CodeMirror.defineMode("gherkin", function () {
         state.inMultilineArgument = true;
         return "keyword";
 
-      // SCENARIO
+        // SCENARIO
       } else if (state.allowScenario && stream.match(/Scenario:/)) {
         state.allowPlaceholders = false;
         state.allowSteps = true;
         state.allowBackground = false;
         return "keyword";
 
-      // STEPS
-      } else if (state.allowSteps && stream.match(/(Given|When|Then|And|But)/)) {
+        // STEPS
+      } else if (
+        state.allowSteps &&
+        stream.match(/(Given|When|Then|And|But)/)
+      ) {
         return "keyword";
 
-      // INLINE STRING
+        // INLINE STRING
       } else if (!state.inMultilineArgument && stream.match(/"/)) {
         stream.match(/.*?"/);
         return "string";
 
-      // MULTILINE ARGUMENTS
+        // MULTILINE ARGUMENTS
       } else if (state.allowSteps && stream.eat(":")) {
         if (stream.match(/\s*$/)) {
           state.inMultilineArgument = true;
@@ -147,7 +150,6 @@ CodeMirror.defineMode("gherkin", function () {
         } else {
           return null;
         }
-
       } else if (state.allowSteps && stream.match("<")) {
         if (stream.match(/.*?>/)) {
           return "property";
@@ -155,13 +157,13 @@ CodeMirror.defineMode("gherkin", function () {
           return null;
         }
 
-      // Fall through
+        // Fall through
       } else {
         stream.eatWhile(/[^":<]/);
       }
 
       return null;
-    }
+    },
   };
 });
 

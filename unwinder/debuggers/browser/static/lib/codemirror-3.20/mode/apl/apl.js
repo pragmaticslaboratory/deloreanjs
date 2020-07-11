@@ -1,4 +1,4 @@
-CodeMirror.defineMode("apl", function() {
+CodeMirror.defineMode("apl", function () {
   var builtInOps = {
     ".": "innerProduct",
     "\\": "scan",
@@ -6,7 +6,7 @@ CodeMirror.defineMode("apl", function() {
     "⌿": "reduce1Axis",
     "⍀": "scan1Axis",
     "¨": "each",
-    "⍣": "power"
+    "⍣": "power",
   };
   var builtInFuncs = {
     "+": ["conjugate", "add"],
@@ -58,7 +58,7 @@ CodeMirror.defineMode("apl", function() {
     "⍕": ["format", "formatByExample"],
     "⍎": ["execute", null],
     "⊣": ["stop", "left"],
-    "⊢": ["pass", "right"]
+    "⊢": ["pass", "right"],
   };
 
   var isOperator = /[\.\/⌿⍀¨⍣]/;
@@ -67,10 +67,10 @@ CodeMirror.defineMode("apl", function() {
   var isArrow = /←/;
   var isComment = /[⍝#].*$/;
 
-  var stringEater = function(type) {
+  var stringEater = function (type) {
     var prev;
     prev = false;
-    return function(c) {
+    return function (c) {
       prev = c;
       if (c === type) {
         return prev === "\\";
@@ -79,16 +79,16 @@ CodeMirror.defineMode("apl", function() {
     };
   };
   return {
-    startState: function() {
+    startState: function () {
       return {
         prev: false,
         func: false,
         op: false,
         string: false,
-        escape: false
+        escape: false,
       };
     },
-    token: function(stream, state) {
+    token: function (stream, state) {
       var ch, funcName, word;
       if (stream.eatSpace()) {
         return null;
@@ -153,7 +153,7 @@ CodeMirror.defineMode("apl", function() {
       word = stream.current();
       state.prev = true;
       return "keyword";
-    }
+    },
   };
 });
 

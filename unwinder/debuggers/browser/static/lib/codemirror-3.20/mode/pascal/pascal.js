@@ -1,13 +1,16 @@
-CodeMirror.defineMode("pascal", function() {
+CodeMirror.defineMode("pascal", function () {
   function words(str) {
-    var obj = {}, words = str.split(" ");
+    var obj = {},
+      words = str.split(" ");
     for (var i = 0; i < words.length; ++i) obj[words[i]] = true;
     return obj;
   }
-  var keywords = words("and array begin case const div do downto else end file for forward integer " +
-                       "boolean char function goto if in label mod nil not of or packed procedure " +
-                       "program record repeat set string then to type until var while with");
-  var atoms = {"null": true};
+  var keywords = words(
+    "and array begin case const div do downto else end file for forward integer " +
+      "boolean char function goto if in label mod nil not of or packed procedure " +
+      "program record repeat set string then to type until var while with"
+  );
+  var atoms = { null: true };
 
   var isOperatorChar = /[+\-*&%=<>!?|\/]/;
 
@@ -50,10 +53,15 @@ CodeMirror.defineMode("pascal", function() {
   }
 
   function tokenString(quote) {
-    return function(stream, state) {
-      var escaped = false, next, end = false;
+    return function (stream, state) {
+      var escaped = false,
+        next,
+        end = false;
       while ((next = stream.next()) != null) {
-        if (next == quote && !escaped) {end = true; break;}
+        if (next == quote && !escaped) {
+          end = true;
+          break;
+        }
         escaped = !escaped && next == "\\";
       }
       if (end || !escaped) state.tokenize = null;
@@ -62,13 +70,14 @@ CodeMirror.defineMode("pascal", function() {
   }
 
   function tokenComment(stream, state) {
-    var maybeEnd = false, ch;
-    while (ch = stream.next()) {
+    var maybeEnd = false,
+      ch;
+    while ((ch = stream.next())) {
       if (ch == ")" && maybeEnd) {
         state.tokenize = null;
         break;
       }
-      maybeEnd = (ch == "*");
+      maybeEnd = ch == "*";
     }
     return "comment";
   }
@@ -76,18 +85,18 @@ CodeMirror.defineMode("pascal", function() {
   // Interface
 
   return {
-    startState: function() {
-      return {tokenize: null};
+    startState: function () {
+      return { tokenize: null };
     },
 
-    token: function(stream, state) {
+    token: function (stream, state) {
       if (stream.eatSpace()) return null;
       var style = (state.tokenize || tokenBase)(stream, state);
       if (style == "comment" || style == "meta") return style;
       return style;
     },
 
-    electricChars: "{}"
+    electricChars: "{}",
   };
 });
 

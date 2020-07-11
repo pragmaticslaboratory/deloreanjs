@@ -26,7 +26,7 @@ assert.ok(
 
 function regenerator(source, options) {
   options = utils.defaults(options || {}, {
-    supportBlockBinding: true
+    supportBlockBinding: true,
   });
 
   var supportBlockBinding = !!options.supportBlockBinding;
@@ -42,7 +42,7 @@ function regenerator(source, options) {
     // instead of the master branch that recast provides.
     esprima: esprimaHarmony,
     range: supportBlockBinding,
-      loc: true
+    loc: true,
   };
 
   var recastAst = recast.parse(source, recastOptions);
@@ -55,26 +55,26 @@ function regenerator(source, options) {
       disallowUnknownReferences: false,
       disallowDuplicated: false,
       disallowVars: false,
-      loopClosures: "iife"
+      loopClosures: "iife",
     });
 
     if (defsResult.errors) {
-      throw new Error(defsResult.errors.join("\n"))
+      throw new Error(defsResult.errors.join("\n"));
     }
   }
 
   var transformed = transform(ast, options);
   recastAst.program = transformed.ast;
-  var appendix = '';
+  var appendix = "";
 
-  if(options.includeDebug) {
+  if (options.includeDebug) {
     var body = recastAst.program.body;
     body.unshift.apply(body, transformed.debugAST);
   }
 
   return {
-    code: recast.print(recastAst, recastOptions).code + '\n' + appendix,
-    debugInfo: transformed.debugInfo
+    code: recast.print(recastAst, recastOptions).code + "\n" + appendix,
+    debugInfo: transformed.debugInfo,
   };
 }
 
@@ -83,7 +83,7 @@ regenerator.transform = transform;
 
 regenerator.runtime = {
   dev: path.join(__dirname, "runtime", "vm.js"),
-  min: path.join(__dirname, "runtime", "min.js")
+  min: path.join(__dirname, "runtime", "min.js"),
 };
 
 // To transform a string of ES6 code, call require("regenerator")(source);

@@ -1,17 +1,105 @@
-CodeMirror.defineMode("julia", function(_conf, parserConf) {
-  var ERRORCLASS = 'error';
+CodeMirror.defineMode("julia", function (_conf, parserConf) {
+  var ERRORCLASS = "error";
 
   function wordRegexp(words) {
     return new RegExp("^((" + words.join(")|(") + "))\\b");
   }
 
-  var operators = parserConf.operators || /^(?:\.?[|&^\\%*+\-<>!=\/]=?|\?|~|:|\$|<:|\.[<>]|<<=?|>>>?=?|\.[<>=]=|->?|\/\/|\bin\b|\.{3})/;
+  var operators =
+    parserConf.operators ||
+    /^(?:\.?[|&^\\%*+\-<>!=\/]=?|\?|~|:|\$|<:|\.[<>]|<<=?|>>>?=?|\.[<>=]=|->?|\/\/|\bin\b|\.{3})/;
   var delimiters = parserConf.delimiters || /^[;,()[\]{}]/;
-  var identifiers = parserConf.identifiers|| /^[_A-Za-z][_A-Za-z0-9]*!*/;
-  var blockOpeners = ["begin", "function", "type", "immutable", "let", "macro", "for", "while", "quote", "if", "else", "elseif", "try", "finally", "catch"];
+  var identifiers = parserConf.identifiers || /^[_A-Za-z][_A-Za-z0-9]*!*/;
+  var blockOpeners = [
+    "begin",
+    "function",
+    "type",
+    "immutable",
+    "let",
+    "macro",
+    "for",
+    "while",
+    "quote",
+    "if",
+    "else",
+    "elseif",
+    "try",
+    "finally",
+    "catch",
+  ];
   var blockClosers = ["end", "else", "elseif", "catch", "finally"];
-  var keywordList = ['if', 'else', 'elseif', 'while', 'for', 'begin', 'let', 'end', 'do', 'try', 'catch', 'finally', 'return', 'break', 'continue', 'global', 'local', 'const', 'export', 'import', 'importall', 'using', 'function', 'macro', 'module', 'baremodule', 'type', 'immutable', 'quote', 'typealias', 'abstract', 'bitstype', 'ccall'];
-  var builtinList = ['true', 'false', 'enumerate', 'open', 'close', 'nothing', 'NaN', 'Inf', 'print', 'println', 'Int8', 'Uint8', 'Int16', 'Uint16', 'Int32', 'Uint32', 'Int64', 'Uint64', 'Int128', 'Uint128', 'Bool', 'Char', 'Float16', 'Float32', 'Float64', 'Array', 'Vector', 'Matrix', 'String', 'UTF8String', 'ASCIIString', 'error', 'warn', 'info', '@printf'];
+  var keywordList = [
+    "if",
+    "else",
+    "elseif",
+    "while",
+    "for",
+    "begin",
+    "let",
+    "end",
+    "do",
+    "try",
+    "catch",
+    "finally",
+    "return",
+    "break",
+    "continue",
+    "global",
+    "local",
+    "const",
+    "export",
+    "import",
+    "importall",
+    "using",
+    "function",
+    "macro",
+    "module",
+    "baremodule",
+    "type",
+    "immutable",
+    "quote",
+    "typealias",
+    "abstract",
+    "bitstype",
+    "ccall",
+  ];
+  var builtinList = [
+    "true",
+    "false",
+    "enumerate",
+    "open",
+    "close",
+    "nothing",
+    "NaN",
+    "Inf",
+    "print",
+    "println",
+    "Int8",
+    "Uint8",
+    "Int16",
+    "Uint16",
+    "Int32",
+    "Uint32",
+    "Int64",
+    "Uint64",
+    "Int128",
+    "Uint128",
+    "Bool",
+    "Char",
+    "Float16",
+    "Float32",
+    "Float64",
+    "Array",
+    "Vector",
+    "Matrix",
+    "String",
+    "UTF8String",
+    "ASCIIString",
+    "error",
+    "warn",
+    "info",
+    "@printf",
+  ];
 
   //var stringPrefixes = new RegExp("^[br]?('|\")")
   var stringPrefixes = /^[br]?('|"{3}|")/;
@@ -24,16 +112,15 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
 
   function in_array(state) {
     var ch = cur_scope(state);
-    if(ch=="[" || ch=="{") {
+    if (ch == "[" || ch == "{") {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   function cur_scope(state) {
-    if(state.scopes.length==0) {
+    if (state.scopes.length == 0) {
       return null;
     }
     return state.scopes[state.scopes.length - 1];
@@ -44,12 +131,12 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
     // Handle scope changes
     var leaving_expr = state.leaving_expr;
     state.leaving_expr = false;
-    if(leaving_expr) {
-      if(stream.match(/^'+/)) {
-        return 'operator';
+    if (leaving_expr) {
+      if (stream.match(/^'+/)) {
+        return "operator";
       }
-      if(stream.match("...")) {
-        return 'operator';
+      if (stream.match("...")) {
+        return "operator";
       }
     }
 
@@ -59,82 +146,95 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
 
     var ch = stream.peek();
     // Handle Comments
-    if (ch === '#') {
-        stream.skipToEnd();
-        return 'comment';
+    if (ch === "#") {
+      stream.skipToEnd();
+      return "comment";
     }
-    if(ch==='[') {
+    if (ch === "[") {
       state.scopes.push("[");
     }
 
-    if(ch==='{') {
+    if (ch === "{") {
       state.scopes.push("{");
     }
 
-    var scope=cur_scope(state);
+    var scope = cur_scope(state);
 
-    if(scope==='[' && ch===']') {
+    if (scope === "[" && ch === "]") {
       state.scopes.pop();
-      state.leaving_expr=true;
+      state.leaving_expr = true;
     }
 
-    if(scope==='{' && ch==='}') {
+    if (scope === "{" && ch === "}") {
       state.scopes.pop();
-      state.leaving_expr=true;
+      state.leaving_expr = true;
     }
 
     var match;
-    if(match=stream.match(openers, false)) {
+    if ((match = stream.match(openers, false))) {
       state.scopes.push(match);
     }
 
-    if(!in_array(state) && stream.match(closers, false)) {
+    if (!in_array(state) && stream.match(closers, false)) {
       state.scopes.pop();
     }
 
-    if(in_array(state)) {
-      if(stream.match("end")) {
-        return 'number';
+    if (in_array(state)) {
+      if (stream.match("end")) {
+        return "number";
       }
-
     }
-    if(stream.match("=>")) {
-      return 'operator';
+    if (stream.match("=>")) {
+      return "operator";
     }
     // Handle Number Literals
     if (stream.match(/^[0-9\.]/, false)) {
       var imMatcher = RegExp(/^im\b/);
       var floatLiteral = false;
       // Floats
-      if (stream.match(/^\d*\.\d+([ef][\+\-]?\d+)?/i)) { floatLiteral = true; }
-      if (stream.match(/^\d+\.\d*/)) { floatLiteral = true; }
-      if (stream.match(/^\.\d+/)) { floatLiteral = true; }
+      if (stream.match(/^\d*\.\d+([ef][\+\-]?\d+)?/i)) {
+        floatLiteral = true;
+      }
+      if (stream.match(/^\d+\.\d*/)) {
+        floatLiteral = true;
+      }
+      if (stream.match(/^\.\d+/)) {
+        floatLiteral = true;
+      }
       if (floatLiteral) {
-          // Float literals may be "imaginary"
-          stream.match(imMatcher);
-          return 'number';
+        // Float literals may be "imaginary"
+        stream.match(imMatcher);
+        return "number";
       }
       // Integers
       var intLiteral = false;
       // Hex
-      if (stream.match(/^0x[0-9a-f]+/i)) { intLiteral = true; }
+      if (stream.match(/^0x[0-9a-f]+/i)) {
+        intLiteral = true;
+      }
       // Binary
-      if (stream.match(/^0b[01]+/i)) { intLiteral = true; }
+      if (stream.match(/^0b[01]+/i)) {
+        intLiteral = true;
+      }
       // Octal
-      if (stream.match(/^0o[0-7]+/i)) { intLiteral = true; }
+      if (stream.match(/^0o[0-7]+/i)) {
+        intLiteral = true;
+      }
       // Decimal
       if (stream.match(/^[1-9]\d*(e[\+\-]?\d+)?/)) {
-          // Decimal literals may be "imaginary"
-          stream.eat(/J/i);
-          // TODO - Can you have imaginary longs?
-          intLiteral = true;
+        // Decimal literals may be "imaginary"
+        stream.eat(/J/i);
+        // TODO - Can you have imaginary longs?
+        intLiteral = true;
       }
       // Zero by itself with no other piece of number.
-      if (stream.match(/^0(?![\dx])/i)) { intLiteral = true; }
+      if (stream.match(/^0(?![\dx])/i)) {
+        intLiteral = true;
+      }
       if (intLiteral) {
-          // Integer literals may be "long"
-          stream.match(imMatcher);
-          return 'number';
+        // Integer literals may be "long"
+        stream.match(imMatcher);
+        return "number";
       }
     }
 
@@ -146,7 +246,7 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
 
     // Handle operators and Delimiters
     if (stream.match(operators)) {
-      return 'operator';
+      return "operator";
     }
 
     if (stream.match(delimiters)) {
@@ -154,20 +254,20 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
     }
 
     if (stream.match(keywords)) {
-      return 'keyword';
+      return "keyword";
     }
 
     if (stream.match(builtins)) {
-      return 'builtin';
+      return "builtin";
     }
 
     if (stream.match(macro)) {
-      return 'meta';
+      return "meta";
     }
 
     if (stream.match(identifiers)) {
-      state.leaving_expr=true;
-      return 'variable';
+      state.leaving_expr = true;
+      return "variable";
     }
     // Handle non-detected items
     stream.next();
@@ -175,32 +275,32 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
   }
 
   function tokenStringFactory(delimiter) {
-    while ('rub'.indexOf(delimiter.charAt(0).toLowerCase()) >= 0) {
+    while ("rub".indexOf(delimiter.charAt(0).toLowerCase()) >= 0) {
       delimiter = delimiter.substr(1);
     }
     var singleline = delimiter.length == 1;
-    var OUTCLASS = 'string';
+    var OUTCLASS = "string";
 
     function tokenString(stream, state) {
       while (!stream.eol()) {
         stream.eatWhile(/[^'"\\]/);
-        if (stream.eat('\\')) {
-            stream.next();
-            if (singleline && stream.eol()) {
-              return OUTCLASS;
-            }
-        } else if (stream.match(delimiter)) {
-            state.tokenize = tokenBase;
+        if (stream.eat("\\")) {
+          stream.next();
+          if (singleline && stream.eol()) {
             return OUTCLASS;
+          }
+        } else if (stream.match(delimiter)) {
+          state.tokenize = tokenBase;
+          return OUTCLASS;
         } else {
-            stream.eat(/['"]/);
+          stream.eat(/['"]/);
         }
       }
       if (singleline) {
         if (parserConf.singleLineStringErrors) {
-            return ERRORCLASS;
+          return ERRORCLASS;
         } else {
-            state.tokenize = tokenBase;
+          state.tokenize = tokenBase;
         }
       }
       return OUTCLASS;
@@ -215,12 +315,12 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
     var current = stream.current();
 
     // Handle '.' connected identifiers
-    if (current === '.') {
+    if (current === ".") {
       style = stream.match(identifiers, false) ? null : ERRORCLASS;
-      if (style === null && state.lastStyle === 'meta') {
-          // Apply 'meta' style to '.' connected identifiers when
-          // appropriate.
-        style = 'meta';
+      if (style === null && state.lastStyle === "meta") {
+        // Apply 'meta' style to '.' connected identifiers when
+        // appropriate.
+        style = "meta";
       }
       return style;
     }
@@ -229,23 +329,31 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
   }
 
   var external = {
-    startState: function() {
+    startState: function () {
       return {
         tokenize: tokenBase,
         scopes: [],
-        leaving_expr: false
+        leaving_expr: false,
       };
     },
 
-    token: function(stream, state) {
+    token: function (stream, state) {
       var style = tokenLexer(stream, state);
       state.lastStyle = style;
       return style;
     },
 
-    indent: function(state, textAfter) {
+    indent: function (state, textAfter) {
       var delta = 0;
-      if(textAfter=="end" || textAfter=="]" || textAfter=="}" || textAfter=="else" || textAfter=="elseif" || textAfter=="catch" || textAfter=="finally") {
+      if (
+        textAfter == "end" ||
+        textAfter == "]" ||
+        textAfter == "}" ||
+        textAfter == "else" ||
+        textAfter == "elseif" ||
+        textAfter == "catch" ||
+        textAfter == "finally"
+      ) {
         delta = -1;
       }
       return (state.scopes.length + delta) * 2;
@@ -253,10 +361,9 @@ CodeMirror.defineMode("julia", function(_conf, parserConf) {
 
     lineComment: "#",
     fold: "indent",
-    electricChars: "edlsifyh]}"
+    electricChars: "edlsifyh]}",
   };
   return external;
 });
-
 
 CodeMirror.defineMIME("text/x-julia", "julia");

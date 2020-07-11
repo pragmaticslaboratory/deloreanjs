@@ -19,7 +19,7 @@ var withLoc = require("./util").withLoc;
 // and replaces any Declaration nodes in its body with assignments, then
 // returns a VariableDeclaration containing just the names of the removed
 // declarations.
-exports.hoist = function(fun) {
+exports.hoist = function (fun) {
   n.Function.assert(fun);
   var vars = {};
   var funDeclsToRaise = [];
@@ -28,11 +28,11 @@ exports.hoist = function(fun) {
     n.VariableDeclaration.assert(vdec);
     var exprs = [];
 
-    vdec.declarations.forEach(function(dec) {
+    vdec.declarations.forEach(function (dec) {
       vars[dec.id.name] = dec.id;
 
       if (dec.init) {
-        var assn = b.assignmentExpression('=', dec.id, dec.init);
+        var assn = b.assignmentExpression("=", dec.id, dec.init);
 
         exprs.push(withLoc(assn, dec.loc));
       } else if (includeIdentifiers) {
@@ -40,16 +40,14 @@ exports.hoist = function(fun) {
       }
     });
 
-    if (exprs.length === 0)
-      return null;
+    if (exprs.length === 0) return null;
 
-    if (exprs.length === 1)
-      return exprs[0];
+    if (exprs.length === 1) return exprs[0];
 
     return b.sequenceExpression(exprs);
   }
 
-  types.traverse(fun.body, function(node) {
+  types.traverse(fun.body, function (node) {
     if (n.VariableDeclaration.check(node)) {
       var expr = varDeclToExpr(node, false);
       if (expr === null) {
@@ -63,19 +61,16 @@ exports.hoist = function(fun) {
       // Since the original node has been either removed or replaced,
       // avoid traversing it any further.
       return false;
-
     } else if (n.ForStatement.check(node)) {
       if (n.VariableDeclaration.check(node.init)) {
         var expr = varDeclToExpr(node.init, false);
         this.get("init").replace(expr);
       }
-
     } else if (n.ForInStatement.check(node)) {
       if (n.VariableDeclaration.check(node.left)) {
         var expr = varDeclToExpr(node.left, true);
         this.get("left").replace(expr);
       }
-
     } else if (n.FunctionDeclaration.check(node)) {
       vars[node.id.name] = node.id;
 
@@ -83,7 +78,7 @@ exports.hoist = function(fun) {
       // Prefix the name with '$' as it introduces a new scoping rule
       // and we want the original id to be referenced within the body
       var funcExpr = b.functionExpression(
-        b.identifier('$' + node.id.name),
+        b.identifier("$" + node.id.name),
         node.params,
         node.body,
         node.generator,
@@ -91,62 +86,61 @@ exports.hoist = function(fun) {
       );
       funcExpr.loc = node.loc;
 
-      var assignment = withLoc(b.expressionStatement(
-        withLoc(b.assignmentExpression(
-          "=",
-          node.id,
-          funcExpr
-        ), node.loc)
-      ), node.loc);
+      var assignment = withLoc(
+        b.expressionStatement(
+          withLoc(b.assignmentExpression("=", node.id, funcExpr), node.loc)
+        ),
+        node.loc
+      );
 
       if (n.BlockStatement.check(this.parent.node)) {
         // unshift because later it will be added in reverse, so this
         // will keep the original order
         funDeclsToRaise.unshift({
           block: this.parent.node,
-          assignment: assignment
+          assignment: assignment,
         });
 
         // Remove the function declaration for now, but reinsert the assignment
         // form later, at the top of the enclosing BlockStatement.
         this.replace();
-
       } else {
         this.replace(assignment);
       }
 
       // Don't hoist variables out of inner functions.
       return false;
-
     } else if (n.FunctionExpression.check(node)) {
       // Don't descend into nested function expressions.
       return false;
     }
   });
 
-  funDeclsToRaise.forEach(function(entry) {
+  funDeclsToRaise.forEach(function (entry) {
     entry.block.body.unshift(entry.assignment);
   });
 
   var declarations = [];
   var paramNames = {};
 
-  fun.params.forEach(function(param) {
+  fun.params.forEach(function (param) {
     if (n.Identifier.check(param)) {
       paramNames[param.name] = param;
-    }
-    else {
+    } else {
       // Variables declared by destructuring parameter patterns will be
       // harmlessly re-declared.
     }
   });
 
-  Object.keys(vars).forEach(function(name) {
-    if(!hasOwn.call(paramNames, name)) {
+  Object.keys(vars).forEach(function (name) {
+    if (!hasOwn.call(paramNames, name)) {
       var id = vars[name];
-      declarations.push(b.variableDeclarator(
-        id, id.boxed ? b.arrayExpression([b.identifier('undefined')]) : null
-      ));
+      declarations.push(
+        b.variableDeclarator(
+          id,
+          id.boxed ? b.arrayExpression([b.identifier("undefined")]) : null
+        )
+      );
     }
   });
 

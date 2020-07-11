@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
   // declare global: diff_match_patch, DIFF_INSERT, DIFF_DELETE, DIFF_EQUAL
 
@@ -8,26 +8,34 @@
   function DiffView(mv, type) {
     this.mv = mv;
     this.type = type;
-    this.classes = type == "left"
-      ? {chunk: "CodeMirror-merge-l-chunk",
-         start: "CodeMirror-merge-l-chunk-start",
-         end: "CodeMirror-merge-l-chunk-end",
-         insert: "CodeMirror-merge-l-inserted",
-         del: "CodeMirror-merge-l-deleted",
-         connect: "CodeMirror-merge-l-connect"}
-      : {chunk: "CodeMirror-merge-r-chunk",
-         start: "CodeMirror-merge-r-chunk-start",
-         end: "CodeMirror-merge-r-chunk-end",
-         insert: "CodeMirror-merge-r-inserted",
-         del: "CodeMirror-merge-r-deleted",
-         connect: "CodeMirror-merge-r-connect"};
+    this.classes =
+      type == "left"
+        ? {
+            chunk: "CodeMirror-merge-l-chunk",
+            start: "CodeMirror-merge-l-chunk-start",
+            end: "CodeMirror-merge-l-chunk-end",
+            insert: "CodeMirror-merge-l-inserted",
+            del: "CodeMirror-merge-l-deleted",
+            connect: "CodeMirror-merge-l-connect",
+          }
+        : {
+            chunk: "CodeMirror-merge-r-chunk",
+            start: "CodeMirror-merge-r-chunk-start",
+            end: "CodeMirror-merge-r-chunk-end",
+            insert: "CodeMirror-merge-r-inserted",
+            del: "CodeMirror-merge-r-deleted",
+            connect: "CodeMirror-merge-r-connect",
+          };
   }
 
   DiffView.prototype = {
     constructor: DiffView,
-    init: function(pane, orig, options) {
+    init: function (pane, orig, options) {
       this.edit = this.mv.edit;
-      this.orig = CodeMirror(pane, copyObj({value: orig, readOnly: true}, copyObj(options)));
+      this.orig = CodeMirror(
+        pane,
+        copyObj({ value: orig, readOnly: true }, copyObj(options))
+      );
 
       this.diff = getDiff(orig, options.value);
       this.diffOutOfDate = false;
@@ -37,18 +45,18 @@
       setScrollLock(this, true, false);
       registerScroll(this);
     },
-    setShowDifferences: function(val) {
+    setShowDifferences: function (val) {
       val = val !== false;
       if (val != this.showDifferences) {
         this.showDifferences = val;
         this.forceUpdate("full");
       }
-    }
+    },
   };
 
   function registerUpdate(dv) {
-    var edit = {from: 0, to: 0, marked: []};
-    var orig = {from: 0, to: 0, marked: []};
+    var edit = { from: 0, to: 0, marked: [] };
+    var orig = { from: 0, to: 0, marked: [] };
     var debounceChange;
     function update(mode) {
       if (mode == "full") {
@@ -89,10 +97,10 @@
   }
 
   function registerScroll(dv) {
-    dv.edit.on("scroll", function() {
+    dv.edit.on("scroll", function () {
       syncScroll(dv, DIFF_INSERT) && drawConnectors(dv);
     });
-    dv.orig.on("scroll", function() {
+    dv.orig.on("scroll", function () {
       syncScroll(dv, DIFF_DELETE) && drawConnectors(dv);
     });
   }
@@ -101,31 +109,55 @@
     // Change handler will do a refresh after a timeout when diff is out of date
     if (dv.diffOutOfDate) return false;
     if (!dv.lockScroll) return true;
-    var editor, other, now = +new Date;
-    if (type == DIFF_INSERT) { editor = dv.edit; other = dv.orig; }
-    else { editor = dv.orig; other = dv.edit; }
+    var editor,
+      other,
+      now = +new Date();
+    if (type == DIFF_INSERT) {
+      editor = dv.edit;
+      other = dv.orig;
+    } else {
+      editor = dv.orig;
+      other = dv.edit;
+    }
     // Don't take action if the position of this editor was recently set
     // (to prevent feedback loops)
-    if (editor.state.scrollSetBy == dv && (editor.state.scrollSetAt || 0) + 50 > now) return false;
+    if (
+      editor.state.scrollSetBy == dv &&
+      (editor.state.scrollSetAt || 0) + 50 > now
+    )
+      return false;
 
-    var sInfo = editor.getScrollInfo(), halfScreen = .5 * sInfo.clientHeight, midY = sInfo.top + halfScreen;
+    var sInfo = editor.getScrollInfo(),
+      halfScreen = 0.5 * sInfo.clientHeight,
+      midY = sInfo.top + halfScreen;
     var mid = editor.lineAtHeight(midY, "local");
     var around = chunkBoundariesAround(dv.diff, mid, type == DIFF_INSERT);
-    var off = getOffsets(editor, type == DIFF_INSERT ? around.edit : around.orig);
-    var offOther = getOffsets(other, type == DIFF_INSERT ? around.orig : around.edit);
+    var off = getOffsets(
+      editor,
+      type == DIFF_INSERT ? around.edit : around.orig
+    );
+    var offOther = getOffsets(
+      other,
+      type == DIFF_INSERT ? around.orig : around.edit
+    );
     var ratio = (midY - off.top) / (off.bot - off.top);
-    var targetPos = (offOther.top - halfScreen) + ratio * (offOther.bot - offOther.top);
+    var targetPos =
+      offOther.top - halfScreen + ratio * (offOther.bot - offOther.top);
 
     var botDist, mix;
     // Some careful tweaking to make sure no space is left out of view
     // when scrolling to top or bottom.
     if (targetPos > sInfo.top && (mix = sInfo.top / halfScreen) < 1) {
       targetPos = targetPos * mix + sInfo.top * (1 - mix);
-    } else if ((botDist = sInfo.height - sInfo.clientHeight - sInfo.top) < halfScreen) {
+    } else if (
+      (botDist = sInfo.height - sInfo.clientHeight - sInfo.top) < halfScreen
+    ) {
       var otherInfo = other.getScrollInfo();
       var botDistOther = otherInfo.height - otherInfo.clientHeight - targetPos;
       if (botDistOther > botDist && (mix = botDist / halfScreen) < 1)
-        targetPos = targetPos * mix + (otherInfo.height - otherInfo.clientHeight - botDist) * (1 - mix);
+        targetPos =
+          targetPos * mix +
+          (otherInfo.height - otherInfo.clientHeight - botDist) * (1 - mix);
     }
 
     other.scrollTo(sInfo.left, targetPos);
@@ -137,13 +169,16 @@
   function getOffsets(editor, around) {
     var bot = around.after;
     if (bot == null) bot = editor.lastLine() + 1;
-    return {top: editor.heightAtLine(around.before || 0, "local"),
-            bot: editor.heightAtLine(bot, "local")};
+    return {
+      top: editor.heightAtLine(around.before || 0, "local"),
+      bot: editor.heightAtLine(bot, "local"),
+    };
   }
 
   function setScrollLock(dv, val, action) {
     dv.lockScroll = val;
-    if (val && action != false) syncScroll(dv, DIFF_INSERT) && drawConnectors(dv);
+    if (val && action != false)
+      syncScroll(dv, DIFF_INSERT) && drawConnectors(dv);
     dv.lockButton.innerHTML = val ? "\u21db\u21da" : "\u21db&nbsp;&nbsp;\u21da";
   }
 
@@ -166,18 +201,39 @@
   // FIXME maybe add a margin around viewport to prevent too many updates
   function updateMarks(editor, diff, state, type, classes) {
     var vp = editor.getViewport();
-    editor.operation(function() {
-      if (state.from == state.to || vp.from - state.to > 20 || state.from - vp.to > 20) {
+    editor.operation(function () {
+      if (
+        state.from == state.to ||
+        vp.from - state.to > 20 ||
+        state.from - vp.to > 20
+      ) {
         clearMarks(editor, state.marked, classes);
         markChanges(editor, diff, type, state.marked, vp.from, vp.to, classes);
-        state.from = vp.from; state.to = vp.to;
+        state.from = vp.from;
+        state.to = vp.to;
       } else {
         if (vp.from < state.from) {
-          markChanges(editor, diff, type, state.marked, vp.from, state.from, classes);
+          markChanges(
+            editor,
+            diff,
+            type,
+            state.marked,
+            vp.from,
+            state.from,
+            classes
+          );
           state.from = vp.from;
         }
         if (vp.to > state.to) {
-          markChanges(editor, diff, type, state.marked, state.to, vp.to, classes);
+          markChanges(
+            editor,
+            diff,
+            type,
+            state.marked,
+            state.to,
+            vp.to,
+            classes
+          );
           state.to = vp.to;
         }
       }
@@ -186,10 +242,12 @@
 
   function markChanges(editor, diff, type, marks, from, to, classes) {
     var pos = Pos(0, 0);
-    var top = Pos(from, 0), bot = editor.clipPos(Pos(to - 1));
+    var top = Pos(from, 0),
+      bot = editor.clipPos(Pos(to - 1));
     var cls = type == DIFF_DELETE ? classes.del : classes.insert;
     function markChunk(start, end) {
-      var bfrom = Math.max(from, start), bto = Math.min(to, end);
+      var bfrom = Math.max(from, start),
+        bto = Math.min(to, end);
       for (var i = bfrom; i < bto; ++i) {
         var line = editor.addLineClass(i, "background", classes.chunk);
         if (i == start) editor.addLineClass(line, "background", classes.start);
@@ -207,7 +265,9 @@
 
     var chunkStart = 0;
     for (var i = 0; i < diff.length; ++i) {
-      var part = diff[i], tp = part[0], str = part[1];
+      var part = diff[i],
+        tp = part[0],
+        str = part[1];
       if (tp == DIFF_EQUAL) {
         var cleanFrom = pos.line + (startOfLineClean(diff, i) ? 0 : 1);
         moveOver(pos, str);
@@ -219,9 +279,10 @@
       } else {
         if (tp == type) {
           var end = moveOver(pos, str, true);
-          var a = posMax(top, pos), b = posMin(bot, end);
+          var a = posMax(top, pos),
+            b = posMin(bot, end);
           if (!posEq(a, b))
-            marks.push(editor.markText(a, b, {className: cls}));
+            marks.push(editor.markText(a, b, { className: cls }));
           pos = end;
         }
       }
@@ -242,48 +303,114 @@
     clear(dv.copyButtons);
 
     var flip = dv.type == "left";
-    var vpEdit = dv.edit.getViewport(), vpOrig = dv.orig.getViewport();
-    var sTopEdit = dv.edit.getScrollInfo().top, sTopOrig = dv.orig.getScrollInfo().top;
-    iterateChunks(dv.diff, function(topOrig, botOrig, topEdit, botEdit) {
-      if (topEdit > vpEdit.to || botEdit < vpEdit.from ||
-          topOrig > vpOrig.to || botOrig < vpOrig.from)
+    var vpEdit = dv.edit.getViewport(),
+      vpOrig = dv.orig.getViewport();
+    var sTopEdit = dv.edit.getScrollInfo().top,
+      sTopOrig = dv.orig.getScrollInfo().top;
+    iterateChunks(dv.diff, function (topOrig, botOrig, topEdit, botEdit) {
+      if (
+        topEdit > vpEdit.to ||
+        botEdit < vpEdit.from ||
+        topOrig > vpOrig.to ||
+        botOrig < vpOrig.from
+      )
         return;
-      var topLpx = dv.orig.heightAtLine(topOrig, "local") - sTopOrig, top = topLpx;
+      var topLpx = dv.orig.heightAtLine(topOrig, "local") - sTopOrig,
+        top = topLpx;
       if (dv.svg) {
         var topRpx = dv.edit.heightAtLine(topEdit, "local") - sTopEdit;
-        if (flip) { var tmp = topLpx; topLpx = topRpx; topRpx = tmp; }
+        if (flip) {
+          var tmp = topLpx;
+          topLpx = topRpx;
+          topRpx = tmp;
+        }
         var botLpx = dv.orig.heightAtLine(botOrig, "local") - sTopOrig;
         var botRpx = dv.edit.heightAtLine(botEdit, "local") - sTopEdit;
-        if (flip) { var tmp = botLpx; botLpx = botRpx; botRpx = tmp; }
-        var curveTop = " C " + w/2 + " " + topRpx + " " + w/2 + " " + topLpx + " " + (w + 2) + " " + topLpx;
-        var curveBot = " C " + w/2 + " " + botLpx + " " + w/2 + " " + botRpx + " -1 " + botRpx;
-        attrs(dv.svg.appendChild(document.createElementNS(svgNS, "path")),
-              "d", "M -1 " + topRpx + curveTop + " L " + (w + 2) + " " + botLpx + curveBot + " z",
-              "class", dv.classes.connect);
+        if (flip) {
+          var tmp = botLpx;
+          botLpx = botRpx;
+          botRpx = tmp;
+        }
+        var curveTop =
+          " C " +
+          w / 2 +
+          " " +
+          topRpx +
+          " " +
+          w / 2 +
+          " " +
+          topLpx +
+          " " +
+          (w + 2) +
+          " " +
+          topLpx;
+        var curveBot =
+          " C " +
+          w / 2 +
+          " " +
+          botLpx +
+          " " +
+          w / 2 +
+          " " +
+          botRpx +
+          " -1 " +
+          botRpx;
+        attrs(
+          dv.svg.appendChild(document.createElementNS(svgNS, "path")),
+          "d",
+          "M -1 " +
+            topRpx +
+            curveTop +
+            " L " +
+            (w + 2) +
+            " " +
+            botLpx +
+            curveBot +
+            " z",
+          "class",
+          dv.classes.connect
+        );
       }
-      var copy = dv.copyButtons.appendChild(elt("div", dv.type == "left" ? "\u21dd" : "\u21dc",
-                                                "CodeMirror-merge-copy"));
+      var copy = dv.copyButtons.appendChild(
+        elt(
+          "div",
+          dv.type == "left" ? "\u21dd" : "\u21dc",
+          "CodeMirror-merge-copy"
+        )
+      );
       copy.title = "Revert chunk";
-      copy.chunk = {topEdit: topEdit, botEdit: botEdit, topOrig: topOrig, botOrig: botOrig};
+      copy.chunk = {
+        topEdit: topEdit,
+        botEdit: botEdit,
+        topOrig: topOrig,
+        botOrig: botOrig,
+      };
       copy.style.top = top + "px";
     });
   }
 
   function copyChunk(dv, chunk) {
     if (dv.diffOutOfDate) return;
-    dv.edit.replaceRange(dv.orig.getRange(Pos(chunk.topOrig, 0), Pos(chunk.botOrig, 0)),
-                         Pos(chunk.topEdit, 0), Pos(chunk.botEdit, 0));
+    dv.edit.replaceRange(
+      dv.orig.getRange(Pos(chunk.topOrig, 0), Pos(chunk.botOrig, 0)),
+      Pos(chunk.topEdit, 0),
+      Pos(chunk.botEdit, 0)
+    );
   }
 
   // Merge view, containing 0, 1, or 2 diff views.
 
-  var MergeView = CodeMirror.MergeView = function(node, options) {
+  var MergeView = (CodeMirror.MergeView = function (node, options) {
     if (!(this instanceof MergeView)) return new MergeView(node, options);
 
-    var origLeft = options.origLeft, origRight = options.origRight == null ? options.orig : options.origRight;
-    var hasLeft = origLeft != null, hasRight = origRight != null;
+    var origLeft = options.origLeft,
+      origRight = options.origRight == null ? options.orig : options.origRight;
+    var hasLeft = origLeft != null,
+      hasRight = origRight != null;
     var panes = 1 + (hasLeft ? 1 : 0) + (hasRight ? 1 : 0);
-    var wrap = [], left = this.left = null, right = this.right = null;
+    var wrap = [],
+      left = (this.left = null),
+      right = (this.right = null);
 
     if (hasLeft) {
       left = this.left = new DiffView(this, "left");
@@ -302,54 +429,81 @@
       wrap.push(rightPane);
     }
 
-    (hasRight ? rightPane : editPane).className += " CodeMirror-merge-pane-rightmost";
+    (hasRight ? rightPane : editPane).className +=
+      " CodeMirror-merge-pane-rightmost";
 
     wrap.push(elt("div", null, null, "height: 0; clear: both;"));
-    var wrapElt = this.wrap = node.appendChild(elt("div", wrap, "CodeMirror-merge CodeMirror-merge-" + panes + "pane"));
+    var wrapElt = (this.wrap = node.appendChild(
+      elt("div", wrap, "CodeMirror-merge CodeMirror-merge-" + panes + "pane")
+    ));
     this.edit = CodeMirror(editPane, copyObj(options));
 
     if (left) left.init(leftPane, origLeft, options);
     if (right) right.init(rightPane, origRight, options);
 
-    var onResize = function() {
+    var onResize = function () {
       if (left) drawConnectors(left);
       if (right) drawConnectors(right);
     };
     CodeMirror.on(window, "resize", onResize);
-    var resizeInterval = setInterval(function() {
-      for (var p = wrapElt.parentNode; p && p != document.body; p = p.parentNode) {}
-      if (!p) { clearInterval(resizeInterval); CodeMirror.off(window, "resize", onResize); }
+    var resizeInterval = setInterval(function () {
+      for (
+        var p = wrapElt.parentNode;
+        p && p != document.body;
+        p = p.parentNode
+      ) {}
+      if (!p) {
+        clearInterval(resizeInterval);
+        CodeMirror.off(window, "resize", onResize);
+      }
     }, 5000);
-  };
+  });
 
   function buildGap(dv) {
-    var lock = dv.lockButton = elt("div", null, "CodeMirror-merge-scrolllock");
+    var lock = (dv.lockButton = elt(
+      "div",
+      null,
+      "CodeMirror-merge-scrolllock"
+    ));
     lock.title = "Toggle locked scrolling";
     var lockWrap = elt("div", [lock], "CodeMirror-merge-scrolllock-wrap");
-    CodeMirror.on(lock, "click", function() { setScrollLock(dv, !dv.lockScroll); });
-    dv.copyButtons = elt("div", null, "CodeMirror-merge-copybuttons-" + dv.type);
-    CodeMirror.on(dv.copyButtons, "click", function(e) {
+    CodeMirror.on(lock, "click", function () {
+      setScrollLock(dv, !dv.lockScroll);
+    });
+    dv.copyButtons = elt(
+      "div",
+      null,
+      "CodeMirror-merge-copybuttons-" + dv.type
+    );
+    CodeMirror.on(dv.copyButtons, "click", function (e) {
       var node = e.target || e.srcElement;
       if (node.chunk) copyChunk(dv, node.chunk);
     });
     var gapElts = [dv.copyButtons, lockWrap];
-    var svg = document.createElementNS && document.createElementNS(svgNS, "svg");
+    var svg =
+      document.createElementNS && document.createElementNS(svgNS, "svg");
     if (svg && !svg.createSVGRect) svg = null;
     dv.svg = svg;
     if (svg) gapElts.push(svg);
 
-    return dv.gap = elt("div", gapElts, "CodeMirror-merge-gap");
+    return (dv.gap = elt("div", gapElts, "CodeMirror-merge-gap"));
   }
 
   MergeView.prototype = {
     constuctor: MergeView,
-    editor: function() { return this.edit; },
-    rightOriginal: function() { return this.right && this.right.orig; },
-    leftOriginal: function() { return this.left && this.left.orig; },
-    setShowDifferences: function(val) {
+    editor: function () {
+      return this.edit;
+    },
+    rightOriginal: function () {
+      return this.right && this.right.orig;
+    },
+    leftOriginal: function () {
+      return this.left && this.left.orig;
+    },
+    setShowDifferences: function (val) {
       if (this.right) this.right.setShowDifferences(val);
       if (this.left) this.left.setShowDifferences(val);
-    }
+    },
   };
 
   // Operations on diffs
@@ -372,19 +526,25 @@
   }
 
   function iterateChunks(diff, f) {
-    var startEdit = 0, startOrig = 0;
-    var edit = Pos(0, 0), orig = Pos(0, 0);
+    var startEdit = 0,
+      startOrig = 0;
+    var edit = Pos(0, 0),
+      orig = Pos(0, 0);
     for (var i = 0; i < diff.length; ++i) {
-      var part = diff[i], tp = part[0];
+      var part = diff[i],
+        tp = part[0];
       if (tp == DIFF_EQUAL) {
         var startOff = startOfLineClean(diff, i) ? 0 : 1;
-        var cleanFromEdit = edit.line + startOff, cleanFromOrig = orig.line + startOff;
+        var cleanFromEdit = edit.line + startOff,
+          cleanFromOrig = orig.line + startOff;
         moveOver(edit, part[1], null, orig);
         var endOff = endOfLineClean(diff, i) ? 1 : 0;
-        var cleanToEdit = edit.line + endOff, cleanToOrig = orig.line + endOff;
+        var cleanToEdit = edit.line + endOff,
+          cleanToOrig = orig.line + endOff;
         if (cleanToEdit > cleanFromEdit) {
           if (i) f(startOrig, cleanFromOrig, startEdit, cleanFromEdit);
-          startEdit = cleanToEdit; startOrig = cleanToOrig;
+          startEdit = cleanToEdit;
+          startOrig = cleanToOrig;
         }
       } else {
         moveOver(tp == DIFF_INSERT ? edit : orig, part[1]);
@@ -414,17 +574,30 @@
 
   function chunkBoundariesAround(diff, n, nInEdit) {
     var beforeE, afterE, beforeO, afterO;
-    iterateChunks(diff, function(fromOrig, toOrig, fromEdit, toEdit) {
+    iterateChunks(diff, function (fromOrig, toOrig, fromEdit, toEdit) {
       var fromLocal = nInEdit ? fromEdit : fromOrig;
       var toLocal = nInEdit ? toEdit : toOrig;
       if (afterE == null) {
-        if (fromLocal > n) { afterE = fromEdit; afterO = fromOrig; }
-        else if (toLocal > n) { afterE = toEdit; afterO = toOrig; }
+        if (fromLocal > n) {
+          afterE = fromEdit;
+          afterO = fromOrig;
+        } else if (toLocal > n) {
+          afterE = toEdit;
+          afterO = toOrig;
+        }
       }
-      if (toLocal <= n) { beforeE = toEdit; beforeO = toOrig; }
-      else if (fromLocal <= n) { beforeE = fromEdit; beforeO = fromOrig; }
+      if (toLocal <= n) {
+        beforeE = toEdit;
+        beforeO = toOrig;
+      } else if (fromLocal <= n) {
+        beforeE = fromEdit;
+        beforeO = fromOrig;
+      }
     });
-    return {edit: {before: beforeE, after: afterE}, orig: {before: beforeO, after: afterO}};
+    return {
+      edit: { before: beforeE, after: afterE },
+      orig: { before: beforeO, after: afterO },
+    };
   }
 
   // General utilities
@@ -433,8 +606,10 @@
     var e = document.createElement(tag);
     if (className) e.className = className;
     if (style) e.style.cssText = style;
-    if (typeof content == "string") e.appendChild(document.createTextNode(content));
-    else if (content) for (var i = 0; i < content.length; ++i) e.appendChild(content[i]);
+    if (typeof content == "string")
+      e.appendChild(document.createTextNode(content));
+    else if (content)
+      for (var i = 0; i < content.length; ++i) e.appendChild(content[i]);
     return e;
   }
 
@@ -445,17 +620,19 @@
 
   function attrs(elt) {
     for (var i = 1; i < arguments.length; i += 2)
-      elt.setAttribute(arguments[i], arguments[i+1]);
+      elt.setAttribute(arguments[i], arguments[i + 1]);
   }
 
   function copyObj(obj, target) {
     if (!target) target = {};
-    for (var prop in obj) if (obj.hasOwnProperty(prop)) target[prop] = obj[prop];
+    for (var prop in obj)
+      if (obj.hasOwnProperty(prop)) target[prop] = obj[prop];
     return target;
   }
 
   function moveOver(pos, str, copy, other) {
-    var out = copy ? Pos(pos.line, pos.ch) : pos, at = 0;
+    var out = copy ? Pos(pos.line, pos.ch) : pos,
+      at = 0;
     for (;;) {
       var nl = str.indexOf("\n", at);
       if (nl == -1) break;
@@ -468,7 +645,13 @@
     return out;
   }
 
-  function posMin(a, b) { return (a.line - b.line || a.ch - b.ch) < 0 ? a : b; }
-  function posMax(a, b) { return (a.line - b.line || a.ch - b.ch) > 0 ? a : b; }
-  function posEq(a, b) { return a.line == b.line && a.ch == b.ch; }
+  function posMin(a, b) {
+    return (a.line - b.line || a.ch - b.ch) < 0 ? a : b;
+  }
+  function posMax(a, b) {
+    return (a.line - b.line || a.ch - b.ch) > 0 ? a : b;
+  }
+  function posEq(a, b) {
+    return a.line == b.line && a.ch == b.ch;
+  }
 })();

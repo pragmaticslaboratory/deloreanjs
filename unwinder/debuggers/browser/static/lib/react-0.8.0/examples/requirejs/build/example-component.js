@@ -4,12 +4,12 @@
 define([], function () {
   "use strict";
 
-  var ExampleComponent = React.createClass({displayName: 'ExampleComponent',
+  var ExampleComponent = React.createClass({
+    displayName: "ExampleComponent",
 
-    render:function(){
+    render: function () {
       return React.DOM.div(null, "Simple RequireJS Example");
-    }
-
+    },
   });
 
   return ExampleComponent;

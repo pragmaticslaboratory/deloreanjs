@@ -4,12 +4,12 @@
 // active line's wrapping <div> the CSS class "CodeMirror-activeline",
 // and gives its background <div> the class "CodeMirror-activeline-background".
 
-(function() {
+(function () {
   "use strict";
   var WRAP_CLASS = "CodeMirror-activeline";
   var BACK_CLASS = "CodeMirror-activeline-background";
 
-  CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
+  CodeMirror.defineOption("styleActiveLine", false, function (cm, val, old) {
     var prev = old && old != CodeMirror.Init;
     if (val && !prev) {
       updateActiveLine(cm);

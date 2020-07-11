@@ -16,11 +16,11 @@ const {
   heapRestoreVisitor,
   throwBreakVisitor,
   implicitTPVisitor,
-  locVisitor
-} = require("../src/staticAnalysis");
+  locVisitor,
+} = require('../src/staticAnalysis');
 var cloneDeep = require('lodash.clonedeep');
 
-function ldDeepCopy(original){
+function ldDeepCopy(original) {
   return cloneDeep(original);
 }
 
@@ -30,16 +30,22 @@ module.exports = {
 
     let visitorsConfig = [locVisitor, dependenciesVisitor];
     if (implicitTimpeoints) visitorsConfig.push(implicitTPVisitor);
-    visitorsConfig.push(tryCatchVisitor)
+    visitorsConfig.push(tryCatchVisitor);
 
-    let src = require("../index")(inputCode, visitorsConfig, true).code;
+    let src = require('../index')(inputCode, visitorsConfig, true).code;
 
     let { code } = babel.transform(src, {
-      plugins: [ifBlockVisitor, initConfigVisitor, heapRestoreVisitor, throwBreakVisitor,
-      storeContinuationsVisitor]
-    })
+      plugins: [
+        ifBlockVisitor,
+        initConfigVisitor,
+        heapRestoreVisitor,
+        throwBreakVisitor,
+        storeContinuationsVisitor,
+      ],
+    });
 
-    code = `
+    code =
+      `
     function updateProp(parentName, obj){
       Object.keys(obj).map(function(key){
         if (typeof obj[key] != 'object'){
@@ -91,7 +97,9 @@ module.exports = {
       }
       continuations[id] = cont;
       contTimeLine[id] = global.timeLine;
-    } try{` + code + `} 
+    } try{` +
+      code +
+      `} 
     catch(e){
       emptyContinuation = createContinuation();
       if(emptyContinuationAux) {                
@@ -101,37 +109,37 @@ module.exports = {
     }
     `;
 
-    let compile = require("../unwinder/bin/compile.js")
-    let unwindedCode = compile(code); 
+    let compile = require('../unwinder/bin/compile.js');
+    let unwindedCode = compile(code);
 
     try {
-      console.log(`%cStart first execution`, "background: #222; color: cyan");
+      console.log(`%cStart first execution`, 'background: #222; color: cyan');
       acumTime = 0;
       startTime = Date.now();
       eval(unwindedCode);
-      console.log(`%cFinish first execution`, "background: #222; color: cyan");
+      console.log(`%cFinish first execution`, 'background: #222; color: cyan');
     } catch (e) {
-      console.log(e, "Error from VM");
+      console.log(e, 'Error from VM');
     }
   },
 
   invokeContinuation: (kont) => {
-    fromTheFuture = true
+    fromTheFuture = true;
     try {
       global.startFrom = kont;
-      console.log(`%cStart TimePoint ${kont}`,"background: #222; color: #bada55");
-      heap.snapshots.find(element => element.timePointId == kont).timeLineId = ++global.timeLine;
-      acumTime += heap.snapshots.find(element => element.timePointId == kont).timePointTimestamp;
-      startTime = Date.now()
+      console.log(`%cStart TimePoint ${kont}`, 'background: #222; color: #bada55');
+      heap.snapshots.find((element) => element.timePointId == kont).timeLineId = ++global.timeLine;
+      acumTime += heap.snapshots.find((element) => element.timePointId == kont).timePointTimestamp;
+      startTime = Date.now();
       eval(
         `let kontAux = continuations.kont${kont}; 
         contTimeLine.kont${kont} = global.timeLine;       
         continuations.kont${kont}(); 
-        continuations.kont${kont} = kontAux`
+        continuations.kont${kont} = kontAux`,
       );
-      console.log(`%cEnd TimePoint ${kont}`,"background: #222; color: #bada55");
+      console.log(`%cEnd TimePoint ${kont}`, 'background: #222; color: #bada55');
     } catch (e) {
-      console.log(e, "Error from VM");
+      console.log(e, 'Error from VM');
     }
-  }
-}
+  },
+};

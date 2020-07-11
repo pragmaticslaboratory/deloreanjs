@@ -34,7 +34,7 @@ function makePredicate(propertyName, knownTypes) {
       return result;
     }
 
-    types.eachField(node, function(name, child) {
+    types.eachField(node, function (name, child) {
       check(child);
     });
 
@@ -45,18 +45,16 @@ function makePredicate(propertyName, knownTypes) {
     n.Node.assert(node);
 
     var meta = m(node);
-    if (hasOwn.call(meta, propertyName))
-      return meta[propertyName];
+    if (hasOwn.call(meta, propertyName)) return meta[propertyName];
 
     // Certain types are "opaque," which means they have no side
     // effects or leaps and we don't care about their subexpressions.
     if (hasOwn.call(opaqueTypes, node.type))
-      return meta[propertyName] = false;
+      return (meta[propertyName] = false);
 
-    if (hasOwn.call(knownTypes, node.type))
-      return meta[propertyName] = true;
+    if (hasOwn.call(knownTypes, node.type)) return (meta[propertyName] = true);
 
-    return meta[propertyName] = onlyChildren(node);
+    return (meta[propertyName] = onlyChildren(node));
   }
 
   predicate.onlyChildren = onlyChildren;
@@ -65,7 +63,7 @@ function makePredicate(propertyName, knownTypes) {
 }
 
 var opaqueTypes = {
-  FunctionExpression: true
+  FunctionExpression: true,
 };
 
 // These types potentially have side effects regardless of what side
@@ -77,7 +75,7 @@ var sideEffectTypes = {
   BinaryExpression: true, // Might invoke .toString() or .valueOf().
   AssignmentExpression: true, // Side-effecting by definition.
   UpdateExpression: true, // Updates are essentially assignments.
-  NewExpression: true // Similar to CallExpression.
+  NewExpression: true, // Similar to CallExpression.
 };
 
 // These types are the direct cause of all leaps in control flow.
@@ -88,7 +86,7 @@ var leapTypes = {
   ReturnStatement: true,
   ThrowStatement: true,
   CallExpression: true,
-  DebuggerStatement: true
+  DebuggerStatement: true,
 };
 
 // All leap types are also side effect types.

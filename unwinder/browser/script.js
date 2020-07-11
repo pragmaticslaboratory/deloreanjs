@@ -1,5 +1,5 @@
 function foo(x) {
-  if(x < 2) {
+  if (x < 2) {
     debugger;
   }
   return x + foo(x - 1);

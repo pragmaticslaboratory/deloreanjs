@@ -1,4 +1,4 @@
-(function() {
+(function () {
   "use strict";
 
   function doFold(cm, pos, options, force) {
@@ -6,7 +6,7 @@
     if (!finder) finder = cm.getHelper(pos, "fold");
     if (!finder) return;
     if (typeof pos == "number") pos = CodeMirror.Pos(pos, 0);
-    var minSize = options && options.minFoldSize || 0;
+    var minSize = (options && options.minFoldSize) || 0;
 
     function getRange(allowFolded) {
       var range = finder(cm, pos);
@@ -23,20 +23,23 @@
     }
 
     var range = getRange(true);
-    if (options && options.scanUp) while (!range && pos.line > cm.firstLine()) {
-      pos = CodeMirror.Pos(pos.line - 1, 0);
-      range = getRange(false);
-    }
+    if (options && options.scanUp)
+      while (!range && pos.line > cm.firstLine()) {
+        pos = CodeMirror.Pos(pos.line - 1, 0);
+        range = getRange(false);
+      }
     if (!range || range.cleared || force === "unfold") return;
 
     var myWidget = makeWidget(options);
-    CodeMirror.on(myWidget, "mousedown", function() { myRange.clear(); });
+    CodeMirror.on(myWidget, "mousedown", function () {
+      myRange.clear();
+    });
     var myRange = cm.markText(range.from, range.to, {
       replacedWith: myWidget,
       clearOnEnter: true,
-      __isFold: true
+      __isFold: true,
     });
-    myRange.on("clear", function(from, to) {
+    myRange.on("clear", function (from, to) {
       CodeMirror.signal(cm, "unfold", cm, from, to);
     });
     CodeMirror.signal(cm, "fold", cm, range.from, range.to);
@@ -54,18 +57,20 @@
   }
 
   // Clumsy backwards-compatible interface
-  CodeMirror.newFoldFunction = function(rangeFinder, widget) {
-    return function(cm, pos) { doFold(cm, pos, {rangeFinder: rangeFinder, widget: widget}); };
+  CodeMirror.newFoldFunction = function (rangeFinder, widget) {
+    return function (cm, pos) {
+      doFold(cm, pos, { rangeFinder: rangeFinder, widget: widget });
+    };
   };
 
   // New-style interface
-  CodeMirror.defineExtension("foldCode", function(pos, options, force) {
+  CodeMirror.defineExtension("foldCode", function (pos, options, force) {
     doFold(this, pos, options, force);
   });
 
-  CodeMirror.registerHelper("fold", "combine", function() {
+  CodeMirror.registerHelper("fold", "combine", function () {
     var funcs = Array.prototype.slice.call(arguments, 0);
-    return function(cm, start) {
+    return function (cm, start) {
       for (var i = 0; i < funcs.length; ++i) {
         var found = funcs[i](cm, start);
         if (found) return found;

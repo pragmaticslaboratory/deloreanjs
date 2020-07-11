@@ -6,11 +6,12 @@
   "scripts": {
     "test": "mocha"
   },
-  "author": "Felipe Ruiz & Guillermo Victorero",
+  "author": "Felipe Ruiz, Guillermo Victorero, Tomás Vélez",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "prettier": "^2.0.5"
   },
   "dependencies": {
     "brfs": "^2.0.2",

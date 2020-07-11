@@ -33,4 +33,4 @@ var evalStrategyId = findStrategy(courseName); //retorna null
 var evaluations = getDegrees(courseName, studentId); 
 
 var mean = evalStrategies[evalStrategyId](evaluations); //gatilla error
-show(mean);`
+show(mean);`;

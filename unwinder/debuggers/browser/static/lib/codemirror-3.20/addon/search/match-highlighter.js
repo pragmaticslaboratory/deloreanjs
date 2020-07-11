@@ -12,7 +12,7 @@
 // actual CSS class name. showToken, when enabled, will cause the
 // current token to be highlighted when nothing is selected.
 
-(function() {
+(function () {
   var DEFAULT_MIN_CHARS = 2;
   var DEFAULT_TOKEN_STYLE = "matchhighlight";
   var DEFAULT_DELAY = 100;
@@ -30,7 +30,11 @@
     this.overlay = this.timeout = null;
   }
 
-  CodeMirror.defineOption("highlightSelectionMatches", false, function(cm, val, old) {
+  CodeMirror.defineOption("highlightSelectionMatches", false, function (
+    cm,
+    val,
+    old
+  ) {
     if (old && old != CodeMirror.Init) {
       var over = cm.state.matchHighlighter.overlay;
       if (over) cm.removeOverlay(over);
@@ -48,11 +52,13 @@
   function cursorActivity(cm) {
     var state = cm.state.matchHighlighter;
     clearTimeout(state.timeout);
-    state.timeout = setTimeout(function() {highlightMatches(cm);}, state.delay);
+    state.timeout = setTimeout(function () {
+      highlightMatches(cm);
+    }, state.delay);
   }
 
   function highlightMatches(cm) {
-    cm.operation(function() {
+    cm.operation(function () {
       var state = cm.state.matchHighlighter;
       if (state.overlay) {
         cm.removeOverlay(state.overlay);
@@ -60,32 +66,50 @@
       }
       if (!cm.somethingSelected() && state.showToken) {
         var re = state.showToken === true ? /[\w$]/ : state.showToken;
-        var cur = cm.getCursor(), line = cm.getLine(cur.line), start = cur.ch, end = start;
+        var cur = cm.getCursor(),
+          line = cm.getLine(cur.line),
+          start = cur.ch,
+          end = start;
         while (start && re.test(line.charAt(start - 1))) --start;
         while (end < line.length && re.test(line.charAt(end))) ++end;
         if (start < end)
-          cm.addOverlay(state.overlay = makeOverlay(line.slice(start, end), re, state.style));
+          cm.addOverlay(
+            (state.overlay = makeOverlay(
+              line.slice(start, end),
+              re,
+              state.style
+            ))
+          );
         return;
       }
       if (cm.getCursor("head").line != cm.getCursor("anchor").line) return;
       var selection = cm.getSelection().replace(/^\s+|\s+$/g, "");
       if (selection.length >= state.minChars)
-        cm.addOverlay(state.overlay = makeOverlay(selection, false, state.style));
+        cm.addOverlay(
+          (state.overlay = makeOverlay(selection, false, state.style))
+        );
     });
   }
 
   function boundariesAround(stream, re) {
-    return (!stream.start || !re.test(stream.string.charAt(stream.start - 1))) &&
-      (stream.pos == stream.string.length || !re.test(stream.string.charAt(stream.pos)));
+    return (
+      (!stream.start || !re.test(stream.string.charAt(stream.start - 1))) &&
+      (stream.pos == stream.string.length ||
+        !re.test(stream.string.charAt(stream.pos)))
+    );
   }
 
   function makeOverlay(query, hasBoundary, style) {
-    return {token: function(stream) {
-      if (stream.match(query) &&
-          (!hasBoundary || boundariesAround(stream, hasBoundary)))
-        return style;
-      stream.next();
-      stream.skipTo(query.charAt(0)) || stream.skipToEnd();
-    }};
+    return {
+      token: function (stream) {
+        if (
+          stream.match(query) &&
+          (!hasBoundary || boundariesAround(stream, hasBoundary))
+        )
+          return style;
+        stream.next();
+        stream.skipTo(query.charAt(0)) || stream.skipToEnd();
+      },
+    };
   }
 })();

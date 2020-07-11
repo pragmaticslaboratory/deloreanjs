@@ -1,5 +1,5 @@
-(function() {
-  CodeMirror.defineOption("placeholder", "", function(cm, val, old) {
+(function () {
+  CodeMirror.defineOption("placeholder", "", function (cm, val, old) {
     var prev = old && old != CodeMirror.Init;
     if (val && !prev) {
       cm.on("blur", onBlur);
@@ -24,7 +24,7 @@
   }
   function setPlaceholder(cm) {
     clearPlaceholder(cm);
-    var elt = cm.state.placeholder = document.createElement("pre");
+    var elt = (cm.state.placeholder = document.createElement("pre"));
     elt.style.cssText = "height: 0; overflow: visible";
     elt.className = "CodeMirror-placeholder";
     elt.appendChild(document.createTextNode(cm.getOption("placeholder")));
@@ -35,14 +35,17 @@
     if (isEmpty(cm)) setPlaceholder(cm);
   }
   function onChange(cm) {
-    var wrapper = cm.getWrapperElement(), empty = isEmpty(cm);
-    wrapper.className = wrapper.className.replace(" CodeMirror-empty", "") + (empty ? " CodeMirror-empty" : "");
+    var wrapper = cm.getWrapperElement(),
+      empty = isEmpty(cm);
+    wrapper.className =
+      wrapper.className.replace(" CodeMirror-empty", "") +
+      (empty ? " CodeMirror-empty" : "");
 
     if (empty) setPlaceholder(cm);
     else clearPlaceholder(cm);
   }
 
   function isEmpty(cm) {
-    return (cm.lineCount() === 1) && (cm.getLine(0) === "");
+    return cm.lineCount() === 1 && cm.getLine(0) === "";
   }
 })();

@@ -1,14 +1,14 @@
-(function() {
-  CodeMirror.defineMode("markdown_with_stex", function(){
+(function () {
+  CodeMirror.defineMode("markdown_with_stex", function () {
     var inner = CodeMirror.getMode({}, "stex");
     var outer = CodeMirror.getMode({}, "markdown");
 
     var innerOptions = {
-      open: '$',
-      close: '$',
+      open: "$",
+      close: "$",
       mode: inner,
-      delimStyle: 'delim',
-      innerStyle: 'inner'
+      delimStyle: "delim",
+      innerStyle: "inner",
     };
 
     return CodeMirror.multiplexingMode(outer, innerOptions);
@@ -21,10 +21,12 @@
       name,
       mode,
       Array.prototype.slice.call(arguments, 1),
-      'multiplexing');
+      "multiplexing"
+    );
   }
 
   MT(
     "stexInsideMarkdown",
-    "[strong **Equation:**] [delim $][inner&tag \\pi][delim $]");
+    "[strong **Equation:**] [delim $][inner&tag \\pi][delim $]"
+  );
 })();

@@ -1,7 +1,14 @@
-var tests = [], debug = null, debugUsed = new Array(), allNames = [];
+var tests = [],
+  debug = null,
+  debugUsed = new Array(),
+  allNames = [];
 
-function Failure(why) {this.message = why;}
-Failure.prototype.toString = function() { return this.message; };
+function Failure(why) {
+  this.message = why;
+}
+Failure.prototype.toString = function () {
+  return this.message;
+};
 
 function indexOf(collection, elt) {
   if (collection.indexOf) return collection.indexOf(elt);
@@ -14,31 +21,36 @@ function test(name, run, expectedFail) {
   // Force unique names
   var originalName = name;
   var i = 2; // Second function would be NAME_2
-  while (indexOf(allNames, name) !== -1){
+  while (indexOf(allNames, name) !== -1) {
     name = originalName + "_" + i;
     i++;
   }
   allNames.push(name);
   // Add test
-  tests.push({name: name, func: run, expectedFail: expectedFail});
+  tests.push({ name: name, func: run, expectedFail: expectedFail });
   return name;
 }
 var namespace = "";
 function testCM(name, run, opts, expectedFail) {
-  return test(namespace + name, function() {
-    var place = document.getElementById("testground"), cm = window.cm = CodeMirror(place, opts);
-    var successful = false;
-    try {
-      run(cm);
-      successful = true;
-    } finally {
-      if ((debug && !successful) || verbose) {
-        place.style.visibility = "visible";
-      } else {
-        place.removeChild(cm.getWrapperElement());
+  return test(
+    namespace + name,
+    function () {
+      var place = document.getElementById("testground"),
+        cm = (window.cm = CodeMirror(place, opts));
+      var successful = false;
+      try {
+        run(cm);
+        successful = true;
+      } finally {
+        if ((debug && !successful) || verbose) {
+          place.style.visibility = "visible";
+        } else {
+          place.removeChild(cm.getWrapperElement());
+        }
       }
-    }
-  }, expectedFail);
+    },
+    expectedFail
+  );
 }
 
 function runTests(callback) {
@@ -53,11 +65,13 @@ function runTests(callback) {
   }
   var totalTime = 0;
   function step(i) {
-    if (i === tests.length){
+    if (i === tests.length) {
       running = false;
       return callback("done");
     }
-    var test = tests[i], expFail = test.expectedFail, startTime = +new Date;
+    var test = tests[i],
+      expFail = test.expectedFail,
+      startTime = +new Date();
     if (debug !== null) {
       var debugIndex = indexOf(debug, test.name);
       if (debugIndex !== -1) {
@@ -79,28 +93,41 @@ function runTests(callback) {
     var threw = false;
     try {
       var message = test.func();
-    } catch(e) {
+    } catch (e) {
       threw = true;
       if (expFail) callback("expected", test.name);
       else if (e instanceof Failure) callback("fail", test.name, e.message);
       else {
         var pos = /(?:\bat |@).*?([^\/:]+):(\d+)/.exec(e.stack);
-        callback("error", test.name, e.toString() + (pos ? " (" + pos[1] + ":" + pos[2] + ")" : ""));
+        callback(
+          "error",
+          test.name,
+          e.toString() + (pos ? " (" + pos[1] + ":" + pos[2] + ")" : "")
+        );
       }
     }
     if (!threw) {
-      if (expFail) callback("fail", test.name, message || "expected failure, but succeeded");
+      if (expFail)
+        callback(
+          "fail",
+          test.name,
+          message || "expected failure, but succeeded"
+        );
       else callback("ok", test.name, message);
     }
-    if (!quit) { // Run next test
+    if (!quit) {
+      // Run next test
       var delay = 0;
-      totalTime += (+new Date) - startTime;
-      if (totalTime > 500){
+      totalTime += +new Date() - startTime;
+      if (totalTime > 500) {
         totalTime = 0;
         delay = 50;
       }
-      setTimeout(function(){step(i + 1);}, delay);
-    } else { // Quit tests
+      setTimeout(function () {
+        step(i + 1);
+      }, delay);
+    } else {
+      // Quit tests
       running = false;
       return null;
     }
@@ -116,11 +143,15 @@ function eq(a, b, msg) {
   if (a != b) throw new Failure(label(a + " != " + b, msg));
 }
 function eqPos(a, b, msg) {
-  function str(p) { return "{line:" + p.line + ",ch:" + p.ch + "}"; }
+  function str(p) {
+    return "{line:" + p.line + ",ch:" + p.ch + "}";
+  }
   if (a == b) return;
   if (a == null) throw new Failure(label("comparing null to " + str(b), msg));
-  if (b == null) throw new Failure(label("comparing " + str(a) + " to null", msg));
-  if (a.line != b.line || a.ch != b.ch) throw new Failure(label(str(a) + " != " + str(b), msg));
+  if (b == null)
+    throw new Failure(label("comparing " + str(a) + " to null", msg));
+  if (a.line != b.line || a.ch != b.ch)
+    throw new Failure(label(str(a) + " != " + str(b), msg));
 }
 function is(a, msg) {
   if (!a) throw new Failure(label("assertion failed", msg));
@@ -131,8 +162,10 @@ function countTests() {
   var sum = 0;
   for (var i = 0; i < tests.length; ++i) {
     var name = tests[i].name;
-    if (indexOf(debug, name) != -1 ||
-        indexOf(debug, name.split("_")[0] + "_*") != -1)
+    if (
+      indexOf(debug, name) != -1 ||
+      indexOf(debug, name.split("_")[0] + "_*") != -1
+    )
       ++sum;
   }
   return sum;

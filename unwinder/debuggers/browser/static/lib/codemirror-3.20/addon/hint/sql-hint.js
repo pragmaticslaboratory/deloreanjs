@@ -6,7 +6,7 @@
 
   function getKeywords(editor) {
     var mode = editor.doc.modeOption;
-    if(mode === "sql") mode = "text/x-sql";
+    if (mode === "sql") mode = "text/x-sql";
     return CodeMirror.resolveMode(mode).keywords;
   }
 
@@ -17,12 +17,12 @@
   }
 
   function addMatches(result, search, wordlist, formatter) {
-    for(var word in wordlist) {
-      if(!wordlist.hasOwnProperty(word)) continue;
-      if(Array.isArray(wordlist)) {
+    for (var word in wordlist) {
+      if (!wordlist.hasOwnProperty(word)) continue;
+      if (Array.isArray(wordlist)) {
         word = wordlist[word];
       }
-      if(match(search, word)) {
+      if (match(search, word)) {
         result.push(formatter(word));
       }
     }
@@ -35,20 +35,21 @@
     var prevCur = CodeMirror.Pos(cur.line, token.start);
     var table = editor.getTokenAt(prevCur).string;
     var columns = tables[table];
-    if(!columns) {
+    if (!columns) {
       table = findTableByAlias(table, editor);
     }
     columns = tables[table];
-    if(!columns) {
+    if (!columns) {
       return;
     }
-    addMatches(result, string, columns,
-        function(w) {return "." + w;});
+    addMatches(result, string, columns, function (w) {
+      return "." + w;
+    });
   }
 
   function eachWord(line, f) {
     var words = line.text.split(" ");
-    for(var i = 0; i < words.length; i++) {
+    for (var i = 0; i < words.length; i++) {
       f(words[i]);
     }
   }
@@ -59,15 +60,15 @@
     var previousWord = "";
     var table = "";
 
-    editor.eachLine(function(line) {
-      eachWord(line, function(word) {
+    editor.eachLine(function (line) {
+      eachWord(line, function (word) {
         var wordUpperCase = word.toUpperCase();
-        if(wordUpperCase === aliasUpperCase) {
-          if(tables.hasOwnProperty(previousWord)) {
+        if (wordUpperCase === aliasUpperCase) {
+          if (tables.hasOwnProperty(previousWord)) {
             table = previousWord;
           }
         }
-        if(wordUpperCase !== "AS") {
+        if (wordUpperCase !== "AS") {
           previousWord = word;
         }
       });
@@ -85,20 +86,22 @@
 
     var search = token.string.trim();
 
-    addMatches(result, search, keywords,
-        function(w) {return w.toUpperCase();});
+    addMatches(result, search, keywords, function (w) {
+      return w.toUpperCase();
+    });
 
-    addMatches(result, search, tables,
-        function(w) {return w;});
+    addMatches(result, search, tables, function (w) {
+      return w;
+    });
 
-    if(search.lastIndexOf('.') === 0) {
+    if (search.lastIndexOf(".") === 0) {
       columnCompletion(result, editor);
     }
 
     return {
       list: result,
-        from: CodeMirror.Pos(cur.line, token.start),
-        to: CodeMirror.Pos(cur.line, token.end)
+      from: CodeMirror.Pos(cur.line, token.start),
+      to: CodeMirror.Pos(cur.line, token.end),
     };
   }
   CodeMirror.registerHelper("hint", "sql", sqlHint);

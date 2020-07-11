@@ -22,47 +22,107 @@
  * See demos/closetag.html for a usage example.
  */
 
-(function() {
-  CodeMirror.defineOption("autoCloseTags", false, function(cm, val, old) {
-    if (old != CodeMirror.Init && old)
-      cm.removeKeyMap("autoCloseTags");
+(function () {
+  CodeMirror.defineOption("autoCloseTags", false, function (cm, val, old) {
+    if (old != CodeMirror.Init && old) cm.removeKeyMap("autoCloseTags");
     if (!val) return;
-    var map = {name: "autoCloseTags"};
+    var map = { name: "autoCloseTags" };
     if (typeof val != "object" || val.whenClosing)
-      map["'/'"] = function(cm) { return autoCloseSlash(cm); };
+      map["'/'"] = function (cm) {
+        return autoCloseSlash(cm);
+      };
     if (typeof val != "object" || val.whenOpening)
-      map["'>'"] = function(cm) { return autoCloseGT(cm); };
+      map["'>'"] = function (cm) {
+        return autoCloseGT(cm);
+      };
     cm.addKeyMap(map);
   });
 
-  var htmlDontClose = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param",
-                       "source", "track", "wbr"];
-  var htmlIndent = ["applet", "blockquote", "body", "button", "div", "dl", "fieldset", "form", "frameset", "h1", "h2", "h3", "h4",
-                    "h5", "h6", "head", "html", "iframe", "layer", "legend", "object", "ol", "p", "select", "table", "ul"];
+  var htmlDontClose = [
+    "area",
+    "base",
+    "br",
+    "col",
+    "command",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr",
+  ];
+  var htmlIndent = [
+    "applet",
+    "blockquote",
+    "body",
+    "button",
+    "div",
+    "dl",
+    "fieldset",
+    "form",
+    "frameset",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "head",
+    "html",
+    "iframe",
+    "layer",
+    "legend",
+    "object",
+    "ol",
+    "p",
+    "select",
+    "table",
+    "ul",
+  ];
 
   function autoCloseGT(cm) {
-    var pos = cm.getCursor(), tok = cm.getTokenAt(pos);
-    var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
+    var pos = cm.getCursor(),
+      tok = cm.getTokenAt(pos);
+    var inner = CodeMirror.innerMode(cm.getMode(), tok.state),
+      state = inner.state;
     if (inner.mode.name != "xml" || !state.tagName) return CodeMirror.Pass;
 
-    var opt = cm.getOption("autoCloseTags"), html = inner.mode.configuration == "html";
-    var dontCloseTags = (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
-    var indentTags = (typeof opt == "object" && opt.indentTags) || (html && htmlIndent);
+    var opt = cm.getOption("autoCloseTags"),
+      html = inner.mode.configuration == "html";
+    var dontCloseTags =
+      (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
+    var indentTags =
+      (typeof opt == "object" && opt.indentTags) || (html && htmlIndent);
 
     var tagName = state.tagName;
-    if (tok.end > pos.ch) tagName = tagName.slice(0, tagName.length - tok.end + pos.ch);
+    if (tok.end > pos.ch)
+      tagName = tagName.slice(0, tagName.length - tok.end + pos.ch);
     var lowerTagName = tagName.toLowerCase();
     // Don't process the '>' at the end of an end-tag or self-closing tag
-    if (tok.type == "string" && (tok.end != pos.ch || !/[\"\']/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1) ||
-        tok.type == "tag" && state.type == "closeTag" ||
-        tok.string.indexOf("/") == (tok.string.length - 1) || // match something like <someTagName />
-        dontCloseTags && indexOf(dontCloseTags, lowerTagName) > -1)
+    if (
+      (tok.type == "string" &&
+        (tok.end != pos.ch ||
+          !/[\"\']/.test(tok.string.charAt(tok.string.length - 1)) ||
+          tok.string.length == 1)) ||
+      (tok.type == "tag" && state.type == "closeTag") ||
+      tok.string.indexOf("/") == tok.string.length - 1 || // match something like <someTagName />
+      (dontCloseTags && indexOf(dontCloseTags, lowerTagName) > -1)
+    )
       return CodeMirror.Pass;
 
     var doIndent = indentTags && indexOf(indentTags, lowerTagName) > -1;
-    var curPos = doIndent ? CodeMirror.Pos(pos.line + 1, 0) : CodeMirror.Pos(pos.line, pos.ch + 1);
-    cm.replaceSelection(">" + (doIndent ? "\n\n" : "") + "</" + tagName + ">",
-                        {head: curPos, anchor: curPos});
+    var curPos = doIndent
+      ? CodeMirror.Pos(pos.line + 1, 0)
+      : CodeMirror.Pos(pos.line, pos.ch + 1);
+    cm.replaceSelection(">" + (doIndent ? "\n\n" : "") + "</" + tagName + ">", {
+      head: curPos,
+      anchor: curPos,
+    });
     if (doIndent) {
       cm.indentLine(pos.line + 1);
       cm.indentLine(pos.line + 2);
@@ -70,10 +130,16 @@
   }
 
   function autoCloseSlash(cm) {
-    var pos = cm.getCursor(), tok = cm.getTokenAt(pos);
-    var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
-    if (tok.type == "string" || tok.string.charAt(0) != "<" ||
-        tok.start != pos.ch - 1 || inner.mode.name != "xml")
+    var pos = cm.getCursor(),
+      tok = cm.getTokenAt(pos);
+    var inner = CodeMirror.innerMode(cm.getMode(), tok.state),
+      state = inner.state;
+    if (
+      tok.type == "string" ||
+      tok.string.charAt(0) != "<" ||
+      tok.start != pos.ch - 1 ||
+      inner.mode.name != "xml"
+    )
       return CodeMirror.Pass;
 
     var tagName = state.context && state.context.tagName;

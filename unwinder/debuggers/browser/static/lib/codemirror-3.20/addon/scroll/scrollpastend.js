@@ -1,7 +1,7 @@
-(function() {
+(function () {
   "use strict";
 
-  CodeMirror.defineOption("scrollPastEnd", false, function(cm, val, old) {
+  CodeMirror.defineOption("scrollPastEnd", false, function (cm, val, old) {
     if (old && old != CodeMirror.Init) {
       cm.off("change", onChange);
       cm.display.lineSpace.parentNode.style.paddingBottom = "";
@@ -22,8 +22,8 @@
     var padding = "";
     if (cm.lineCount() > 1) {
       var totalH = cm.display.scroller.clientHeight - 30,
-          lastLineH = cm.getLineHandle(cm.lastLine()).height;
-      padding = (totalH - lastLineH) + "px";
+        lastLineH = cm.getLineHandle(cm.lastLine()).height;
+      padding = totalH - lastLineH + "px";
     }
     if (cm.state.scrollPastEndPadding != padding) {
       cm.state.scrollPastEndPadding = padding;

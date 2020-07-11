@@ -24,7 +24,7 @@ function FunctionEntry(returnLoc) {
   n.Literal.assert(returnLoc);
 
   Object.defineProperties(this, {
-    returnLoc: { value: returnLoc }
+    returnLoc: { value: returnLoc },
   });
 }
 
@@ -46,7 +46,7 @@ function LoopEntry(breakLoc, continueLoc, label) {
   Object.defineProperties(this, {
     breakLoc: { value: breakLoc },
     continueLoc: { value: continueLoc },
-    label: { value: label }
+    label: { value: label },
   });
 }
 
@@ -59,7 +59,7 @@ function SwitchEntry(breakLoc) {
   n.Literal.assert(breakLoc);
 
   Object.defineProperties(this, {
-    breakLoc: { value: breakLoc }
+    breakLoc: { value: breakLoc },
   });
 }
 
@@ -83,7 +83,7 @@ function TryEntry(catchEntry, finallyEntry) {
 
   Object.defineProperties(this, {
     catchEntry: { value: catchEntry },
-    finallyEntry: { value: finallyEntry }
+    finallyEntry: { value: finallyEntry },
   });
 }
 
@@ -98,7 +98,7 @@ function CatchEntry(firstLoc, paramId) {
 
   Object.defineProperties(this, {
     firstLoc: { value: firstLoc },
-    paramId: { value: paramId }
+    paramId: { value: paramId },
   });
 }
 
@@ -113,7 +113,7 @@ function FinallyEntry(firstLoc, nextLocTempVar) {
 
   Object.defineProperties(this, {
     firstLoc: { value: firstLoc },
-    nextLocTempVar: { value: nextLocTempVar }
+    nextLocTempVar: { value: nextLocTempVar },
   });
 }
 
@@ -129,15 +129,15 @@ function LeapManager(emitter) {
   Object.defineProperties(this, {
     emitter: { value: emitter },
     entryStack: {
-      value: [new FunctionEntry(emitter.finalLoc)]
-    }
+      value: [new FunctionEntry(emitter.finalLoc)],
+    },
   });
 }
 
 var LMp = LeapManager.prototype;
 exports.LeapManager = LeapManager;
 
-LMp.withEntry = function(entry, callback) {
+LMp.withEntry = function (entry, callback) {
   assert.ok(entry instanceof Entry);
   this.entryStack.push(entry);
   try {
@@ -148,7 +148,7 @@ LMp.withEntry = function(entry, callback) {
   }
 };
 
-LMp._leapToEntry = function(predicate, defaultLoc) {
+LMp._leapToEntry = function (predicate, defaultLoc) {
   var entry, loc;
   var finallyEntries = [];
   var skipNextTryEntry = null;
@@ -156,33 +156,26 @@ LMp._leapToEntry = function(predicate, defaultLoc) {
   for (var i = this.entryStack.length - 1; i >= 0; --i) {
     entry = this.entryStack[i];
 
-    if (entry instanceof CatchEntry ||
-        entry instanceof FinallyEntry) {
-
+    if (entry instanceof CatchEntry || entry instanceof FinallyEntry) {
       // If we are inside of a catch or finally block, then we must
       // have exited the try block already, so we shouldn't consider
       // the next TryStatement as a handler for this throw.
       skipNextTryEntry = entry;
-
     } else if (entry instanceof TryEntry) {
       if (skipNextTryEntry) {
         // If an exception was thrown from inside a catch block and this
         // try statement has a finally block, make sure we execute that
         // finally block.
-        if (skipNextTryEntry instanceof CatchEntry &&
-            entry.finallyEntry) {
+        if (skipNextTryEntry instanceof CatchEntry && entry.finallyEntry) {
           finallyEntries.push(entry.finallyEntry);
         }
 
         skipNextTryEntry = null;
-
       } else if ((loc = predicate.call(this, entry))) {
         break;
-
       } else if (entry.finallyEntry) {
         finallyEntries.push(entry.finallyEntry);
       }
-
     } else if ((loc = predicate.call(this, entry))) {
       break;
     }
@@ -211,8 +204,7 @@ function getLeapLocation(entry, property, label) {
   var loc = entry[property];
   if (loc) {
     if (label) {
-      if (entry.label &&
-          entry.label.name === label.name) {
+      if (entry.label && entry.label.name === label.name) {
         return loc;
       }
     } else {
@@ -222,8 +214,8 @@ function getLeapLocation(entry, property, label) {
   return null;
 }
 
-LMp.emitBreak = function(label) {
-  var loc = this._leapToEntry(function(entry) {
+LMp.emitBreak = function (label) {
+  var loc = this._leapToEntry(function (entry) {
     return getLeapLocation(entry, "breakLoc", label);
   });
 
@@ -235,8 +227,8 @@ LMp.emitBreak = function(label) {
   this.emitter.jump(loc);
 };
 
-LMp.emitContinue = function(label) {
-  var loc = this._leapToEntry(function(entry) {
+LMp.emitContinue = function (label) {
+  var loc = this._leapToEntry(function (entry) {
     return getLeapLocation(entry, "continueLoc", label);
   });
 

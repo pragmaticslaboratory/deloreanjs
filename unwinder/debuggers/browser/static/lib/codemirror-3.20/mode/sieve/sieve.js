@@ -3,9 +3,10 @@
  * is released.
  */
 
-CodeMirror.defineMode("sieve", function(config) {
+CodeMirror.defineMode("sieve", function (config) {
   function words(str) {
-    var obj = {}, words = str.split(" ");
+    var obj = {},
+      words = str.split(" ");
     for (var i = 0; i < words.length; ++i) obj[words[i]] = true;
     return obj;
   }
@@ -15,19 +16,18 @@ CodeMirror.defineMode("sieve", function(config) {
   var indentUnit = config.indentUnit;
 
   function tokenBase(stream, state) {
-
     var ch = stream.next();
     if (ch == "/" && stream.eat("*")) {
       state.tokenize = tokenCComment;
       return tokenCComment(stream, state);
     }
 
-    if (ch === '#') {
+    if (ch === "#") {
       stream.skipToEnd();
       return "comment";
     }
 
-    if (ch == "\"") {
+    if (ch == '"') {
       state.tokenize = tokenString(ch);
       return state.tokenize(stream, state);
     }
@@ -45,7 +45,7 @@ CodeMirror.defineMode("sieve", function(config) {
       return null;
     }
 
-    if (ch == ")")  {
+    if (ch == ")") {
       state._indent.pop();
       state._indent.pop();
     }
@@ -55,15 +55,11 @@ CodeMirror.defineMode("sieve", function(config) {
       return null;
     }
 
-    if (ch == ",")
-      return null;
+    if (ch == ",") return null;
 
-    if (ch == ";")
-      return null;
+    if (ch == ";") return null;
 
-
-    if (/[{}\(\),;]/.test(ch))
-      return null;
+    if (/[{}\(\),;]/.test(ch)) return null;
 
     // 1*DIGIT "K" / "M" / "G"
     if (/\d/.test(ch)) {
@@ -86,23 +82,19 @@ CodeMirror.defineMode("sieve", function(config) {
     // "text:" *(SP / HTAB) (hash-comment / CRLF)
     // *(multiline-literal / multiline-dotstart)
     // "." CRLF
-    if ((cur == "text") && stream.eat(":"))
-    {
+    if (cur == "text" && stream.eat(":")) {
       state.tokenize = tokenMultiLineString;
       return "string";
     }
 
-    if (keywords.propertyIsEnumerable(cur))
-      return "keyword";
+    if (keywords.propertyIsEnumerable(cur)) return "keyword";
 
-    if (atoms.propertyIsEnumerable(cur))
-      return "atom";
+    if (atoms.propertyIsEnumerable(cur)) return "atom";
 
     return null;
   }
 
-  function tokenMultiLineString(stream, state)
-  {
+  function tokenMultiLineString(stream, state) {
     state._multiLineString = true;
     // the first line is special it may contain a comment
     if (!stream.sol()) {
@@ -117,8 +109,7 @@ CodeMirror.defineMode("sieve", function(config) {
       return "string";
     }
 
-    if ((stream.next() == ".")  && (stream.eol()))
-    {
+    if (stream.next() == "." && stream.eol()) {
       state._multiLineString = false;
       state.tokenize = tokenBase;
     }
@@ -127,23 +118,24 @@ CodeMirror.defineMode("sieve", function(config) {
   }
 
   function tokenCComment(stream, state) {
-    var maybeEnd = false, ch;
+    var maybeEnd = false,
+      ch;
     while ((ch = stream.next()) != null) {
       if (maybeEnd && ch == "/") {
         state.tokenize = tokenBase;
         break;
       }
-      maybeEnd = (ch == "*");
+      maybeEnd = ch == "*";
     }
     return "comment";
   }
 
   function tokenString(quote) {
-    return function(stream, state) {
-      var escaped = false, ch;
+    return function (stream, state) {
+      var escaped = false,
+        ch;
       while ((ch = stream.next()) != null) {
-        if (ch == quote && !escaped)
-          break;
+        if (ch == quote && !escaped) break;
         escaped = !escaped && ch == "\\";
       }
       if (!escaped) state.tokenize = tokenBase;
@@ -152,31 +144,26 @@ CodeMirror.defineMode("sieve", function(config) {
   }
 
   return {
-    startState: function(base) {
-      return {tokenize: tokenBase,
-              baseIndent: base || 0,
-              _indent: []};
+    startState: function (base) {
+      return { tokenize: tokenBase, baseIndent: base || 0, _indent: [] };
     },
 
-    token: function(stream, state) {
-      if (stream.eatSpace())
-        return null;
+    token: function (stream, state) {
+      if (stream.eatSpace()) return null;
 
-      return (state.tokenize || tokenBase)(stream, state);;
+      return (state.tokenize || tokenBase)(stream, state);
     },
 
-    indent: function(state, _textAfter) {
+    indent: function (state, _textAfter) {
       var length = state._indent.length;
-      if (_textAfter && (_textAfter[0] == "}"))
-        length--;
+      if (_textAfter && _textAfter[0] == "}") length--;
 
-      if (length <0)
-        length = 0;
+      if (length < 0) length = 0;
 
       return length * indentUnit;
     },
 
-    electricChars: "}"
+    electricChars: "}",
   };
 });
 
