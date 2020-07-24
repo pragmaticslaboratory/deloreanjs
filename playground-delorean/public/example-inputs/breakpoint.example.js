@@ -1,28 +1,24 @@
-export default `// helper functions
-
-var evalStrategies = [
-    function(degrees) {
-        return degrees.reduce(function(a, b) { return a + b; })/degrees.length;
-    }
+export default `var evalStrategies = [
+  function(degrees) {
+      return degrees.reduce(function(a, b) { return a + b; })/degrees.length;
+  }
 ];
 
 function findStrategy(c) {
-    if (c == "Algebra") {
-        return 0;
-    } else return null;
+  if (c == "Algebra") {
+      return 0;
+  } else return null;
 }
 
 function getDegrees(c, s) {
-    if (c == "Algebra" && studentId == "1") {
-        return [4,5,5,4];
-    }
+  if (c == "Algebra" && studentId == "1") {
+      return [4,5,5,4];
+  }
 }
 
 function show(data) {
-    console.log(data);
+  console.log(data);
 }
-
-//helper functions
 
 var courseName = "Alggebra";
 var studentId = "1";

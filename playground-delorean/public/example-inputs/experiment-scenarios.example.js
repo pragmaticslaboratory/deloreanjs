@@ -1,6 +1,4 @@
-export default `//helper functions
-
-function showReportOfBadCourses() {
+export default `function showReportOfBadCourses() {
     show("Showing bad courses");
 }
 
@@ -16,11 +14,8 @@ function show(x) {
     console.log(x);
 }
 
-// helper functions
-
 var universityMean = 5.0;
 var maximumMean = 7.0;
-
 var realMean = universityMean/maximumMean;
 
 delorean.insertTimepoint('TestingDifferentResults');
