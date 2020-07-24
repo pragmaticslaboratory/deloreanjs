@@ -3,11 +3,13 @@ import { Container } from 'unstated';
 
 import { DependencyItem } from '../components';
 
-import example0 from '../../../example/input0';
-import example1 from '../../../example/input1';
-import example2 from '../../../example/input2';
-import example3 from '../../../example/input3';
-import example4 from '../../../example/input4';
+import {
+  objectsExample,
+  fixABugExample,
+  understandABugExample,
+  experimentScenariosExample,
+  breakpointExample,
+} from '../../public/example-inputs/index';
 
 global.delorean = require('../../../src/delorean.js');
 global.vm = require('../../../unwinder/runtime/vm.js');
@@ -19,22 +21,22 @@ export default class AppContainer extends Container {
       tabs: [
         {
           name: 'fixABug.js',
-          input: example1,
+          input: fixABugExample,
           watchVariables: ['courseName'],
         },
         {
           name: 'understandABug.js',
-          input: example2,
+          input: understandABugExample,
           watchVariables: ['courseNames', 'universityMean'],
         },
         {
           name: 'experimentScenarios.js',
-          input: example3,
+          input: experimentScenariosExample,
           watchVariables: ['realMean'],
         },
         {
-          name: 'breakpoints? omg',
-          input: example4,
+          name: 'breakpoint.js',
+          input: breakpointExample,
           watchVariables: ['courseName'],
         },
       ],
@@ -43,7 +45,7 @@ export default class AppContainer extends Container {
       watchVariablesComboBox: false,
       snapshots: [],
       dependencies: [],
-      code: example0,
+      code: objectsExample,
       isRunning: false,
       readOnly: false,
       selected: false,
