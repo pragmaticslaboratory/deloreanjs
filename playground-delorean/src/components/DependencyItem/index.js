@@ -1,8 +1,8 @@
 import React from 'react';
-import WatchedObject from './Object';
+import StateObject from '../StateObject';
 import { TextField } from '@material-ui/core';
 
-const Dependency = (props) => {
+const DependencyItem = (props) => {
   const { element, name, type, toggleObject, displayedObjectsNames, displayedObjectsDOM } = props;
 
   // console.log(name,element)
@@ -18,7 +18,7 @@ const Dependency = (props) => {
   } else {
     return typeof element == 'object' ? (
       // La dependencia es un objeto
-      <WatchedObject
+      <StateObject
         element={element}
         name={name}
         type={type}
@@ -37,4 +37,4 @@ const Dependency = (props) => {
   }
 };
 
-export default Dependency;
+export default DependencyItem;

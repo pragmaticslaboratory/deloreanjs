@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import State from '../state/State';
-import Timepoints from '../timepoints/Timepoints';
-import './Output.css';
+import State from '../State';
+import Timepoints from '../Timepoints';
+import './styles.css';
 
 class Output extends Component {
   render() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'unstated';
 
-import Dependency from '../components/state/Dependency';
+import { DependencyItem } from '../components';
 
 import example0 from '../../../example/input0';
 import example1 from '../../../example/input1';
@@ -192,7 +192,7 @@ export default class AppContainer extends Container {
         let element = displayedObjects[displayedObjects.length - 1][value];
 
         displayedObjectsDOM[displayedObjects.length - 1].push(
-          <Dependency
+          <DependencyItem
             key={name + '-' + value}
             element={element}
             name={name + '-' + value}

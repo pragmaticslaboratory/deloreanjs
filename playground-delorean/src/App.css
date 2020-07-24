@@ -46,11 +46,21 @@
   align-items: center;
 }
 
+.flex-jc {
+  justify-content: space-between;
+}
+
 .button {
   transition-duration: 200ms;
   cursor: pointer;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-right: -8px;
+  margin-left: -8px;
 }
 
 .button:hover {
   transform: scale(0.99);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
 }

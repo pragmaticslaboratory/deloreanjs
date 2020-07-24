@@ -1,6 +1,8 @@
 import React from 'react';
-import './StateBar.css';
+
 import resumeButton from '../../../public/assets/fast-forward.png';
+
+import './styles.css';
 
 const StateBar = (props) => {
   const { invokeContinuation, appStore } = props;

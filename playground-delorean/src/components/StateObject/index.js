@@ -1,9 +1,9 @@
 import React from 'react';
 import rightArrow from '../../../public/assets/right-arrow.png';
 import expandButton from '../../../public/assets/expand-button.png';
-import './Object.css';
+import './styles.css';
 
-const WatchedObject = (props) => {
+const StateObject = (props) => {
   const { name, type, element, toggleObject, displayedObjectsDOM, displayedObjectsNames } = props;
 
   return displayedObjectsNames.indexOf(name) >= 0 ? (
@@ -41,4 +41,4 @@ const WatchedObject = (props) => {
   );
 };
 
-export default WatchedObject;
+export default StateObject;

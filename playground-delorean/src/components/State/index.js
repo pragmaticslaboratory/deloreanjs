@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import StateBar from './StateBar';
 
-import Dependency from './Dependency';
-import './State.css';
+import DependencyItem from '../DependencyItem';
+import StateBar from '../StateBar';
+
+import './styles.css';
 
 class State extends Component {
   componentWillUpdate = () => {
@@ -39,7 +40,7 @@ class State extends Component {
               : dependencies.map((dependency) => {
                   let element = timePointValues[dependency.name];
                   return (
-                    <Dependency
+                    <DependencyItem
                       key={dependency.name}
                       element={element}
                       name={dependency.name}

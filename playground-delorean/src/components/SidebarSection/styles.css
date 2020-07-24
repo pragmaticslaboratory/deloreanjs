@@ -1,6 +1,7 @@
 .sidebar-section-container {
   padding: 1em;
   border-bottom: solid 1px #303338;
+  transition-duration: 250ms;
 }
 
 .sidebar-section-title {
@@ -15,4 +16,13 @@
 .sidebar-section-icon {
   font-size: 14px;
   margin-right: 1rem;
+  color: white;
+}
+
+.sidebar-expand-button {
+  font-size: 16px;
+  color: white;
+  padding: 4px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }

@@ -3,9 +3,10 @@ import { TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircle from '@material-ui/icons/AddCircle';
 import deleteIcon from '../../../public/assets/delete.png';
-import './Watch.css';
 
-const WatchVariables = (props) => {
+import './styles.css';
+
+const Watch = (props) => {
   const { watchVariables } = props.appStore.state;
 
   return (
@@ -46,4 +47,4 @@ const WatchVariables = (props) => {
   );
 };
 
-export default WatchVariables;
+export default Watch;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Hook, Console, Decode } from 'console-feed';
-import './Console.css';
+import './styles.css';
 
 class ConsoleContainer extends Component {
   state = {

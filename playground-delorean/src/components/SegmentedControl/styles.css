@@ -1,0 +1,48 @@
+.segmented-control-title {
+  font-size: 12px;
+  color: white;
+  font-weight: 500;
+  margin: 0 auto;
+  margin-top: 2em;
+}
+
+.segmented-control-container {
+  display: flex;
+  flex: 1;
+  justify-content: space-evenly;
+  height: 28px;
+  background-color: #0d0e10;
+  border-radius: 8px;
+  padding: 2px;
+  margin-left: -2px;
+  margin-top: 0.5rem;
+  margin-right: -2px;
+}
+
+.segmented-control-option-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.segmented-control-option-text {
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: white;
+  z-index: 5;
+}
+
+.segmented-control-selected {
+  height: 28px;
+  width: 50%;
+  cursor: pointer;
+  background-color: #23252d;
+  border-radius: 6px;
+  display: block;
+  position: relative;
+  z-index: 2;
+  margin-top: -30px;
+  transition-duration: 250ms;
+}

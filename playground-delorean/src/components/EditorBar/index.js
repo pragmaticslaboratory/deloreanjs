@@ -1,8 +1,9 @@
 import React from 'react';
 import Tab from './Tab';
-import './EditorBar.css';
 import playButton from '../../../public/assets/play-button.png';
 import pauseButton from '../../../public/assets/pause.png';
+
+import './styles.css';
 
 const EditorBar = (props) => {
   const { tabs, isRunning } = props.appStore.state;

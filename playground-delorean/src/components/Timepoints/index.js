@@ -1,11 +1,12 @@
 import React from 'react';
-import './Timepoints.css';
-import WatchVariables from '../watch/Watch';
+import WatchVariables from '../Watch';
 import timepointIcon from '../../../public/assets/time.png';
 import expandButton from '../../../public/assets/expand-button.png';
 
 import P5Wrapper from 'react-p5-wrapper';
 import sketch from '../../p5/main';
+
+import './styles.css';
 
 const Timepoints = (props) => {
   const { selectTimePoint } = props.appStore;

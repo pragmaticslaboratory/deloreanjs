@@ -1,6 +1,7 @@
 import React from 'react';
 import jsFile from '../../../public/assets/javascript.png';
-import './Tab.css';
+
+import './styles.css';
 
 const Tab = (props) => {
   return (

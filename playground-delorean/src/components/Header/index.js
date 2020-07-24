@@ -2,7 +2,7 @@ import React from 'react';
 
 import DeloreanLogo from '../../assets/img/delorean-logo.png';
 
-import './StatusBar.css';
+import './styles.css';
 
 function StatusBar() {
   return (
@@ -16,7 +16,8 @@ function StatusBar() {
           style={{ textDecoration: 'none' }}
           href="https://github.com/fruizrob/deloreanjs"
           rel="noreferrer"
-          target="_blank">
+          target="_blank"
+          rel="noopener noreferrer">
           <div className="flex-row github-button button">
             <img
               alt="GitHub"

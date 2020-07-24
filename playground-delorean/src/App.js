@@ -4,19 +4,14 @@ import './App.css';
 
 import debuggerDelorean from '../../src/debugger';
 
-import Layout from './components/layout/Layout';
-import Console from './components/console/Console';
-import Output from './components/layout/Output';
-import StatusBar from './components/header/StatusBar';
-import EditorBar from './components/editor/EditorBar';
-import Sidebar from './components/Sidebar';
+import { Layout, Console, Output, Header, EditorBar, Sidebar } from './components';
 
 import CodeMirror from '@uiw/react-codemirror';
 import 'codemirror/addon/display/autorefresh';
 import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/keymap/sublime';
-import 'codemirror/theme/neo.css';
+import 'codemirror/theme/darcula.css';
 import AppContainer from './containers/AppContainer';
 
 global.delorean = require('../../src/delorean.js');
@@ -75,7 +70,7 @@ class App extends Component {
 
   render() {
     var options = {
-      theme: 'neo',
+      theme: 'darcula',
       tabSize: 4,
       keyMap: 'sublime',
       mode: 'js',
@@ -88,7 +83,7 @@ class App extends Component {
           <Subscribe to={[AppContainer]}>
             {(appStore) => (
               <div className="main-page-container">
-                <StatusBar />
+                <Header />
                 <div className="playground-container">
                   <Sidebar />
                   <div>
