@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircle from '@material-ui/icons/AddCircle';
-import deleteIcon from '../../../public/assets/delete.png';
+import deleteIcon from '../../assets/img/delete.png';
 
 import './styles.css';
 

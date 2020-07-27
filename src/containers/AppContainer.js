@@ -9,9 +9,9 @@ import {
   understandABugExample,
   experimentScenariosExample,
   breakpointExample,
-} from '../../public/example-inputs/index';
+} from '../assets/example-inputs/index';
 
-global.delorean = require('../core/debugger.js');
+global.delorean = require('../core/delorean.js');
 
 export default class AppContainer extends Container {
   constructor(props = {}) {

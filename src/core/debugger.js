@@ -19,7 +19,8 @@ const {
   throwBreakVisitor,
   implicitTPVisitor,
   locVisitor,
-} = require('../src/staticAnalysis');
+} = require('./staticAnalysis');
+
 var cloneDeep = require('lodash.clonedeep');
 
 function ldDeepCopy(original) {
@@ -123,7 +124,7 @@ module.exports = {
       eval(unwindedCode);
       console.log(`%cFinish first execution`, 'background: #222; color: cyan');
     } catch (e) {
-      console.log(e, 'Error from VM');
+      console.error(e, 'Error from VM');
     }
   },
 
@@ -143,7 +144,7 @@ module.exports = {
       );
       console.log(`%cEnd TimePoint ${kont}`, 'background: #222; color: #bada55');
     } catch (e) {
-      console.log(e, 'Error from VM');
+      console.error(e, 'Error from VM');
     }
   },
 };

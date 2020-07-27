@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import { Provider, Subscribe } from 'unstated';
 import './App.css';
 
-import debuggerDelorean from '../../src/debugger';
+import debuggerDelorean from './core/debugger';
 
 import { Layout, Console, Output, Header, EditorBar, Sidebar } from './components';
 
@@ -14,7 +14,7 @@ import 'codemirror/keymap/sublime';
 import 'codemirror/theme/darcula.css';
 import AppContainer from './containers/AppContainer';
 
-global.delorean = require('./core/debugger');
+global.delorean = require('./core/delorean');
 
 class App extends Component {
   constructor(props) {

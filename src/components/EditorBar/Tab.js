@@ -1,5 +1,5 @@
 import React from 'react';
-import jsFile from '../../../public/assets/javascript.png';
+import jsFile from '../../assets/img/javascript.png';
 
 import './styles.css';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Tab from './Tab';
-import playButton from '../../../public/assets/play-button.png';
-import pauseButton from '../../../public/assets/pause.png';
+import playButton from '../../assets/img/play-button.png';
+import pauseButton from '../../assets/img/pause.png';
 
 import './styles.css';
 
