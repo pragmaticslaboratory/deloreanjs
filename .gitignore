@@ -1,3 +1,4 @@
+.vscode/
 # Logs
 logs
 *.log
@@ -81,4 +82,3 @@ typings/
 
 .DS_Store
 node_modules
-
