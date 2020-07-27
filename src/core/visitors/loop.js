@@ -1,9 +1,9 @@
 //Finds dependencies in cicles.
 module.exports = {
-  "ForStatement|DoWhileStatement|WhileStatement"(path) {
-    let test = path.get("test");
+  'ForStatement|DoWhileStatement|WhileStatement'(path) {
+    let test = path.get('test');
 
-    if (test.type == "BinaryExpression" || test.type == "CallExpression") {
+    if (test.type == 'BinaryExpression' || test.type == 'CallExpression') {
       let hasTimepoint = false;
       path.traverse({
         ExpressionStatement(path) {
@@ -16,11 +16,11 @@ module.exports = {
             var isInMemberExpression = false;
             parent = path.context.parentPath;
             while (
-              parent.node.type != "ForStatement" &&
-              parent.node.type != "WhileStatement" &&
-              parent.node.type != "DoWhileStatement"
+              parent.node.type != 'ForStatement' &&
+              parent.node.type != 'WhileStatement' &&
+              parent.node.type != 'DoWhileStatement'
             ) {
-              if (parent.node.type == "MemberExpression") {
+              if (parent.node.type == 'MemberExpression') {
                 isInMemberExpression = true;
                 break;
               }
@@ -30,11 +30,9 @@ module.exports = {
 
             if (
               !isInMemberExpression &&
-              !dependencies.some(
-                (dependency) => dependency.name == path.node.name
-              )
+              !dependencies.some((dependency) => dependency.name == path.node.name)
             ) {
-              dependencies.push({ name: path.node.name, type: "loop" });
+              dependencies.push({ name: path.node.name, type: 'loop' });
             }
           },
         });

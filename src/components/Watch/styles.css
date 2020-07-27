@@ -2,16 +2,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: white; 
+  background: white;
   max-height: 85%;
   overflow: auto;
-  border: 2px solid rgb(243, 243, 243);    
+  border: 2px solid rgb(243, 243, 243);
   margin: 1em;
   transition: all 1s ease 0s;
 }
 
 .watch-variable-input-container {
-  border-bottom: 1px solid rgb(243, 243, 243); 
+  border-bottom: 1px solid rgb(243, 243, 243);
   padding: 1em;
 }
 
@@ -22,15 +22,15 @@
 }
 
 .watch-variables-title p {
-    padding: 1em 0;
-    margin: 0;
+  padding: 1em 0;
+  margin: 0;
 }
 
 .watch-variable {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-bottom: 1px solid rgb(243, 243, 243); 
+  border-bottom: 1px solid rgb(243, 243, 243);
   transition: all 0.3s ease 0s;
 }
 
@@ -38,8 +38,6 @@
   background: rgb(243, 243, 243);
 }
 
-
-
 .watch-variable:last-child {
-  border-bottom: 0;  
+  border-bottom: 0;
 }

@@ -1,16 +1,16 @@
 /* Console */
 
 .title-container {
-    display: flex;
-    margin: 0px;
-    background-color: rgba(255,255,255,0.05);
-    font-size: 12px;
-    padding: 0 20px;
-    color: white;
-  }
-  
-  .consolefeed-container {
-    margin: 0;
-    overflow: auto;
-    width: 100%;
-  }
+  display: flex;
+  margin: 0px;
+  background-color: rgba(255, 255, 255, 0.05);
+  font-size: 12px;
+  padding: 0 20px;
+  color: white;
+}
+
+.consolefeed-container {
+  margin: 0;
+  overflow: auto;
+  width: 100%;
+}

@@ -4,7 +4,7 @@
 }
 
 .timeponts-bar-container {
-  display: flex;  
+  display: flex;
   -webkit-box-pack: justify;
   justify-content: space-between;
   -webkit-box-align: center;
@@ -24,7 +24,7 @@
 
 .timepoints-container {
   display: grid;
-  grid-template-columns: 20% 80%; 
+  grid-template-columns: 20% 80%;
 }
 
 .timepoints-btns {
@@ -93,13 +93,13 @@
 }
 
 .switch-options {
-  transition: .3s ease-out all;
+  transition: 0.3s ease-out all;
 }
 
 .selected-switch {
   background: black;
   color: white;
-  transition: .3s ease-out all;
+  transition: 0.3s ease-out all;
 }
 
 /* watch variables styles */

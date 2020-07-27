@@ -10,7 +10,7 @@ module.exports = {
   heapSnapshot: (id, loc) => {
     const snapshot = {
       timeLineId: global.timeLine,
-      timePointId: "",
+      timePointId: '',
       timePointTimestamp: Date.now() - startTime + acumTime,
       timePointLoc: loc,
     };
@@ -36,8 +36,7 @@ module.exports = {
     let oldTimePoint;
     while (heap.snapshots.find((element) => element.timePointId == id)) {
       oldTimePoint = heap.snapshots.findIndex(
-        (element) =>
-          element.timePointId == id && element.timeLineId != global.timeLine
+        (element) => element.timePointId == id && element.timeLineId != global.timeLine,
       );
       if (oldTimePoint != -1) heap.snapshots.splice(oldTimePoint, 1);
       else id = originId + ++counter;

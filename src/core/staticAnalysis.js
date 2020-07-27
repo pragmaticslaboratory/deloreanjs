@@ -1,24 +1,24 @@
-const WatchVisitor = require("./visitors/watch");
-const DeclaratorVisitor = require("./visitors/declarator");
-const AssignmentVisitor = require("./visitors/assignment");
-const ContinuationsConfigVisitor = require("./visitors/createContinuation");
-const StoreContinuationsVisitor = require("./visitors/storeContinuations");
-const RestoreHeapVisitor = require("./visitors/heapRestore");
-const RestoreContinuationVisitor = require("./visitors/continuationRestore");
-const TryCatchVisitor = require("./visitors/tryCatch");
-const LoopVisitor = require("./visitors/loop");
-const IfBlockVisitor = require("./visitors/ifBlock");
-const HeapRestoreVisitor = require("./visitors/heapRestore");
-const ThrowBreakVisitor = require("./visitors/throwBreak");
-const PropertyVisitor = require("./visitors/property");
-const ImplicitDeclaratorVisitor = require("./visitors/implicitTPVisitors/declarator");
-const ImplicitAssignmentVisitor = require("./visitors/implicitTPVisitors/assignment");
-const ImplicitPropertyVisitor = require("./visitors/implicitTPVisitors/property");
-const ImplicitUnaryVisitor = require("./visitors/implicitTPVisitors/unary");
-const ImplicitUpdateVisitor = require("./visitors/implicitTPVisitors/update");
-const LocVisitor = require("./visitors/loc");
+const WatchVisitor = require('./visitors/watch');
+const DeclaratorVisitor = require('./visitors/declarator');
+const AssignmentVisitor = require('./visitors/assignment');
+const ContinuationsConfigVisitor = require('./visitors/createContinuation');
+const StoreContinuationsVisitor = require('./visitors/storeContinuations');
+const RestoreHeapVisitor = require('./visitors/heapRestore');
+const RestoreContinuationVisitor = require('./visitors/continuationRestore');
+const TryCatchVisitor = require('./visitors/tryCatch');
+const LoopVisitor = require('./visitors/loop');
+const IfBlockVisitor = require('./visitors/ifBlock');
+const HeapRestoreVisitor = require('./visitors/heapRestore');
+const ThrowBreakVisitor = require('./visitors/throwBreak');
+const PropertyVisitor = require('./visitors/property');
+const ImplicitDeclaratorVisitor = require('./visitors/implicitTPVisitors/declarator');
+const ImplicitAssignmentVisitor = require('./visitors/implicitTPVisitors/assignment');
+const ImplicitPropertyVisitor = require('./visitors/implicitTPVisitors/property');
+const ImplicitUnaryVisitor = require('./visitors/implicitTPVisitors/unary');
+const ImplicitUpdateVisitor = require('./visitors/implicitTPVisitors/update');
+const LocVisitor = require('./visitors/loc');
 
-const { addDependencies } = require("./heap");
+const { addDependencies } = require('./heap');
 
 global.dependencies = [];
 
