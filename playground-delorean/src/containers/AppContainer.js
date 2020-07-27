@@ -12,7 +12,6 @@ import {
 } from '../../public/example-inputs/index';
 
 global.delorean = require('../../../src/delorean.js');
-global.vm = require('../../../unwinder/runtime/vm.js');
 
 export default class AppContainer extends Container {
   constructor(props = {}) {

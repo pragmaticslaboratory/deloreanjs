@@ -15,7 +15,6 @@ import 'codemirror/theme/darcula.css';
 import AppContainer from './containers/AppContainer';
 
 global.delorean = require('../../src/delorean.js');
-global.vm = require('../../unwinder/runtime/vm.js');
 
 class App extends Component {
   constructor(props) {

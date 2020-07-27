@@ -1,4 +1,6 @@
 const babel = require('babel-core');
+const { compile, vm } = require('unwinder-engine');
+
 global.timeLine = 0;
 global.startFrom = '';
 global.fromTheFuture = false;
@@ -25,6 +27,7 @@ function ldDeepCopy(original) {
 }
 
 module.exports = {
+  vm,
   init: (inputCode) => {
     implicitCounter = 0;
 
@@ -109,7 +112,6 @@ module.exports = {
     }
     `;
 
-    let compile = require('../unwinder/bin/compile.js');
     let unwindedCode = compile(code);
 
     try {
