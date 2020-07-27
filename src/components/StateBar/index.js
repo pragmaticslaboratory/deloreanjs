@@ -1,6 +1,6 @@
 import React from 'react';
 
-import resumeButton from '../../../public/assets/fast-forward.png';
+import resumeButton from '../../assets/img/fast-forward.png';
 
 import './styles.css';
 

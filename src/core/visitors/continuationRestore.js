@@ -1,4 +1,5 @@
-const t = require("babel-types");
+/* eslint-disable */
+const t = require('babel-types');
 
 module.exports = {
   /* continuations.kont${restore}(); */
@@ -7,13 +8,10 @@ module.exports = {
     path.node.body.unshift(
       t.expressionStatement(
         t.callExpression(
-          t.memberExpression(
-            t.identifier("continuations"),
-            t.identifier(`kont${restore}`)
-          ),
-          []
-        )
-      )
+          t.memberExpression(t.identifier('continuations'), t.identifier(`kont${restore}`)),
+          [],
+        ),
+      ),
     );
   },
 };

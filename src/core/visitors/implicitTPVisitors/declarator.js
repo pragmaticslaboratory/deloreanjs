@@ -1,44 +1,44 @@
-const t = require("babel-types");
+const t = require('babel-types');
 module.exports = {
   VariableDeclarator(path) {
     let left = path.node.id.name;
-    if (dependencies.some((dependency) => dependency.name == left)) {
+    if (global.dependencies.some((dependency) => dependency.name == left)) {
       var parent = path.findParent((path) => path.isVariableDeclaration());
-      if (parent.context.parentPath.node.type != "ForStatement") {
-        if (parent && !isTimePoint(parent.getSibling(parent.key + 1).node)) {
+      if (parent.context.parentPath.node.type != 'ForStatement') {
+        if (parent && !global.isTimePoint(parent.getSibling(parent.key + 1).node)) {
           parent.insertAfter(
             t.expressionStatement(
               t.callExpression(
                 t.memberExpression(
-                  t.identifier("delorean"),
-                  t.identifier("insertTimepoint"),
-                  false
+                  t.identifier('delorean'),
+                  t.identifier('insertTimepoint'),
+                  false,
                 ),
-                [t.stringLiteral("Implicit" + implicitCounter)]
-              )
-            )
+                [t.stringLiteral('Implicit' + global.implicitCounter)],
+              ),
+            ),
           );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
       } else {
         parent = parent.context.parentPath;
-        if (!isTimePoint(parent.node.body.body[0])) {
+        if (!global.isTimePoint(parent.node.body.body[0])) {
           parent
-            .get("body")
+            .get('body')
             .unshiftContainer(
-              "body",
+              'body',
               t.expressionStatement(
                 t.callExpression(
                   t.memberExpression(
-                    t.identifier("delorean"),
-                    t.identifier("insertTimepoint"),
-                    false
+                    t.identifier('delorean'),
+                    t.identifier('insertTimepoint'),
+                    false,
                   ),
-                  [t.stringLiteral("Implicit" + implicitCounter)]
-                )
-              )
+                  [t.stringLiteral('Implicit' + global.implicitCounter)],
+                ),
+              ),
             );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
       }
     }

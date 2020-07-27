@@ -9,7 +9,8 @@ import {
   understandABugExample,
   experimentScenariosExample,
   breakpointExample,
-} from '../../public/example-inputs/index';
+  superSimple,
+} from '../assets/example-inputs';
 
 global.delorean = require('../core/debugger.js');
 
@@ -18,6 +19,11 @@ export default class AppContainer extends Container {
     super();
     this.state = {
       tabs: [
+        {
+          name: 'superSimple.js',
+          input: superSimple,
+          watchVariables: ['x'],
+        },
         {
           name: 'fixABug.js',
           input: fixABugExample,
@@ -39,12 +45,12 @@ export default class AppContainer extends Container {
           watchVariables: ['courseName'],
         },
       ],
-      tabSelected: '',
+      tabSelected: 'superSimple.js',
       watchVariables: [],
       watchVariablesComboBox: false,
       snapshots: [],
       dependencies: [],
-      code: objectsExample,
+      code: superSimple,
       isRunning: false,
       readOnly: false,
       selected: false,
@@ -143,6 +149,7 @@ export default class AppContainer extends Container {
   };
 
   updateSnapshots = (snapshots) => {
+    console.log();
     this.setState({
       snapshots,
     });

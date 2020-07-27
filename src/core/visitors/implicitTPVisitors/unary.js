@@ -1,109 +1,106 @@
-const t = require("babel-types");
+const t = require('babel-types');
 module.exports = {
   UnaryExpression(path) {
     let argument = path.node.argument;
-    while (
-      argument.type == "MemberExpression" ||
-      argument.type == "CallExpression"
-    ) {
-      if (argument.type == "MemberExpression") {
+    while (argument.type == 'MemberExpression' || argument.type == 'CallExpression') {
+      if (argument.type == 'MemberExpression') {
         argument = argument.object;
       } else {
         argument = argument.callee;
       }
     }
     if (
-      argument.type == "Identifier" &&
-      dependencies.some((dependency) => dependency.name == argument.name)
+      argument.type == 'Identifier' &&
+      global.dependencies.some((dependency) => dependency.name == argument.name)
     ) {
-      parent = path.context.parentPath;
+      let parent = path.context.parentPath;
       while (
         parent &&
-        parent.node.type != "ExpressionStatement" &&
-        parent.node.type != "ForStatement" &&
-        parent.node.type != "WhileStatement" &&
-        parent.node.type != "IfStatement" &&
-        parent.node.type != "DoWhileStatement"
+        parent.node.type != 'ExpressionStatement' &&
+        parent.node.type != 'ForStatement' &&
+        parent.node.type != 'WhileStatement' &&
+        parent.node.type != 'IfStatement' &&
+        parent.node.type != 'DoWhileStatement'
       ) {
         parent = parent.context.parentPath;
       }
 
-      if (parent && parent.node.type == "ExpressionStatement") {
-        if (parent && !isTimePoint(parent.getSibling(parent.key + 1).node)) {
+      if (parent && parent.node.type == 'ExpressionStatement') {
+        if (parent && !global.isTimePoint(parent.getSibling(parent.key + 1).node)) {
           parent.insertAfter(
             t.expressionStatement(
               t.callExpression(
                 t.memberExpression(
-                  t.identifier("delorean"),
-                  t.identifier("insertTimepoint"),
-                  false
+                  t.identifier('delorean'),
+                  t.identifier('insertTimepoint'),
+                  false,
                 ),
-                [t.stringLiteral("Implicit" + implicitCounter)]
-              )
-            )
+                [t.stringLiteral('Implicit' + global.implicitCounter)],
+              ),
+            ),
           );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
-      } else if (parent && parent.node.type != "IfStatement") {
-        if (!isTimePoint(parent.node.body.body[0])) {
+      } else if (parent && parent.node.type != 'IfStatement') {
+        if (!global.isTimePoint(parent.node.body.body[0])) {
           parent
-            .get("body")
+            .get('body')
             .unshiftContainer(
-              "body",
+              'body',
               t.expressionStatement(
                 t.callExpression(
                   t.memberExpression(
-                    t.identifier("delorean"),
-                    t.identifier("insertTimepoint"),
-                    false
+                    t.identifier('delorean'),
+                    t.identifier('insertTimepoint'),
+                    false,
                   ),
-                  [t.stringLiteral("Implicit" + implicitCounter)]
-                )
-              )
+                  [t.stringLiteral('Implicit' + global.implicitCounter)],
+                ),
+              ),
             );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
-      } else if (parent && parent.node.type == "IfStatement") {
-        if (!isTimePoint(parent.node.body.body[0])) {
+      } else if (parent && parent.node.type == 'IfStatement') {
+        if (!global.isTimePoint(parent.node.body.body[0])) {
           parent
-            .get("body")
+            .get('body')
             .unshiftContainer(
-              "body",
+              'body',
               t.expressionStatement(
                 t.callExpression(
                   t.memberExpression(
-                    t.identifier("delorean"),
-                    t.identifier("insertTimepoint"),
-                    false
+                    t.identifier('delorean'),
+                    t.identifier('insertTimepoint'),
+                    false,
                   ),
-                  [t.stringLiteral("Implicit" + implicitCounter)]
-                )
-              )
+                  [t.stringLiteral('Implicit' + global.implicitCounter)],
+                ),
+              ),
             );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
-        if (path.node.consequent.type != "BlockStatement") {
+        if (path.node.consequent.type != 'BlockStatement') {
           let block = t.blockStatement([path.node.consequent], []);
           path.node.consequent = block;
         }
         let alternate = parent.node.alternate;
-        if (!isTimePoint(alternate.node.body[0])) {
+        if (!global.isTimePoint(alternate.node.body[0])) {
           alternate
-            .get("body")
+            .get('body')
             .unshiftContainer(
-              "body",
+              'body',
               t.expressionStatement(
                 t.callExpression(
                   t.memberExpression(
-                    t.identifier("delorean"),
-                    t.identifier("insertTimepoint"),
-                    false
+                    t.identifier('delorean'),
+                    t.identifier('insertTimepoint'),
+                    false,
                   ),
-                  [t.stringLiteral("Implicit" + implicitCounter)]
-                )
-              )
+                  [t.stringLiteral('Implicit' + global.implicitCounter)],
+                ),
+              ),
             );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
       }
     }

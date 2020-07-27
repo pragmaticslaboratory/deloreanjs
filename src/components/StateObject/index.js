@@ -1,6 +1,6 @@
 import React from 'react';
-import rightArrow from '../../../public/assets/right-arrow.png';
-import expandButton from '../../../public/assets/expand-button.png';
+import rightArrow from '../../assets/img/right-arrow.png';
+import expandButton from '../../assets/img/expand-button.png';
 import './styles.css';
 
 const StateObject = (props) => {

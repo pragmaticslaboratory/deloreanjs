@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 import DependencyItem from '../DependencyItem';
 import StateBar from '../StateBar';
-
+import { breakpoint } from '../../core/delorean';
 import './styles.css';
 
 class State extends Component {
   componentWillUpdate = () => {
-    if (global.breakpoint.activate) this.props.appStore.selectTimepointById(global.breakpoint.id);
+    if (breakpoint.activate) this.props.appStore.selectTimepointById(breakpoint.id);
   };
 
   render() {

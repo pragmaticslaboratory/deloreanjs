@@ -4,9 +4,9 @@ const { compile, vm } = require('unwinder-engine');
 global.timeLine = 0;
 global.startFrom = '';
 global.fromTheFuture = false;
-global.implicitCounter;
-global.startTime;
-global.acumTime;
+global.implicitCounter = 0;
+global.startTime = 0;
+global.acumTime = 0;
 global.implicitTimpeoints = false;
 
 const {
@@ -19,20 +19,14 @@ const {
   throwBreakVisitor,
   implicitTPVisitor,
   locVisitor,
-} = require('../src/staticAnalysis');
-var cloneDeep = require('lodash.clonedeep');
-
-function ldDeepCopy(original) {
-  return cloneDeep(original);
-}
+} = require('./staticAnalysis');
 
 module.exports = {
-  vm,
   init: (input) => {
-    implicitCounter = 0;
+    global.implicitCounter = 0;
 
     let visitorsConfig = [locVisitor, dependenciesVisitor];
-    if (implicitTimpeoints) visitorsConfig.push(implicitTPVisitor);
+    if (global.implicitTimpeoints) visitorsConfig.push(implicitTPVisitor);
     visitorsConfig.push(tryCatchVisitor);
 
     let src = babel.transform(input.toString(), {
@@ -114,12 +108,11 @@ module.exports = {
     }
     `;
 
-    let unwindedCode = compile(code);
-
     try {
+      let unwindedCode = compile(code);
       console.log(`%cStart first execution`, 'background: #222; color: cyan');
-      acumTime = 0;
-      startTime = Date.now();
+      global.acumTime = 0;
+      global.startTime = Date.now();
       eval(unwindedCode);
       console.log(`%cFinish first execution`, 'background: #222; color: cyan');
     } catch (e) {
@@ -128,22 +121,24 @@ module.exports = {
   },
 
   invokeContinuation: (kont) => {
-    fromTheFuture = true;
+    global.fromTheFuture = true;
     try {
       global.startFrom = kont;
       console.log(`%cStart TimePoint ${kont}`, 'background: #222; color: #bada55');
-      heap.snapshots.find((element) => element.timePointId == kont).timeLineId = ++global.timeLine;
-      acumTime += heap.snapshots.find((element) => element.timePointId == kont).timePointTimestamp;
-      startTime = Date.now();
-      eval(
-        `let kontAux = continuations.kont${kont}; 
-        contTimeLine.kont${kont} = global.timeLine;       
+      global.heap.snapshots.find(
+        (element) => element.timePointId == kont,
+      ).timeLineId = ++global.timeLine;
+      global.acumTime += global.heap.snapshots.find(
+        (element) => element.timePointId == kont,
+      ).timePointTimestamp;
+      global.startTime = Date.now();
+      eval(`let kontAux = continuations.kont${kont}; 
+        contTimeLine.kont${kont} = global.timeLine; 
         continuations.kont${kont}(); 
-        continuations.kont${kont} = kontAux`,
-      );
+        continuations.kont${kont} = kontAux`);
       console.log(`%cEnd TimePoint ${kont}`, 'background: #222; color: #bada55');
     } catch (e) {
-      console.log(e, 'Error from VM');
+      console.error(e);
     }
   },
 };

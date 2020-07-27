@@ -1,7 +1,7 @@
 import React from 'react';
 import WatchVariables from '../Watch';
-import timepointIcon from '../../../public/assets/time.png';
-import expandButton from '../../../public/assets/expand-button.png';
+import timepointIcon from '../../assets/img/time.png';
+import expandButton from '../../assets/img/expand-button.png';
 
 import P5Wrapper from 'react-p5-wrapper';
 import sketch from '../../p5/main';
