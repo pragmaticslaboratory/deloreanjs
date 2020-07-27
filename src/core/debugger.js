@@ -28,16 +28,18 @@ function ldDeepCopy(original) {
 
 module.exports = {
   vm,
-  init: (inputCode) => {
+  init: (input) => {
     implicitCounter = 0;
 
     let visitorsConfig = [locVisitor, dependenciesVisitor];
     if (implicitTimpeoints) visitorsConfig.push(implicitTPVisitor);
     visitorsConfig.push(tryCatchVisitor);
 
-    let src = require('../index')(inputCode, visitorsConfig, true).code;
+    let src = babel.transform(input.toString(), {
+      plugins: visitorsConfig,
+    });
 
-    let { code } = babel.transform(src, {
+    let { code } = babel.transform(src.code, {
       plugins: [
         ifBlockVisitor,
         initConfigVisitor,

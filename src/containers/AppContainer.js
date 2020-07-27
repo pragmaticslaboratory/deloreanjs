@@ -11,7 +11,7 @@ import {
   breakpointExample,
 } from '../../public/example-inputs/index';
 
-global.delorean = require('../../../src/delorean.js');
+global.delorean = require('../core/debugger.js');
 
 export default class AppContainer extends Container {
   constructor(props = {}) {
