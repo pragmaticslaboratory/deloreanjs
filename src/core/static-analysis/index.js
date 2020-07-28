@@ -1,4 +1,6 @@
-const {
+import { transform } from 'babel-core';
+import { compile, vm } from 'unwinder-engine';
+import {
   dependencyVisitor,
   implicitTimepointVisitor,
   storeContinuationVisitor,
@@ -8,20 +10,28 @@ const {
   throwBreakVisitor,
   timepointLineVisitor,
   restoreHeapVisitor,
-} = require('./visitors');
+} from './visitors';
+import { transformWithoutBabel } from './helpers';
 
-global.dependencies = [];
-
-/* todo: refactor debugger (all code transformation functionality will be here) */
-
-module.exports = {
-  dependenciesVisitor: dependencyVisitor,
-  implicitTPVisitor: implicitTimepointVisitor,
-  initConfigVisitor: continuationFactoryVisitor,
-  storeContinuationsVisitor: storeContinuationVisitor,
-  locVisitor: timepointLineVisitor,
-  heapRestoreVisitor: restoreHeapVisitor,
-  tryCatchVisitor,
-  ifBlockVisitor,
-  throwBreakVisitor,
+const transpile = (code, visitors) => {
+  return transform(code, {
+    plugins: visitors,
+  }).code;
 };
+
+const prepareCode = (code) => {
+  let visitors = [timepointLineVisitor, dependencyVisitor];
+  if (global.implicitTimpeoints) visitors.push(implicitTimepointVisitor);
+  code = transpile(code, [...visitors, tryCatchVisitor]);
+  code = transpile(code, [
+    ifBlockVisitor,
+    continuationFactoryVisitor,
+    restoreHeapVisitor,
+    throwBreakVisitor,
+    storeContinuationVisitor,
+  ]);
+  code = transformWithoutBabel(code);
+  return compile(code);
+};
+
+export { prepareCode };

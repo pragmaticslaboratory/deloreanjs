@@ -12,7 +12,6 @@ import 'codemirror/keymap/sublime';
 import 'codemirror/theme/darcula.css';
 
 const debuggerDelorean = require('./core/debugger');
-global.delorean = require('./core/delorean');
 
 class App extends Component {
   constructor(props) {

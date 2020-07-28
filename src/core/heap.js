@@ -1,4 +1,5 @@
 global.heap = {};
+global.dependencies = [];
 heap.snapshots = [];
 global.tempValueStore = {};
 
