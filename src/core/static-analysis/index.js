@@ -8,7 +8,7 @@ const {
   throwBreakVisitor,
   timepointLineVisitor,
   restoreHeapVisitor,
-} = require('./static-analysis');
+} = require('./visitors');
 
 global.dependencies = [];
 

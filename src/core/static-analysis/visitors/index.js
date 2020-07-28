@@ -1,9 +1,9 @@
-export { default as dependencyVisitor } from './visitors/dependencies';
-export { default as implicitTimepointVisitor } from './visitors/implicit-timepoint';
+export { default as dependencyVisitor } from './dependencies';
+export { default as implicitTimepointVisitor } from './implicit-timepoint';
 export {
   continuationFactory as continuationFactoryVisitor,
   storeContinuation as storeContinuationVisitor,
-} from './visitors/continuation';
+} from './continuation';
 export {
   tryCatch as tryCatchVisitor,
   ifBlock as ifBlockVisitor,
@@ -11,4 +11,4 @@ export {
   restoreHeap as restoreHeapVisitor,
   timepointLine as timepointLineVisitor,
   watch as watchVisitor,
-} from './visitors/common';
+} from './common';
