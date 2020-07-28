@@ -1,42 +1,25 @@
-const WatchVisitor = require('./visitors/watch');
-const DeclaratorVisitor = require('./visitors/declarator');
-const AssignmentVisitor = require('./visitors/assignment');
-const ContinuationsConfigVisitor = require('./visitors/createContinuation');
-const StoreContinuationsVisitor = require('./visitors/storeContinuations');
-const RestoreHeapVisitor = require('./visitors/heapRestore');
-const RestoreContinuationVisitor = require('./visitors/continuationRestore');
-const TryCatchVisitor = require('./visitors/tryCatch');
-const LoopVisitor = require('./visitors/loop');
-const IfBlockVisitor = require('./visitors/ifBlock');
-const HeapRestoreVisitor = require('./visitors/heapRestore');
-const ThrowBreakVisitor = require('./visitors/throwBreak');
-const PropertyVisitor = require('./visitors/property');
-const ImplicitDeclaratorVisitor = require('./visitors/implicitTPVisitors/declarator');
-const ImplicitAssignmentVisitor = require('./visitors/implicitTPVisitors/assignment');
-const ImplicitPropertyVisitor = require('./visitors/implicitTPVisitors/property');
-const ImplicitUnaryVisitor = require('./visitors/implicitTPVisitors/unary');
-const ImplicitUpdateVisitor = require('./visitors/implicitTPVisitors/update');
-const LocVisitor = require('./visitors/loc');
+const dependecyVisitor = require('./static-analysis/visitors/dependencies');
+
+const ContinuationsConfigVisitor = require('./static-analysis/visitors/continuation/continuation-factory.visitor');
+const StoreContinuationsVisitor = require('./static-analysis/visitors/continuation/store-continuation.visitor');
+const RestoreHeapVisitor = require('./static-analysis/visitors/heap/restore-heap.visitor');
+const RestoreContinuationVisitor = require('./static-analysis/visitors/continuation/restore-continuation.visitor');
+const TryCatchVisitor = require('./static-analysis/visitors/common/try-catch.visitor');
+
+const IfBlockVisitor = require('./static-analysis/visitors/common/if-block.visitor');
+const HeapRestoreVisitor = require('./static-analysis/visitors/heap/restore-heap.visitor');
+const ThrowBreakVisitor = require('./static-analysis/visitors/breakpoint/throw-break.visitor');
+
+const ImplicitDeclaratorVisitor = require('./static-analysis/visitors/implicit-timepoint/declarator.visitor');
+const ImplicitAssignmentVisitor = require('./static-analysis/visitors/implicit-timepoint/assignment.visitor');
+const ImplicitPropertyVisitor = require('./static-analysis/visitors/implicit-timepoint/property.visitor');
+const ImplicitUnaryVisitor = require('./static-analysis/visitors/implicit-timepoint/unary.visitor');
+const ImplicitUpdateVisitor = require('./static-analysis/visitors/implicit-timepoint/update.visitor');
+const LocVisitor = require('./static-analysis/visitors/common/timepoint-line.visitor');
 
 const { addDependencies } = require('./heap');
 
 global.dependencies = [];
-
-const DependenciesVisitor = {
-  Program(path) {
-    let pastDependencies;
-    path.traverse(WatchVisitor);
-
-    do {
-      pastDependencies = dependencies.length;
-      path.traverse(DeclaratorVisitor);
-      path.traverse(AssignmentVisitor);
-      path.traverse(LoopVisitor);
-      path.traverse(PropertyVisitor);
-    } while (pastDependencies < dependencies.length);
-    addDependencies(dependencies);
-  },
-};
 
 const ImplicitTPVisitor = {
   Program(path) {
@@ -49,11 +32,7 @@ const ImplicitTPVisitor = {
 };
 
 module.exports = {
-  dependenciesVisitor: () => {
-    return {
-      visitor: DependenciesVisitor,
-    };
-  },
+  dependenciesVisitor: dependecyVisitor,
 
   initConfigVisitor: () => {
     return {

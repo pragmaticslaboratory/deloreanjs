@@ -1,5 +1,4 @@
 //must detect every change
-
 const t = require('babel-types');
 module.exports = {
   AssignmentExpression(path) {

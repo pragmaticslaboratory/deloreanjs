@@ -1,10 +1,8 @@
 import React, { Component, createRef } from 'react';
 import { Provider, Subscribe } from 'unstated';
-import './App.css';
-
-import debuggerDelorean from './core/debugger';
-
 import { Layout, Console, Output, Header, EditorBar, Sidebar } from './components';
+import AppContainer from './containers/AppContainer';
+import './App.css';
 
 import CodeMirror from '@uiw/react-codemirror';
 import 'codemirror/addon/display/autorefresh';
@@ -12,8 +10,8 @@ import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/keymap/sublime';
 import 'codemirror/theme/darcula.css';
-import AppContainer from './containers/AppContainer';
 
+const debuggerDelorean = require('./core/debugger');
 global.delorean = require('./core/delorean');
 
 class App extends Component {
