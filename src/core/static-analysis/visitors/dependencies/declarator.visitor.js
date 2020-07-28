@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   VariableDeclarator(path) {
     let left = path.node.id.name;
     let right = path.node.init;

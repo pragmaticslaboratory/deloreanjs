@@ -1,6 +1,6 @@
 //must detect every change
 const t = require('babel-types');
-module.exports = {
+export default {
   AssignmentExpression(path) {
     let left = path.node.left.name;
     if (dependencies.some((dependency) => dependency.name == left)) {

@@ -1,5 +1,5 @@
 const t = require('babel-types');
-module.exports = {
+export default {
   CallExpression(path) {
     let foundWatchedVariable = false;
     path.traverse({

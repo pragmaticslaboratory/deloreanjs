@@ -1,5 +1,5 @@
 const t = require('babel-types');
-module.exports = {
+export default {
   UnaryExpression(path) {
     let argument = path.node.argument;
     while (argument.type == 'MemberExpression' || argument.type == 'CallExpression') {

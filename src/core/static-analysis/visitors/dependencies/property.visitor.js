@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   CallExpression(path) {
     let influentialExpression = false;
     path.traverse({

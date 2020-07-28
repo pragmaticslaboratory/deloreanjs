@@ -1,5 +1,5 @@
 const t = require('babel-types');
-module.exports = {
+export default {
   VariableDeclarator(path) {
     let left = path.node.id.name;
     if (dependencies.some((dependency) => dependency.name == left)) {
