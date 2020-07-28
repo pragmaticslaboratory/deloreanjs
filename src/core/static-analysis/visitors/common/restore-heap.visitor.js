@@ -3,7 +3,7 @@ function shallowCopy(object) {
   return object;
 }
 
-module.exports = {
+export default {
   MemberExpression(path) {
     if (
       path.node.object &&

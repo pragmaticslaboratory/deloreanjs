@@ -1,6 +1,5 @@
 const t = require('babel-types');
-
-module.exports = {
+export default {
   Program(path) {
     // continuations = {};
     path.node.body.unshift(

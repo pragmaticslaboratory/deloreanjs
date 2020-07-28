@@ -1,7 +1,7 @@
 const t = require('babel-types');
 global.snapshotCounter = 0;
 
-module.exports = {
+export default {
   /* continuations.kont* = createContinuation(); */
   MemberExpression(path) {
     if (

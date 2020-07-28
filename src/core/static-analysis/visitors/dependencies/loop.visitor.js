@@ -1,5 +1,4 @@
-//Finds dependencies in cicles.
-module.exports = {
+export default {
   'ForStatement|DoWhileStatement|WhileStatement'(path) {
     let test = path.get('test');
 

@@ -1,8 +1,7 @@
+/* deprecated */
 const t = require('babel-types');
-
-module.exports = {
+export default {
   /* continuations.kont${restore}(); */
-
   Program(path) {
     path.node.body.unshift(
       t.expressionStatement(

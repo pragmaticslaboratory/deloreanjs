@@ -8,6 +8,7 @@ global.implicitCounter;
 global.startTime;
 global.acumTime;
 global.implicitTimpeoints = false;
+global.dependencies = [];
 
 const {
   dependenciesVisitor,
@@ -19,7 +20,7 @@ const {
   throwBreakVisitor,
   implicitTPVisitor,
   locVisitor,
-} = require('./staticAnalysis');
+} = require('./static-analysis');
 
 var cloneDeep = require('lodash.clonedeep');
 

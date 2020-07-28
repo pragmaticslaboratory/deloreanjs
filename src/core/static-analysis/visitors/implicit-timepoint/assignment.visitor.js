@@ -1,18 +1,9 @@
+//must detect every change
 const t = require('babel-types');
-module.exports = {
-  UpdateExpression(path) {
-    let argument = path.node.argument;
-    while (argument.type == 'MemberExpression' || argument.type == 'CallExpression') {
-      if (argument.type == 'MemberExpression') {
-        argument = argument.object;
-      } else {
-        argument = argument.callee;
-      }
-    }
-    if (
-      argument.type == 'Identifier' &&
-      dependencies.some((dependency) => dependency.name == argument.name)
-    ) {
+export default {
+  AssignmentExpression(path) {
+    let left = path.node.left.name;
+    if (dependencies.some((dependency) => dependency.name == left)) {
       parent = path.context.parentPath;
       while (
         parent &&

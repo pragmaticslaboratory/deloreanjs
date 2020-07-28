@@ -1,6 +1,7 @@
+/* deprecated */
 const t = require('babel-types');
 
-module.exports = {
+export default {
   CallExpression(path) {
     if (path.node.callee.property && path.node.callee.property.name == 'watch') {
       path.node.arguments[0].elements.map((element) => {

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   AssignmentExpression(path) {
     let left = path.node.left;
     while (left.type == 'MemberExpression') {
