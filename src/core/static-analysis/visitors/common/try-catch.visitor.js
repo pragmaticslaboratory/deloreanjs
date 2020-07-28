@@ -1,6 +1,6 @@
 const t = require('babel-types');
 //Adds try-catch blocks before and after every timepont.
-window.isTimePoint = function (element) {
+global.isTimePoint = function (element) {
   return (
     element &&
     element.expression &&
@@ -48,7 +48,7 @@ const hasCallExpression = (path) => {
   return isCallExpression;
 };
 
-module.exports = {
+export default {
   'Program|BlockStatement': {
     exit(path) {
       let block = path.node.body;

@@ -1,3 +1,4 @@
+/* deprecated */
 const t = require('babel-types');
 export default {
   /* continuations.kont${restore}(); */

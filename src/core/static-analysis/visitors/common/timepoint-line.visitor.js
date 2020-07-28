@@ -1,6 +1,6 @@
 const t = require('babel-types');
 
-module.exports = {
+export default {
   MemberExpression(path) {
     if (
       path.node.object &&
