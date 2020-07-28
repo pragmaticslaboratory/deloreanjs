@@ -1,14 +1,27 @@
-export { default as dependencyVisitor } from './visitors/dependencies';
-export { default as implicitTimepointVisitor } from './visitors/implicit-timepoint';
-export {
-  continuationFactory as continuationFactoryVisitor,
-  storeContinuation as storeContinuationVisitor,
-} from './visitors/continuation';
-export {
-  tryCatch as tryCatchVisitor,
-  ifBlock as ifBlockVisitor,
-  throwBreak as throwBreakVisitor,
-  restoreHeap as restoreHeapVisitor,
-  timepointLine as timepointLineVisitor,
-  watch as watchVisitor,
-} from './visitors/common';
+const {
+  dependencyVisitor,
+  implicitTimepointVisitor,
+  storeContinuationVisitor,
+  continuationFactoryVisitor,
+  ifBlockVisitor,
+  tryCatchVisitor,
+  throwBreakVisitor,
+  timepointLineVisitor,
+  restoreHeapVisitor,
+} = require('./static-analysis');
+
+global.dependencies = [];
+
+/* todo: refactor debugger (all code transformation functionality will be here) */
+
+module.exports = {
+  dependenciesVisitor: dependencyVisitor,
+  implicitTPVisitor: implicitTimepointVisitor,
+  initConfigVisitor: continuationFactoryVisitor,
+  storeContinuationsVisitor: storeContinuationVisitor,
+  locVisitor: timepointLineVisitor,
+  heapRestoreVisitor: restoreHeapVisitor,
+  tryCatchVisitor,
+  ifBlockVisitor,
+  throwBreakVisitor,
+};

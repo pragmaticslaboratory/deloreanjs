@@ -8,6 +8,7 @@ global.implicitCounter;
 global.startTime;
 global.acumTime;
 global.implicitTimpeoints = false;
+global.dependencies = [];
 
 const {
   dependenciesVisitor,
