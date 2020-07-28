@@ -19,7 +19,7 @@ const {
   throwBreakVisitor,
   implicitTPVisitor,
   locVisitor,
-} = require('./staticAnalysis');
+} = require('./static-analysis');
 
 var cloneDeep = require('lodash.clonedeep');
 
