@@ -11,6 +11,7 @@ import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/keymap/sublime';
 import 'codemirror/theme/darcula.css';
 
+global.delorean = require('./core/delorean.js'); // this line allow uses global variables form core/delorean (global.breakpoint -> state.js)
 const debuggerDelorean = require('./core/debugger');
 
 class App extends Component {

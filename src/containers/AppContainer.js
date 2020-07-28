@@ -1,8 +1,6 @@
 import React from 'react';
 import { Container } from 'unstated';
-
 import { DependencyItem } from '../components';
-
 import {
   objectsExample,
   fixABugExample,
@@ -10,8 +8,6 @@ import {
   experimentScenariosExample,
   breakpointExample,
 } from '../assets/example-inputs/index';
-
-global.delorean = require('../core/delorean.js');
 
 export default class AppContainer extends Container {
   constructor(props = {}) {
