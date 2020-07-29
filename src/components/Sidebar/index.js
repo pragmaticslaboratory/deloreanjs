@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 
 import SidebarSection from '../SidebarSection';
 import SegmentedControl from '../SegmentedControl';
