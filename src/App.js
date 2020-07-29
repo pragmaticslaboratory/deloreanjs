@@ -82,7 +82,7 @@ class App extends Component {
               <div className="main-page-container">
                 <Header />
                 <div className="playground-container">
-                  <Sidebar />
+                  <Sidebar appStore={appStore} />
                   <div>
                     <div className="top-panel">
                       <div className="codemirror-container">

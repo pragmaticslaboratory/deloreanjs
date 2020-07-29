@@ -97,9 +97,7 @@
 }
 
 .selected-switch {
-  background: black;
-  color: white;
-  transition: 0.3s ease-out all;
+  background-color: transparent;
 }
 
 /* watch variables styles */

@@ -23,22 +23,6 @@ const Timepoints = (props) => {
           <p>Watch Variables</p>
           <img style={{ marginLeft: '8px' }} alt="expand icon" src={expandButton} height="10" />
         </div>
-
-        <div
-          id="switch-container"
-          className="switch-container"
-          onClick={(ev) => props.appStore.toggleCopy(ev)}>
-          <p className="swtich-options selected-switch">Deep Copy</p>
-          <p className="swtich-options">Shallow Copy</p>
-        </div>
-
-        <div
-          id="switch-container"
-          className="switch-container"
-          onClick={(ev) => props.appStore.toggleImplicit(ev)}>
-          <p className="swtich-options selected-switch">Normal</p>
-          <p className="swtich-options">Implicit</p>
-        </div>
       </div>
 
       <div className="timepoints-container">

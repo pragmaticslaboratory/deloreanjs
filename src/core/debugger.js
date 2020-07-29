@@ -14,7 +14,7 @@ global.fromTheFuture = false;
 global.implicitCounter;
 global.startTime;
 global.acumTime;
-global.implicitTimpeoints = false;
+global.implicitTimepoints = false;
 
 module.exports = {
   init: (input) => {
