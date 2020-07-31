@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 
-import SidebarSection from '../SidebarSection';
-import SegmentedControl from '../SegmentedControl';
+import { State, SegmentedControl, SidebarSection } from '..';
 
 import { copyOptions, runtimeOptions } from './constants';
 import './styles.css';
@@ -34,6 +33,9 @@ export default function Sidebar(props) {
         />
       </SidebarSection>
       <SidebarSection icon="settings" title="Watch variables"></SidebarSection>
+      <SidebarSection icon="build" title="State">
+        <State appStore={appStore} invokeContinuation={() => alert('HOLA')} />
+      </SidebarSection>
     </div>
   );
 }

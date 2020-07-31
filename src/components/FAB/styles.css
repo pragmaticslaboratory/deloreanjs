@@ -1,0 +1,47 @@
+.fab-content-container {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  bottom: 2em;
+  right: 2em;
+}
+
+.fab-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 72px;
+  width: 72px;
+  background-color: #ffdb00;
+  border-radius: 50%;
+  -webkit-box-shadow: 0px 0px 17px -2px rgba(0, 0, 0, 0.34);
+  -moz-box-shadow: 0px 0px 17px -2px rgba(0, 0, 0, 0.34);
+  box-shadow: 0px 0px 17px -2px rgba(0, 0, 0, 0.34);
+  z-index: 10;
+  cursor: pointer;
+  transition-duration: 333ms;
+}
+
+.fab-container:nth-child(even) {
+  margin-left: 0.5em;
+}
+
+.fab-container:hover {
+  transform: scale(1.04);
+}
+
+.fab-icon {
+  font-size: 40px;
+  color: #655a16;
+}
+
+.fab-smaller {
+  height: 48px;
+  width: 48px;
+  background-color: #fd2222;
+}
+
+.fab-smaller span {
+  font-size: 32px;
+  color: #9b1010;
+}

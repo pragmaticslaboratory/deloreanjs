@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import { Provider, Subscribe } from 'unstated';
-import { Layout, Console, Output, Header, EditorBar, Sidebar } from './components';
+import { Layout, Console, Output, Header, EditorBar, Sidebar, FAB } from './components';
 import AppContainer from './containers/AppContainer';
 import './App.css';
 
@@ -75,7 +75,7 @@ class App extends Component {
     };
 
     return (
-      <Layout className="layout-container">
+      <Layout>
         <Provider>
           <Subscribe to={[AppContainer]}>
             {(appStore) => (
@@ -83,7 +83,7 @@ class App extends Component {
                 <Header />
                 <div className="playground-container">
                   <Sidebar appStore={appStore} />
-                  <div>
+                  <div className="playground-content-container">
                     <div className="top-panel">
                       <div className="codemirror-container">
                         <div className="editor-bar-container-fixed">
@@ -94,24 +94,27 @@ class App extends Component {
                             stopExecution={this.stopExecution}
                           />
                         </div>
-                        <div className="editor-container">
-                          <CodeMirror
-                            ref={this.editor}
-                            value={appStore.state.code}
-                            options={options}
-                            onChange={appStore.updateCode}
-                          />
-                        </div>
+                        <CodeMirror
+                          ref={this.editor}
+                          value={appStore.state.code}
+                          options={options}
+                          onChange={appStore.updateCode}
+                        />
                       </div>
                       <div className="console-container">
                         <Console ref={this.consoleFeed} />
                       </div>
                     </div>
-
                     <div className="bottom-panel">
                       <Output appStore={appStore} invokeContinuation={this.invokeContinuation} />
                     </div>
                   </div>
+                  <FAB
+                    appStore={appStore}
+                    executeCode={this.executeCode}
+                    stopExecution={this.stopExecution}
+                    invokeContinuation={this.invokeContinuation}
+                  />
                 </div>
               </div>
             )}

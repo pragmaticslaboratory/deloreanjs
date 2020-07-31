@@ -12,3 +12,4 @@ export { default as StateObject } from './StateObject';
 export { default as Timepoints } from './Timepoints';
 export { default as Watch } from './Watch';
 export { default as SegmentedControl } from './SegmentedControl';
+export { default as FAB } from './FAB';

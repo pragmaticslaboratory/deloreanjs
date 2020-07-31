@@ -8,7 +8,6 @@ class Output extends Component {
     return (
       <div className="delorean-container">
         <Timepoints appStore={this.props.appStore} />
-        <State appStore={this.props.appStore} invokeContinuation={this.props.invokeContinuation} />
       </div>
     );
   }

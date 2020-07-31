@@ -24,19 +24,6 @@ const EditorBar = (props) => {
           );
         })}
       </div>
-      <div className="btns-editor-container">
-        {!isRunning ? (
-          <div className="btn-play-container" onClick={() => executeCode(props.appStore)}>
-            <p>Run</p>
-            <img alt="run logo" className="btn-play" src={playButton} />
-          </div>
-        ) : (
-          <div className="btn-pause-container" onClick={() => stopExecution(props.appStore)}>
-            <p>Stop</p>
-            <img alt="stop logo" className="btn-pause" src={pauseButton} />
-          </div>
-        )}
-      </div>
     </div>
   );
 };
