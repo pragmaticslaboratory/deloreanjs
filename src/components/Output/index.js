@@ -8,7 +8,7 @@ class Output extends Component {
     return (
       <>
         <Timepoints appStore={this.props.appStore} />
-        <div className="output-timeline-container">asd</div>
+        <div className="output-timeline-container">Timepoints UI Container</div>
       </>
     );
   }

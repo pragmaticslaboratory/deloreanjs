@@ -4,4 +4,6 @@
   flex: 1;
   border: solid #303338;
   border-width: 1px 0px 0px 0px;
+  justify-content: center;
+  align-items: center;
 }

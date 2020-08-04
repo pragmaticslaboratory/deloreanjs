@@ -55,10 +55,6 @@
 
 /* watch variables styles */
 
-.p5-container {
-  position: relative;
-}
-
 .toggle-watch-variables {
   display: flex;
   align-items: center;
