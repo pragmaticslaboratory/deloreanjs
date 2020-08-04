@@ -15,7 +15,6 @@
 .playground-content-container {
   display: flex;
   flex: 1;
-  background-color: blueviolet;
   flex-direction: column;
 }
 
