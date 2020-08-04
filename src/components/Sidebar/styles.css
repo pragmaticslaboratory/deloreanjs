@@ -4,4 +4,6 @@
   width: 22vw;
   height: 100%;
   background-color: #181a1e;
+  border: solid #303338;
+  border-width: 0px 1px 0px 0px;
 }

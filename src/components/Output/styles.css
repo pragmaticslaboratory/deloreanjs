@@ -1,4 +1,7 @@
-.delorean-container {
-  display: grid;
-  grid-template-columns: 70% 30%;
+.output-timeline-container {
+  background-color: #101114;
+  display: flex;
+  flex: 1;
+  border: solid #303338;
+  border-width: 1px 0px 0px 0px;
 }

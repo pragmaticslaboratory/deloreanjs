@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 
-import { State, SegmentedControl, SidebarSection } from '..';
+import { State, SegmentedControl, SidebarSection, Watch } from '..';
 
 import { copyOptions, runtimeOptions } from './constants';
+
+import expandButton from '../../assets/img/expand-button.png';
 import './styles.css';
 
 export default function Sidebar(props) {
@@ -32,7 +34,15 @@ export default function Sidebar(props) {
           title="Runtime mode"
         />
       </SidebarSection>
-      <SidebarSection icon="settings" title="Watch variables"></SidebarSection>
+      <SidebarSection icon="settings" title="Watch variables">
+        <div
+          className="toggle-watch-variables"
+          onClick={(ev) => props.appStore.toggleWatchVariables(ev)}>
+          <p>Watch Variables</p>
+          <img style={{ marginLeft: '8px' }} alt="expand icon" src={expandButton} height="10" />
+          {appStore.state.watchVariablesComboBox && <Watch appStore={appStore} />}
+        </div>
+      </SidebarSection>
       <SidebarSection icon="build" title="State">
         <State appStore={appStore} invokeContinuation={() => alert('HOLA')} />
       </SidebarSection>
