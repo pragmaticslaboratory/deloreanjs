@@ -9,7 +9,8 @@ import 'codemirror/addon/display/autorefresh';
 import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/keymap/sublime';
-import 'codemirror/theme/darcula.css';
+
+import './dracula.css';
 
 global.delorean = require('./core/delorean.js'); // this line allow uses global variables form core/delorean (global.breakpoint -> state.js)
 const debuggerDelorean = require('./core/debugger');
@@ -67,7 +68,7 @@ class App extends Component {
 
   render() {
     var options = {
-      theme: 'darcula',
+      theme: 'dracula',
       tabSize: 4,
       keyMap: 'sublime',
       mode: 'js',

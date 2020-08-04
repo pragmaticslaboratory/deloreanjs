@@ -15,18 +15,8 @@ class ConsoleContainer extends Component {
 
   render() {
     return (
-      <div
-        className="consolefeed-container"
-        style={{
-          backgroundColor: '#242424',
-          borderRight: '1px solid rgb(17, 21, 24)',
-          borderTop: '1px solid rgb(17, 21, 24)',
-        }}>
-        <div className="title-container">
-          <div className="title">
-            <p>Console</p>
-          </div>
-        </div>
+      <div className="consolefeed-container">
+        <p>delorean v1.1.0.-</p>
         <div>
           <Console
             logs={this.state.logs}
