@@ -1,3 +1,5 @@
+import _debugger from '../../../index';
+
 export default {
   CallExpression(path) {
     let influentialExpression = false;
@@ -6,7 +8,7 @@ export default {
         let parent = path.context.parentPath;
         if (
           (parent.node.type != 'MemberExpression' || parent.node.object.name == path.node.name) &&
-          dependencies.some((dependency) => dependency.name == path.node.name)
+          _debugger.heap.dependencies.some((dependency) => dependency.name == path.node.name)
         ) {
           influentialExpression = true;
           path.stop;
@@ -19,9 +21,11 @@ export default {
         Identifier(path) {
           let parent = path.context.parentPath;
           if (parent.node.type != 'MemberExpression' || parent.node.object.name == path.node.name) {
-            if (!dependencies.some((dependency) => dependency.name == path.node.name)) {
+            if (
+              !_debugger.heap.dependencies.some((dependency) => dependency.name == path.node.name)
+            ) {
               if (!(path.node.name in { console: null })) {
-                dependencies.push({ name: path.node.name, type: 'normal' });
+                _debugger.heap.addDependency({ name: path.node.name, type: 'normal' });
               }
             }
           }

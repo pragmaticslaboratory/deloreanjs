@@ -1,3 +1,5 @@
+import _debugger from '../../../index';
+
 export default {
   'ForStatement|DoWhileStatement|WhileStatement'(path) {
     let test = path.get('test');
@@ -29,9 +31,9 @@ export default {
 
             if (
               !isInMemberExpression &&
-              !dependencies.some((dependency) => dependency.name == path.node.name)
+              !_debugger.heap.dependencies.some((dependency) => dependency.name == path.node.name)
             ) {
-              dependencies.push({ name: path.node.name, type: 'loop' });
+              _debugger.heap.addDependency({ name: path.node.name, type: 'loop' });
             }
           },
         });

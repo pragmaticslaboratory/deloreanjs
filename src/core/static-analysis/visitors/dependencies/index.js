@@ -2,7 +2,7 @@ import assignment from './assignment.visitor';
 import declarator from './declarator.visitor';
 import loop from './loop.visitor';
 import property from './property.visitor';
-import { addDependencies } from '../../../heap';
+import _debugger from '../../../index';
 
 export default function () {
   return {
@@ -11,13 +11,12 @@ export default function () {
         let pastDependencies;
 
         do {
-          pastDependencies = global.dependencies.length;
+          pastDependencies = _debugger.heap.dependencies.length;
           path.traverse(declarator);
           path.traverse(assignment);
           path.traverse(loop);
           path.traverse(property);
-        } while (pastDependencies < global.dependencies.length);
-        addDependencies(global.dependencies);
+        } while (pastDependencies < _debugger.heap.dependencies.length);
       },
     },
   };

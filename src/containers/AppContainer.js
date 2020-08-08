@@ -8,6 +8,7 @@ import {
   experimentScenariosExample,
   breakpointExample,
 } from '../assets/example-inputs/index';
+import _debugger from '../core';
 
 export default class AppContainer extends Container {
   constructor(props = {}) {
@@ -76,7 +77,7 @@ export default class AppContainer extends Container {
       target.classList.add('timepoint-button-selected');
     }
 
-    global.heap.snapshots.forEach((el) => {
+    _debugger.heap.snapshots.forEach((el) => {
       if (el.timePointId === id) {
         this.setState({
           timePointValues: el,
@@ -105,10 +106,8 @@ export default class AppContainer extends Container {
   };
 
   clean = (watchVariables = []) => {
-    global.heap = {
-      dependencies: {},
-      snapshots: [],
-    };
+    _debugger.heap.dependencies = [];
+    _debugger.heap.snapshots = [];
     global.continuations = {};
     global.snapshotCounter = 0;
     this.resetWatchVariables(watchVariables);
@@ -166,7 +165,7 @@ export default class AppContainer extends Container {
     ev.currentTarget.classList.remove('timepoint-button');
     ev.currentTarget.classList.add('timepoint-button-selected');
 
-    global.heap.snapshots.forEach((el) => {
+    _debugger.heap.snapshots.forEach((el) => {
       if (el.timePointId === ev.currentTarget.getAttribute('id')) {
         this.setState({
           timePointValues: el,
@@ -237,7 +236,7 @@ export default class AppContainer extends Container {
       }),
     });
 
-    global.dependencies = global.dependencies.filter(function (e) {
+    _debugger.heap.dependencies = _debugger.heap.dependencies.filter(function (e) {
       return e.name !== variable;
     });
   };
@@ -246,7 +245,7 @@ export default class AppContainer extends Container {
     this.setState({
       watchVariables: variables,
     });
-    global.dependencies = variables.map((e) => ({
+    _debugger.heap.dependencies = variables.map((e) => ({
       name: e,
       type: 'normal',
     }));
@@ -305,7 +304,7 @@ export default class AppContainer extends Container {
       this.setState({
         watchVariables: [...this.state.watchVariables, newWatchVariable.value],
       });
-      global.dependencies.push({ name: newWatchVariable.value, type: 'normal' });
+      _debugger.heap.addDependency({ name: newWatchVariable.value, type: 'normal' });
       newWatchVariable.value = '';
     }
   };

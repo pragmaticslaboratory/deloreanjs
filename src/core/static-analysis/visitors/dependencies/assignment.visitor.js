@@ -1,3 +1,5 @@
+import _debugger from '../../../index';
+
 export default {
   AssignmentExpression(path) {
     let left = path.node.left;
@@ -10,11 +12,11 @@ export default {
     // left = right
     if (right != undefined) {
       if (
-        dependencies.some((dependency) => dependency.name == left) &&
+        _debugger.heap.dependencies.some((dependency) => dependency.name == left) &&
         left != right &&
-        !dependencies.some((dependency) => dependency.name == right)
+        !_debugger.heap.dependencies.some((dependency) => dependency.name == right)
       ) {
-        dependencies.push({ name: right, type: 'normal' });
+        _debugger.heap.addDependency({ name: right, type: 'normal' });
       }
     }
 
@@ -23,11 +25,11 @@ export default {
       path.traverse({
         Identifier(path) {
           if (
-            dependencies.some((dependency) => dependency.name == left) &&
+            _debugger.heap.dependencies.some((dependency) => dependency.name == left) &&
             left != path.node.name &&
-            !dependencies.some((dependency) => dependency.name == path.node.name)
+            !_debugger.heap.dependencies.some((dependency) => dependency.name == path.node.name)
           ) {
-            dependencies.push({ name: path.node.name, type: 'normal' });
+            _debugger.heap.addDependency({ name: path.node.name, type: 'normal' });
           }
         },
       });

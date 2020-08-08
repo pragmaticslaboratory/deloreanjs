@@ -16,6 +16,7 @@ export const transformWithoutBabel = (code) => {
     });
     return obj;
   }
+
   function restoreHeap(restore){
     let snapshot;
     heap.snapshots.map(element => {
@@ -23,9 +24,14 @@ export const transformWithoutBabel = (code) => {
     })
     return snapshot;
   }
-  emptyContinuation = '';
-  emptyContinuationAux = '';
-  contTimeLine = {};
+
+  function ldDeepCopy(original) {
+    return cloneDeep(original);
+  }
+
+  var emptyContinuation = '';
+  var emptyContinuationAux = '';
+  var contTimeLine = {};
   function addCont(cont, continuations, originalId){
 
     let counter = 0;
