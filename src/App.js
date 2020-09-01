@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import { Provider, Subscribe } from 'unstated';
-import { Layout, Console, Output, Header, EditorBar, Sidebar, FAB } from './components';
+import { Layout, Console, Timeline, Header, EditorBar, Sidebar, FAB } from './components';
 import AppContainer from './containers/AppContainer';
 import './App.css';
 
@@ -107,7 +107,7 @@ class App extends Component {
                       </div>
                     </div>
                     <div className="bottom-panel">
-                      <Output appStore={appStore} invokeContinuation={this.invokeContinuation} />
+                      <Timeline appStore={appStore} invokeContinuation={this.invokeContinuation} />
                     </div>
                   </div>
                   <FAB
