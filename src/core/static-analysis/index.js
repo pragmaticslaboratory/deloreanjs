@@ -21,7 +21,7 @@ const transpile = (code, visitors) => {
 
 const prepareCode = (code) => {
   let visitors = [timepointLineVisitor, dependencyVisitor];
-  if (global.implicitTimpeoints) visitors.push(implicitTimepointVisitor);
+  if (global.implicitTimepoints) visitors.push(implicitTimepointVisitor);
   code = transpile(code, [...visitors, tryCatchVisitor]);
   code = transpile(code, [
     ifBlockVisitor,

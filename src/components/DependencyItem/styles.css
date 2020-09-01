@@ -1,0 +1,43 @@
+.dependency-item-container {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.dependency-item-column {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.state-value-name {
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.dependency-item-value {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: #6cd0e5;
+}
+
+.dependency-item-input {
+  background: none;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  border: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: rgba(255, 255, 255, 0.2);
+  width: 100%;
+}
+
+.dependency-item-input:active {
+  outline: none;
+}
+
+.dependency-item-input:focus {
+  outline: none;
+}

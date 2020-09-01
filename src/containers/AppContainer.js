@@ -51,8 +51,8 @@ export default class AppContainer extends Container {
       displayedObjects: [],
       displayedObjectsNames: [],
       displayedObjectsDOM: [],
-      copyStyle: 'Deep Copy',
-      implicitTimpeoints: 'Normal',
+      copyStyle: 'Shallow Copy',
+      implicitTimepoints: 'Normal',
     };
   }
 
@@ -126,13 +126,13 @@ export default class AppContainer extends Container {
 
   selectTabColor = (ev) => {
     if (this.state.selected) {
-      this.state.selectedTarget.classList.remove('selected');
+      this.state.selectedTarget.classList.remove('tab-selected');
     } else {
       this.setState({
         selected: true,
       });
     }
-    ev.currentTarget.classList.add('selected');
+    ev.currentTarget.classList.add('tab-selected');
     this.setState({
       selectedTarget: ev.currentTarget,
     });
@@ -252,20 +252,13 @@ export default class AppContainer extends Container {
     }));
   };
 
-  toggleCopy = (ev) => {
+  toggleCopy = (mode) => {
     if (!this.state.isRunning) {
-      if (ev.target.innerHTML === this.state.copyStyle) {
+      if (mode === this.state.copyStyle) {
         return;
       } else {
-        let switchOptions = ev.currentTarget;
-        for (let i = 0; i < switchOptions.childNodes.length; i++) {
-          if (switchOptions.childNodes[i].classList.contains('selected-switch')) {
-            switchOptions.childNodes[i].classList.remove('selected-switch');
-          }
-        }
-        ev.target.classList.add('selected-switch');
         this.setState({
-          copyStyle: ev.target.innerHTML,
+          copyStyle: mode,
         });
       }
     } else {
@@ -274,23 +267,15 @@ export default class AppContainer extends Container {
     }
   };
 
-  toggleImplicit = (ev) => {
+  toggleImplicit = (mode) => {
     if (!this.state.isRunning) {
-      if (ev.target.innerHTML === this.state.implicitTimpeoints) {
+      if (mode === this.state.implicitTimepoints) {
         return;
       } else {
-        let switchOptions = ev.currentTarget;
-        for (let i = 0; i < switchOptions.childNodes.length; i++) {
-          if (switchOptions.childNodes[i].classList.contains('selected-switch')) {
-            switchOptions.childNodes[i].classList.remove('selected-switch');
-          }
-        }
-        ev.target.classList.add('selected-switch');
         this.setState({
-          implicitTimpeoints: ev.target.innerHTML,
+          implicitTimepoints: mode,
         });
-
-        global.implicitTimpeoints = !global.implicitTimpeoints;
+        global.implicitTimepoints = !global.implicitTimepoints;
       }
     } else {
       alert('Sorry, you need stop this execution before change the copy mode! :)');

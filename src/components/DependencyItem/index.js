@@ -1,23 +1,23 @@
 import React from 'react';
 import StateObject from '../StateObject';
-import { TextField } from '@material-ui/core';
+
+import './styles.css';
 
 const DependencyItem = (props) => {
-  const { element, name, type, toggleObject, displayedObjectsNames, displayedObjectsDOM } = props;
+  const {
+    element,
+    name,
+    disabled,
+    type,
+    toggleObject,
+    displayedObjectsNames,
+    displayedObjectsDOM,
+  } = props;
 
-  // console.log(name,element)
-  if (typeof element == 'function') {
-    // La dependencia es una funcion
+  const display = typeof element == 'function' ? 'none' : 'visible';
+
+  if (typeof element == 'object') {
     return (
-      <div style={{ display: 'none' }} key={name} className="state-values">
-        <p>{type !== 'loop' ? name : name + ' (loop)'}</p>
-        <p>{typeof element == 'number' || element ? element.toString() : 'undefined'}</p>
-        <TextField id={`input-${name}`} />
-      </div>
-    );
-  } else {
-    return typeof element == 'object' ? (
-      // La dependencia es un objeto
       <StateObject
         element={element}
         name={name}
@@ -26,12 +26,32 @@ const DependencyItem = (props) => {
         displayedObjectsNames={displayedObjectsNames}
         displayedObjectsDOM={displayedObjectsDOM}
       />
-    ) : (
-      // La dependencia no es un objeto
-      <div key={name} className="state-values">
-        <p>{type !== 'loop' ? name : name + ' (loop)'}</p>
-        <p>{typeof element == 'number' || element ? element.toString() : 'undefined'}</p>
-        <TextField id={`input-${name}`} />
+    );
+  } else {
+    return (
+      <div style={{ display: display }} key={name}>
+        <div className="dependency-item-container">
+          <div className="dependency-item-column">
+            <span className="state-value-name">{type !== 'loop' ? name : name + ' (loop)'}</span>
+          </div>
+          {!disabled && (
+            <>
+              <div className="dependency-item-column">
+                <p className="dependency-item-value ">
+                  {typeof element == 'number' || element ? element.toString() : 'undefined'}
+                </p>
+              </div>
+              <div className="dependency-item-column">
+                <input
+                  placeholder="New value"
+                  className="dependency-item-input"
+                  type="text"
+                  id={`input-${name}`}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
     );
   }

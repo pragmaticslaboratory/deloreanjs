@@ -1,4 +1,6 @@
 .layout-container {
-  display: grid;
-  grid-template-rows: 6vh 94vh;
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  background-color: #14161a;
 }

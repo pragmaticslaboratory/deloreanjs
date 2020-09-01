@@ -14,12 +14,6 @@ const StateBar = (props) => {
         <p className="state-title">
           State of <b>{selectedTimePoint ? selectedTimePoint : '(Not selected)'}</b>
         </p>
-        {isRunning && (
-          <div className="btn-resume-container" onClick={() => invokeContinuation(appStore)}>
-            <p>Resume</p>
-            <img alt="resume logo" src={resumeButton} className="btn-resume" />
-          </div>
-        )}
       </div>
 
       <div className="state-table-titles-container">

@@ -7,21 +7,30 @@
 .state-container {
   display: grid;
   align-content: flex-start;
-  overflow: auto;
 }
 
 .state-values-container {
-  overflow: auto;
-  max-height: 35vh;
+  max-height: 500px;
 }
 
-.state-values {
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  text-align: center;
+.state-subtitle {
+  margin: 0;
   font-size: 12px;
-  transition: all 0.3s ease 0s;
-  border-bottom: 1px solid rgb(243, 243, 243);
+  font-family: 'Inter', sans-serif;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.5em;
+}
+
+.state-subtitle span {
+  color: white;
+}
+
+.state-values span {
+  font-size: 12px;
+  color: white;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
 }
 
 .state-values-object {
@@ -30,9 +39,8 @@
   grid-template-columns: 33% 33% 33%;
   text-align: center;
   font-size: 12px;
+  color: white;
   transition: all 0.3s ease 0s;
-  background-color: rgb(221, 221, 221);
-  border-bottom: 1px solid rgb(243, 243, 243);
 }
 
 .object-expand-container {
@@ -46,7 +54,26 @@
   grid-template-columns: 33% 33% 33%;
   text-align: center;
   font-size: 12px;
+  color: white;
   transition: all 0.3s ease 0s;
-  border-bottom: 1px solid rgb(243, 243, 243);
-  background-color: rgb(221, 221, 221);
+}
+
+.state-values-header {
+  display: flex;
+  margin-top: 1.5em;
+}
+
+.state-values-header div {
+  display: flex;
+  flex: 1;
+}
+
+.state-values-header h5 {
+  text-transform: uppercase;
+  font-size: 10px;
+  color: #798294;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin: 0;
+  opacity: 0.8;
 }

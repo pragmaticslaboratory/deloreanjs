@@ -1,112 +1,59 @@
 .timepoints-panel {
-  display: grid;
-  grid-template-rows: 45px auto;
-}
-
-.timeponts-bar-container {
   display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  align-items: center;
-  background-color: rgb(221, 221, 221);
-  font-size: 12px;
-  padding: 0 20px;
-  color: rgb(51, 51, 51);
-  font-weight: 400;
-  width: 100%;
-  height: 45px;
-  box-sizing: border-box;
-  margin: 0px;
-  flex: 0 0 3rem;
-  border-bottom: 1px solid transparent;
-}
-
-.timepoints-container {
-  display: grid;
-  grid-template-columns: 20% 80%;
-}
-
-.timepoints-btns {
-  border-right: 1px solid rgb(243, 243, 243);
-}
-
-.timepoint-button-selected {
-  display: flex;
-  align-items: center;
-  font-family: Poppins, Roboto, sans-serif;
-  background-color: rgb(0, 122, 204);
-  background-size: 720%;
-  box-sizing: border-box;
-  text-align: center;
-  color: white;
-  font-weight: 600;
-  width: inherit;
-  user-select: none;
-  font-size: 0.875em;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
-  outline: none;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgb(0, 98, 163);
-  border-image: initial;
-  text-decoration: none;
-  padding: 0.5em 0.7em;
+  flex-direction: column;
+  background-color: #181a1e;
+  min-width: 14vw;
+  border: solid #303338;
+  border-width: 1px 0px 0px 0px;
 }
 
 .timepoint-button {
   display: flex;
   align-items: center;
-  font-family: Poppins, Roboto, sans-serif;
-  box-sizing: border-box;
-  text-align: center;
-  font-weight: 400;
-  width: inherit;
-  user-select: none;
+  height: 40px;
+  border: solid #303338;
+  border-width: 0px 0px 1px 0px;
   cursor: pointer;
-  transition: all 0.3s ease 0s;
-  outline: none;
-  color: rgb(51, 51, 51);
-  padding: 0.5em 0.7em;
-  font-size: 12px;
-  border: 1px solid rgb(243, 243, 243);
+  padding: 0px 8px;
 }
 
-.icon-timepoint {
-  margin-right: 10px;
-  width: 20px;
-}
-
-.switch-container {
-  font-size: 12px;
-  background: rgb(243, 243, 243);
+.timepoint-button-selected {
   display: flex;
-  border: 1px solid black;
-}
-
-.switch-container p {
+  align-items: center;
+  height: 40px;
+  border: solid #303338;
+  border-width: 0px 0px 1px 0px;
   cursor: pointer;
-  text-decoration: none;
-  margin: 0;
-  padding: 0.5em;
+  padding: 0px 8px;
+  background-color: #3b414c;
 }
 
-.switch-options {
-  transition: 0.3s ease-out all;
-}
-
-.selected-switch {
-  background: black;
+.timepoint-icon {
   color: white;
-  transition: 0.3s ease-out all;
+  opacity: 0.6;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.timepoint-name {
+  font-family: 'Inter', sans-serif;
+  color: white;
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+.timepoints-header {
+  text-transform: uppercase;
+  font-size: 10px;
+  color: #798294;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin: 0;
+  opacity: 0.8;
+  padding: 1em;
 }
 
 /* watch variables styles */
-
-.p5-container {
-  position: relative;
-}
 
 .toggle-watch-variables {
   display: flex;

@@ -1,40 +1,29 @@
 .editor-bar-container {
   display: flex;
   justify-content: space-between;
-  background-color: rgb(243, 243, 243);
+  background-color: #0c0d10;
   font-size: 12px;
-  position: sticky;
 }
 
 .tabs-container {
   display: flex;
 }
 
-.btn-play-container,
-.btn-pause-container {
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  cursor: pointer;
-}
-
-.btn-play,
-.btn-pause {
-  height: 15px;
-  margin-left: 5px;
-}
-
 .tab-container {
   display: flex;
   align-items: center;
   padding: 0 20px 0 12px;
-  transition: all 0.3s ease 0s;
+  color: white;
+  transition-duration: 250ms;
+  cursor: pointer;
 }
 
 .tab-container:hover {
-  background: rgb(30, 30, 30);
-  color: white;
-  cursor: pointer;
+  background-color: #14161b;
+}
+
+.tab-selected {
+  background-color: #1e2028;
 }
 
 .file-icon {

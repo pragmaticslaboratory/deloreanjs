@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import { Provider, Subscribe } from 'unstated';
-import { Layout, Console, Output, Header, EditorBar, Sidebar } from './components';
+import { Layout, Console, Timeline, Header, EditorBar, Sidebar, FAB } from './components';
 import AppContainer from './containers/AppContainer';
 import './App.css';
 
@@ -9,7 +9,8 @@ import 'codemirror/addon/display/autorefresh';
 import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/keymap/sublime';
-import 'codemirror/theme/darcula.css';
+
+import './dracula.css';
 
 global.delorean = require('./core/delorean.js'); // this line allow uses global variables form core/delorean (global.breakpoint -> state.js)
 const debuggerDelorean = require('./core/debugger');
@@ -67,7 +68,7 @@ class App extends Component {
 
   render() {
     var options = {
-      theme: 'darcula',
+      theme: 'dracula',
       tabSize: 4,
       keyMap: 'sublime',
       mode: 'js',
@@ -75,15 +76,15 @@ class App extends Component {
     };
 
     return (
-      <Layout className="layout-container">
+      <Layout>
         <Provider>
           <Subscribe to={[AppContainer]}>
             {(appStore) => (
               <div className="main-page-container">
                 <Header />
                 <div className="playground-container">
-                  <Sidebar />
-                  <div>
+                  <Sidebar appStore={appStore} />
+                  <div className="playground-content-container">
                     <div className="top-panel">
                       <div className="codemirror-container">
                         <div className="editor-bar-container-fixed">
@@ -94,24 +95,27 @@ class App extends Component {
                             stopExecution={this.stopExecution}
                           />
                         </div>
-                        <div className="editor-container">
-                          <CodeMirror
-                            ref={this.editor}
-                            value={appStore.state.code}
-                            options={options}
-                            onChange={appStore.updateCode}
-                          />
-                        </div>
+                        <CodeMirror
+                          ref={this.editor}
+                          value={appStore.state.code}
+                          options={options}
+                          onChange={appStore.updateCode}
+                        />
                       </div>
                       <div className="console-container">
                         <Console ref={this.consoleFeed} />
                       </div>
                     </div>
-
                     <div className="bottom-panel">
-                      <Output appStore={appStore} invokeContinuation={this.invokeContinuation} />
+                      <Timeline appStore={appStore} invokeContinuation={this.invokeContinuation} />
                     </div>
                   </div>
+                  <FAB
+                    appStore={appStore}
+                    executeCode={this.executeCode}
+                    stopExecution={this.stopExecution}
+                    invokeContinuation={this.invokeContinuation}
+                  />
                 </div>
               </div>
             )}

@@ -32,6 +32,8 @@
   font-weight: 500;
   color: white;
   z-index: 5;
+  user-select: none;
+  cursor: pointer;
 }
 
 .segmented-control-selected {
