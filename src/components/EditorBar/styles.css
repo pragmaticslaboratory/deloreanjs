@@ -1,7 +1,34 @@
 .editor-bar-container {
+  background-color: #0c0d10;
   display: flex;
-  justify-content: space-between;
+  overflow-x: auto;
+  justify-content: flex-start;
+  align-content: stretch;
+  width: 100%;
+}
+
+.editor-bar-tabs-container {
+  display: flex;
+  justify-content: flex-start;
   background-color: #0c0d10;
   font-size: 12px;
-  overflow-x: auto;
+}
+
+.editor-bar-add-container {
+  display: flex;
+  padding: 0em 0.5em;
+  border: 1px solid #22222262;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+}
+
+.editor-bar-add-container:hover {
+  transition: 150ms;
+  border-bottom: 1px solid rgba(255, 255, 0, 0.345);
+}
+
+.editor-bar-add-container span {
+  font-size: 21px;
+  padding: 1px;
 }

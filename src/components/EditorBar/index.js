@@ -9,7 +9,7 @@ const EditorBar = (props) => {
 
   return (
     <div className="editor-bar-container">
-      <div className="tabs-container">
+      <div className="editor-bar-tabs-container">
         {tabs.map((tab) => {
           return (
             <Tab
@@ -21,6 +21,9 @@ const EditorBar = (props) => {
             />
           );
         })}
+      </div>
+      <div className="editor-bar-add-container">
+        <span class="material-icons">add</span>
       </div>
     </div>
   );

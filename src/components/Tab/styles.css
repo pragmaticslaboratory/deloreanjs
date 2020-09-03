@@ -3,17 +3,18 @@
 }
 
 .tab-container {
+  padding: 0em 0.5em;
   display: flex;
   align-items: center;
-  padding: 0 20px 0 12px;
   color: white;
   cursor: pointer;
-  border: 1px solid #0c0d10;
+  border: 1px solid #22222262;
   transition-duration: 150ms;
+  cursor: pointer;
 }
 
 .tab-container:hover {
-  border-bottom: 1px solid rgba(255, 255, 0, 0.249);
+  border-bottom: 1px solid rgba(255, 255, 0, 0.345);
 }
 
 .tab-container:hover > .tab-close {
@@ -25,18 +26,24 @@
 }
 
 .tab-selected {
+  padding: 0em 0.5em;
   display: flex;
   align-items: center;
-  padding: 0 20px 0 12px;
   color: white;
   cursor: pointer;
-  border: 1px solid #0c0d10;
+  border: 1px solid #22222262;
   border-bottom: 1px solid yellow;
   transition-duration: 150ms;
+  cursor: pointer;
+}
+
+.tab-selected p {
+  color: yellow;
+  margin: 0;
 }
 
 .file-icon {
-  height: 15px;
+  height: 18px;
 }
 
 .tab-close {
