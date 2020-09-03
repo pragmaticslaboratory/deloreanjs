@@ -1,0 +1,45 @@
+.tabs-container {
+  display: flex;
+}
+
+.tab-container {
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0 12px;
+  color: white;
+  cursor: pointer;
+  border: 1px solid #0c0d10;
+  transition-duration: 150ms;
+}
+
+.tab-container:hover {
+  border-bottom: 1px solid rgba(255, 255, 0, 0.249);
+}
+
+.tab-container:hover > .tab-close {
+  opacity: 1;
+}
+
+.tab-container > .tab-close {
+  opacity: 0;
+}
+
+.tab-selected {
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0 12px;
+  color: white;
+  cursor: pointer;
+  border: 1px solid #0c0d10;
+  border-bottom: 1px solid yellow;
+  transition-duration: 150ms;
+}
+
+.file-icon {
+  height: 15px;
+}
+
+.tab-close {
+  margin-left: 0.5em;
+  font-size: 18px;
+}

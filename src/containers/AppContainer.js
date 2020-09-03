@@ -127,12 +127,14 @@ export default class AppContainer extends Container {
   selectTabColor = (ev) => {
     if (this.state.selected) {
       this.state.selectedTarget.classList.remove('tab-selected');
+      this.state.selectedTarget.classList.add('tab-container');
     } else {
       this.setState({
         selected: true,
       });
     }
     ev.currentTarget.classList.add('tab-selected');
+    ev.currentTarget.classList.remove('tab-container');
     this.setState({
       selectedTarget: ev.currentTarget,
     });

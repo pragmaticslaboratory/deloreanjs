@@ -1,13 +1,11 @@
 import React from 'react';
-import Tab from './Tab';
-import playButton from '../../assets/img/play-button.png';
-import pauseButton from '../../assets/img/pause.png';
+import Tab from '../Tab';
 
 import './styles.css';
 
 const EditorBar = (props) => {
-  const { tabs, isRunning } = props.appStore.state;
-  const { selectTab, executeCode, stopExecution } = props;
+  const { tabs } = props.appStore.state;
+  const { selectTab } = props;
 
   return (
     <div className="editor-bar-container">
