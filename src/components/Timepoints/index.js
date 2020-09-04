@@ -18,7 +18,7 @@ const Timepoints = (props) => {
             kont={snapshot.timePointId}
             id={snapshot.timePointId}
             key={snapshot.timePointId}>
-            <span class="material-icons timepoint-icon">place</span>
+            <span className="material-icons timepoint-icon">place</span>
             <span className="timepoint-name">{snapshot.timePointId}</span>
           </div>
         );

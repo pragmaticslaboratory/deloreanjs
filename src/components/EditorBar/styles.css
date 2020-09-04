@@ -5,6 +5,7 @@
   justify-content: flex-start;
   align-content: stretch;
   width: 100%;
+  min-height: 39.2px;
 }
 
 .editor-bar-tabs-container {

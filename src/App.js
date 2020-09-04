@@ -22,19 +22,6 @@ class App extends Component {
     this.editor = createRef();
   }
 
-  selectTab = (ev, appStore) => {
-    if (!appStore.state.isRunning) {
-      let example = appStore.state.tabs.find(
-        (o) => o.name === ev.currentTarget.firstChild.getAttribute('name'),
-      );
-      appStore.updateCode(example.input);
-      appStore.selectTabColor(ev);
-      appStore.clean(example.watchVariables);
-    } else {
-      alert('Sorry, you need stop this execution before change the code! :)');
-    }
-  };
-
   executeCode = (appStore) => {
     try {
       this.editor.current.editor.setOption('readOnly', true);

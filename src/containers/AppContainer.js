@@ -40,11 +40,10 @@ export default class AppContainer extends Container {
       watchVariablesComboBox: false,
       snapshots: [],
       dependencies: [],
-      code: objectsExample,
+      code: '',
       isRunning: false,
       readOnly: false,
-      selected: false,
-      selectedTarget: '',
+      selectedTab: '',
       timePointValues: {},
       selectedTimePoint: '',
       selectedTimePointDOM: '',
@@ -55,6 +54,15 @@ export default class AppContainer extends Container {
       implicitTimepoints: 'Normal',
     };
   }
+
+  updateTabs = (tabs, callback) => {
+    this.setState(
+      {
+        tabs,
+      },
+      callback,
+    );
+  };
 
   selectTimepointById = (id) => {
     let target = '';
@@ -124,20 +132,19 @@ export default class AppContainer extends Container {
     });
   };
 
-  selectTabColor = (ev) => {
-    if (this.state.selected) {
-      this.state.selectedTarget.classList.remove('tab-selected');
-      this.state.selectedTarget.classList.add('tab-container');
-    } else {
-      this.setState({
-        selected: true,
-      });
+  selectTab = (tabElement) => {
+    const tab = tabElement.parentNode;
+    const selectedTab = this.state.selectedTab;
+
+    if (Boolean(selectedTab)) {
+      selectedTab.classList.add('tab-container');
+      selectedTab.classList.remove('tab-selected');
     }
-    ev.currentTarget.classList.add('tab-selected');
-    ev.currentTarget.classList.remove('tab-container');
-    this.setState({
-      selectedTarget: ev.currentTarget,
-    });
+
+    tab.classList.add('tab-selected');
+    tab.classList.remove('tab-container');
+
+    this.setState({ selectedTab: tab });
   };
 
   updateSnapshots = (snapshots) => {

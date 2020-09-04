@@ -7,19 +7,15 @@ export default function Timeline(props) {
   const { appStore } = props;
   const { snapshots, selectedTimePoint } = appStore.state;
 
-  useEffect(() => {
-    console.log(snapshots);
-  }, [snapshots]);
-
   const renderTimepoint = useCallback((snapshot) => {
     return (
       <>
         <div>
           <div className="timeline-timepoint">
-            <span class="material-icons">room</span>
+            <span className="material-icons">room</span>
           </div>
           <div className="timeline-details-container">
-            <span class="timeline-detail-title">{snapshot.timePointId}</span>
+            <span className="timeline-detail-title">{snapshot.timePointId}</span>
           </div>
         </div>
         <div className="timeline-line" />
