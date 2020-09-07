@@ -13,7 +13,6 @@ const EditorBar = (props) => {
   const addTab = () => {
     if (isCreatingTab) return; // a tab is currently being created
     props.appStore.newTab();
-    props.appStore.updateCode('');
     props.appStore.clean();
     toggleIsCreatingTab();
   };
@@ -39,6 +38,7 @@ const EditorBar = (props) => {
               <Tab
                 key={tab.name}
                 tab={tab}
+                store={props.appStore}
                 removeTab={onRemoveTab}
                 selectTab={props.appStore.selectTab}
                 saveTabName={saveTabName}

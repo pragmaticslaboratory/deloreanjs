@@ -1,5 +1,5 @@
 .tab-container {
-  padding: 0em 0.5em;
+  padding: 0em 0.2em;
   display: flex;
   align-items: center;
   color: white;
@@ -12,12 +12,12 @@
   border-bottom: 1px solid rgba(255, 255, 0, 0.345);
 }
 
-.tab-container:hover > .tab-close {
-  opacity: 1;
-}
-
 .tab-container > .tab-close {
   opacity: 0;
+}
+
+.tab-container:hover > .tab-close {
+  opacity: 1;
 }
 
 .tab-selected {
@@ -28,13 +28,22 @@
   color: yellow;
 }
 
+.tab-selected > .tab-close {
+  opacity: 1;
+}
+
 .file-icon {
   height: 18px;
 }
 
 .tab-close {
-  margin-left: 0.5em;
-  font-size: 18px;
+  padding: 0.5em;
+  font-size: 1.2em;
+}
+
+.tab-requires-saved {
+  padding: 0.8em;
+  font-size: 0.9em;
 }
 
 .tab-input-name {
@@ -45,10 +54,6 @@
   border: solid;
   border-width: 0px 0px 1px 0px;
   border-color: rgba(255, 255, 255, 0.2);
-}
-
-.tab-input-name:active {
-  outline: none;
 }
 
 .tab-input-name:focus {
