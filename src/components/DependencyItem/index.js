@@ -1,6 +1,5 @@
 import React from 'react';
 import StateObject from '../StateObject';
-
 import './styles.css';
 
 const DependencyItem = (props) => {

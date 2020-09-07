@@ -1,12 +1,9 @@
-import React, { Component, useEffect } from 'react';
-
+import React, { useEffect } from 'react';
 import DependencyItem from '../DependencyItem';
-import StateBar from '../StateBar';
-
 import './styles.css';
 
 export default function State(props) {
-  const { appStore, invokeContinuation } = props;
+  const { appStore } = props;
   const { toggleObject } = appStore;
   const {
     selectedTimePoint,

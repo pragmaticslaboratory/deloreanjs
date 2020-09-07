@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react';
-
-import { State, SegmentedControl, SidebarSection, Watch } from '..';
-
+import { State, SegmentedControl, SidebarSection, Watch } from '../';
 import { copyOptions, runtimeOptions } from './constants';
-
 import expandButton from '../../assets/img/expand-button.png';
 import './styles.css';
 

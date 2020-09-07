@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-
 import Timepoints from '../Timepoints';
 import './styles.css';
 
@@ -7,8 +6,6 @@ export default function Timeline(props) {
   const { appStore } = props;
   const { state, selectCurrentTimepoint } = appStore;
   const { snapshots, selectedTimePoint } = state;
-
-  const [startTime, endTime] = [0, 20];
 
   const renderTimepoint = useCallback(
     (snapshot) => {
