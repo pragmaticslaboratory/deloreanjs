@@ -1,11 +1,28 @@
-.timeline-timeline-container {
+.timeline-container {
   background-color: #101114;
   display: flex;
+  flex-direction: column;
   flex: 1;
+  width: 63.5vw;
   border: solid #303338;
   border-width: 1px 0px 0px 0px;
-  justify-content: center;
+  overflow-x: scroll;
+}
+
+.timeline-timepoints-container {
+  display: flex;
+  padding: 0 1em;
   align-items: center;
+}
+
+.timeline-time-container {
+  display: flex;
+  padding: 0 1em;
+  max-width: 100%;
+}
+
+.timeline-time-item {
+  min-width: 80px;
 }
 
 .timeline-start-container {

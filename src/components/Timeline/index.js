@@ -8,6 +8,8 @@ export default function Timeline(props) {
   const { state, selectCurrentTimepoint } = appStore;
   const { snapshots, selectedTimePoint } = state;
 
+  const [startTime, endTime] = [0, 20];
+
   const renderTimepoint = useCallback(
     (snapshot) => {
       const { timePointId } = snapshot;
@@ -35,21 +37,30 @@ export default function Timeline(props) {
   return (
     <>
       <Timepoints appStore={appStore} />
-      <div className="timeline-timeline-container">
-        {snapshots.length ? (
-          <>
-            <div className="timeline-start-container">
-              <span>Start</span>
+      <div className="timeline-container">
+        <div className="timeline-time-container">
+          {Array.apply(null, Array(60)).map((_, index) => (
+            <div className="timeline-time-item">
+              <p>{index}ms</p>
             </div>
-            <div className="timeline-line" />
-            {snapshots.map(renderTimepoint)}
-            <div className="timeline-start-container timeline-end-container">
-              <span>End</span>
-            </div>
-          </>
-        ) : (
-          <span>Run the code to start tracking timepoints</span>
-        )}
+          ))}
+        </div>
+        <div className="timeline-timepoints-container">
+          {snapshots.length ? (
+            <>
+              <div className="timeline-start-container">
+                <span>Start</span>
+              </div>
+              <div className="timeline-line" />
+              {snapshots.map(renderTimepoint)}
+              <div className="timeline-start-container timeline-end-container">
+                <span>End</span>
+              </div>
+            </>
+          ) : (
+            <span>Run the code to start tracking timepoints</span>
+          )}
+        </div>
       </div>
     </>
   );
