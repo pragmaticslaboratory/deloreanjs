@@ -37,7 +37,7 @@ export default function Timeline(props) {
       <div className="timeline-container">
         <div className="timeline-time-container">
           {Array.apply(null, Array(60)).map((_, index) => (
-            <div className="timeline-time-item">
+            <div key={index} className="timeline-time-item">
               <p>{index}ms</p>
             </div>
           ))}

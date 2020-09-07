@@ -9,16 +9,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.consoleFeed = createRef();
-    props.store.createEditors();
+    // props.store.createEditors();
   }
 
   executeCode = () => {
     const { store } = this.props;
     try {
-      store.toggleIsRunning();
-      debuggerDelorean.init(store.state.code);
+      const [tab] = store.getSelectedTab();
+      console.log([tab.code, tab.savedCode]);
+      debuggerDelorean.init(tab.savedCode);
       store.updateDependencies(global.heap.dependencies);
       store.updateSnapshots(global.heap.snapshots);
+      store.toggleIsRunning();
     } catch (error) {
       console.error(error);
     }

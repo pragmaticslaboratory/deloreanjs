@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { Container } from 'unstated';
 import { DependencyItem } from '../components';
 import {
@@ -18,24 +18,28 @@ import '../dracula.css';
 const files = [
   {
     name: 'fixABug.js',
+    savedCode: fixABugExample,
     code: fixABugExample,
     watchVariables: ['courseName'],
     selected: false,
   },
   {
     name: 'understandABug.js',
+    savedCode: understandABugExample,
     code: understandABugExample,
     watchVariables: ['courseNames', 'universityMean'],
     selected: false,
   },
   {
     name: 'experimentScenarios.js',
+    savedCode: experimentScenariosExample,
     code: experimentScenariosExample,
     watchVariables: ['realMean'],
     selected: false,
   },
   {
     name: 'breakpoint.js',
+    savedCode: breakpointExample,
     code: breakpointExample,
     watchVariables: ['courseName'],
     selected: false,
@@ -64,7 +68,11 @@ export default class AppContainer extends Container {
     };
   }
 
-  newEditor = (code) => {
+  getSelectedTab = () => {
+    return this.state.tabs.filter((tab) => tab.selected === true);
+  };
+
+  getEditor = (code, ref) => {
     var options = {
       theme: 'dracula',
       tabSize: 4,
@@ -73,20 +81,37 @@ export default class AppContainer extends Container {
       lineNumbers: true,
     };
 
-    return <CodeMirror onChange={(e) => {}} value={code} options={options} />;
+    return <CodeMirror onChanges={this.updateTabCode} ref={ref} value={code} options={options} />;
+  };
+
+  updateTabCode = (instance, changes) => {
+    const [tabSelected] = this.getSelectedTab();
+    this.setState((prevState) => {
+      return prevState.tabs.map((tab) => {
+        if (tab == tabSelected) tab.code = instance.getValue();
+        return tab;
+      });
+    });
+  };
+
+  getInstance = (instance) => {
+    if (instance) {
+      this.codemirror = instance.codemirror;
+      this.editor = instance.editor;
+    }
   };
 
   getSelectedEditor = () => {
     const { tabs } = this.state;
     const selectedTab = tabs.find((tab) => tab.selected === true);
-    if (selectedTab) return selectedTab.editor;
+    if (selectedTab) return this.getEditor(selectedTab.code, selectedTab.ref);
     return this.setDefaultTab();
   };
 
   createEditors = () => {
     this.setState((prevState) => {
       return prevState.tabs.map((tab) => {
-        tab.editor = this.newEditor(tab.code);
+        tab.editor = this.newEditor(tab.code, tab.ref);
         return tab;
       });
     });
@@ -119,8 +144,6 @@ export default class AppContainer extends Container {
 
     // selected tab was selected
     if (oldSelectedTabIndex === newSelectedTabIndex) return;
-    // update code
-    this.updateCode(tabs[newSelectedTabIndex].code);
     // prepare delorean core and delorean ui
     this.clean(tabs[newSelectedTabIndex].watchVariables);
     // no tab selected
@@ -134,6 +157,8 @@ export default class AppContainer extends Container {
       this.stilizeSelectedTab(newSelectedTabIndex);
       return;
     }
+
+    // console.log(tabs[oldSelectedTabIndex].ref);
     // selected tab change
     this.setState((prevState) => {
       return prevState.tabs.map((tab, index) => {
@@ -168,10 +193,11 @@ export default class AppContainer extends Container {
     const tab = {
       name: '',
       code: '',
+      savedCode: '',
       watchVariables: [],
       selected: false,
+      ref: createRef(),
     };
-    tab.editor = this.newEditor('');
 
     let tabs = this.state.tabs;
     tabs.push(tab);
@@ -182,19 +208,20 @@ export default class AppContainer extends Container {
         tabs,
       };
     });
-
-    await this.selectTab(tab.name);
   };
 
-  saveTabName = (name) => {
+  saveTabName = async (name) => {
     if (name.substr(-3) != '.js') name = name.concat('.js');
 
-    this.setState((prevState) => {
+    await this.setState((prevState) => {
       return prevState.tabs.map((tab) => {
         if (!Boolean(tab.name)) tab.name = name;
         return tab;
       });
     });
+
+    await this.selectTab(name);
+    await console.log(this.state);
   };
 
   updateTabs = (tabs, callback) => {
@@ -224,18 +251,6 @@ export default class AppContainer extends Container {
       },
       callback,
     );
-  };
-
-  updateCode = (ev) => {
-    if (typeof ev == 'string') {
-      this.setState({
-        code: ev,
-      });
-    } else {
-      this.setState({
-        code: ev.getValue(),
-      });
-    }
   };
 
   clean = (watchVariables = []) => {
