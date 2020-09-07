@@ -17,10 +17,15 @@ export default function State(props) {
   } = appStore.state;
 
   useEffect(() => {
-    if (global.breakpoint.activate) {
-      appStore.selectTimepointById(global.breakpoint.id);
+    if (global.breakpoint.id) {
+      const [timepoint] = global.heap.snapshots.filter(
+        ({ timePointId }) => timePointId === global.breakpoint.id,
+      );
+      if (global.breakpoint.activate) {
+        appStore.selectCurrentTimepoint(timepoint);
+      }
     }
-  }, [global.breakpoint.activate]);
+  }, [global.breakpoint]);
 
   return (
     <div className="state-panel-container">

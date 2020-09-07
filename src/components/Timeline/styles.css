@@ -1,11 +1,28 @@
-.timeline-timeline-container {
+.timeline-container {
   background-color: #101114;
   display: flex;
+  flex-direction: column;
   flex: 1;
+  width: 63.5vw;
   border: solid #303338;
   border-width: 1px 0px 0px 0px;
-  justify-content: center;
+  overflow-x: scroll;
+}
+
+.timeline-timepoints-container {
+  display: flex;
+  padding: 0 1em;
   align-items: center;
+}
+
+.timeline-time-container {
+  display: flex;
+  padding: 0 1em;
+  max-width: 100%;
+}
+
+.timeline-time-item {
+  min-width: 80px;
 }
 
 .timeline-start-container {
@@ -36,11 +53,20 @@
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   user-select: none;
+  transition-duration: 250ms;
 }
 
 .timeline-timepoint span {
   color: #adadad;
   font-size: 20px;
+}
+
+.timeline-selected-timepoint {
+  background-color: #ffdb00;
+}
+
+.timeline-selected-timepoint span {
+  color: #655a16;
 }
 
 .timeline-end-container {

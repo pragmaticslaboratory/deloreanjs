@@ -206,40 +206,24 @@ export default class AppContainer extends Container {
     );
   };
 
-  selectTimepointById = (id) => {
-    let target = '';
+  setDefaultTab = () => {
+    const { tabs } = this.state;
+    if (tabs.length === 0)
+      return (
+        <div style={{ display: 'grid', placeContent: 'center', height: '100%' }}>
+          <span>Create a file</span>
+        </div>
+      );
+    this.selectTab(tabs[0].name);
+  };
 
-    if (this.state.selectedTimePointDOM) {
-      this.state.selectedTimePointDOM.classList.remove('timepoint-button-selected');
-      this.state.selectedTimePointDOM.classList.add('timepoint-button');
-    }
-
-    let elements = document.getElementsByClassName('timepoints-buttons')[0].childNodes;
-    for (let i = 0; i < elements.length; i++) {
-      if (elements[i].getAttribute('kont') === id) {
-        target = elements[i];
-      }
-    }
-
-    if (target) {
-      target.classList.remove('timepoint-button');
-      target.classList.add('timepoint-button-selected');
-    }
-
-    global.heap.snapshots.forEach((el) => {
-      if (el.timePointId === id) {
-        this.setState({
-          timePointValues: el,
-          selectedTimePoint: id,
-          selectedTimePointDOM: target,
-        });
-      }
-    });
-
-    global.breakpoint = {
-      name: '',
-      activate: false,
-    };
+  updateTabs = (tabs, callback) => {
+    this.setState(
+      {
+        tabs,
+      },
+      callback,
+    );
   };
 
   updateCode = (ev) => {
@@ -293,23 +277,10 @@ export default class AppContainer extends Container {
     });
   };
 
-  selectTimePoint = (ev) => {
-    if (this.state.selectedTimePointDOM) {
-      this.state.selectedTimePointDOM.classList.remove('timepoint-button-selected');
-      this.state.selectedTimePointDOM.classList.add('timepoint-button');
-    }
-
-    ev.currentTarget.classList.remove('timepoint-button');
-    ev.currentTarget.classList.add('timepoint-button-selected');
-
-    global.heap.snapshots.forEach((el) => {
-      if (el.timePointId === ev.currentTarget.getAttribute('id')) {
-        this.setState({
-          timePointValues: el,
-          selectedTimePoint: ev.currentTarget.getAttribute('id'),
-          selectedTimePointDOM: ev.currentTarget,
-        });
-      }
+  selectCurrentTimepoint = (timepoint) => {
+    this.setState({
+      selectedTimePoint: timepoint.timePointId,
+      timePointValues: timepoint,
     });
   };
 
