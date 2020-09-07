@@ -25,6 +25,11 @@ const EditorBar = (props) => {
     }
   };
 
+  const onRemoveTab = (tabName) => {
+    if (!Boolean(tabName)) toggleIsCreatingTab();
+    props.appStore.removeTab(tabName);
+  };
+
   return (
     <div className="editor-bar-container">
       <div className="editor-bar-tabs-container">
@@ -34,7 +39,7 @@ const EditorBar = (props) => {
               <Tab
                 key={tab.name}
                 tab={tab}
-                removeTab={props.appStore.removeTab}
+                removeTab={onRemoveTab}
                 selectTab={props.appStore.selectTab}
                 saveTabName={saveTabName}
               />

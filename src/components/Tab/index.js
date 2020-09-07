@@ -11,7 +11,6 @@ const Tab = (props) => {
         style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}
         onClick={(e) => selectTab(e.currentTarget.parentNode.getAttribute('tab-name'))}>
         <img alt="file logo" className="file-icon" src={jsFile}></img>
-
         {Boolean(tab.name) ? (
           <p>{tab.name}</p>
         ) : (
