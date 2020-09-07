@@ -7,7 +7,6 @@ export { default as Timeline } from './Timeline';
 export { default as Sidebar } from './Sidebar';
 export { default as SidebarSection } from './SidebarSection';
 export { default as State } from './State';
-export { default as StateBar } from './StateBar';
 export { default as StateObject } from './StateObject';
 export { default as Timepoints } from './Timepoints';
 export { default as Watch } from './Watch';

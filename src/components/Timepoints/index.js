@@ -1,6 +1,4 @@
 import React from 'react';
-import timepointIcon from '../../assets/img/time.png';
-
 import './styles.css';
 
 const Timepoints = (props) => {

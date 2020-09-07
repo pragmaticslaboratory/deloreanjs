@@ -1,7 +1,5 @@
 import React from 'react';
-
 import DeloreanLogo from '../../assets/img/delorean-logo.png';
-
 import './styles.css';
 
 function StatusBar() {

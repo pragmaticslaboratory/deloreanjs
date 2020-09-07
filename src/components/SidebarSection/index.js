@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-
 import './styles.css';
 
 export default function SidebarSection(props) {

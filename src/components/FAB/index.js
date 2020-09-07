@@ -1,10 +1,9 @@
-import React, { useCallback } from 'react';
-
+import React from 'react';
 import './styles.css';
 
 export default function FAB(props) {
   const { appStore, invokeContinuation, executeCode, stopExecution } = props;
-  const { selectedTimePoint, isRunning } = appStore.state;
+  const { isRunning } = appStore.state;
 
   return (
     <div className="fab-content-container">
