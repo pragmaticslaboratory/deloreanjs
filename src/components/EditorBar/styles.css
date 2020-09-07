@@ -1,31 +1,35 @@
 .editor-bar-container {
+  background-color: #0c0d10;
   display: flex;
-  justify-content: space-between;
+  overflow-x: auto;
+  justify-content: flex-start;
+  align-content: stretch;
+  width: 100%;
+  min-height: 39.2px;
+}
+
+.editor-bar-tabs-container {
+  display: flex;
+  justify-content: flex-start;
   background-color: #0c0d10;
   font-size: 12px;
 }
 
-.tabs-container {
+.editor-bar-add-container {
   display: flex;
-}
-
-.tab-container {
-  display: flex;
+  padding: 0em 0.5em;
+  border: 1px solid #22222262;
   align-items: center;
-  padding: 0 20px 0 12px;
   color: white;
-  transition-duration: 250ms;
   cursor: pointer;
 }
 
-.tab-container:hover {
-  background-color: #14161b;
+.editor-bar-add-container:hover {
+  transition: 150ms;
+  border-bottom: 1px solid rgba(255, 255, 0, 0.345);
 }
 
-.tab-selected {
-  background-color: #1e2028;
-}
-
-.file-icon {
-  height: 15px;
+.editor-bar-add-container span {
+  font-size: 21px;
+  padding: 1px;
 }

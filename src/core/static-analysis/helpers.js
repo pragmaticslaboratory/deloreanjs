@@ -60,7 +60,7 @@ export const transformWithoutBabel = (code) => {
     if(emptyContinuationAux) {                
       emptyContinuation = emptyContinuationAux;
     }
-    console.log(e)
+    console.error(e)
   }
   `
   );

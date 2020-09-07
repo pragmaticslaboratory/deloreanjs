@@ -11,15 +11,15 @@ export default function FAB(props) {
       {isRunning ? (
         <>
           <div className="fab-container fab-smaller" onClick={() => stopExecution(appStore)}>
-            <span class="material-icons fab-icon">stop</span>
+            <span className="material-icons fab-icon">stop</span>
           </div>
           <div className="fab-container" onClick={() => invokeContinuation(appStore)}>
-            <span class="material-icons fab-icon">fast_forward</span>
+            <span className="material-icons fab-icon">fast_forward</span>
           </div>
         </>
       ) : (
         <div className="fab-container" onClick={() => executeCode(appStore)}>
-          <span class="material-icons fab-icon">play_arrow</span>
+          <span className="material-icons fab-icon">play_arrow</span>
         </div>
       )}
     </div>

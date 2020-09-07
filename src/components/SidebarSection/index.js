@@ -12,11 +12,11 @@ export default function SidebarSection(props) {
     <div className="sidebar-section-container">
       <div className="flex-row flex-jc">
         <div className="flex-row">
-          <span class="material-icons sidebar-section-icon">{icon}</span>
+          <span className="material-icons sidebar-section-icon">{icon}</span>
           <h5 className="sidebar-section-title">{title}</h5>
         </div>
         <span
-          class="material-icons sidebar-expand-button button"
+          className="material-icons sidebar-expand-button button"
           onClick={toggleHide}
           style={{ transform: hide ? 'rotate(180deg)' : 'none' }}>
           expand_less

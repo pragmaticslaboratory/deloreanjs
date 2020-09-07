@@ -1,0 +1,56 @@
+.tab-container {
+  padding: 0em 0.5em;
+  display: flex;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  border: 1px solid #22222262;
+  transition-duration: 150ms;
+}
+
+.tab-container:hover:not(.tab-selected) {
+  border-bottom: 1px solid rgba(255, 255, 0, 0.345);
+}
+
+.tab-container:hover > .tab-close {
+  opacity: 1;
+}
+
+.tab-container > .tab-close {
+  opacity: 0;
+}
+
+.tab-selected {
+  border-bottom: 1px solid yellow;
+}
+
+.tab-selected p {
+  color: yellow;
+}
+
+.file-icon {
+  height: 18px;
+}
+
+.tab-close {
+  margin-left: 0.5em;
+  font-size: 18px;
+}
+
+.tab-input-name {
+  background: none;
+  color: yellow;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  border: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tab-input-name:active {
+  outline: none;
+}
+
+.tab-input-name:focus {
+  outline: none;
+}
