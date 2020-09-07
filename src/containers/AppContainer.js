@@ -1,41 +1,51 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { Container } from 'unstated';
 import { DependencyItem } from '../components';
 import {
-  objectsExample,
   fixABugExample,
   understandABugExample,
   experimentScenariosExample,
   breakpointExample,
 } from '../assets/example-inputs/index';
 
+import CodeMirror from '@uiw/react-codemirror';
+import 'codemirror/addon/display/autorefresh';
+import 'codemirror/addon/comment/comment';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/keymap/sublime';
+import '../dracula.css';
+
+const files = [
+  {
+    name: 'fixABug.js',
+    code: fixABugExample,
+    watchVariables: ['courseName'],
+    selected: false,
+  },
+  {
+    name: 'understandABug.js',
+    code: understandABugExample,
+    watchVariables: ['courseNames', 'universityMean'],
+    selected: false,
+  },
+  {
+    name: 'experimentScenarios.js',
+    code: experimentScenariosExample,
+    watchVariables: ['realMean'],
+    selected: false,
+  },
+  {
+    name: 'breakpoint.js',
+    code: breakpointExample,
+    watchVariables: ['courseName'],
+    selected: false,
+  },
+];
 export default class AppContainer extends Container {
   constructor(props = {}) {
     super();
     this.state = {
-      tabs: [
-        {
-          name: 'fixABug.js',
-          input: fixABugExample,
-          watchVariables: ['courseName'],
-        },
-        {
-          name: 'understandABug.js',
-          input: understandABugExample,
-          watchVariables: ['courseNames', 'universityMean'],
-        },
-        {
-          name: 'experimentScenarios.js',
-          input: experimentScenariosExample,
-          watchVariables: ['realMean'],
-        },
-        {
-          name: 'breakpoint.js',
-          input: breakpointExample,
-          watchVariables: ['courseName'],
-        },
-      ],
-      tabSelected: '',
+      tabs: files,
       watchVariables: [],
       watchVariablesComboBox: false,
       snapshots: [],
@@ -43,7 +53,6 @@ export default class AppContainer extends Container {
       code: '',
       isRunning: false,
       readOnly: false,
-      selectedTab: '',
       timePointValues: {},
       selectedTimePoint: '',
       selectedTimePointDOM: '',
@@ -54,6 +63,139 @@ export default class AppContainer extends Container {
       implicitTimepoints: 'Normal',
     };
   }
+
+  newEditor = (code) => {
+    var options = {
+      theme: 'dracula',
+      tabSize: 4,
+      keyMap: 'sublime',
+      mode: 'js',
+      lineNumbers: true,
+    };
+
+    return <CodeMirror onChange={(e) => {}} value={code} options={options} />;
+  };
+
+  getSelectedEditor = () => {
+    const { tabs } = this.state;
+    const selectedTab = tabs.find((tab) => tab.selected === true);
+    if (selectedTab) return selectedTab.editor;
+    return this.setDefaultTab();
+  };
+
+  createEditors = () => {
+    this.setState((prevState) => {
+      return prevState.tabs.map((tab) => {
+        tab.editor = this.newEditor(tab.code);
+        return tab;
+      });
+    });
+  };
+
+  setDefaultTab = () => {
+    const { tabs } = this.state;
+    if (tabs.length === 0)
+      return (
+        <div style={{ display: 'grid', placeContent: 'center', height: '100%' }}>
+          <span>Create a file</span>
+        </div>
+      );
+    this.selectTab(tabs[0].name);
+  };
+
+  selectTab = (name) => {
+    if (this.isRunning) {
+      alert('Sorry, you need stop this execution before change the code! :)');
+      return;
+    }
+
+    const { tabs } = this.state;
+    let oldSelectedTabIndex,
+      newSelectedTabIndex = -1;
+    tabs.forEach((tab, index) => {
+      if (tab.selected === true) oldSelectedTabIndex = index;
+      if (tab.name === name) newSelectedTabIndex = index;
+    });
+
+    // selected tab was selected
+    if (oldSelectedTabIndex === newSelectedTabIndex) return;
+    // update code
+    this.updateCode(tabs[newSelectedTabIndex].code);
+    // prepare delorean core and delorean ui
+    this.clean(tabs[newSelectedTabIndex].watchVariables);
+    // no tab selected
+    if (oldSelectedTabIndex === -1) {
+      this.setState((prevState) => {
+        return prevState.tabs.map((tab, index) => {
+          if (index === newSelectedTabIndex) tab.selected = true;
+          return tab;
+        });
+      });
+      this.stilizeSelectedTab(newSelectedTabIndex);
+      return;
+    }
+    // selected tab change
+    this.setState((prevState) => {
+      return prevState.tabs.map((tab, index) => {
+        if (index === newSelectedTabIndex) tab.selected = true;
+        if (index === oldSelectedTabIndex) tab.selected = false;
+        return tab;
+      });
+    });
+    this.stilizeSelectedTab(newSelectedTabIndex, oldSelectedTabIndex);
+  };
+
+  stilizeSelectedTab = (newSelectedTabIndex, oldSelectedTabIndex = -1) => {
+    const tabElements = [...document.getElementsByClassName('tab-container')];
+    if (!tabElements.length) return;
+    if (oldSelectedTabIndex >= 0) {
+      tabElements[oldSelectedTabIndex].classList.remove('tab-selected');
+    }
+    tabElements[newSelectedTabIndex].classList.add('tab-selected');
+  };
+
+  removeTab = (name) => {
+    this.setState((prevState) => {
+      let tabs = prevState.tabs.filter((tab) => tab.name != name);
+      return {
+        ...prevState,
+        tabs,
+      };
+    });
+  };
+
+  newTab = async () => {
+    const tab = {
+      name: '',
+      code: '',
+      watchVariables: [],
+      selected: false,
+    };
+    tab.editor = this.newEditor('');
+
+    let tabs = this.state.tabs;
+    tabs.push(tab);
+
+    await this.setState((prevState) => {
+      return {
+        ...prevState,
+        tabs,
+      };
+    });
+
+    await this.selectTab(tab.name);
+  };
+
+  saveTabName = (name) => {
+    if (name.substr(-3) != '.js') name = name.concat('.js');
+
+    this.setState((prevState) => {
+      return prevState.tabs.map((tab) => {
+        if (!Boolean(tab.name)) tab.name = name;
+        return tab;
+      });
+    });
+  };
 
   updateTabs = (tabs, callback) => {
     this.setState(
@@ -72,7 +214,7 @@ export default class AppContainer extends Container {
       this.state.selectedTimePointDOM.classList.add('timepoint-button');
     }
 
-    let elements = document.getElementsByClassName('timepoints-btns')[0].childNodes;
+    let elements = document.getElementsByClassName('timepoints-buttons')[0].childNodes;
     for (let i = 0; i < elements.length; i++) {
       if (elements[i].getAttribute('kont') === id) {
         target = elements[i];
@@ -130,21 +272,6 @@ export default class AppContainer extends Container {
       displayedObjectsNames: [],
       displayedObjectsDOM: [],
     });
-  };
-
-  selectTab = (tabElement) => {
-    const tab = tabElement.parentNode;
-    const selectedTab = this.state.selectedTab;
-
-    if (Boolean(selectedTab)) {
-      selectedTab.classList.add('tab-container');
-      selectedTab.classList.remove('tab-selected');
-    }
-
-    tab.classList.add('tab-selected');
-    tab.classList.remove('tab-container');
-
-    this.setState({ selectedTab: tab });
   };
 
   updateSnapshots = (snapshots) => {

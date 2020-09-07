@@ -6,10 +6,9 @@
   cursor: pointer;
   border: 1px solid #22222262;
   transition-duration: 150ms;
-  cursor: pointer;
 }
 
-.tab-container:hover {
+.tab-container:hover:not(.tab-selected) {
   border-bottom: 1px solid rgba(255, 255, 0, 0.345);
 }
 
@@ -22,20 +21,11 @@
 }
 
 .tab-selected {
-  padding: 0em 0.5em;
-  display: flex;
-  align-items: center;
-  color: white;
-  cursor: pointer;
-  border: 1px solid #22222262;
   border-bottom: 1px solid yellow;
-  transition-duration: 150ms;
-  cursor: pointer;
 }
 
 .tab-selected p {
   color: yellow;
-  margin: 0;
 }
 
 .file-icon {
