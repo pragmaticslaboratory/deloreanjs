@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Tab from '../Tab';
 import './styles.css';
-import { is } from '@babel/types';
 
 const EditorBar = (props) => {
   const { tabs } = props.appStore.state;
@@ -13,7 +12,6 @@ const EditorBar = (props) => {
 
   const addTab = () => {
     if (isCreatingTab) return; // a tab is currently being created
-
     props.appStore.newTab();
     props.appStore.updateCode('');
     props.appStore.clean();
@@ -26,12 +24,6 @@ const EditorBar = (props) => {
       toggleIsCreatingTab();
     }
   };
-
-  // const prepareNewTab = (e) => {
-  //   toggleIsCreatingTab();
-  //   props.appStore.selectTab(e.currentTarget);
-
-  // };
 
   return (
     <div className="editor-bar-container">
