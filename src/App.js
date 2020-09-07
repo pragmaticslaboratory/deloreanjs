@@ -9,14 +9,26 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.consoleFeed = createRef();
-    // props.store.createEditors();
+    this.saveCode();
   }
+
+  saveCode = () => {
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.keyCode == 83 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
+          e.preventDefault();
+          this.props.store.saveCode();
+        }
+      },
+      false,
+    );
+  };
 
   executeCode = () => {
     const { store } = this.props;
     try {
       const [tab] = store.getSelectedTab();
-      console.log([tab.code, tab.savedCode]);
       debuggerDelorean.init(tab.savedCode);
       store.updateDependencies(global.heap.dependencies);
       store.updateSnapshots(global.heap.snapshots);

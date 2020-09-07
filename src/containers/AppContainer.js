@@ -22,6 +22,7 @@ const files = [
     code: fixABugExample,
     watchVariables: ['courseName'],
     selected: false,
+    ref: createRef(),
   },
   {
     name: 'understandABug.js',
@@ -68,6 +69,17 @@ export default class AppContainer extends Container {
     };
   }
 
+  saveCode = () => {
+    const [selectedTab] = this.getSelectedTab();
+    const tabs = this.state.tabs.map((tab) => {
+      if (tab == selectedTab) tab.savedCode = tab.code;
+      return tab;
+    });
+    this.setState({
+      tabs,
+    });
+  };
+
   getSelectedTab = () => {
     return this.state.tabs.filter((tab) => tab.selected === true);
   };
@@ -94,27 +106,11 @@ export default class AppContainer extends Container {
     });
   };
 
-  getInstance = (instance) => {
-    if (instance) {
-      this.codemirror = instance.codemirror;
-      this.editor = instance.editor;
-    }
-  };
-
   getSelectedEditor = () => {
     const { tabs } = this.state;
     const selectedTab = tabs.find((tab) => tab.selected === true);
     if (selectedTab) return this.getEditor(selectedTab.code, selectedTab.ref);
     return this.setDefaultTab();
-  };
-
-  createEditors = () => {
-    this.setState((prevState) => {
-      return prevState.tabs.map((tab) => {
-        tab.editor = this.newEditor(tab.code, tab.ref);
-        return tab;
-      });
-    });
   };
 
   setDefaultTab = () => {
