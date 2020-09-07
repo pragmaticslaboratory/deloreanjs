@@ -5,23 +5,32 @@ import './styles.css';
 
 export default function Timeline(props) {
   const { appStore } = props;
-  const { snapshots, selectedTimePoint } = appStore.state;
+  const { state, selectCurrentTimepoint } = appStore;
+  const { snapshots, selectedTimePoint } = state;
 
-  const renderTimepoint = useCallback((snapshot) => {
-    return (
-      <>
-        <div>
-          <div className="timeline-timepoint">
-            <span className="material-icons">room</span>
+  const renderTimepoint = useCallback(
+    (snapshot) => {
+      const { timePointId } = snapshot;
+      return (
+        <div key={timePointId}>
+          <div>
+            <div
+              onClick={() => selectCurrentTimepoint(snapshot)}
+              className={`timeline-timepoint ${
+                selectedTimePoint === timePointId && 'timeline-selected-timepoint'
+              }`}>
+              <span className="material-icons">room</span>
+            </div>
+            <div className="timeline-details-container">
+              <span className="timeline-detail-title">{timePointId}</span>
+            </div>
           </div>
-          <div className="timeline-details-container">
-            <span className="timeline-detail-title">{snapshot.timePointId}</span>
-          </div>
+          <div className="timeline-line" />
         </div>
-        <div className="timeline-line" />
-      </>
-    );
-  }, []);
+      );
+    },
+    [selectedTimePoint],
+  );
 
   return (
     <>

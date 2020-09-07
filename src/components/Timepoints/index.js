@@ -4,7 +4,7 @@ import timepointIcon from '../../assets/img/time.png';
 import './styles.css';
 
 const Timepoints = (props) => {
-  const { selectTimePoint } = props.appStore;
+  const { selectCurrentTimepoint } = props.appStore;
   const { snapshots, selectedTimePoint } = props.appStore.state;
 
   return (
@@ -12,10 +12,13 @@ const Timepoints = (props) => {
       <h5 className="timepoints-header">Timepoints</h5>
       <div className="timepoints-buttons">
         {snapshots.map((snapshot) => {
+          const { timePointId } = snapshot;
           return (
             <div
-              className="timepoint-button"
-              onClick={selectTimePoint}
+              className={`timepoint-button ${
+                selectedTimePoint === timePointId && 'timepoint-button-selected'
+              }`}
+              onClick={() => selectCurrentTimepoint(snapshot)}
               kont={snapshot.timePointId}
               id={snapshot.timePointId}
               key={snapshot.timePointId}>
