@@ -217,7 +217,6 @@ export default class AppContainer extends Container {
     });
 
     await this.selectTab(name);
-    await console.log(this.state);
   };
 
   updateTabs = (tabs, callback) => {
