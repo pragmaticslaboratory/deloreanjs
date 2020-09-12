@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Timepoints from '../Timepoints';
 import './styles.css';
 
@@ -7,22 +7,26 @@ export default function Timeline(props) {
   const { state, selectCurrentTimepoint } = appStore;
   const { snapshots, selectedTimePoint } = state;
 
+  useEffect(() => {
+    console.log(snapshots);
+  }, [snapshots]);
+
   const renderTimepoint = useCallback(
     (snapshot) => {
       const { timePointId } = snapshot;
       return (
-        <div key={timePointId}>
-          <div>
-            <div
-              onClick={() => selectCurrentTimepoint(snapshot)}
-              className={`timeline-timepoint ${
-                selectedTimePoint === timePointId && 'timeline-selected-timepoint'
-              }`}>
-              <span className="material-icons">room</span>
-            </div>
-            <div className="timeline-details-container">
-              <span className="timeline-detail-title">{timePointId}</span>
-            </div>
+        <div
+          style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}
+          key={timePointId}>
+          <div
+            onClick={() => selectCurrentTimepoint(snapshot)}
+            className={`timeline-timepoint ${
+              selectedTimePoint === timePointId && 'timeline-selected-timepoint'
+            }`}>
+            <span className="material-icons">room</span>
+          </div>
+          <div className="timeline-details-container">
+            <span className="timeline-detail-title">{timePointId}</span>
           </div>
           <div className="timeline-line" />
         </div>

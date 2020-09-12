@@ -17,16 +17,21 @@
 
 .timeline-time-container {
   display: flex;
-  padding: 0 1em;
+  padding: 0 1em 0.5em 72px;
   max-width: 100%;
 }
 
 .timeline-time-item {
   min-width: 80px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
 }
 
 .timeline-start-container {
-  padding: 4px 12px;
+  display: grid;
+  place-items: center;
+  padding: 4px 0px;
+  width: 56px;
   background-color: #3e4254;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 46px;
@@ -52,8 +57,8 @@
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  user-select: none;
   transition-duration: 250ms;
+  cursor: pointer;
 }
 
 .timeline-timepoint span {
@@ -77,7 +82,7 @@
   display: none;
   background: white;
   position: absolute;
-  margin: 8px 0px 0px -52px;
+  margin: 52px 0px 0px -52px;
   height: 44px;
   padding: 8px;
   border-radius: 6px;
