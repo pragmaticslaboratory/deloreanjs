@@ -9,6 +9,6 @@ export { default as SidebarSection } from './SidebarSection';
 export { default as State } from './State';
 export { default as StateObject } from './StateObject';
 export { default as Timepoints } from './Timepoints';
-export { default as Watch } from './Watch';
+export { default as WatchVariables } from './WatchVariables';
 export { default as SegmentedControl } from './SegmentedControl';
 export { default as FAB } from './FAB';
