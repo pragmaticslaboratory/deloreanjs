@@ -83,10 +83,7 @@ class App extends Component {
                 </div>
               </div>
               <div className="bottom-panel">
-                <Timeline
-                  appStore={this.props.store}
-                  invokeContinuation={this.invokeContinuation}
-                />
+                <Timeline appStore={this.props.store} getEndTimes={debuggerDelorean.getEndTimes} />
               </div>
             </div>
             <FAB
