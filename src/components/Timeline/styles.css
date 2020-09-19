@@ -1,9 +1,9 @@
 .timeline-container {
-  background-color: #101114;
   display: flex;
   flex-direction: column;
   flex: 1;
   width: 63.5vw;
+  background-color: #101114;
   border: solid #303338;
   border-width: 1px 0px 0px 0px;
   overflow-x: scroll;
@@ -12,7 +12,8 @@
 .timeline-timepoints-container {
   display: flex;
   padding: 0 1em;
-  align-items: center;
+  align-items: flex-start;
+  height: 100%;
 }
 
 .timeline-time-container {

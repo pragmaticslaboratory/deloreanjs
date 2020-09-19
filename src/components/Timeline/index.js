@@ -82,7 +82,9 @@ export default function Timeline(props) {
               </div>
             </>
           ) : (
-            <span>Run the code to start tracking timepoints</span>
+            <div style={{ display: 'grid', placeContent: 'center', width: '100%', height: '100%' }}>
+              <span>Run the code to start tracking timepoints</span>
+            </div>
           )}
         </div>
       </div>
