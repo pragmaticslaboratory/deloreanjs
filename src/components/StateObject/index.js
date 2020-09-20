@@ -15,7 +15,7 @@ const StateObject = (props) => {
           toggleObject(ev, element, name);
         }}>
         <div className="object-expand-container">
-          <img style={{ marginRight: '8px' }} alt="expand icon" src={expandButton} height="10" />
+          <span className="material-icons">expand_less</span>
           <p>{type !== 'loop' ? name : name + ' (loop)'}</p>
         </div>
         <p></p>
@@ -32,7 +32,7 @@ const StateObject = (props) => {
         toggleObject(ev, element, name);
       }}>
       <div className="object-expand-container">
-        <img style={{ marginRight: '8px' }} alt="right icon" src={rightArrow} height="10" />
+        <span className="material-icons">expand_more</span>
         <p>{type !== 'loop' ? name : name + ' (loop)'}</p>
       </div>
       <p></p>

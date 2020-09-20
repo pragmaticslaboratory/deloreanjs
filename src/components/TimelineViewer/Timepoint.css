@@ -19,6 +19,11 @@
 .timepoint span {
   color: #adadad;
   font-size: 20px;
+  transition: 250ms;
+}
+
+.disable-timepoint {
+  opacity: 0.2;
 }
 
 .selected-timepoint {

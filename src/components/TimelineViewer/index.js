@@ -57,6 +57,7 @@ export default function Timeline(props) {
             classNames="timeline-start-container timeline-end-container"
             marginLeft={(endTimesList[0] - lastTimestamp) * 5}
           />
+          {/* <Line start={startLine} end={endLine} /> */}
         </section>
       );
     },
