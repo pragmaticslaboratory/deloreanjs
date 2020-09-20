@@ -1,7 +1,12 @@
+.timepoint-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .timepoint {
   display: grid;
   place-items: center;
-  position: relative;
   height: 2em;
   width: 2em;
   border-radius: 50%;
@@ -22,4 +27,48 @@
 
 .selected-timepoint span {
   color: #655a16;
+}
+
+.timepoint-details-container {
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  margin-right: -1.9em;
+  margin-top: 5px;
+  background-color: white;
+  border-radius: 0.5em;
+}
+
+.timepoint:hover + .timepoint-details-container {
+  opacity: 1;
+}
+
+.timepoint-details-container p,
+h3 {
+  padding: 0;
+  margin: 0;
+}
+
+.timepoint-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding-bottom: 2px;
+}
+
+.timepoint-loc {
+  font-size: 12px;
+}
+
+.timepoint-timestamp {
+  font-size: 12px;
+  text-align: end;
+}
+
+.timepoint-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 2px;
 }

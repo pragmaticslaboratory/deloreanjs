@@ -40,7 +40,7 @@ export default function Timeline(props) {
                 timelineIdx > 0
                   ? (timePointTimestamp - lastTimestamp) * 5
                   : (timePointTimestamp - lastTimestamp - 1) * 5;
-              lastTimestamp = snapshot.timePointTimestamp;
+              lastTimestamp = timePointTimestamp;
               return (
                 <Timepoint
                   key={index}
