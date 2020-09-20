@@ -50,17 +50,15 @@ export default class AppContainer extends Container {
   constructor(props = {}) {
     super();
     this.state = {
-      tabs: files,
-      watchVariables: [],
-      watchVariablesComboBox: false,
-      snapshots: [],
       dependencies: [],
+      tabs: files,
       code: '',
+      watchVariables: [],
+      snapshots: [],
       isRunning: false,
       readOnly: false,
-      timePointValues: {},
       selectedTimePoint: '',
-      selectedTimePointDOM: '',
+      timePointValues: {},
       displayedObjects: [],
       displayedObjectsNames: [],
       displayedObjectsDOM: [],
@@ -261,7 +259,6 @@ export default class AppContainer extends Container {
       dependencies: [],
       timePointValues: {},
       selectedTimePoint: '',
-      selectedTimePointDOM: '',
       displayedObjects: [],
       displayedObjectsNames: [],
       displayedObjectsDOM: [],
@@ -339,12 +336,6 @@ export default class AppContainer extends Container {
         displayedObjectsDOM,
       });
     }
-  };
-
-  toggleWatchVariables = (ev) => {
-    this.setState({
-      watchVariablesComboBox: !this.state.watchVariablesComboBox,
-    });
   };
 
   deleteWatchVariable = (variable) => {

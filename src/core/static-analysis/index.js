@@ -1,5 +1,5 @@
 import { transform } from 'babel-core';
-import { compile, vm } from 'unwinder-engine';
+import { compile } from 'unwinder-engine';
 import {
   dependencyVisitor,
   implicitTimepointVisitor,

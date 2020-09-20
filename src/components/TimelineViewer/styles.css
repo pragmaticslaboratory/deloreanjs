@@ -1,0 +1,34 @@
+.timeline-viewer-container {
+  display: flex;
+  width: 83vw;
+  height: 100%;
+}
+
+.timeline-viewer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #101114;
+  border-top: 1px solid #303338;
+}
+
+.timeline-list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0 0.5em;
+}
+
+.timeline-container {
+  display: flex;
+  margin-bottom: 3em;
+}
+
+.timeline-viewer-without-timelines {
+  display: grid;
+  place-content: center;
+  width: 100%;
+  height: 100%;
+}

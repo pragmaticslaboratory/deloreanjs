@@ -13,6 +13,7 @@ global.startFrom = '';
 global.fromTheFuture = false;
 global.implicitCounter;
 global.startTime;
+global.initTime;
 global.endTime;
 global.acumTime;
 global.implicitTimepoints = false;
@@ -38,13 +39,14 @@ module.exports = {
     fromTheFuture = true;
     try {
       global.startFrom = kont;
-      console.log(`%cStart TimePoint ${kont}`, 'background: #222; color: #bada55');
       global.heap.snapshots.find(
         (element) => element.timePointId == kont,
       ).timeLineId = ++global.timeLine;
       global.acumTime += global.heap.snapshots.find(
         (element) => element.timePointId == kont,
       ).timePointTimestamp;
+
+      console.log(`%cStart TimePoint ${kont}`, 'background: #222; color: #bada55');
       global.startTime = Date.now();
       eval(
         `let kontAux = continuations.kont${kont}; 

@@ -1,13 +1,16 @@
 import React from 'react';
 import './styles.css';
 
-const Timepoints = (props) => {
-  const { selectCurrentTimepoint } = props.appStore;
-  const { snapshots, selectedTimePoint } = props.appStore.state;
+export default function TimepointList(props) {
+  const { selectCurrentTimepoint, state } = props.store;
+  const { snapshots, selectedTimePoint } = state;
 
   return (
-    <div className="timepoints-panel">
-      <h5 className="timepoints-header">Timepoints</h5>
+    <div className="timepoint-list-container">
+      <div style={{ display: 'flex', margin: '1em' }}>
+        <span className="material-icons timeline-icon">timeline</span>
+        <h5 className="timepoint-list-title">Timepoints</h5>
+      </div>
       <div className="timepoints-buttons">
         {snapshots.map((snapshot) => {
           const { timePointId } = snapshot;
@@ -28,6 +31,4 @@ const Timepoints = (props) => {
       </div>
     </div>
   );
-};
-
-export default Timepoints;
+}

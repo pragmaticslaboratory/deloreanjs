@@ -1,0 +1,18 @@
+.timeline-start-container {
+  display: grid;
+  place-items: center;
+  background-color: #3e4254;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 46px;
+  min-width: 5em;
+}
+
+.timeline-start-container span {
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.timeline-end-container {
+  background: #1ca32a;
+}
