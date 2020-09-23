@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import DependencyItem from '../DependencyItem';
 import './styles.css';
 
-export default function State(props) {
+export default function StateContainer(props) {
   const { appStore } = props;
   const { toggleObject } = appStore;
   const {

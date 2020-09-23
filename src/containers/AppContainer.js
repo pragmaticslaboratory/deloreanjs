@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import { Container } from 'unstated';
 import { DependencyItem } from '../components';
 import {
+  objectsExample,
   fixABugExample,
   understandABugExample,
   experimentScenariosExample,
@@ -44,6 +45,14 @@ const files = [
     code: breakpointExample,
     watchVariables: ['courseName'],
     selected: false,
+  },
+  {
+    name: 'objects.js',
+    savedCode: objectsExample,
+    code: objectsExample,
+    watchVariables: ['case1', 'case2', 'case3', 'case4', 'case5', 'case6'],
+    selected: false,
+    ref: createRef(),
   },
 ];
 export default class AppContainer extends Container {

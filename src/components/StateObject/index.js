@@ -1,42 +1,47 @@
-import React from 'react';
-import rightArrow from '../../assets/img/right-arrow.png';
-import expandButton from '../../assets/img/expand-button.png';
+import React, { useState, useCallback, useMemo } from 'react';
 import './styles.css';
 
 const StateObject = (props) => {
   const { name, type, element, toggleObject, displayedObjectsDOM, displayedObjectsNames } = props;
+  const [expanded, setExpanded] = useState(false);
 
-  return displayedObjectsNames.indexOf(name) >= 0 ? (
+  const onPressExpand = useCallback(() => {
+    setExpanded((value) => !value);
+  }, []);
+
+  const dependencyType = useMemo(() => {
+    const isArray = Array.isArray(element);
+    if (isArray) return 'array';
+    else {
+      if (type === 'loop') return 'loop';
+    }
+    return 'object';
+  }, [element]);
+
+  const renderSubdependency = useCallback((subdependency, index) => {
+    const [key, value] = subdependency;
+    return (
+      <div className={`state-subdependency-${dependencyType}-container`} style={{ content: '1' }}>
+        <span className="state-subdependency-text">{key}</span>
+      </div>
+    );
+  }, []);
+
+  return (
     // El objeto esta seleccionado
     <div key={name}>
-      <div
-        className="state-values-object"
-        onClick={(ev) => {
-          toggleObject(ev, element, name);
-        }}>
-        <div className="object-expand-container">
-          <span className="material-icons">expand_less</span>
-          <p>{type !== 'loop' ? name : name + ' (loop)'}</p>
+      <div className="state-object-container button" onClick={onPressExpand}>
+        <div className="state-object-left">
+          <p>{name}</p> <p className="state-object-type">[{dependencyType}]</p>
         </div>
-        <p></p>
-        <p>[Object]</p>
+        <span
+          className="material-icons button state-object-expand-icon"
+          style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}>
+          expand_more
+        </span>
       </div>
-      <div>{displayedObjectsDOM[displayedObjectsNames.indexOf(name)]}</div>
-    </div>
-  ) : (
-    // El objeto no esta seleccionado
-    <div
-      key={name}
-      className="state-values-object"
-      onClick={(ev) => {
-        toggleObject(ev, element, name);
-      }}>
-      <div className="object-expand-container">
-        <span className="material-icons">expand_more</span>
-        <p>{type !== 'loop' ? name : name + ' (loop)'}</p>
-      </div>
-      <p></p>
-      <p>[Object]</p>
+      {expanded && <div>{Object.entries(element).map(renderSubdependency)}</div>}
+      <div className="state-object-divider" />
     </div>
   );
 };

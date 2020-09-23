@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { State, SegmentedControl, SidebarSection, WatchVariables } from '../';
+import { StateContainer, SegmentedControl, SidebarSection, WatchVariables } from '../';
 
 import { copyOptions, runtimeOptions } from './constants';
 import './styles.css';
@@ -43,7 +43,7 @@ export default function Sidebar(props) {
 
       <SimpleBar style={{ maxHeight: maxHeight }}>
         <SidebarSection icon="build" title="State">
-          <State appStore={appStore} />
+          <StateContainer appStore={appStore} />
         </SidebarSection>
       </SimpleBar>
     </div>

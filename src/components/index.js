@@ -6,7 +6,7 @@ export { default as Layout } from './Layout';
 export { default as TimelineViewer } from './TimelineViewer';
 export { default as Sidebar } from './Sidebar';
 export { default as SidebarSection } from './SidebarSection';
-export { default as State } from './State';
+export { default as StateContainer } from './StateContainer';
 export { default as StateObject } from './StateObject';
 export { default as Timepoints } from './TimepointList';
 export { default as WatchVariables } from './WatchVariables';
