@@ -7,6 +7,10 @@
   border-width: 1px 1px 0px 0px;
 }
 
+.timepoint-buttons {
+  height: 100%;
+}
+
 .timepoint-button {
   display: flex;
   align-items: center;
