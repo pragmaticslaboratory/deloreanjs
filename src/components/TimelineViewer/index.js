@@ -26,8 +26,6 @@ export default function Timeline(props) {
         endTime += timepoint.timePointTimestamp;
       }
 
-      console.log(endTime);
-
       setEndTimesList((endTimesList) => [...endTimesList, endTime]);
     } else {
       setTimelineList([]);
@@ -37,7 +35,6 @@ export default function Timeline(props) {
 
   const renderTimeline = useCallback(
     (snapshots, timelineIdx) => {
-      console.log(endTimesList);
       let lastTimestamp = 0;
       let lineStart = 0.5;
       let flag = true;
