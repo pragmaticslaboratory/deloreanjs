@@ -76,6 +76,10 @@ export default class AppContainer extends Container {
     };
   }
 
+  getTimepointById = (name) => {
+    return this.state.snapshots.find((timepoint) => timepoint.timePointId == name);
+  };
+
   saveCode = () => {
     const [selectedTab] = this.getSelectedTab();
     const tabs = this.state.tabs.map((tab) => {
