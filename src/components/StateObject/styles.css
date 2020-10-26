@@ -1,0 +1,117 @@
+.state-object-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 12px;
+  color: white;
+  margin: 8px;
+}
+
+.state-object-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 24px;
+}
+
+.state-object-left::before {
+  border-radius: 4px;
+  content: '';
+  display: inline-block;
+  height: 6px;
+  width: 6px;
+  background-color: white;
+  margin-right: 6px;
+  vertical-align: middle;
+  opacity: 0.2;
+  display: flex;
+}
+
+.state-object-type {
+  font-size: 12px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  opacity: 0.4;
+  margin-left: 4px;
+}
+
+.state-object-expand-icon {
+  font-size: 16px;
+  color: white;
+  padding: 4px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.state-subdependency-object-container {
+  height: 20px;
+  margin: 4px 0;
+  display: flex;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.state-subdependency-object-container::before {
+  border-radius: 4px;
+  content: '';
+  display: inline-block;
+  height: 6px;
+  width: 6px;
+  background-color: white;
+  margin-right: 6px;
+  vertical-align: middle;
+  opacity: 0.2;
+  display: flex;
+}
+
+.state-subdependency-array-container {
+  font-family: 'Inter', sans-serif;
+  height: 20px;
+  margin: 4px 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.state-subdependency-text {
+  display: flex;
+  flex: 1;
+  font-size: 12px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+.state-subdependency-input {
+  display: flex;
+  flex: 1;
+  background: none;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  border: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: rgba(255, 255, 255, 0.2);
+  width: 100%;
+}
+
+.state-subdependency-array-container::before {
+  content: '';
+  display: inline-block;
+  height: 12px;
+  width: 6px;
+  background-color: white;
+  margin-right: 6px;
+  vertical-align: middle;
+  opacity: 0.2;
+}
+
+.state-object-divider {
+  height: 1px;
+  width: 100%;
+  background-color: gray;
+  opacity: 0.2;
+  margin-top: 8px;
+}
