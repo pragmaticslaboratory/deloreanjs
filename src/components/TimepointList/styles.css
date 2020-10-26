@@ -1,10 +1,10 @@
-.timepoints-panel {
+.timepoint-list-container {
   display: flex;
   flex-direction: column;
   background-color: #181a1e;
   min-width: 14vw;
   border: solid #303338;
-  border-width: 1px 0px 0px 0px;
+  border-width: 1px 1px 0px 0px;
 }
 
 .timepoint-button {
@@ -41,15 +41,19 @@
   font-size: 14px;
 }
 
-.timepoints-header {
-  text-transform: uppercase;
-  font-size: 10px;
-  color: #798294;
+.timepoint-list-title {
+  flex-direction: row;
+  align-items: center;
   font-family: 'Inter', sans-serif;
+  color: white;
   font-weight: 500;
   margin: 0;
-  opacity: 0.8;
-  padding: 1em;
+}
+
+.timeline-icon {
+  font-size: 16px;
+  margin-right: 1rem;
+  color: white;
 }
 
 /* watch variables styles */

@@ -5,6 +5,7 @@ export default `var evalStrategies = [
 ];
 
 function findStrategy(c) {
+  console.log(c);
   if (c == "Algebra") {
       return 0;
   } else return null;

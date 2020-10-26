@@ -1,11 +1,10 @@
 .editor-bar-container {
   background-color: #0c0d10;
   display: flex;
-  overflow-x: auto;
   justify-content: flex-start;
   align-content: stretch;
   width: 100%;
-  min-height: 39.2px;
+  height: 5vh;
 }
 
 .editor-bar-tabs-container {

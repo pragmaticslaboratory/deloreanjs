@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import { Container } from 'unstated';
 import { DependencyItem } from '../components';
 import {
+  objectsExample,
   fixABugExample,
   understandABugExample,
   experimentScenariosExample,
@@ -45,22 +46,28 @@ const files = [
     watchVariables: ['courseName'],
     selected: false,
   },
+  {
+    name: 'objects.js',
+    savedCode: objectsExample,
+    code: objectsExample,
+    watchVariables: ['case1', 'case2', 'case3', 'case4', 'case5', 'case6'],
+    selected: false,
+    ref: createRef(),
+  },
 ];
 export default class AppContainer extends Container {
   constructor(props = {}) {
     super();
     this.state = {
-      tabs: files,
-      watchVariables: [],
-      watchVariablesComboBox: false,
-      snapshots: [],
       dependencies: [],
+      tabs: files,
       code: '',
+      watchVariables: [],
+      snapshots: [],
       isRunning: false,
       readOnly: false,
-      timePointValues: {},
       selectedTimePoint: '',
-      selectedTimePointDOM: '',
+      timePointValues: {},
       displayedObjects: [],
       displayedObjectsNames: [],
       displayedObjectsDOM: [],
@@ -261,7 +268,6 @@ export default class AppContainer extends Container {
       dependencies: [],
       timePointValues: {},
       selectedTimePoint: '',
-      selectedTimePointDOM: '',
       displayedObjects: [],
       displayedObjectsNames: [],
       displayedObjectsDOM: [],
@@ -339,12 +345,6 @@ export default class AppContainer extends Container {
         displayedObjectsDOM,
       });
     }
-  };
-
-  toggleWatchVariables = (ev) => {
-    this.setState({
-      watchVariablesComboBox: !this.state.watchVariablesComboBox,
-    });
   };
 
   deleteWatchVariable = (variable) => {
