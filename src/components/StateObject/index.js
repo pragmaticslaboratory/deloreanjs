@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, Fragment } from 'react';
 import './styles.css';
 
 const StateObject = (props) => {
@@ -12,10 +12,7 @@ const StateObject = (props) => {
   const checkDependencyType = useCallback((item) => {
     const isArray = Array.isArray(item);
     if (isArray) return 'array';
-    else {
-      if (type === 'loop') return 'loop';
-    }
-    return 'object';
+    return typeof item;
   }, []);
 
   const dependencyType = useMemo(() => checkDependencyType(element), [element]);
@@ -24,7 +21,9 @@ const StateObject = (props) => {
     (subdependency, index) => {
       const [key, value] = subdependency;
       const subdependencyType = checkDependencyType(value);
-      if (subdependencyType === 'array') {
+      console.log(value, subdependencyType);
+
+      if (subdependencyType === 'array' || subdependencyType === 'object') {
         return <StateObject name={key} type="array" element={value} isSubdependency />;
       }
       return (
