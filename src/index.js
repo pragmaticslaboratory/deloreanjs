@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider, Subscribe } from 'unstated';
 import AppContainer from './containers/AppContainer';
 import './index.css';
+import 'simplebar/dist/simplebar.min.css';
 import App from './App';
 
 ReactDOM.render(

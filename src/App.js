@@ -1,5 +1,6 @@
 import React, { Component, createRef } from 'react';
-import { Layout, Console, Timeline, Header, EditorBar, Sidebar, FAB } from './components';
+import { Layout, Console, TimelineViewer, Header, EditorBar, Sidebar, FAB } from './components';
+import SimpleBar from 'simplebar-react';
 import './App.css';
 
 global.delorean = require('./core/delorean.js'); // this line allow uses global variables form core/delorean (global.breakpoint -> state.js)
@@ -69,21 +70,28 @@ class App extends Component {
               <div className="top-panel">
                 <div className="codemirror-container">
                   <div className="editor-bar-container-fixed">
-                    <EditorBar
-                      appStore={this.props.store}
-                      selectTab={this.selectTab}
-                      executeCode={this.executeCode}
-                      stopExecution={this.stopExecution}
-                    />
+                    <SimpleBar>
+                      <EditorBar
+                        appStore={this.props.store}
+                        selectTab={this.selectTab}
+                        executeCode={this.executeCode}
+                        stopExecution={this.stopExecution}
+                      />
+                    </SimpleBar>
                   </div>
-                  {this.props.store.getSelectedEditor()}
+                  <SimpleBar style={{ maxHeight: '40vh' }}>
+                    {this.props.store.getSelectedEditor()}
+                  </SimpleBar>
                 </div>
                 <div className="console-container">
                   <Console ref={this.consoleFeed} />
                 </div>
               </div>
               <div className="bottom-panel">
-                <Timeline appStore={this.props.store} getEndTimes={debuggerDelorean.getEndTimes} />
+                <TimelineViewer
+                  store={this.props.store}
+                  getEndTimes={debuggerDelorean.getEndTimes}
+                />
               </div>
             </div>
             <FAB
