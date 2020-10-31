@@ -1,16 +1,17 @@
 import React, { useEffect, useCallback, useState } from 'react';
+import SimpleBar from 'simplebar-react';
 import TimepointList from '../TimepointList';
 import Timepoint from './Timepoint';
 import Timestamps from './Timestamps';
 import Element from './Element';
+import Line from './Line';
 import './styles.css';
-import SimpleBar from 'simplebar-react';
 
 export default function Timeline(props) {
   const { store, getEndTimes } = props;
   let time = getEndTimes();
-  const { state } = store;
-  const { snapshots } = state;
+  const { state, getTimepointById } = store;
+  const { snapshots, selectedTimePoint } = state;
   const [timelineList, setTimelineList] = useState([]);
   const [endTimesList, setEndTimesList] = useState([]);
 
@@ -20,6 +21,11 @@ export default function Timeline(props) {
       setTimelineList((timelineList) => [...timelineList, timeline]);
 
       let endTime = getEndTimes();
+      if (Boolean(selectedTimePoint)) {
+        let timepoint = getTimepointById(selectedTimePoint);
+        endTime += timepoint.timePointTimestamp;
+      }
+
       setEndTimesList((endTimesList) => [...endTimesList, endTime]);
     } else {
       setTimelineList([]);
@@ -30,12 +36,20 @@ export default function Timeline(props) {
   const renderTimeline = useCallback(
     (snapshots, timelineIdx) => {
       let lastTimestamp = 0;
+      let lineStart = 0.5;
+      let flag = true;
       return (
         <section key={timelineIdx} className="timeline-container">
           {timelineIdx === 0 && <Element title="Start" classNames="timeline-start-container" />}
           {snapshots.map((snapshot, index) => {
             const { timePointTimestamp, timeLineId } = snapshot;
+
             if (timelineIdx <= timeLineId) {
+              if (flag && timelineIdx > 0) {
+                lineStart += timePointTimestamp * 5;
+                flag = false;
+              }
+
               let marginLeft =
                 timelineIdx > 0
                   ? (timePointTimestamp - lastTimestamp) * 5
@@ -55,9 +69,9 @@ export default function Timeline(props) {
           <Element
             title="End"
             classNames="timeline-start-container timeline-end-container"
-            marginLeft={(endTimesList[0] - lastTimestamp) * 5}
+            marginLeft={(endTimesList[timelineIdx] - lastTimestamp - 1) * 5}
           />
-          {/* <Line start={startLine} end={endLine} /> */}
+          <Line start={lineStart} end={(endTimesList[timelineIdx] - lineStart / 5) * 5} />
         </section>
       );
     },
@@ -71,7 +85,7 @@ export default function Timeline(props) {
         {Boolean(timelineList.length) ? (
           <div className="timeline-list-container">
             <SimpleBar style={{ height: '100%' }}>
-              <Timestamps endTime={endTimesList[0] + 10} />
+              <Timestamps endTime={endTimesList[endTimesList.length - 1] + 20} />
               {timelineList.map(renderTimeline)}
             </SimpleBar>
           </div>

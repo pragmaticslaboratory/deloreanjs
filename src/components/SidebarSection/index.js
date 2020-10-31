@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import SimpleBar from 'simplebar-react';
 import './styles.css';
 
 export default function SidebarSection(props) {
@@ -9,7 +10,7 @@ export default function SidebarSection(props) {
 
   return (
     <div className="sidebar-section-container">
-      <div className="flex-row flex-jc">
+      <div className="flex-row flex-jc" style={{ padding: '1em 1em 0' }}>
         <div className="flex-row">
           <span className="material-icons sidebar-section-icon">{icon}</span>
           <h5 className="sidebar-section-title">{title}</h5>
@@ -21,7 +22,9 @@ export default function SidebarSection(props) {
           expand_less
         </span>
       </div>
-      {!hide && props.children}
+      <SimpleBar style={{ maxHeight: '15em' }}>
+        <div style={{ padding: '0em 1em 1em' }}>{!hide && props.children}</div>
+      </SimpleBar>
     </div>
   );
 }

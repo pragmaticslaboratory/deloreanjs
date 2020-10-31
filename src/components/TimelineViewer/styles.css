@@ -23,6 +23,7 @@
 
 .timeline-container {
   display: flex;
+  position: relative;
   margin-bottom: 1em;
 }
 
