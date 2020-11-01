@@ -16,7 +16,7 @@ export default function Sidebar(props) {
 
   return (
     <div className="sidebar-container">
-      <SidebarSection icon="settings" title="Settings">
+      <SidebarSection icon="settings" title="Settings" section="settings-section">
         <SegmentedControl
           onChange={toggleCopyMode}
           options={copyOptions}
@@ -30,11 +30,12 @@ export default function Sidebar(props) {
           title="Runtime mode"
         />
       </SidebarSection>
-      <SidebarSection icon="visibility" title="Watch variables">
+
+      <SidebarSection icon="visibility" title="Watch variables" section="variables-section">
         <WatchVariables store={appStore} />
       </SidebarSection>
 
-      <SidebarSection icon="build" title="State">
+      <SidebarSection icon="build" title="State" section="state-section">
         <StateContainer appStore={appStore} />
       </SidebarSection>
     </div>

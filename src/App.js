@@ -3,6 +3,7 @@ import { Layout, Console, TimelineViewer, Header, EditorBar, Sidebar, FAB } from
 import SimpleBar from 'simplebar-react';
 import './App.css';
 
+import intro from './app-tour';
 global.delorean = require('./core/delorean.js'); // this line allow uses global variables form core/delorean (global.breakpoint -> state.js)
 const debuggerDelorean = require('./core/debugger');
 
@@ -11,6 +12,10 @@ class App extends Component {
     super(props);
     this.consoleFeed = createRef();
     this.saveCode();
+  }
+
+  componentDidMount() {
+    intro.start();
   }
 
   saveCode = () => {
