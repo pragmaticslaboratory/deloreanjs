@@ -14,10 +14,6 @@ class App extends Component {
     this.saveCode();
   }
 
-  componentDidMount() {
-    // intro.start();
-  }
-
   saveCode = () => {
     document.addEventListener(
       'keydown',
@@ -68,7 +64,7 @@ class App extends Component {
     return (
       <Layout>
         <div className="main-page-container">
-          <Header />
+          <Header intro={intro} />
           <div className="playground-container">
             <Sidebar appStore={this.props.store} />
             <div className="playground-content-container">

@@ -1,7 +1,8 @@
 import introJs from 'intro.js';
 import 'intro.js/introjs.css';
+import './styles.css';
 
-let intro = introJs();
+let intro = introJs('#root');
 
 intro.setOptions({
   steps: [
@@ -53,6 +54,7 @@ intro.setOptions({
       position: 'top',
     },
   ],
+  showStepNumbers: 'False',
 });
 
 export default intro;

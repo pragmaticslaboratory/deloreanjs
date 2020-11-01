@@ -1,4 +1,6 @@
 .sidebar-section-container {
+  display: flex;
+  flex-direction: column;
   border-bottom: solid 1px #303338;
   transition-duration: 250ms;
 }

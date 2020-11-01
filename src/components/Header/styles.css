@@ -26,6 +26,7 @@
 }
 
 .buttons-bar {
+  display: flex;
   padding: 0 20px;
   font-size: 14px;
 }
