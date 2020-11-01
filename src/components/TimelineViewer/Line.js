@@ -13,7 +13,7 @@ export default function Line(props) {
         position: 'absolute',
         top: '0.8em',
         left: '0.5em',
-        backgroundColor: 'rgb(11,11,14)',
+        backgroundColor: '#6cd0e5',
       }}></div>
   );
 }
