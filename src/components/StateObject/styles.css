@@ -85,6 +85,7 @@
 }
 
 .state-subdependency-input {
+  outline: none;
   display: flex;
   flex: 1;
   background: none;

@@ -21,7 +21,7 @@ export default function WatchVariables(props) {
       </div>
       <div className="watch-variable-input-container">
         <input
-          placeholder="New variable"
+          placeholder="Add variable"
           className="watch-variable-input"
           type="text"
           id="watch-variable-input"

@@ -32,7 +32,7 @@
   background: #181a1e;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  min-width: 39vw;
 }
 
 .selected {
@@ -42,7 +42,7 @@
 
 .console-container {
   display: flex;
-  flex: 1;
+  min-width: 39vw;
 }
 
 .flex-row {

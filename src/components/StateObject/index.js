@@ -21,13 +21,13 @@ const StateObject = (props) => {
     (subdependency, index) => {
       const [key, value] = subdependency;
       const subdependencyType = checkDependencyType(value);
-      console.log(value, subdependencyType);
 
       if (subdependencyType === 'array' || subdependencyType === 'object') {
-        return <StateObject name={key} type="array" element={value} isSubdependency />;
+        return <StateObject key={key} name={key} type="array" element={value} isSubdependency />;
       }
       return (
         <div
+          key={key}
           className={`state-subdependency-${dependencyType}-container`}
           style={{
             content: '1',
@@ -36,12 +36,7 @@ const StateObject = (props) => {
           }}>
           <span className="state-subdependency-text">{key}</span>
           <span className="state-subdependency-text">{value}</span>
-          <input
-            placeholder="New value"
-            className="state-subdependency-input"
-            type="text"
-            id={`input-${name}-${key}`}
-          />
+          <input className="state-subdependency-input" type="text" id={`input-${name}-${key}`} />
         </div>
       );
     },

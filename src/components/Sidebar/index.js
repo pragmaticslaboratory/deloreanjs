@@ -30,7 +30,6 @@ export default function Sidebar(props) {
           title="Runtime mode"
         />
       </SidebarSection>
-
       <SidebarSection icon="visibility" title="Watch variables" section="variables-section">
         <WatchVariables store={appStore} />
       </SidebarSection>

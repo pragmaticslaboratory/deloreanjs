@@ -10,7 +10,7 @@ export default function SidebarSection(props) {
   const toggleHide = useCallback(() => setHide(!hide), [hide]);
 
   return (
-    <section className={section} style={{ border: '1px solid red' }}>
+    <section className={section}>
       <div className="sidebar-section-container">
         <div className="flex-row flex-jc" style={{ padding: '1em 1em 0' }}>
           <div className="flex-row">

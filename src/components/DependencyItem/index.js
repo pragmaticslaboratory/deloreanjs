@@ -41,12 +41,7 @@ const DependencyItem = (props) => {
                 </p>
               </div>
               <div className="dependency-item-column">
-                <input
-                  placeholder="New value"
-                  className="dependency-item-input"
-                  type="text"
-                  id={`input-${name}`}
-                />
+                <input className="dependency-item-input" type="text" id={`input-${name}`} />
               </div>
             </>
           )}

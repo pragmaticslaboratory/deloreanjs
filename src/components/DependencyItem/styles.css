@@ -13,13 +13,13 @@
 .state-value-name {
   color: white;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 11px;
   opacity: 0.8;
 }
 
 .dependency-item-value {
   font-family: 'Fira Code', monospace;
-  font-size: 12px;
+  font-size: 11px;
   color: #6cd0e5;
 }
 

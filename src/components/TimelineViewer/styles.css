@@ -7,8 +7,9 @@
 .timeline-viewer {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  width: 99%;
+  max-width: 64vw;
+  height: 99%;
   background-color: #101114;
   border-top: 1px solid #303338;
 }
