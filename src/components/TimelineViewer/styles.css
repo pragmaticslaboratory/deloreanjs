@@ -25,7 +25,7 @@
 .timeline-container {
   display: flex;
   position: relative;
-  margin-bottom: 1em;
+  margin-bottom: 5em;
 }
 
 .timeline-viewer-without-timelines {

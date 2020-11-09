@@ -1,4 +1,5 @@
 .timepoint-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -23,7 +24,7 @@
 }
 
 .disable-timepoint {
-  opacity: 0.2;
+  background: #adadad;
 }
 
 .selected-timepoint {
@@ -35,12 +36,14 @@
 }
 
 .timepoint-details-container {
+  position: absolute;
   opacity: 0;
+  top: 2.2em;
+  right: -2em;
+  min-width: 8em;
   display: flex;
   flex-direction: column;
   padding: 0.5em;
-  margin-right: -1.9em;
-  margin-top: 5px;
   background-color: white;
   border-radius: 0.5em;
 }

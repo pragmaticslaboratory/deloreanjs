@@ -5,6 +5,7 @@
   min-width: 14vw;
   border: solid #303338;
   border-width: 1px 1px 0px 0px;
+  margin-bottom: 1em;
 }
 
 .timepoint-buttons {

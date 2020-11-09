@@ -23,13 +23,15 @@ export default function Timepoint(props) {
           isSelectedTimepoint && enable && 'selected-timepoint'
         }`}
         style={{ marginLeft: margin + 'em', marginRight: '1.5em' }}>
-        <span className="material-icons ">room</span>
+        <span className="material-icons">room</span>
       </div>
       <div className="timepoint-details-container">
         <h3 className="timepoint-title">{timePointId}</h3>
         <p className="timepoint-loc">Line: {timePointLoc}</p>
         <div className="timepoint-footer">
-          <p className="timepoint-enable">{enable ? 'Enable' : 'Disable'}</p>
+          <p className="timepoint-enable">
+            <b>{enable ? 'Enable' : 'Disable'}</b>
+          </p>
           <p className="timepoint-timestamp">{timePointTimestamp} ms</p>
         </div>
       </div>

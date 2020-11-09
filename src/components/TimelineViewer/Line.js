@@ -6,7 +6,7 @@ export default function Line(props) {
   return (
     <div
       style={{
-        marginLeft: `${start}em`,
+        marginLeft: `${start + 0.5}em`,
         width: `${end}em`,
         height: '0.5em',
         zIndex: '-1',

@@ -27,6 +27,8 @@ export default function Timeline(props) {
       }
 
       setEndTimesList((endTimesList) => [...endTimesList, endTime]);
+
+      console.log({ timelineList, endTimesList });
     } else {
       setTimelineList([]);
       setEndTimesList([]);
@@ -85,7 +87,7 @@ export default function Timeline(props) {
         {Boolean(timelineList.length) ? (
           <div className="timeline-list-container">
             <SimpleBar style={{ height: '100%' }}>
-              <Timestamps endTime={endTimesList[endTimesList.length - 1] + 20} />
+              <Timestamps endTime={Math.max(...endTimesList) + 20} />
               {timelineList.map(renderTimeline)}
             </SimpleBar>
           </div>
