@@ -16,6 +16,7 @@ export default function Timeline(props) {
   const [endTimesList, setEndTimesList] = useState([]);
   const [lastMsList, setLastMsList] = useState([0]);
   const [lineBreaks, setLineBreaks] = useState([0]);
+  let timepoint = getTimepointById(selectedTimePoint);
 
   useEffect(() => {
     if (Boolean(snapshots.length)) {
@@ -24,9 +25,7 @@ export default function Timeline(props) {
 
       let endTime = getEndTimes() + 1;
       if (Boolean(selectedTimePoint)) {
-        let timepoint = getTimepointById(selectedTimePoint);
         endTime += timepoint.timePointTimestamp;
-
         /* calcula el salto de linea que debe hacer hacia abajo (vertical line) */
         // console.log({ actualLine: timepoint.timeLineId, lineOfTimepoint: selectedTimePointLine });
         let lastMs = timepoint.timePointTimestamp;
@@ -50,6 +49,32 @@ export default function Timeline(props) {
       let endTime = endTimesList[timelineIdx];
       let lastMs = lastMsList[timelineIdx];
 
+      function isEnable(timepoints, timelineIdx) {
+        let idPoint = timepoints[0].timePointId;
+        let linePoint = timepoints[0].timeLineId;
+
+        if (timelineIdx === linePoint && timelineIdx === 0) return true;
+        if (timelineIdx != linePoint) return false;
+
+        if (timelineIdx === linePoint) {
+          timelineList.map((snapshots, index) => {
+            console.log({
+              timelineIdx,
+              linePoint,
+              idPoint,
+              index,
+              enable: Boolean(linePoint === index),
+            });
+            let samePoint = snapshots.filter((el) => el.timePointId === idPoint);
+
+            if (samePoint[0] && samePoint.linePoint === index) {
+              return true;
+            }
+          });
+        }
+        return false;
+      }
+
       return (
         <section key={timelineIdx} className="timeline-container">
           {timelineIdx === 0 && <Element title="Start" classNames="timeline-start-container" />}
@@ -61,12 +86,13 @@ export default function Timeline(props) {
             if (index < lastMs) return <div key={index} className="timeline-empty-space"></div>;
 
             if (timepoints.length > 0) {
+              let isSelected = timepoints.map((el) => el.timePointId === selectedTimePoint);
               return (
                 <Timepoint
+                  isSelected={isSelected.includes(true)}
                   key={index}
-                  store={store}
                   timepoints={timepoints}
-                  enable={Boolean(timelineIdx === timepoints[0].timeLineId)}
+                  enable={isEnable(timepoints, timelineIdx)}
                 />
               );
             } else if (endTime === index) {
@@ -98,7 +124,7 @@ export default function Timeline(props) {
         </section>
       );
     },
-    [timelineList],
+    [timelineList, selectedTimePoint],
   );
 
   return (

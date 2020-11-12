@@ -2,19 +2,14 @@ import React from 'react';
 import './Timepoint.css';
 
 export default function Timepoint(props) {
-  const { store, timepoints, enable } = props;
-  const { selectCurrentTimepoint, state } = store;
-  const { selectedTimePoint } = state;
-
-  const selectTimepoint = () => {
-    if (enable) return selectCurrentTimepoint(snapshot);
-
-    alert('timepoint disable');
-  };
+  const { timepoints, enable, isSelected } = props;
 
   return (
     <div className="timepoint-container">
-      <div className={`timepoint ${!enable && 'disable-timepoint'}`}>
+      <div
+        className={`timepoint ${!enable && 'disable-timepoint'} ${
+          isSelected && enable && 'selected-timepoint'
+        }`}>
         <span className="material-icons">room</span>
       </div>
 
