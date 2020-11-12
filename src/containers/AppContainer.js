@@ -67,6 +67,7 @@ export default class AppContainer extends Container {
       isRunning: false,
       readOnly: false,
       selectedTimePoint: '',
+      selectedTimePointLine: '',
       timePointValues: {},
       displayedObjects: [],
       displayedObjectsNames: [],
@@ -272,6 +273,7 @@ export default class AppContainer extends Container {
       dependencies: [],
       timePointValues: {},
       selectedTimePoint: '',
+      selectedTimePointLine: '',
       displayedObjects: [],
       displayedObjectsNames: [],
       displayedObjectsDOM: [],
@@ -300,6 +302,7 @@ export default class AppContainer extends Container {
   selectCurrentTimepoint = (timepoint) => {
     this.setState({
       selectedTimePoint: timepoint.timePointId,
+      selectedTimePointLine: timepoint.timeLineId,
       timePointValues: timepoint,
     });
   };

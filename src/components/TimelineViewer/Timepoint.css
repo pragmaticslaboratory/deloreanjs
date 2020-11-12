@@ -10,6 +10,7 @@
   place-items: center;
   height: 2em;
   width: 2em;
+  margin: 0 1.5em;
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -35,11 +36,14 @@
   color: #655a16;
 }
 
-.timepoint-details-container {
+.group-timepoint-details-container {
   position: absolute;
   opacity: 0;
   top: 2.2em;
   right: -2em;
+}
+
+.timepoint-details-container {
   min-width: 8em;
   display: flex;
   flex-direction: column;
@@ -48,7 +52,7 @@
   border-radius: 0.5em;
 }
 
-.timepoint:hover + .timepoint-details-container {
+.timepoint:hover + .group-timepoint-details-container {
   opacity: 1;
 }
 

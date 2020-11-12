@@ -18,6 +18,16 @@ global.endTime;
 global.acumTime;
 global.implicitTimepoints = false;
 
+function showTime() {
+  console.log({
+    initTime: global.initTime,
+    startTime: global.startTime,
+    endTime: global.endTime,
+    acumTime: global.acumTime,
+    'startTime-endTime': global.endTime - global.startTime,
+  });
+}
+
 module.exports = {
   init: (input) => {
     global.implicitCounter = 0;
@@ -42,7 +52,7 @@ module.exports = {
       global.heap.snapshots.find(
         (element) => element.timePointId == kont,
       ).timeLineId = ++global.timeLine;
-      global.acumTime += global.heap.snapshots.find(
+      global.acumTime = global.heap.snapshots.find(
         (element) => element.timePointId == kont,
       ).timePointTimestamp;
 

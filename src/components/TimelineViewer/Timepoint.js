@@ -2,12 +2,9 @@ import React from 'react';
 import './Timepoint.css';
 
 export default function Timepoint(props) {
-  const { store, snapshot, enable, marginLeft } = props;
+  const { store, timepoints, enable } = props;
   const { selectCurrentTimepoint, state } = store;
   const { selectedTimePoint } = state;
-  const { timePointId, timePointTimestamp, timePointLoc } = snapshot;
-  let margin = marginLeft + 1.5;
-  let isSelectedTimepoint = Boolean(selectedTimePoint == timePointId);
 
   const selectTimepoint = () => {
     if (enable) return selectCurrentTimepoint(snapshot);
@@ -17,24 +14,28 @@ export default function Timepoint(props) {
 
   return (
     <div className="timepoint-container">
-      <div
-        onClick={selectTimepoint}
-        className={`timepoint ${!enable && 'disable-timepoint'} ${
-          isSelectedTimepoint && enable && 'selected-timepoint'
-        }`}
-        style={{ marginLeft: margin + 'em', marginRight: '1.5em' }}>
+      <div className={`timepoint ${!enable && 'disable-timepoint'}`}>
         <span className="material-icons">room</span>
       </div>
-      <div className="timepoint-details-container">
-        <h3 className="timepoint-title">{timePointId}</h3>
-        <p className="timepoint-loc">Line: {timePointLoc}</p>
-        <div className="timepoint-footer">
-          <p className="timepoint-enable">
-            <b>{enable ? 'Enable' : 'Disable'}</b>
-          </p>
-          <p className="timepoint-timestamp">{timePointTimestamp} ms</p>
-        </div>
-      </div>
+
+      <section className="group-timepoint-details-container">
+        {timepoints.map((timepoint, index) => {
+          const { timePointId, timePointLoc, timePointTimestamp } = timepoint;
+
+          return (
+            <div key={index} className="timepoint-details-container">
+              <h3 className="timepoint-title">{timePointId}</h3>
+              <p className="timepoint-loc">Line: {timePointLoc}</p>
+              <div className="timepoint-footer">
+                <p className="timepoint-enable">
+                  <b>{enable ? 'Enable' : 'Disable'}</b>
+                </p>
+                <p className="timepoint-timestamp">{timePointTimestamp} ms</p>
+              </div>
+            </div>
+          );
+        })}
+      </section>
     </div>
   );
 }

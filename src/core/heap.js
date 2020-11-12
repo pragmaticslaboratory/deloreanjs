@@ -9,10 +9,12 @@ module.exports = {
   },
 
   heapSnapshot: (id, loc) => {
+    let timestamp = Date.now() - startTime + acumTime;
+
     const snapshot = {
       timeLineId: global.timeLine,
       timePointId: '',
-      timePointTimestamp: Date.now() - startTime + acumTime,
+      timePointTimestamp: timestamp,
       timePointLoc: loc,
     };
 
