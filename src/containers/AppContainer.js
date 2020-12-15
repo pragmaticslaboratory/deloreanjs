@@ -1,13 +1,7 @@
 import React, { createRef } from 'react';
 import { Container } from 'unstated';
 import { DependencyItem } from '../components';
-import {
-  objectsExample,
-  fixABugExample,
-  understandABugExample,
-  experimentScenariosExample,
-  breakpointExample,
-} from '../assets/example-inputs/index';
+import { test1, test2, test3, test4, test5, test6 } from '../assets/example-inputs/index';
 
 import CodeMirror from '@uiw/react-codemirror';
 import 'codemirror/addon/display/autorefresh';
@@ -18,39 +12,47 @@ import '../dracula.css';
 
 const files = [
   {
-    name: 'fixABug.js',
-    savedCode: fixABugExample,
-    code: fixABugExample,
+    name: 'test1.js',
+    savedCode: test1,
+    code: test1,
     watchVariables: ['courseName'],
     selected: false,
     ref: createRef(),
   },
   {
-    name: 'understandABug.js',
-    savedCode: understandABugExample,
-    code: understandABugExample,
-    watchVariables: ['courseNames', 'universityMean'],
+    name: 'test2.js',
+    savedCode: test2,
+    code: test2,
+    watchVariables: ['sum'],
     selected: false,
   },
   {
-    name: 'experimentScenarios.js',
-    savedCode: experimentScenariosExample,
-    code: experimentScenariosExample,
+    name: 'test3.js',
+    savedCode: test3,
+    code: test3,
+    watchVariables: ['courseNames'],
+    selected: false,
+  },
+  {
+    name: 'test4.js',
+    savedCode: test4,
+    code: test4,
     watchVariables: ['realMean'],
     selected: false,
   },
   {
-    name: 'breakpoint.js',
-    savedCode: breakpointExample,
-    code: breakpointExample,
-    watchVariables: ['courseName'],
+    name: 'test5.js',
+    savedCode: test5,
+    code: test5,
+    watchVariables: ['universityMean', 'realMean'],
     selected: false,
+    ref: createRef(),
   },
   {
-    name: 'objects.js',
-    savedCode: objectsExample,
-    code: objectsExample,
-    watchVariables: ['case1', 'case2', 'case3', 'case4', 'case5', 'case6'],
+    name: 'test6.js',
+    savedCode: test6,
+    code: test6,
+    watchVariables: ['average'],
     selected: false,
     ref: createRef(),
   },
@@ -410,7 +412,7 @@ export default class AppContainer extends Container {
   addVariable = (ev) => {
     const newWatchVariable = document.getElementById('watch-variable-input');
 
-    if (newWatchVariable.value) {
+    if (newWatchVariable.value && !this.state.watchVariables.includes(newWatchVariable.value)) {
       this.setState({
         watchVariables: [...this.state.watchVariables, newWatchVariable.value],
       });

@@ -12,7 +12,24 @@ class App extends Component {
     super(props);
     this.consoleFeed = createRef();
     this.saveCode();
+    this.addWatchVariable();
   }
+
+  addWatchVariable = () => {
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.keyCode == 13) {
+          e.preventDefault();
+          let el = document.activeElement;
+          if (el.classList.contains('watch-variable-input')) {
+            this.props.store.addVariable();
+          }
+        }
+      },
+      false,
+    );
+  };
 
   saveCode = () => {
     document.addEventListener(
@@ -30,6 +47,7 @@ class App extends Component {
   executeCode = () => {
     const { store } = this.props;
     try {
+      this.consoleFeed.current.state.logs = [];
       const [tab] = store.getSelectedTab();
       debuggerDelorean.init(tab.savedCode);
       store.updateDependencies(global.heap.dependencies);

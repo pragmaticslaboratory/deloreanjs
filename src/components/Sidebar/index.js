@@ -27,7 +27,7 @@ export default function Sidebar(props) {
           onChange={toggleRuntimeMode}
           options={runtimeOptions}
           value={appStore.state.implicitTimepoints}
-          title="Runtime mode"
+          title="Timepoint creation"
         />
       </SidebarSection>
       <SidebarSection icon="visibility" title="Watch variables" section="variables-section">

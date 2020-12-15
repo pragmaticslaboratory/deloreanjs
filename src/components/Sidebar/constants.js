@@ -12,7 +12,7 @@ export const copyOptions = [
 export const runtimeOptions = [
   {
     value: 'normal',
-    label: 'Normal',
+    label: 'Explicit',
   },
   {
     value: 'implicit',
