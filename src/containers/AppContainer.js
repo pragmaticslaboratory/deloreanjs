@@ -75,7 +75,7 @@ export default class AppContainer extends Container {
       displayedObjectsNames: [],
       displayedObjectsDOM: [],
       copyStyle: 'Shallow Copy',
-      implicitTimepoints: 'Normal',
+      implicitTimepoints: 'Explicit',
     };
   }
 
@@ -404,7 +404,7 @@ export default class AppContainer extends Container {
         global.implicitTimepoints = !global.implicitTimepoints;
       }
     } else {
-      alert('Sorry, you need stop this execution before change the copy mode! :)');
+      alert('Sorry, you need stop this execution before change the timepoint mode! :)');
       return;
     }
   };

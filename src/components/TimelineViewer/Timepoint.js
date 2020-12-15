@@ -2,11 +2,12 @@ import React from 'react';
 import './Timepoint.css';
 
 export default function Timepoint(props) {
-  const { timepoints, enable, isSelected } = props;
+  const { timepoints, enable, isSelected, selectCurrentTimepoint } = props;
 
   return (
     <div className="timepoint-container">
       <div
+        onClick={() => selectCurrentTimepoint(timepoints[0])}
         className={`timepoint ${!enable && 'disable-timepoint'} ${
           isSelected && enable && 'selected-timepoint'
         }`}>

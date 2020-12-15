@@ -10,7 +10,7 @@ import './styles.css';
 export default function Timeline(props) {
   const { store, getEndTimes } = props;
   let time = getEndTimes();
-  const { state, getTimepointById } = store;
+  const { state, getTimepointById, selectCurrentTimepoint } = store;
   const { snapshots, selectedTimePoint, selectedTimePointLine } = state;
   const [timelineList, setTimelineList] = useState([]);
   const [endTimesList, setEndTimesList] = useState([]);
@@ -46,6 +46,7 @@ export default function Timeline(props) {
 
   const renderTimeline = useCallback(
     (snapshots, timelineIdx) => {
+      let enable = false;
       let endTime = endTimesList[timelineIdx];
       let lastMs = lastMsList[timelineIdx];
 
@@ -58,21 +59,21 @@ export default function Timeline(props) {
 
         if (timelineIdx === linePoint) {
           timelineList.map((snapshots, index) => {
-            console.log({
-              timelineIdx,
-              linePoint,
-              idPoint,
-              index,
-              enable: Boolean(linePoint === index),
-            });
+            // console.log({
+            //   timelineIdx,
+            //   linePoint,
+            //   idPoint,
+            //   index,
+            //   enable: Boolean(linePoint === index),
+            // });
             let samePoint = snapshots.filter((el) => el.timePointId === idPoint);
 
-            if (samePoint[0] && samePoint.linePoint === index) {
-              return true;
+            if (samePoint[0] && samePoint[0].timeLineId === index) {
+              enable = true;
             }
           });
         }
-        return false;
+        return enable;
       }
 
       return (
@@ -81,6 +82,7 @@ export default function Timeline(props) {
 
           {Array.apply(null, Array(Math.max(...endTimesList) + 20)).map((_, index) => {
             if (index === 0 && timelineIdx === 0) return;
+
             let timepoints = snapshots.filter((snapshot) => snapshot.timePointTimestamp === index);
 
             if (index < lastMs) return <div key={index} className="timeline-empty-space"></div>;
@@ -91,6 +93,7 @@ export default function Timeline(props) {
                 <Timepoint
                   isSelected={isSelected.includes(true)}
                   key={index}
+                  selectCurrentTimepoint={selectCurrentTimepoint}
                   timepoints={timepoints}
                   enable={isEnable(timepoints, timelineIdx)}
                 />
