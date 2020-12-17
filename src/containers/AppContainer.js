@@ -114,7 +114,11 @@ export default class AppContainer extends Container {
     const [tabSelected] = this.getSelectedTab();
     this.setState((prevState) => {
       return prevState.tabs.map((tab) => {
-        if (tab == tabSelected) tab.code = instance.getValue();
+        if (tab == tabSelected) {
+          tab.code = instance.getValue();
+          tab.savedCode = tab.code;
+        }
+
         return tab;
       });
     });
