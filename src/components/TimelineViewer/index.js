@@ -59,6 +59,8 @@ export default function Timeline(props) {
 
         if (timelineIdx === linePoint) {
           timelineList.map((snapshots, index) => {
+            let samePoint = snapshots.filter((el) => el.timePointId === idPoint);
+
             // console.log({
             //   timelineIdx,
             //   linePoint,
@@ -66,7 +68,6 @@ export default function Timeline(props) {
             //   index,
             //   enable: Boolean(linePoint === index),
             // });
-            let samePoint = snapshots.filter((el) => el.timePointId === idPoint);
 
             if (samePoint[0] && samePoint[0].timeLineId === index) {
               enable = true;
@@ -92,9 +93,12 @@ export default function Timeline(props) {
               return (
                 <Timepoint
                   isSelected={isSelected.includes(true)}
+                  selectedTimepoint={selectedTimePoint}
                   key={index}
                   selectCurrentTimepoint={selectCurrentTimepoint}
                   timepoints={timepoints}
+                  timelineIdx={timelineIdx}
+                  timelineList={timelineList}
                   enable={isEnable(timepoints, timelineIdx)}
                 />
               );
