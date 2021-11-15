@@ -1,15 +1,15 @@
 global.heap = {};
 global.dependencies = [];
-heap.snapshots = [];
+global.heap.snapshots = [];
 global.tempValueStore = {};
 
 module.exports = {
   addDependencies: (dependencies) => {
-    heap.dependencies = dependencies;
+    global.heap.dependencies = dependencies;
   },
 
   heapSnapshot: (id, loc) => {
-    let timestamp = Date.now() - startTime + acumTime;
+    let timestamp = Date.now() - global.startTime + global.acumTime;
 
     const snapshot = {
       timeLineId: global.timeLine,
@@ -37,20 +37,20 @@ module.exports = {
     }
 
     let oldTimePoint;
-    while (heap.snapshots.find((element) => element.timePointId == id)) {
-      oldTimePoint = heap.snapshots.findIndex(
+    while (global.heap.snapshots.find((element) => element.timePointId == id)) {
+      oldTimePoint = global.heap.snapshots.findIndex(
         (element) => element.timePointId == id && element.timeLineId != global.timeLine,
       );
-      if (oldTimePoint != -1) heap.snapshots.splice(oldTimePoint, 1);
+      if (oldTimePoint != -1) global.heap.snapshots.splice(oldTimePoint, 1);
       else id = originId + ++counter;
     }
 
     snapshot.timePointId = id;
-    heap.dependencies.map((dependecy) => {
+    global.heap.dependencies.map((dependecy) => {
       try {
-        snapshot[`${dependecy.name}`] = tempValueStore[`${dependecy.name}`];
+        snapshot[`${dependecy.name}`] = global.tempValueStore[`${dependecy.name}`];
       } catch (e) {}
     });
-    heap.snapshots.push(snapshot);
+    global.heap.snapshots.push(snapshot);
   },
 };

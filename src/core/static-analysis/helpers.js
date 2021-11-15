@@ -23,11 +23,10 @@ export const transformWithoutBabel = (code) => {
     })
     return snapshot;
   }
-  emptyContinuation = '';
-  emptyContinuationAux = '';
-  contTimeLine = {};
-  function addCont(cont, continuations, originalId){
+  let emptyContinuation = '';
+  let emptyContinuationAux = '';
 
+  function addCont(cont, continuations, originalId){
     let counter = 0;
     let id = originalId;
     let startFromNumber = global.startFrom;
@@ -47,11 +46,11 @@ export const transformWithoutBabel = (code) => {
         } 
     }
 
-    while(continuations[id] && (contTimeLine[id] == global.timeLine)){
+    while(continuations && continuations[id] && (global.contTimeLine[id] == global.timeLine)){
       id = originalId + (++counter);
     }
     continuations[id] = cont;
-    contTimeLine[id] = global.timeLine;
+    global.contTimeLine[id] = global.timeLine;
   } try{` +
     code +
     `} 
@@ -60,7 +59,7 @@ export const transformWithoutBabel = (code) => {
     if(emptyContinuationAux) {                
       emptyContinuation = emptyContinuationAux;
     }
-    console.error(e)
+    console.error("error", e)
   }
   `
   );

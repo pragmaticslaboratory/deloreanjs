@@ -1,10 +1,11 @@
 //must detect every change
 const t = require('babel-types');
+
 export default {
   AssignmentExpression(path) {
     let left = path.node.left.name;
-    if (dependencies.some((dependency) => dependency.name == left)) {
-      parent = path.context.parentPath;
+    if (global.dependencies.some((dependency) => dependency.name == left)) {
+      let parent = path.context.parentPath;
       while (
         parent &&
         parent.node.type != 'ExpressionStatement' &&
@@ -17,7 +18,7 @@ export default {
       }
 
       if (parent && parent.node.type == 'ExpressionStatement') {
-        if (parent && !isTimePoint(parent.getSibling(parent.key + 1).node)) {
+        if (parent && !global.isTimePoint(parent.getSibling(parent.key + 1).node)) {
           parent.insertAfter(
             t.expressionStatement(
               t.callExpression(
@@ -26,14 +27,14 @@ export default {
                   t.identifier('insertTimepoint'),
                   false,
                 ),
-                [t.stringLiteral('Implicit' + implicitCounter)],
+                [t.stringLiteral('Implicit' + global.implicitCounter)],
               ),
             ),
           );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
       } else if (parent && parent.node.type != 'IfStatement') {
-        if (!isTimePoint(parent.node.body.body[0])) {
+        if (!global.isTimePoint(parent.node.body.body[0])) {
           parent
             .get('body')
             .unshiftContainer(
@@ -45,14 +46,14 @@ export default {
                     t.identifier('insertTimepoint'),
                     false,
                   ),
-                  [t.stringLiteral('Implicit' + implicitCounter)],
+                  [t.stringLiteral('Implicit' + global.implicitCounter)],
                 ),
               ),
             );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
       } else if (parent && parent.node.type == 'IfStatement') {
-        if (!isTimePoint(parent.node.body.body[0])) {
+        if (!global.isTimePoint(parent.node.body.body[0])) {
           parent
             .get('body')
             .unshiftContainer(
@@ -64,18 +65,18 @@ export default {
                     t.identifier('insertTimepoint'),
                     false,
                   ),
-                  [t.stringLiteral('Implicit' + implicitCounter)],
+                  [t.stringLiteral('Implicit' + global.implicitCounter)],
                 ),
               ),
             );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
         if (path.node.consequent.type != 'BlockStatement') {
           let block = t.blockStatement([path.node.consequent], []);
           path.node.consequent = block;
         }
         let alternate = parent.node.alternate;
-        if (!isTimePoint(alternate.node.body[0])) {
+        if (!global.isTimePoint(alternate.node.body[0])) {
           alternate
             .get('body')
             .unshiftContainer(
@@ -87,11 +88,11 @@ export default {
                     t.identifier('insertTimepoint'),
                     false,
                   ),
-                  [t.stringLiteral('Implicit' + implicitCounter)],
+                  [t.stringLiteral('Implicit' + global.implicitCounter)],
                 ),
               ),
             );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
       }
     }

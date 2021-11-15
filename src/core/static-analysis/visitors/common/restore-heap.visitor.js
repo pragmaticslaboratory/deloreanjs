@@ -15,7 +15,7 @@ export default {
       var snapshotCall = path.findParent((path) => path.isCallExpression());
 
       var itIsInLoop = false;
-      parent = path.context.parentPath;
+      let parent = path.context.parentPath;
       while (parent) {
         parent = parent.context.parentPath;
         if (parent) {

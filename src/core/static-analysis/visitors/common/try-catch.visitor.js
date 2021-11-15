@@ -1,17 +1,4 @@
 const t = require('babel-types');
-//Adds try-catch blocks before and after every timepont.
-global.isTimePoint = function (element) {
-  return (
-    element &&
-    element.expression &&
-    element.expression.callee &&
-    element.expression.callee.object &&
-    element.expression.callee.property &&
-    element.expression.callee.object.name == 'delorean' &&
-    (element.expression.callee.property.name == 'insertTimepoint' ||
-      element.expression.callee.property.name == 'insertBreakpoint')
-  );
-};
 
 const catchClause = t.catchClause(
   t.identifier('e'),
@@ -55,7 +42,7 @@ export default {
       let splitPoints = [];
       for (let i = 0; i < block.length; ++i) {
         if (
-          isTimePoint(block[i]) ||
+          global.isTimePoint(block[i]) ||
           (t.isIfStatement(block[i]) && block[i].name == 'emptyContinuation') ||
           t.isDoWhileStatement(block[i]) ||
           t.isTryStatement(block[i]) ||

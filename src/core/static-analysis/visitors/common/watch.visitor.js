@@ -5,7 +5,7 @@ export default {
   CallExpression(path) {
     if (path.node.callee.property && path.node.callee.property.name == 'watch') {
       path.node.arguments[0].elements.map((element) => {
-        dependencies.push({ name: element.value, type: 'normal' });
+        global.dependencies.push({ name: element.value, type: 'normal' });
       });
     }
   },

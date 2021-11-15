@@ -16,7 +16,7 @@ module.exports = {
 
   insertBreakpoint: (id, loc = null) => {
     heapSnapshot(id, loc);
-    breakpoint = {
+    global.breakpoint = {
       id,
       activate: true,
     };

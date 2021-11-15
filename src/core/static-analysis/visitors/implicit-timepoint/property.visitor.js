@@ -1,4 +1,5 @@
 const t = require('babel-types');
+
 export default {
   CallExpression(path) {
     let foundWatchedVariable = false;
@@ -7,7 +8,7 @@ export default {
         if (!foundWatchedVariable) {
           let parent = path.context.parentPath;
           if (parent.node.type != 'MemberExpression' || parent.node.object.name == path.node.name) {
-            if (dependencies.some((dependency) => dependency.name == path.node.name)) {
+            if (global.dependencies.some((dependency) => dependency.name == path.node.name)) {
               while (
                 parent &&
                 parent.node.type != 'ExpressionStatement' &&
@@ -19,7 +20,7 @@ export default {
                 parent = parent.context.parentPath;
               }
               if (parent && parent.node.type == 'ExpressionStatement') {
-                if (parent && !isTimePoint(parent.getSibling(parent.key + 1).node)) {
+                if (parent && !global.isTimePoint(parent.getSibling(parent.key + 1).node)) {
                   parent.insertAfter(
                     t.expressionStatement(
                       t.callExpression(
@@ -28,15 +29,15 @@ export default {
                           t.identifier('insertTimepoint'),
                           false,
                         ),
-                        [t.stringLiteral('Implicit' + implicitCounter)],
+                        [t.stringLiteral('Implicit' + global.implicitCounter)],
                       ),
                     ),
                   );
-                  ++implicitCounter;
+                  ++global.implicitCounter;
                 }
                 foundWatchedVariable = true;
               } else if (parent && parent.node.type != 'IfStatement') {
-                if (!isTimePoint(parent.node.body.body[0])) {
+                if (!global.isTimePoint(parent.node.body.body[0])) {
                   parent
                     .get('body')
                     .unshiftContainer(
@@ -48,15 +49,15 @@ export default {
                             t.identifier('insertTimepoint'),
                             false,
                           ),
-                          [t.stringLiteral('Implicit' + implicitCounter)],
+                          [t.stringLiteral('Implicit' + global.implicitCounter)],
                         ),
                       ),
                     );
-                  ++implicitCounter;
+                  ++global.implicitCounter;
                 }
                 foundWatchedVariable = true;
               } else if (parent && parent.node.type == 'IfStatement') {
-                if (!isTimePoint(parent.node.body.body[0])) {
+                if (!global.isTimePoint(parent.node.body.body[0])) {
                   parent
                     .get('body')
                     .unshiftContainer(
@@ -68,18 +69,18 @@ export default {
                             t.identifier('insertTimepoint'),
                             false,
                           ),
-                          [t.stringLiteral('Implicit' + implicitCounter)],
+                          [t.stringLiteral('Implicit' + global.implicitCounter)],
                         ),
                       ),
                     );
-                  ++implicitCounter;
+                  ++global.implicitCounter;
                 }
                 if (path.node.consequent.type != 'BlockStatement') {
                   let block = t.blockStatement([path.node.consequent], []);
                   path.node.consequent = block;
                 }
                 let alternate = parent.node.alternate;
-                if (!isTimePoint(alternate.node.body[0])) {
+                if (!global.isTimePoint(alternate.node.body[0])) {
                   alternate
                     .get('body')
                     .unshiftContainer(
@@ -91,11 +92,11 @@ export default {
                             t.identifier('insertTimepoint'),
                             false,
                           ),
-                          [t.stringLiteral('Implicit' + implicitCounter)],
+                          [t.stringLiteral('Implicit' + global.implicitCounter)],
                         ),
                       ),
                     );
-                  ++implicitCounter;
+                  ++global.implicitCounter;
                 }
                 foundWatchedVariable = true;
               }

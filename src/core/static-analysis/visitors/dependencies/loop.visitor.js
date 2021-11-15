@@ -6,14 +6,14 @@ export default {
       let hasTimepoint = false;
       path.traverse({
         ExpressionStatement(path) {
-          if (isTimePoint(path.node)) hasTimepoint = true;
+          if (global.isTimePoint(path.node)) hasTimepoint = true;
         },
       });
       if (hasTimepoint) {
         test.traverse({
           Identifier(path) {
             var isInMemberExpression = false;
-            parent = path.context.parentPath;
+            let parent = path.context.parentPath;
             while (
               parent.node.type != 'ForStatement' &&
               parent.node.type != 'WhileStatement' &&
@@ -29,9 +29,9 @@ export default {
 
             if (
               !isInMemberExpression &&
-              !dependencies.some((dependency) => dependency.name == path.node.name)
+              !global.dependencies.some((dependency) => dependency.name == path.node.name)
             ) {
-              dependencies.push({ name: path.node.name, type: 'loop' });
+              global.dependencies.push({ name: path.node.name, type: 'loop' });
             }
           },
         });

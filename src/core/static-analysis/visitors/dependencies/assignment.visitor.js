@@ -10,11 +10,11 @@ export default {
     // left = right
     if (right != undefined) {
       if (
-        dependencies.some((dependency) => dependency.name == left) &&
+        global.dependencies.some((dependency) => dependency.name == left) &&
         left != right &&
-        !dependencies.some((dependency) => dependency.name == right)
+        !global.dependencies.some((dependency) => dependency.name == right)
       ) {
-        dependencies.push({ name: right, type: 'normal' });
+        global.dependencies.push({ name: right, type: 'normal' });
       }
     }
 
@@ -23,11 +23,11 @@ export default {
       path.traverse({
         Identifier(path) {
           if (
-            dependencies.some((dependency) => dependency.name == left) &&
+            global.dependencies.some((dependency) => dependency.name == left) &&
             left != path.node.name &&
-            !dependencies.some((dependency) => dependency.name == path.node.name)
+            !global.dependencies.some((dependency) => dependency.name == path.node.name)
           ) {
-            dependencies.push({ name: path.node.name, type: 'normal' });
+            global.dependencies.push({ name: path.node.name, type: 'normal' });
           }
         },
       });

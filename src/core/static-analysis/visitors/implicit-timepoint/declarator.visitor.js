@@ -1,11 +1,12 @@
 const t = require('babel-types');
+
 export default {
   VariableDeclarator(path) {
     let left = path.node.id.name;
-    if (dependencies.some((dependency) => dependency.name == left)) {
+    if (global.dependencies.some((dependency) => dependency.name == left)) {
       var parent = path.findParent((path) => path.isVariableDeclaration());
       if (parent.context.parentPath.node.type != 'ForStatement') {
-        if (parent && !isTimePoint(parent.getSibling(parent.key + 1).node)) {
+        if (parent && !global.isTimePoint(parent.getSibling(parent.key + 1).node)) {
           parent.insertAfter(
             t.expressionStatement(
               t.callExpression(
@@ -14,15 +15,15 @@ export default {
                   t.identifier('insertTimepoint'),
                   false,
                 ),
-                [t.stringLiteral('Implicit' + implicitCounter)],
+                [t.stringLiteral('Implicit' + global.implicitCounter)],
               ),
             ),
           );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
       } else {
         parent = parent.context.parentPath;
-        if (!isTimePoint(parent.node.body.body[0])) {
+        if (!global.isTimePoint(parent.node.body.body[0])) {
           parent
             .get('body')
             .unshiftContainer(
@@ -34,11 +35,11 @@ export default {
                     t.identifier('insertTimepoint'),
                     false,
                   ),
-                  [t.stringLiteral('Implicit' + implicitCounter)],
+                  [t.stringLiteral('Implicit' + global.implicitCounter)],
                 ),
               ),
             );
-          ++implicitCounter;
+          ++global.implicitCounter;
         }
       }
     }
